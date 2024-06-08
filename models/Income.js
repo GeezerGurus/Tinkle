@@ -1,22 +1,34 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const IncomeSchema = new mongoose.Schema(
+const incomeSchema = new Schema(
   {
-    title: {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    account: {
+      type: Schema.Types.ObjectId,
+      ref: "Account",
+      required: true,
+    },
+    name: {
       type: String,
       required: true,
       trim: true,
-      maxLength: 50,
+      maxlength: 50,
     },
     amount: {
       type: Number,
       required: true,
-      maxLength: 20,
       trim: true,
+      min: 0,
     },
-    type: {
+    payer: {
       type: String,
-      default: "income",
+      trim: true,
+      maxlength: 100,
     },
     date: {
       type: Date,
@@ -28,14 +40,15 @@ const IncomeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    description: {
+    notes: {
       type: String,
-      required: true,
-      maxLength: 20,
       trim: true,
+      maxlength: 200,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Income", IncomeSchema);
+const Income = mongoose.model("Income", incomeSchema);
+
+module.exports = Income;

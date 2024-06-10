@@ -30,7 +30,7 @@ const Dashboard = () => {
           flexDirection: "column",
           justifyContent: "space-between",
           width: "912px",
-          height: "850px",
+          height: "892px",
           marginRight: "24px",
         }}
       >
@@ -98,7 +98,7 @@ const Dashboard = () => {
           width: "369px",
           backgroundColor: "lightgray",
           marginBottom: "24px",
-          height: "824px",
+          height: "892px",
           borderRadius: "8px",
         }}
       ></Box>

@@ -17,7 +17,7 @@ export const Transactions = () => {
     >
       <Box
         sx={{
-          height: "69px",
+          height: "55px",
           border: "3px pale black",
           display: "flex",
         }}
@@ -37,7 +37,7 @@ export const Transactions = () => {
         <Button
           sx={{
             border: "1px dotted black",
-            marginLeft: "667px",
+            marginLeft: "620px",
             marginTop: "22px",
             width: "78px",
             height: "28px",

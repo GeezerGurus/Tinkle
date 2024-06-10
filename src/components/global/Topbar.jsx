@@ -56,8 +56,8 @@ const Topbar = () => {
               background: "#000000",
               borderRadius: "8px",
               padding: "14px, 24px, 14px, 24px",
-              fontSize:"16px",
-              lineHeight:"24px "
+              fontSize: "16px",
+              lineHeight: "24px ",
             }}
           >
             Record

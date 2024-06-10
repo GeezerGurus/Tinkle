@@ -209,7 +209,7 @@ export const useMode = () => {
       },
 
       DarkMode() {
-        setMode("dark")
+        setMode("dark");
       },
     }),
     []

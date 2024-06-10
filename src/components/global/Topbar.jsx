@@ -1,13 +1,17 @@
 import { useContext } from "react";
-import { Box, IconButton, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  useTheme,
+  Typography,
+  ButtonGroup,
+  Button,
+} from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
-import InputBase from "@mui/material/InputBase";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+import { Add } from "@mui/icons-material";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -19,37 +23,52 @@ const Topbar = () => {
       display="flex"
       justifyContent="space-between"
       p={2}
-      sx={{ width: "100%" }}
+      sx={{ width: "100%", height: "78px" }}
     >
-      {/* Search Bar */}
+      {/* header */}
       <Box
         display="flex"
-        backgroundColor={colors.primary[400]}
-        borderRadius="3px"
+        sx={{
+          width: "166px",
+          height: "48px",
+        }}
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search"></InputBase>
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
+        <Typography variant="h2" sx={{ fontSize: "32px" }}>
+          Dashboard
+        </Typography>
       </Box>
       {/* ICONS */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : (
-            <LightModeOutlinedIcon />
-          )}
-        </IconButton>
-        <IconButton>
-          <NotificationsOutlinedIcon />
-        </IconButton>
-        <IconButton>
-          <SettingsOutlinedIcon />
-        </IconButton>
-        <IconButton>
-          <PersonOutlinedIcon />
-        </IconButton>
+        <ButtonGroup
+          sx={{
+            width: "204px",
+            height: "40px",
+            gap: "16px",
+          }}
+        >
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            sx={{
+              width: "97px",
+              height: "38px",
+              textTransform: "capitalize",
+              background: "#000000",
+              borderRadius: "8px",
+              padding: "14px, 24px, 14px, 24px",
+              fontSize:"16px",
+              lineHeight:"24px "
+            }}
+          >
+            Record
+          </Button>
+          <IconButton size="large">
+            <NotificationsOutlinedIcon />
+          </IconButton>
+          <IconButton size="large">
+            <PersonOutlinedIcon />
+          </IconButton>
+        </ButtonGroup>
       </Box>
     </Box>
   );

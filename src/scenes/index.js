@@ -1,0 +1,11 @@
+export { default as Dashboard } from "./dashboard/Dashboard";
+export { default as Records } from "./records/Records";
+export { default as Knowledge } from "./knowledge/Knowledge";
+export { default as Lists } from "./lists/Lists";
+export { default as Budget } from "./budget/Budget";
+export { default as Statistic } from "./statistic/Statistic";
+export { default as Settings } from "./settings/Settings";
+export { default as Auth } from "./auth/Auth";
+export { default as Home } from "./home/Home";
+export { default as Profile } from "./profile/Profile";
+export { default as Support } from "./support/Support";

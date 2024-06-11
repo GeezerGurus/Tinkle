@@ -13,6 +13,7 @@ import {
   Avatar,
   Button,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeIcon from "@mui/icons-material/LightModeOutlined";
@@ -31,17 +32,13 @@ import { useTheme } from "@emotion/react";
 import { tokens, ColorModeContext } from "../../theme";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ mode }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   const colorMode = useContext(ColorModeContext);
-  // const [LightModeIconColor, chgColor1] = useState(colors.primary[100]);
-  // const [DarkModeIconColor, chgColor2] = useState(colors.blueAccent[100]);
-
-  // icon color change
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -59,13 +56,7 @@ const Sidebar = () => {
   };
 
   const drawerList = () => (
-    <Box
-      p={2}
-      sx={{ width: "320px", height: "1024px" }}
-      role="presentation"
-      // onClick={toggleDrawer(false)}
-      // onKeyDown={toggleDrawer(false)}
-    >
+    <Box p={2} sx={{ width: "320px", height: "1024px" }} role="presentation">
       <Box
         textAlign="center"
         sx={{
@@ -126,7 +117,6 @@ const Sidebar = () => {
             {[
               { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
               { text: "Records", icon: <RecordsIcon />, path: "/records" },
-
               { text: "Lists", icon: <ListsIcon />, path: "/lists" },
               {
                 text: "Tips and Knowledge",
@@ -134,7 +124,11 @@ const Sidebar = () => {
                 path: "/knowledge",
               },
               { text: "Budget", icon: <BudgetsIcon />, path: "/budget" },
-              { text: "Statistic", icon: <BarChartIcon />, path: "/statistic" },
+              {
+                text: "Statistic",
+                icon: <BarChartIcon />,
+                path: "/statistics",
+              },
             ].map(({ text, icon, path }) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton onClick={handleNavigation(path)}>
@@ -156,9 +150,8 @@ const Sidebar = () => {
           </Typography>
           <List>
             {[
-              { text: "About Us", icon: <AboutUsIcon />, path: "/auth" },
+              { text: "About Us", icon: <AboutUsIcon />, path: "/home" },
               { text: "Support", icon: <SupportIcon />, path: "/support" },
-
               { text: "Setting", icon: <SettingIcon />, path: "/settings" },
             ].map(({ text, icon, path }) => (
               <ListItem key={text} disablePadding>
@@ -233,7 +226,13 @@ const Sidebar = () => {
             <ButtonGroup sx={{ gap: "10px" }}>
               <Button
                 onClick={colorMode.LightMode}
-                startIcon={<LightModeIcon color="warning" />}
+                startIcon={
+                  <LightModeIcon
+                    sx={{
+                      color: mode === "light" ? "#FF9800" : "",
+                    }}
+                  />
+                }
                 variant="outline"
                 sx={{
                   textTransform: "capitalize",
@@ -247,10 +246,12 @@ const Sidebar = () => {
                 Light
               </Button>
               <Button
-                onClick={function (event) {
-                  colorMode.DarkMode();
-                }}
-                startIcon={<DarkModeIcon />}
+                onClick={colorMode.DarkMode}
+                startIcon={
+                  <DarkModeIcon
+                    sx={{ color: mode === "dark" ? "#50a0ff" : "" }}
+                  />
+                }
                 variant="outline"
                 sx={{
                   textTransform: "capitalize",
@@ -288,33 +289,51 @@ const Sidebar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <IconButton>
-            <DashboardIcon />
-          </IconButton>
-          <IconButton>
-            <TipsAndKnowledgeIcon />
-          </IconButton>
-          <IconButton>
-            <RecordsIcon />
-          </IconButton>
-          <IconButton>
-            <BudgetsIcon />
-          </IconButton>
-          <IconButton>
-            <ListsIcon />
-          </IconButton>
-          <IconButton>
-            <BarChartIcon />
-          </IconButton>
-          <IconButton>
-            <AboutUsIcon />
-          </IconButton>
-          <IconButton>
-            <SupportIcon />
-          </IconButton>
-          <IconButton>
-            <SettingIcon />
-          </IconButton>
+          <Tooltip title="Dashboard" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/")}>
+              <DashboardIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Knowledge" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/knowledge")}>
+              <TipsAndKnowledgeIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Records" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/records")}>
+              <RecordsIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Budget" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/budget")}>
+              <BudgetsIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Lists" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/lists")}>
+              <ListsIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Statistic" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/statistics")}>
+              <BarChartIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="About Us" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/home")}>
+              <AboutUsIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Support" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/support")}>
+              <SupportIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Settings" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/settings")}>
+              <SettingIcon />
+            </IconButton>
+          </Tooltip>
         </ButtonGroup>
 
         <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)}>

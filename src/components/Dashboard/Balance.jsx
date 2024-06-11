@@ -1,6 +1,7 @@
 import { Button, Box, Typography } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-export const Balancecom = ({ Icon, Reason, Amount, Color }) => {
+import { Heading } from "../utils";
+export const Balancecom = ({ Icon, Title, Amount, Color }) => {
   return (
     // bigbox
     <Box
@@ -83,7 +84,7 @@ export const Balancecom = ({ Icon, Reason, Amount, Color }) => {
           marginLeft: "24px",
         }}
       >
-        <Typography
+        <Heading
           sx={{
             fontSize: "20px",
             // fontFamily: "Inter",
@@ -91,8 +92,8 @@ export const Balancecom = ({ Icon, Reason, Amount, Color }) => {
             lineHeight: "30px",
           }}
         >
-          {Reason}
-        </Typography>
+          {Title}
+        </Heading>
       </Box>
       {/* third row box */}
       <Box

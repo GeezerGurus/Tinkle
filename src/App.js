@@ -17,14 +17,14 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 
 function App() {
-  const [theme, colorMode] = useMode();
+  const [theme, colorMode, mode] = useMode();
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar />
+          <Sidebar mode={mode} />
           <main className="content">
             <Topbar />
             <Routes>
@@ -33,7 +33,7 @@ function App() {
               <Route path="/knowledge" element={<Knowledge />} />
               <Route path="/lists" element={<Lists />} />
               <Route path="/budget" element={<Budget />} />
-              <Route path="/statistic" element={<Statistic />} />
+              <Route path="/statistics" element={<Statistic />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/auth" element={<Auth />} />

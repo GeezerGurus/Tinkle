@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-export const Balancetrend = () => {
+export const Statistics = () => {
   return (
     <Box
       sx={{
@@ -16,4 +16,4 @@ export const Balancetrend = () => {
   );
 };
 
-export default Balancetrend;
+export default Statistics;

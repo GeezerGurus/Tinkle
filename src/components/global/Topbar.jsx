@@ -12,11 +12,44 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { Add } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
+
+// Function to map paths to titles
+const getTitle = (path) => {
+  switch (path) {
+    case "/":
+      return "Dashboard";
+    case "/records":
+      return "Records";
+    case "/knowledge":
+      return "Knowledge";
+    case "/lists":
+      return "Lists";
+    case "/budget":
+      return "Budget";
+    case "/statistics":
+      return "Statistics";
+    case "/settings":
+      return "Settings";
+    case "/profile":
+      return "Profile";
+    case "/auth":
+      return "Auth";
+    case "/support":
+      return "Support";
+    case "/home":
+      return "Home";
+    default:
+      return "Dashboard";
+  }
+};
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const location = useLocation();
+  const title = getTitle(location.pathname);
 
   return (
     <Box
@@ -34,7 +67,7 @@ const Topbar = () => {
         }}
       >
         <Typography variant="h2" sx={{ fontSize: "32px" }}>
-          Dashboard
+          {title}
         </Typography>
       </Box>
       {/* ICONS */}

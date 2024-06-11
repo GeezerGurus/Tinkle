@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-export const Expenses = () => {
+export const Chart = () => {
   return (
     <Box
       sx={{
@@ -15,4 +15,4 @@ export const Expenses = () => {
   );
 };
 
-export default Expenses;
+export default Chart;

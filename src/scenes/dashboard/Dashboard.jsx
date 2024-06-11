@@ -7,9 +7,9 @@ import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { tokens } from "../../theme";
 import { Typography, useTheme, Box, Button } from "@mui/material";
 import { Balancecom, Balancetrend } from "../../components";
-import { Transactions } from "../../components/Dashboard componentsSLH/transactions";
-import { Expenses } from "../../components/Dashboard componentsSLH/expenses";
-import { Budget } from "../../components/Dashboard componentsSLH/budget_wiget";
+import { Transactions } from "../../components/Dashboard/transactions";
+import { Box } from "@mui/material";
+import { Expenses } from "../../components/Dashboard/expenses";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -98,7 +98,7 @@ const Dashboard = () => {
       <Box
         sx={{
           width: "369px",
-          backgroundColor: "lightgray",
+          backgroundColor: "grey",
           marginBottom: "24px",
           height: "892px",
           borderRadius: "8px",

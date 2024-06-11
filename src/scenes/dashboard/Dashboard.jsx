@@ -9,7 +9,7 @@ import { Balancecom, Balancetrend } from "../../components";
 import { Transactions } from "../../components/Dashboard/transactions";
 import { Box } from "@mui/material";
 import { Expenses } from "../../components/Dashboard/expenses";
-import {MoreDetails} from "../../components/Dashboard/moreDetails"
+import {RightSide} from "../../components/Dashboard/RightSide"
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -104,7 +104,7 @@ const Dashboard = () => {
           border:'1px solid'
         }}
       >
-        <MoreDetails/>
+        <RightSide/>
       </Box>
     </Box>
   );

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { Owe } from "./Owe";
 import { Lend } from "./Lend";
-import { ShowMoreBtn, Heading } from "../utils";
+import { ShowMoreBtn } from "../utils";
 
 const Debt = () => {
   const [checked, setChecked] = React.useState(false);
@@ -20,25 +20,31 @@ const Debt = () => {
         borderRadius: "0 0 8px 8px",
         borderTop: "1px solid black",
         borderBottom: "1px solid black",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
+      {/* Header box of Budget */}
       <Box
         sx={{
+          height: "23px",
+          marginBottom: "13.5px",
+          width: "317.5px",
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
-          width: "301px",
-          marginLeft: "26px",
-          height: "54.5px",
         }}
       >
-        <Heading>Debt List</Heading>
-        <ShowMoreBtn />
+        <Typography variant="title">Debt List</Typography>
+        <ShowMoreBtn to={"/lists"} />
       </Box>
+      {/* Small line */}
       <Divider
         sx={{
+          width: "calc(100% - 64px)",
           backgroundColor: "black",
-          margin: "0px 30px 0",
+          marginBottom: "8px",
         }}
       ></Divider>
       {checked ? (

@@ -3,7 +3,6 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import Checkbox from "@mui/material/Checkbox";
-import { Text } from "../utils";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -11,7 +10,6 @@ const CheckItem = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
   width: "301px",
-  marginLeft: "26px",
 }));
 
 export const Owe = ({ checked, handleChange }) => {
@@ -20,7 +18,6 @@ export const Owe = ({ checked, handleChange }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        transition: "1s",
       }}
     >
       <Box
@@ -28,8 +25,6 @@ export const Owe = ({ checked, handleChange }) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: "301px",
-          marginLeft: "26px",
         }}
       >
         <Typography
@@ -59,8 +54,8 @@ export const Owe = ({ checked, handleChange }) => {
             width: "416px",
           }}
         >
-          <Text>$700 to John</Text>
-          <Text>Due - 26-11-24</Text>
+          <Typography variant="text">$700 to John</Typography>
+          <Typography variant="text">Due - 26-11-24</Typography>
         </Box>
       </CheckItem>
       <CheckItem>
@@ -72,8 +67,8 @@ export const Owe = ({ checked, handleChange }) => {
             width: "416px",
           }}
         >
-          <Text>$100 to Sarah</Text>
-          <Text>Due - 14-07-24</Text>
+          <Typography variant="text">$100 to Sarah</Typography>
+          <Typography variant="text">Due - 14-07-24</Typography>
         </Box>
       </CheckItem>
       <CheckItem>
@@ -85,8 +80,8 @@ export const Owe = ({ checked, handleChange }) => {
             width: "416px",
           }}
         >
-          <Text>$30 to Alex</Text>
-          <Text>Due - 26-2-25</Text>
+          <Typography variant="text">$30 to Alex</Typography>
+          <Typography variant="text">Due - 26-2-25</Typography>
         </Box>
       </CheckItem>
     </Box>

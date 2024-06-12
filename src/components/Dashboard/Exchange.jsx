@@ -1,17 +1,8 @@
 import * as React from "react";
-import {
-  Box,
-  Typography,
-  Select,
-  Button,
-  MenuItem,
-  Divider,
-  Chip,
-} from "@mui/material";
+import { Box, Typography, Select, Button, MenuItem } from "@mui/material";
 import { styled } from "@mui/material";
 import { FlagIcon } from "react-flag-kit";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { Heading } from "../utils";
 
 const USAFlag = () => <FlagIcon code="US" size={28} />;
 const EUFlag = () => <FlagIcon code="EU" size={28} />;
@@ -76,13 +67,14 @@ const Exchange = () => {
         backgroundColor: "white",
       }}
     >
-      <Heading
+      <Typography
+        variant="title"
         sx={{
           padding: "19px 30px 0",
         }}
       >
         Currency Exchange
-      </Heading>
+      </Typography>
       <Typography
         sx={{
           width: "211px",
@@ -195,7 +187,7 @@ const Exchange = () => {
         <Button
           sx={{
             position: "absolute",
-            top: "53%",
+            top: "48%",
             border: "1px",
             borderRadius: "50%",
           }}

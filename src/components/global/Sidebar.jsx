@@ -60,10 +60,8 @@ const Sidebar = ({ mode }) => {
       <Box
         textAlign="center"
         sx={{
-          width: "191px",
+          width: "100%",
           height: "30px",
-          top: "28px",
-          left: "30px",
           gap: "15px",
         }}
       >
@@ -341,7 +339,9 @@ const Sidebar = ({ mode }) => {
         </Drawer>
       </Box>
       <Box>
-        <Avatar src="" alt="avatar" sx={{ width: "38px", height: "38px" }} />
+        <Tooltip title="Profile" placement="right" arrow>
+          <Avatar src="" alt="avatar" sx={{ width: "38px", height: "38px" }} />
+        </Tooltip>
       </Box>
     </Box>
   );

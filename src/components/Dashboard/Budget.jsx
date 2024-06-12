@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Divider, Typography, LinearProgress } from "@mui/material";
-import { Heading, ShowMoreBtn, Text } from "../utils";
+import { ShowMoreBtn } from "../utils";
 
 const Progress = ({ content, dollar, percent }) => {
   const progressValue = parseInt(percent, 10); // Convert percent to integer
@@ -100,8 +100,8 @@ const Budget = () => {
           justifyContent: "space-between",
         }}
       >
-        <Heading>Budgets</Heading>
-        <ShowMoreBtn />
+        <Typography variant="title">Budgets</Typography>
+        <ShowMoreBtn to={"/budget"} />
       </Box>
       {/* Small line */}
       <Divider
@@ -164,7 +164,7 @@ const Budget = () => {
               backgroundColor: "#00F79E",
             }}
           ></Box>
-          <Text>In Limit</Text>
+          <Typography variant="text">In Limit</Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Box
@@ -175,7 +175,7 @@ const Budget = () => {
               backgroundColor: "#FF8744",
             }}
           ></Box>
-          <Text>Risk of Overspent</Text>
+          <Typography variant="text">Risk of Overspent</Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Box
@@ -186,7 +186,7 @@ const Budget = () => {
               border: "1px solid",
             }}
           ></Box>
-          <Text>Overspent</Text>
+          <Typography variant="text">Overspent</Typography>
         </Box>
       </Box>
     </Box>

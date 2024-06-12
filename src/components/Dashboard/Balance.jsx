@@ -1,9 +1,20 @@
-import { Button, Box, Typography } from "@mui/material";
+import React from "react";
+import { IconButton, Box, Typography, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Heading } from "../utils";
+
 export const Balancecom = ({ Icon, Title, Amount, Color }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    // bigbox
     <Box
       sx={{
         position: "relative",
@@ -18,7 +29,6 @@ export const Balancecom = ({ Icon, Title, Amount, Color }) => {
         borderRadius: "8px",
       }}
     >
-      {/* toprow box */}
       <Box
         sx={{
           display: "flex",
@@ -27,7 +37,6 @@ export const Balancecom = ({ Icon, Title, Amount, Color }) => {
           justifyContent: "space-between",
         }}
       >
-        {/* Bag icon box */}
         <Box
           sx={{
             display: "flex",
@@ -47,55 +56,56 @@ export const Balancecom = ({ Icon, Title, Amount, Color }) => {
           />
         </Box>
 
-        {/* menu icon box */}
         <Box
           sx={{
             display: "flex",
-            width: "8px",
-            height: "30px",
-            justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "white",
-            marginTop: "20px",
-            marginRight: "20px",
           }}
         >
-          {" "}
-          <Button
-            sx={{
-              minWidth: "10px",
-              minHeight: "32px",
-              padding: "0px",
-            }}
+          <IconButton
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
           >
             <MoreVertIcon
               sx={{
-                fontSize: "30px",
+                color: "black",
+                fontSize: "32px",
               }}
             />
-          </Button>
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={handleClose}>Edit</MenuItem>
+          </Menu>
         </Box>
       </Box>
 
-      {/* second row box */}
       <Box
         sx={{
           marginTop: "19px",
           marginLeft: "24px",
         }}
       >
-        <Heading
+        <Typography
+          variant="title"
           sx={{
             fontSize: "20px",
-            // fontFamily: "Inter",
             fontWeight: "600",
             lineHeight: "30px",
           }}
         >
           {Title}
-        </Heading>
+        </Typography>
       </Box>
-      {/* third row box */}
+
       <Box
         sx={{
           marginTop: "19px",

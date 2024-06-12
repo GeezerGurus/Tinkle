@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   Box,
-  Button,
   Typography,
   Table,
   TableBody,
@@ -11,7 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-import { Heading, ShowMoreBtn, Text } from "../utils";
+import { ShowMoreBtn } from "../utils";
 
 const DataRow = ({ data }) => {
   return (
@@ -55,7 +54,8 @@ const DataRow = ({ data }) => {
                 }}
               />
             )}
-            <Text
+            <Typography
+              variant="text"
               sx={{
                 color:
                   index === 4
@@ -67,7 +67,7 @@ const DataRow = ({ data }) => {
               }}
             >
               {text}
-            </Text>
+            </Typography>
           </Box>
         </TableCell>
       ))}
@@ -140,8 +140,8 @@ const Transactions = () => {
           borderBottom: "1px solid black",
         }}
       >
-        <Heading>Transactions</Heading>
-        <ShowMoreBtn />
+        <Typography variant="title">Transactions</Typography>
+        <ShowMoreBtn to={"/records"} />
       </Box>
       <BasicTable />
     </Box>

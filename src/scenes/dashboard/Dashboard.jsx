@@ -13,7 +13,7 @@ import {
   Transactions,
   Balance,
   Statistics,
-} from "../../components/Dashboard";
+} from "../../components/dashboard";
 
 const Dashboard = () => {
   const theme = useTheme();

@@ -368,6 +368,10 @@ export const Transfer = () => {
             color: "black",
             border: "1.5px solid black",
             borderRadius: "8px",
+            "& .MuiInputBase-root": {
+              color: "black",
+              fontWeight: "500",
+            },
           }}
         />
       </EntryBox>

@@ -39,6 +39,7 @@ const Records = () => {
         {/* Bottom */}
         <Table />
       </Box>
+      
     </Box>
   );
 };

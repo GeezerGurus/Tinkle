@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Box, Typography, Select, Button, MenuItem } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Select,
+  Button,
+  MenuItem,
+  Paper,
+} from "@mui/material";
 import { styled } from "@mui/material";
 import { FlagIcon } from "react-flag-kit";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -58,12 +65,10 @@ const Exchange = () => {
   };
 
   return (
-    <Box
+    <Paper
       sx={{
         width: "369px",
         height: "273px",
-        borderTop: "1px solid black",
-        borderBottom: "1px solid black",
         backgroundColor: "white",
       }}
     >
@@ -93,6 +98,7 @@ const Exchange = () => {
           flexDirection: "column",
           alignItems: "center",
           marginTop: "30px",
+          position: "relative",
         }}
       >
         {/* Upper Box */}
@@ -187,7 +193,7 @@ const Exchange = () => {
         <Button
           sx={{
             position: "absolute",
-            top: "48%",
+            top: "35%",
             border: "1px",
             borderRadius: "50%",
           }}
@@ -290,7 +296,7 @@ const Exchange = () => {
           </Typography>
         </Box>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

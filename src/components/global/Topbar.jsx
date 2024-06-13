@@ -70,7 +70,11 @@ const Topbar = () => {
       display="flex"
       justifyContent="space-between"
       p={2}
-      sx={{ width: "100%", height: "78px" }}
+      sx={{
+        width: "100%",
+        height: "78px",
+        backgroundColor: theme.palette.frameBackground.default,
+      }}
     >
       {/* header */}
       <Box

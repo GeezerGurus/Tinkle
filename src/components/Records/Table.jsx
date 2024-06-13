@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React from "react";
 
 const Table = () => {
   return (
-    <Box
+    <Paper
       sx={{
         width: "1296px",
         height: "603px",
@@ -12,7 +12,7 @@ const Table = () => {
       }}
     >
       Table
-    </Box>
+    </Paper>
   );
 };
 

@@ -144,6 +144,9 @@ export const themeSettings = (mode) => {
             background: {
               default: colors.primary[500],
             },
+            frameBackground: {
+              default: "",
+            },
           }
         : {
             // palette values for light mode
@@ -159,7 +162,10 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#F5F5F5",
+            },
+            frameBackground: {
+              default: "white",
             },
           }),
     },

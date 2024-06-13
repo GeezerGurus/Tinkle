@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
 export const Chart = () => {
   return (
-    <Box
+    <Paper
       sx={{
         display: "flex",
         backgroundColor: "white",
@@ -11,7 +11,7 @@ export const Chart = () => {
         height: "100%",
         borderRadius: "5px",
       }}
-    ></Box>
+    ></Paper>
   );
 };
 

@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
 export const Statistics = () => {
   return (
-    <Box
+    <Paper
       sx={{
         display: "flex",
         backgroundColor: "white",
@@ -12,7 +12,7 @@ export const Statistics = () => {
         marginRight: "24px",
         borderRadius: "8px",
       }}
-    ></Box>
+    ></Paper>
   );
 };
 

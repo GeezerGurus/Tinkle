@@ -4,7 +4,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import GridViewIcon from "@mui/icons-material/GridView";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { tokens } from "../../theme";
-import { useTheme, Box } from "@mui/material";
+import { useTheme, Box, Paper } from "@mui/material";
 import {
   Budget,
   Exchange,
@@ -88,7 +88,7 @@ const Dashboard = () => {
         </Box>
 
         {/* Left side, Bottom */}
-        <Box
+        <Paper
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -96,7 +96,7 @@ const Dashboard = () => {
           }}
         >
           <Transactions />
-        </Box>
+        </Paper>
       </Box>
       {/* Right side */}
       <Box
@@ -106,7 +106,6 @@ const Dashboard = () => {
           justifyContent: "space-between",
           height: "892px",
           borderRadius: "8px",
-          backgroundColor: "white",
         }}
       >
         {/* Budget */}

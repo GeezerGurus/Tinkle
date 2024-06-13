@@ -277,7 +277,11 @@ const Sidebar = ({ mode }) => {
       flexDirection="column"
       justifyContent="space-between"
       p={2}
-      sx={{ width: "80px", height: "1024px" }}
+      sx={{
+        width: "80px",
+        height: "1024px",
+        backgroundColor: theme.palette.frameBackground.default,
+      }}
     >
       <Box>
         <ButtonGroup orientation="vertical" sx={{ gap: "33px" }}>

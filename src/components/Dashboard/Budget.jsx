@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Divider, Typography, LinearProgress } from "@mui/material";
+import { Box, Divider, Typography, LinearProgress, Paper } from "@mui/material";
 import { ShowMoreBtn } from "../utils";
 
 const Progress = ({ content, dollar, percent }) => {
@@ -76,13 +76,10 @@ const Progress = ({ content, dollar, percent }) => {
 
 const Budget = () => {
   return (
-    <Box
+    <Paper
       sx={{
         width: "369px",
         height: "274px",
-        borderRadius: "8px 8px 0 0",
-        borderTop: "1px solid black",
-        borderBottom: "1px solid black",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -189,7 +186,7 @@ const Budget = () => {
           <Typography variant="text">Overspent</Typography>
         </Box>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

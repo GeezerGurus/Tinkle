@@ -1,5 +1,12 @@
 import React from "react";
-import { IconButton, Box, Typography, Menu, MenuItem } from "@mui/material";
+import {
+  IconButton,
+  Box,
+  Typography,
+  Menu,
+  MenuItem,
+  Paper,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export const Balancecom = ({ Icon, Title, Amount, Color }) => {
@@ -15,7 +22,7 @@ export const Balancecom = ({ Icon, Title, Amount, Color }) => {
   };
 
   return (
-    <Box
+    <Paper
       sx={{
         position: "relative",
         display: "flex",
@@ -124,7 +131,7 @@ export const Balancecom = ({ Icon, Title, Amount, Color }) => {
           {Amount}
         </Typography>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
 } from "@mui/material";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import { ShowMoreBtn } from "../utils";
@@ -129,7 +130,7 @@ const Transactions = () => {
         borderRadius: "8px",
       }}
     >
-      <Box
+      <Paper
         sx={{
           height: "69px",
           display: "flex",
@@ -137,12 +138,12 @@ const Transactions = () => {
           justifyContent: "space-between",
           alignItems: "center",
           padding: "0 23px",
-          borderBottom: "1px solid black",
+          backgroundColor: "white",
         }}
       >
         <Typography variant="title">Transactions</Typography>
         <ShowMoreBtn to={"/records"} />
-      </Box>
+      </Paper>
       <BasicTable />
     </Box>
   );

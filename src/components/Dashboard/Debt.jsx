@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography, Paper } from "@mui/material";
 import { Owe } from "./Owe";
 import { Lend } from "./Lend";
 import { ShowMoreBtn } from "../utils";
@@ -12,14 +12,11 @@ const Debt = () => {
   };
 
   return (
-    <Box
+    <Paper
       sx={{
         width: "369px",
         height: "267px",
         backgroundColor: "white",
-        borderRadius: "0 0 8px 8px",
-        borderTop: "1px solid black",
-        borderBottom: "1px solid black",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -52,7 +49,7 @@ const Debt = () => {
       ) : (
         <Owe checked={checked} handleChange={handleChange} />
       )}
-    </Box>
+    </Paper>
   );
 };
 

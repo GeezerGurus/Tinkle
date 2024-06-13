@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import React from "react";
-
-const Total = () => {
+import Amount from "../utils/Record/amount";
+import Percent from "../utils/Record/percent";
+import Header from "../utils/Record/header";
+const Total = ({ header, amount, color, percent }) => {
   return (
     <Box
       sx={{
@@ -9,9 +11,13 @@ const Total = () => {
         height: "216px",
         backgroundColor: "white",
         color: "black",
+        border: "1px solid black",
+        borderRadius: "8px",
       }}
     >
-      Total
+      <Header header={header} />
+      <Amount amount={amount} color={color} />
+      <Percent percent={percent} />
     </Box>
   );
 };

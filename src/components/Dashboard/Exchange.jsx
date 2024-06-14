@@ -1,4 +1,4 @@
-import * as React from "react";
+import { React, useState } from "react";
 import {
   Box,
   Typography,
@@ -53,8 +53,8 @@ const CustomMenuItem = styled(MenuItem)({
 });
 
 const Exchange = () => {
-  const [currency, setCurrency] = React.useState("USD");
-  const [inputValue, setInput] = React.useState("");
+  const [currency, setCurrency] = useState("USD");
+  const [inputValue, setInput] = useState("");
 
   const handleCurrencyChange = (event) => {
     setCurrency(event.target.value);

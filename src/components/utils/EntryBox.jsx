@@ -1,12 +1,12 @@
-import { styled,Box } from "@mui/material";
+import { styled, Box } from "@mui/material";
 
-export const EntryBox = styled(Box)(()=>({
-    width:"78%",
-    display:"flex",
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"space-between",
-    marginTop:"20px"
+const EntryBox = styled(Box)(() => ({
+  width: "581px",
+  height: "58px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: "8px",
 }));
 
-export default EntryBox
+export default EntryBox;

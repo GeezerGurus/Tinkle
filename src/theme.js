@@ -189,12 +189,24 @@ export const themeSettings = (mode) => {
         fontWeight: "600",
         color: "#000000",
       },
+      title2: {
+        fontSize: "24px",
+        fontWeight: "600",
+        letterSpacing: "1%",
+        lineHeight: "auto",
+        color: "black",
+      },
       text: {
         fontSize: "12px",
         fontWeight: "200",
         lineHeight: "14.52px",
         letterSpacing: "1%",
         color: "black",
+      },
+      text2: {
+        fontSize: "15px",
+        color: "black",
+        fontWeight: "600",
       },
     },
   };

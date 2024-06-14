@@ -8,7 +8,6 @@ const Total = ({ header, amount, color, percent }) => {
         width: "400px",
         height: "216px",
         backgroundColor: "white",
-        borderRadius: "8px",
       }}
     >
       {/* Header  */}

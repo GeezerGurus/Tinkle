@@ -1,28 +1,21 @@
-import * as React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
-import { styled } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  FormControl,
+  InputAdornment,
+  useTheme,
+  Typography,
+} from "@mui/material";
 import { tokens } from "../../theme";
-import EntryInput from "../utils/EntryInput";
-import EntrySelect from "../utils/EntrySelect";
-import DisplayBox from "../utils/DisplayBox";
-import EntryBox from "../utils/EntryBox";
-import VisibleTypo from "../utils/VisibleTypo";
-import CustomArrowIcon from "../utils/CustomArrowIcon";
+import { EntryInput, EntryBox, EntrySelect, Item } from "../utils";
 import MenuItem from "@mui/material/MenuItem";
 import WalletIcon from "@mui/icons-material/Wallet";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import SavingsIcon from "@mui/icons-material/Savings";
 import PhonelinkRingIcon from "@mui/icons-material/PhonelinkRing";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 
-const CustomMenuItem = styled(MenuItem)({
-  "&:hover": {
-    backgroundColor: "#c0c0c0",
-  },
-});
 const menuProps = {
   PaperProps: {
     style: {
@@ -40,340 +33,137 @@ const getCurrentTimeString = () => {
   return `${hours}:${minutes}`;
 };
 
-const formatDateString = (date) => {
-  return dayjs(date).format("D, MMM, YYYY");
-};
-
-export const Transfer = () => {
+const Transfer = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [acc, setAcc] = React.useState("wallet");
-  const [toAcc, setToAcc] = React.useState("outofwallet");
-  const [open, setOpen] = React.useState(false);
-  const [time, setTime] = React.useState(getCurrentTimeString());
-  const [date, setDate] = React.useState(dayjs().format("YYYY-MM-DD"));
-  const [note, setNote] = React.useState("");
+  const [acc, setAcc] = useState("wallet");
+  const [toAcc, setToAcc] = useState("outofwallet");
+  const [time, setTime] = useState(getCurrentTimeString());
+  const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
+  const [note, setNote] = useState("");
 
-  const handleToAcc = (event) => {
-    setToAcc(event.target.value);
-  };
-
-  const handleAccChange = (event) => {
-    setAcc(event.target.value);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleTimeChange = (event) => {
-    setTime(event.target.value);
-  };
-
-  const handleDateChange = (event) => {
-    const newDate = event.target.value;
-    setDate(newDate);
-  };
-  const handleNoteChange = (event) => {
-    setNote(event.target.value);
-  };
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "614px",
+        height: "554px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
-        flexGrow: "1",
       }}
     >
-      <EntryBox
-        sx={{
-          color: "black",
-          width: "90%",
-        }}
-      >
-        <VisibleTypo>From Acc:</VisibleTypo>
+      <EntryBox>
+        <Typography variant="text2">From Acc:</Typography>
         <EntrySelect
           value={acc}
-          onChange={handleAccChange}
+          onChange={(event) => setAcc(event.target.value)}
           MenuProps={menuProps}
-          IconComponent={() => <CustomArrowIcon open={open} />}
-          onOpen={handleOpen}
-          onClose={handleClose}
           sx={{
-            width: "30%",
+            width: "174px",
           }}
         >
-          <CustomMenuItem value="wallet">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <WalletIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "green",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Wallet
-              </Typography>
-            </Box>
-          </CustomMenuItem>
-          <CustomMenuItem value="bank">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <AccountBalanceIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "orange",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Bank
-              </Typography>
-            </Box>
-          </CustomMenuItem>
-          <CustomMenuItem value="savings">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <SavingsIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "pink",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Savings
-              </Typography>
-            </Box>
-          </CustomMenuItem>
-          <CustomMenuItem value="Kpay">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PhonelinkRingIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "blue",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Kpay
-              </Typography>
-            </Box>
-          </CustomMenuItem>
+          <MenuItem value="wallet">
+            <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
+          </MenuItem>
+          <MenuItem value="bank">
+            <Item icon={<AccountBalanceIcon />} text="Bank" bgColor="orange" />
+          </MenuItem>
+          <MenuItem value="savings">
+            <Item icon={<SavingsIcon />} text="Savings" bgColor="pink" />
+          </MenuItem>
+          <MenuItem value="Kpay">
+            <Item icon={<PhonelinkRingIcon />} text="Kpay" bgColor="blue" />
+          </MenuItem>
         </EntrySelect>
-        {/* ==================================================== */}
         <ArrowForwardIcon
           sx={{
             width: "48px",
             height: "50px",
           }}
         />
-        {/* ==================================================== */}
 
-        <VisibleTypo>To Acc:</VisibleTypo>
+        <Typography variant="text2">To Acc:</Typography>
         <EntrySelect
           value={toAcc}
-          onChange={handleToAcc}
+          onChange={(event) => setToAcc(event.target.value)}
           MenuProps={menuProps}
-          IconComponent={() => <CustomArrowIcon open={open} />}
-          onOpen={handleOpen}
-          onClose={handleClose}
           sx={{
-            width: "30%",
+            width: "174px",
           }}
         >
-          <CustomMenuItem value="outofwallet">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <WalletIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "green",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Out of Wallet
-              </Typography>
-            </Box>
-          </CustomMenuItem>
-          <CustomMenuItem value="bank">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <AccountBalanceIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "orange",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Bank
-              </Typography>
-            </Box>
-          </CustomMenuItem>
-          <CustomMenuItem value="savings">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <SavingsIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "pink",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Savings
-              </Typography>
-            </Box>
-          </CustomMenuItem>
-          <CustomMenuItem value="Kpay">
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PhonelinkRingIcon
-                sx={{
-                  color: "white",
-                  backgroundColor: "blue",
-                  marginRight: "10px",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                }}
-              >
-                Kpay
-              </Typography>
-            </Box>
-          </CustomMenuItem>
+          <MenuItem value="outofwallet">
+            <Item icon={<WalletIcon />} text="Out of Wallet" bgColor="green" />
+          </MenuItem>
+          <MenuItem value="bank">
+            <Item icon={<AccountBalanceIcon />} text="Bank" bgColor="orange" />
+          </MenuItem>
+          <MenuItem value="savings">
+            <Item icon={<SavingsIcon />} text="Savings" bgColor="pink" />
+          </MenuItem>
+          <MenuItem value="Kpay">
+            <Item icon={<PhonelinkRingIcon />} text="Kpay" bgColor="blue" />
+          </MenuItem>
         </EntrySelect>
-      </EntryBox>
-      {/* ===================================================================== */}
-      <EntryBox>
-        <VisibleTypo>Amount:</VisibleTypo>
-        <DisplayBox>
-          <EntryInput
-            type="number"
-            sx={{
-              marginLeft: "9px",
-            }}
-          />
-          <VisibleTypo>MMK</VisibleTypo>
-        </DisplayBox>
-      </EntryBox>
-      {/* ============================================================================================================================ */}
-      <EntryBox>
-        <VisibleTypo>Time:</VisibleTypo>
-        <TextField
-          type="time"
-          value={time}
-          onChange={handleTimeChange}
-          sx={{
-            width: "80%",
-            height: "30px",
-            color: "black",
-            border: "1.5px solid black",
-            borderRadius: "8px",
-            "& .MuiInputBase-input": {
-              fontWeight: "600",
-              padding: "5px 10px",
-              color: "black",
-            },
-          }}
-        />
       </EntryBox>
 
       <EntryBox>
-        <VisibleTypo>Date:</VisibleTypo>
-        <DisplayBox sx={{ color: "black", fontWeight: "600" }}>
-          <Typography
-            sx={{ marginLeft: "9px", color: "black", fontWeight: "600" }}
-          >
-            {formatDateString(date)}
-          </Typography>
-          <TextField
+        <Typography variant="text2">Amount:</Typography>
+        <FormControl>
+          <EntryInput
+            type="number"
+            endAdornment={<InputAdornment position="end">MMK</InputAdornment>}
+          />
+        </FormControl>
+      </EntryBox>
+      <EntryBox>
+        <Typography variant="text2">Time:</Typography>
+        <FormControl>
+          <EntryInput
+            type="time"
+            value={time}
+            onChange={(event) => setTime(event.target.value)}
+          />
+        </FormControl>
+      </EntryBox>
+      <EntryBox>
+        <Typography variant="text2">Date:</Typography>
+        <FormControl>
+          <EntryInput
             type="date"
             value={date}
-            onChange={handleDateChange}
+            onChange={(event) => setDate(event.target.value)}
             InputProps={{
               inputProps: {
                 min: "2022-01-01", // Set min and max dates if needed
                 max: "2025-12-31",
               },
-              style: {
-                // width: 'calc(100% - 10px)', // Adjusted width to fit within DisplayBox
-                height: "100%",
-                color: "black",
-                border: "0.5px solid black", // Removed border since DisplayBox already has it
-                borderRadius: "8px",
-              },
-            }}
-            sx={{
-              width: "10%",
-              "& .MuiInputBase-input": {
-                padding: "5px 10px",
-              },
             }}
           />
-        </DisplayBox>
+        </FormControl>
       </EntryBox>
 
       <EntryBox>
-        <VisibleTypo>Payee:</VisibleTypo>
-        <DisplayBox>
-          <EntryInput sx={{ marginLeft: "9px" }} />
-        </DisplayBox>
+        <Typography variant="text2">Payee:</Typography>
+        <FormControl>
+          <EntryInput />
+        </FormControl>
       </EntryBox>
 
       <EntryBox>
-        <VisibleTypo>Note:</VisibleTypo>
-        <TextField
-          id="note"
-          multiline
-          rows={2}
-          value={note}
-          onChange={handleNoteChange}
-          variant="outlined"
-          sx={{
-            width: "80%",
-            color: "black",
-            border: "1.5px solid black",
-            borderRadius: "8px",
-            "& .MuiInputBase-root": {
-              color: "black",
-              fontWeight: "500",
-            },
-          }}
-        />
+        <Typography variant="text2">Note:</Typography>
+        <FormControl>
+          <EntryInput
+            multiline
+            rows={2}
+            value={note}
+            onChange={(event) => setNote(event.target.value)}
+            variant="outlined"
+            sx={{
+              height: "65px",
+            }}
+          />
+        </FormControl>
       </EntryBox>
     </Box>
   );

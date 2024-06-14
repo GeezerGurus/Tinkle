@@ -9,7 +9,6 @@ export const Chart = () => {
         color: "black",
         width: "40%",
         height: "100%",
-        borderRadius: "5px",
       }}
     ></Paper>
   );

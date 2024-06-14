@@ -19,6 +19,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { Add } from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
+import { RecordBtn } from "../utils";
 
 // Function to map paths to titles
 const getTitle = (path) => {
@@ -29,8 +30,8 @@ const getTitle = (path) => {
       return "Records";
     case "/knowledge":
       return "Knowledge";
-    case "/lists":
-      return "Lists";
+    case "/lists/debt-list":
+      return "Debt List";
     case "/budget":
       return "Budget";
     case "/statistics":
@@ -98,21 +99,8 @@ const Topbar = () => {
           alignItems: "center",
         }}
       >
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-          sx={{
-            width: "97px",
-            height: "38px",
-            textTransform: "capitalize",
-            background: "#000000",
-            borderRadius: "8px",
-            fontSize: "16px",
-            lineHeight: "24px ",
-          }}
-        >
-          Record
-        </Button>
+        {/* Record Button  */}
+        <RecordBtn />
         <IconButton size="large">
           <NotificationsOutlinedIcon />
         </IconButton>

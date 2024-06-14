@@ -32,7 +32,7 @@ const Records = () => {
       {/* Main Box */}
       <Box
         sx={{
-          marginTop: "18px",
+          marginTop: theme.spacing(3),
           width: "1296px",
           height: "899px",
           display: "flex",
@@ -59,7 +59,6 @@ const Records = () => {
         {/* Bottom */}
         <Table />
       </Box>
-      
     </Box>
   );
 };

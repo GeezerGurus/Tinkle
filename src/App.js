@@ -3,7 +3,7 @@ import {
   Dashboard,
   Records,
   Knowledge,
-  Lists,
+  Debt,
   Budget,
   Statistic,
   Settings,
@@ -12,7 +12,7 @@ import {
   Auth,
   Support,
 } from "./scenes";
-import { Topbar, Sidebar } from "./components";
+import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 
@@ -31,7 +31,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/records" element={<Records />} />
               <Route path="/knowledge" element={<Knowledge />} />
-              <Route path="/lists" element={<Lists />} />
+              <Route path="/lists/debt-list" element={<Debt />} />
               <Route path="/budget" element={<Budget />} />
               <Route path="/statistics" element={<Statistic />} />
               <Route path="/settings" element={<Settings />} />

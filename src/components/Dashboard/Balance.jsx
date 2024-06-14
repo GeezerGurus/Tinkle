@@ -32,8 +32,6 @@ export const Balancecom = ({ Icon, Title, Amount, Color }) => {
         color: "black",
         width: "210px",
         height: "211px",
-        border: "1px",
-        borderRadius: "8px",
       }}
     >
       <Box

@@ -1,22 +1,10 @@
-import { styled } from "@mui/material"
+import { OutlinedInput, styled } from "@mui/material";
 
-export const EntryInput = styled('input')({
-    width:"80%",
-    height:"100%",
-    marginRight:"13px",
-    fontWeight:"600",
-    border: "none",
-    '&:focus': {
-        outline: 'none',
-    },
-    appearance: "textfield",
-    '&::-webkit-outer-spin-button': {
-        display: "none",
-    },
-    '&::-webkit-inner-spin-button': {
-        display: "none",
-    },
-
-})
+const EntryInput = styled(OutlinedInput)({
+  width: "453px",
+  height: "40px",
+  border: "1.5px solid black",
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+});
 
 export default EntryInput;

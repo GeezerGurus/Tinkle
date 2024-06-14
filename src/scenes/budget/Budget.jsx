@@ -14,12 +14,12 @@ const Budget = () => {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "green",
-        paddingTop: "32px",
       }}
     >
       {/* Main */}
       <Box
         sx={{
+          marginTop: theme.spacing(3),
           width: "987px",
           height: "855px",
           display: "grid",

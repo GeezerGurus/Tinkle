@@ -10,7 +10,6 @@ export const Statistics = () => {
         width: "60%",
         height: "100%",
         marginRight: "24px",
-        borderRadius: "8px",
       }}
     ></Paper>
   );

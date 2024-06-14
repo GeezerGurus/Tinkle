@@ -115,7 +115,7 @@ const Sidebar = ({ mode }) => {
             {[
               { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
               { text: "Records", icon: <RecordsIcon />, path: "/records" },
-              { text: "Lists", icon: <ListsIcon />, path: "/lists" },
+              { text: "Lists", icon: <ListsIcon />, path: "/lists/debt-list" },
               {
                 text: "Tips and Knowledge",
                 icon: <TipsAndKnowledgeIcon />,
@@ -279,7 +279,6 @@ const Sidebar = ({ mode }) => {
       p={2}
       sx={{
         width: "80px",
-        height: "1024px",
         backgroundColor: theme.palette.frameBackground.default,
       }}
     >
@@ -296,24 +295,24 @@ const Sidebar = ({ mode }) => {
               <DashboardIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Knowledge" placement="right" arrow>
-            <IconButton onClick={handleNavigation("/knowledge")}>
-              <TipsAndKnowledgeIcon />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Records" placement="right" arrow>
             <IconButton onClick={handleNavigation("/records")}>
               <RecordsIcon />
             </IconButton>
           </Tooltip>
+          <Tooltip title="Lists" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/lists/debt-list")}>
+              <ListsIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Knowledge" placement="right" arrow>
+            <IconButton onClick={handleNavigation("/knowledge")}>
+              <TipsAndKnowledgeIcon />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Budget" placement="right" arrow>
             <IconButton onClick={handleNavigation("/budget")}>
               <BudgetsIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Lists" placement="right" arrow>
-            <IconButton onClick={handleNavigation("/lists")}>
-              <ListsIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Statistic" placement="right" arrow>

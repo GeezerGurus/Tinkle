@@ -8,7 +8,6 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
   Button,
 } from "@mui/material";
 import {
@@ -18,8 +17,7 @@ import {
   Description as DescriptionIcon,
   DeleteOutlined as DeleteOutlinedIcon,
 } from "@mui/icons-material";
-
-const RecordBar = () => <Box />;
+import { RecordBtn } from "../utils";
 
 const FilterBar = () => {
   const [sortOption, setSortOption] = useState("");
@@ -57,16 +55,11 @@ const FilterBar = () => {
           Sort By
         </Typography>
         <FormControl>
-          <InputLabel id="sort-by-label" sx={{ color: "#828282" }}>
-            Time (newest first)
-          </InputLabel>
           <Select
-            labelId="sort-by-label"
             value={sortOption}
-            label="Select Option"
             onChange={handleSortChange}
             sx={{
-              color: "#E0E0E0",
+              color: "#828282",
               width: "222px",
               height: "45px",
               padding: "0px 8px",
@@ -83,7 +76,7 @@ const FilterBar = () => {
   );
 };
 
-const DeleteBar = () => (
+const DeleteBar = ({ handleClick }) => (
   <Box
     sx={{
       display: "flex",
@@ -97,6 +90,7 @@ const DeleteBar = () => (
     }}
   >
     <Button
+      onClick={() => handleClick("delete")}
       sx={{
         width: "86px",
         height: "38px",
@@ -121,6 +115,7 @@ const DeleteBar = () => (
     </Typography>
     <IconButton
       size="large"
+      onClick={() => handleClick("delete")} // Ensure handleClick is passed down correctly
       sx={{
         width: "32px",
         height: "31px",
@@ -155,7 +150,6 @@ const Toolbar = () => {
   };
 
   return (
-    // Transactions text
     <Box
       sx={{
         width: "1296px",
@@ -183,13 +177,9 @@ const Toolbar = () => {
           Transactions
         </Typography>
       </Box>
-
-      {/* Mid  */}
-      {activeBar === "record" && <RecordBar />}
       {activeBar === "filter" && <FilterBar />}
-      {activeBar === "delete" && <DeleteBar />}
-
-      {/* Buttons container  */}
+      {activeBar === "delete" && <DeleteBar handleClick={handleClick} />}{" "}
+      {/* Pass handleClick function to DeleteBar */}
       <Box
         sx={{
           gap: "8px",
@@ -198,22 +188,21 @@ const Toolbar = () => {
           alignItems: "center",
         }}
       >
-        {/* Search  */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Collapse
             in={search}
             orientation="horizontal"
-            sx={{ transition: "width 0.5s ease-in-out" }}
+            collapsedSize={40}
+            sx={{ transition: "width 0.5s ease-in" }}
           >
             <Box
               sx={{
                 width: "221px",
-                border: "1px solid black",
+                border: search ? "1px solid black" : "none",
                 borderRadius: "8px",
                 display: "flex",
                 gap: "12px",
                 padding: "0 12px",
-                transition: "width 0.5s ease-in-out",
               }}
             >
               <IconButton
@@ -233,36 +222,8 @@ const Toolbar = () => {
               />
             </Box>
           </Collapse>
-          {!search && (
-            <IconButton
-              size="large"
-              onClick={handleSearchToggle}
-              sx={{
-                width: "24px",
-                height: "38px",
-                borderRadius: "8px",
-              }}
-            >
-              <SearchIcon sx={{ color: "black" }} fontSize="large" />
-            </IconButton>
-          )}
         </Box>
-        {/* Record btn */}
-        <Button
-          onClick={() => handleClick("record")}
-          sx={{
-            width: "97px",
-            height: "38px",
-            borderRadius: "8px",
-            backgroundColor: "black",
-            color: "white",
-            fontSize: "16px",
-            lineHeight: "24px",
-            fontWeight: 500,
-          }}
-        >
-          + Record
-        </Button>
+        <RecordBtn />
         <IconButton
           size="large"
           onClick={() => handleClick("filter")}

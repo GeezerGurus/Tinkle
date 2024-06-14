@@ -1,7 +1,7 @@
 export { default as Dashboard } from "./dashboard/Dashboard";
 export { default as Records } from "./records/Records";
 export { default as Knowledge } from "./knowledge/Knowledge";
-export { default as Lists } from "./lists/Lists";
+export { default as Debt } from "./lists/Debt";
 export { default as Budget } from "./budget/Budget";
 export { default as Statistic } from "./statistic/Statistic";
 export { default as Settings } from "./settings/Settings";

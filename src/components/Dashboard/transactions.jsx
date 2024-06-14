@@ -127,7 +127,6 @@ const Transactions = () => {
         color: "black",
         width: "100%",
         height: "354px",
-        borderRadius: "8px",
       }}
     >
       <Paper

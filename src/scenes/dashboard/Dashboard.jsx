@@ -27,6 +27,7 @@ const Dashboard = () => {
         justifyContent: "center",
         width: "100%",
         height: "946px",
+        marginTop: theme.spacing(3),
       }}
     >
       {/* Main, Left */}

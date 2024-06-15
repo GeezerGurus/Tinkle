@@ -7,10 +7,10 @@ import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { tokens } from "../../theme";
 import { Typography, useTheme, Box, Button } from "@mui/material";
 import { Balancecom, Balancetrend } from "../../components";
-import { Transactions } from "../../components/Dashboard/transactions";
-import { Expenses } from "../../components/Dashboard/expenses";
-import { MoreDetails } from "../../components/Dashboard/moreDetails";
-import Budget from "../../components/Dashboard/budget_wiget";
+import { Transactions } from "../../components/dashboard/transactions";
+import { Expenses } from "../../components/dashboard/expenses";
+import { MoreDetails } from "../../components/dashboard/moreDetails";
+import Budget from "../../components/dashboard/budget_wiget";
 
 const Dashboard = () => {
   const theme = useTheme();

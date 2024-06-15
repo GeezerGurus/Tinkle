@@ -1,7 +1,7 @@
 import React from "react";
 import { tokens } from "../../theme";
 import { Box, useTheme } from "@mui/material";
-import { Table, Chart, Toolbar, Total } from "../../components/Records";
+import { Table, Chart, Toolbar, Total } from "../../components/records";
 
 const Records = () => {
   const theme = useTheme();

@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
+import TableEntry from "./TableEntry";
 
 const Table = () => {
   return (
@@ -11,7 +12,7 @@ const Table = () => {
         color: "black",
       }}
     >
-      Table
+        <TableEntry/>
     </Box>
   );
 };

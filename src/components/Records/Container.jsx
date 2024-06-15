@@ -74,7 +74,7 @@ export const Container = ({ onClose }) => {
       <CloseIcon
         onClick={onClose}
         sx={{
-          margin: "20px",
+          margin: "16px",
           top: "0",
           right: "0",
           position: "absolute",

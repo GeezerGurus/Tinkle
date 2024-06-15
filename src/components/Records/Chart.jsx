@@ -9,10 +9,10 @@ const Chart = () => {
         height: "216px",
         backgroundColor: "white",
         color: "black",
+        borderRadius: "8px",
+        border: "1px solid black",
       }}
-    >
-      Chart
-    </Box>
+    ></Box>
   );
 };
 

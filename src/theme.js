@@ -196,6 +196,13 @@ export const themeSettings = (mode) => {
         lineHeight: "auto",
         color: "black",
       },
+      title3: {
+        fontSize: "32px",
+        fontWeight: "800",
+        letterSpacing: "1%",
+        lineHeight: "auto",
+        color: "black",
+      },
       text: {
         fontSize: "12px",
         fontWeight: "200",

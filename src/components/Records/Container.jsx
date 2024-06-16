@@ -6,6 +6,7 @@ import {
   styled,
   Button,
   ButtonGroup,
+  IconButton,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import Expense from "./Expense";
@@ -71,28 +72,16 @@ export const Container = ({ onClose }) => {
       >
         ADD RECORD
       </Typography>
-      <CloseIcon
-        onClick={onClose}
+      <IconButton
         sx={{
-          margin: "16px",
-          top: "0",
-          right: "0",
           position: "absolute",
-          color: "black",
-          width: "40px",
-          height: "40px",
-          "&:hover": {
-            color: "white",
-            backgroundColor: "black",
-            borderRadius: "50%",
-          },
-          "&:active": {
-            color: "white",
-            backgroundColor: "grey",
-            borderRadius: "50%",
-          },
+          top: 16,
+          right: 16,
         }}
-      />
+        onClick={onClose}
+      >
+        <CloseIcon fontSize="large" />
+      </IconButton>
       <ButtonGroup variant="contained" sx={{ backgroundColor: "black" }}>
         <StyledButton
           value="expense"

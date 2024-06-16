@@ -4,7 +4,6 @@ import {
   IconButton,
   useTheme,
   Typography,
-  Button,
   Menu,
   MenuItem,
   Avatar,
@@ -17,34 +16,37 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { Add } from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
 import { RecordBtn } from "../utils";
 
 // Function to map paths to titles
 const getTitle = (path) => {
-  switch (path) {
-    case "/":
-      return "Dashboard";
-    case "/records":
-      return "Records";
-    case "/knowledge":
-      return "Knowledge";
-    case "/lists/debt-list":
+  switch (true) {
+    case /^\/to-buy-list\/lists\/.*$/.test(path):
+      return "To Buy List";
+    case /^\/to-buy-list\/lists$/.test(path):
+      return "To Buy List";
+    case /^\/lists\/debt-list$/.test(path):
       return "Debt List";
-    case "/budget":
+    case /^\/$/.test(path):
+      return "Dashboard";
+    case /^\/records$/.test(path):
+      return "Records";
+    case /^\/knowledge$/.test(path):
+      return "Knowledge";
+    case /^\/budget$/.test(path):
       return "Budget";
-    case "/statistics":
+    case /^\/statistics$/.test(path):
       return "Statistics";
-    case "/settings":
+    case /^\/settings$/.test(path):
       return "Settings";
-    case "/profile":
+    case /^\/profile$/.test(path):
       return "Profile";
-    case "/auth":
+    case /^\/auth$/.test(path):
       return "Auth";
-    case "/support":
+    case /^\/support$/.test(path):
       return "Support";
-    case "/home":
+    case /^\/home$/.test(path):
       return "Home";
     default:
       return "Dashboard";

@@ -15,6 +15,8 @@ import {
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import ToBuyList from "./scenes/lists/ToBuyList";
+import ToBuyItems from "./scenes/lists/ToBuyItems";
 
 function App() {
   const [theme, colorMode, mode] = useMode();
@@ -32,6 +34,11 @@ function App() {
               <Route path="/records" element={<Records />} />
               <Route path="/knowledge" element={<Knowledge />} />
               <Route path="/lists/debt-list" element={<Debt />} />
+              <Route path="/to-buy-list/lists" element={<ToBuyList />} />
+              <Route
+                path="/to-buy-list/lists/:listId"
+                element={<ToBuyItems />}
+              />
               <Route path="/budget" element={<Budget />} />
               <Route path="/statistics" element={<Statistic />} />
               <Route path="/settings" element={<Settings />} />

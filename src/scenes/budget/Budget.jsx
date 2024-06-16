@@ -1,7 +1,10 @@
 import React from "react";
 import { tokens } from "../../theme";
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { BudgetBox } from "../../components/budget";
+
+import ShowMoreBox from "../../components/budget/ShowMoreBox";
 
 const Budget = () => {
   const theme = useTheme();
@@ -28,10 +31,11 @@ const Budget = () => {
           backgroundColor: "red",
         }}
       >
-        <BudgetBox />
-        <BudgetBox />
-        <BudgetBox />
-        <BudgetBox />
+        <BudgetBox header={"Monthly"} />
+        <BudgetBox header={"Weekly"} />
+        <BudgetBox header={"Yearly"} />
+        <BudgetBox header={"One Time"} />
+        {/* <ShowMoreBox header={"One Time"} /> */}
       </Box>
     </Box>
   );

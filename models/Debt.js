@@ -14,6 +14,11 @@ const debtSchema = new Schema(
       trim: true,
       maxlength: 50,
     },
+    payer: {
+      type: String,
+      trim: true,
+      maxlength: 50,
+    },
     amount: {
       type: Number,
       required: true,

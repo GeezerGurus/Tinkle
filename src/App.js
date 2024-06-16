@@ -6,11 +6,13 @@ import {
   Debt,
   Budget,
   Statistic,
-  Settings,
+  GeneralSettings,
   Profile,
   Home,
   Auth,
   Support,
+  CategorySettings,
+  BalanceAccountSettings,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -41,7 +43,15 @@ function App() {
               />
               <Route path="/budget" element={<Budget />} />
               <Route path="/statistics" element={<Statistic />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings/general" element={<GeneralSettings />} />
+              <Route
+                path="/settings/categories"
+                element={<CategorySettings />}
+              />
+              <Route
+                path="/settings/balance-accounts"
+                element={<BalanceAccountSettings />}
+              />
               <Route path="/profile" element={<Profile />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/support" element={<Support />} />

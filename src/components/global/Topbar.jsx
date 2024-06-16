@@ -38,7 +38,7 @@ const getTitle = (path) => {
       return "Budget";
     case /^\/statistics$/.test(path):
       return "Statistics";
-    case /^\/settings$/.test(path):
+    case /^\/settings\/.*$/.test(path):
       return "Settings";
     case /^\/profile$/.test(path):
       return "Profile";

@@ -10,6 +10,7 @@ const Item = ({ icon, text, bgColor }) => {
             color: "white",
             backgroundColor: bgColor,
             marginRight: "10px",
+            borderRadius: "50%",
           },
         })}
       <Typography sx={{ color: "black" }}>{text}</Typography>

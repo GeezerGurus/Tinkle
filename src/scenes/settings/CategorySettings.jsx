@@ -65,7 +65,6 @@ const CategorySettings = () => {
   const [name, setName] = useState("");
 
   return (
-    // Container
     <Box
       sx={{
         display: "flex",
@@ -75,7 +74,6 @@ const CategorySettings = () => {
         height: "100%",
       }}
     >
-      {/* Main box  */}
       <Paper
         sx={{
           width: "1269px",
@@ -87,7 +85,6 @@ const CategorySettings = () => {
           alignItems: "center",
         }}
       >
-        {/* Top  */}
         <Box
           sx={{
             width: "1089px",
@@ -100,8 +97,6 @@ const CategorySettings = () => {
             gap: 2,
           }}
         >
-          {/* Title  */}
-
           <Typography
             variant="title3"
             sx={{ borderBottom: "1px solid black", pb: 1 }}
@@ -109,9 +104,7 @@ const CategorySettings = () => {
             Create new Category
           </Typography>
 
-          {/* Contents  */}
           <Box sx={{ display: "flex", gap: "43px", alignItems: "flex-end" }}>
-            {/* Icon  */}
             <Stack gap={2}>
               <Typography variant="title">Icon</Typography>
               <Select
@@ -121,15 +114,14 @@ const CategorySettings = () => {
                 displayEmpty
                 renderValue={(selected) => {
                   if (!selected) {
-                    return <em>Select Icon</em>;
+                    return (
+                      <Typography variant="placeholder">Select Icon</Typography>
+                    );
                   }
                   const SelectedIcon = selected;
                   return <SelectedIcon />;
                 }}
               >
-                <MenuItem disabled>
-                  <em>Select Icon</em>
-                </MenuItem>
                 {iconsMap.map((Icon, index) => (
                   <MenuItem key={index} value={Icon}>
                     <Icon />
@@ -137,7 +129,7 @@ const CategorySettings = () => {
                 ))}
               </Select>
             </Stack>
-            {/* Color  */}
+
             <Stack gap={2}>
               <Typography variant="title">Color</Typography>
               <Select
@@ -151,7 +143,11 @@ const CategorySettings = () => {
                 displayEmpty
                 renderValue={(selected) => {
                   if (!selected) {
-                    return <em>Choose your color</em>;
+                    return (
+                      <Typography variant="placeholder">
+                        Choose your color
+                      </Typography>
+                    );
                   }
                   return (
                     <Box
@@ -165,9 +161,6 @@ const CategorySettings = () => {
                   );
                 }}
               >
-                <MenuItem disabled>
-                  <em>Choose your color</em>
-                </MenuItem>
                 {colors.map((color) => (
                   <MenuItem
                     key={color}
@@ -177,7 +170,7 @@ const CategorySettings = () => {
                 ))}
               </Select>
             </Stack>
-            {/* Name  */}
+
             <Stack gap={2}>
               <Typography variant="title">Name</Typography>
               <TextField
@@ -186,43 +179,43 @@ const CategorySettings = () => {
                 placeholder="New category name"
               />
             </Stack>
+
             <Button
               variant="contained"
               sx={{
                 width: "82px",
                 height: "46px",
                 backgroundColor: "#2196F3",
+                mt: 2,
               }}
             >
               ADD
             </Button>
           </Box>
         </Box>
-        {/* Bottom  */}
+
         <Paper
           sx={{
             width: "1089px",
             height: "573px",
             display: "flex",
             flexDirection: "column",
+            mt: 4,
           }}
         >
-          {/* Title  */}
           <Stack
             sx={{ width: "100%", height: "81px" }}
-            justifyContent={"center"}
+            justifyContent="center"
             pl={6}
           >
-            <Typography variant="title2">Category List</Typography>
+            <Typography variant="title3">Category List</Typography>
           </Stack>
+
           <Box sx={{ height: "470px", overflowY: "auto" }}>
             <Grid
               container
               columnGap={2}
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-              }}
+              sx={{ display: "flex", justifyContent: "space-around" }}
             >
               {categories.map((category, index) => (
                 <Category

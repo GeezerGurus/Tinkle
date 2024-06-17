@@ -6,7 +6,7 @@ export { default as Budget } from "./budget/Budget";
 export { default as Statistic } from "./statistic/Statistic";
 export { default as GeneralSettings } from "./settings/GeneralSettings";
 export { default as CategorySettings } from "./settings/CategorySettings";
-export { default as BalanceAccountSettings } from "./settings/BalanceAccountSettins";
+export { default as BalanceAccountSettings } from "./settings/BalanceAccountSettings";
 export { default as Auth } from "./auth/Auth";
 export { default as Home } from "./home/Home";
 export { default as Profile } from "./profile/Profile";

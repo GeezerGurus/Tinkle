@@ -15,7 +15,7 @@ import {
 import { EntrySelect } from "../../components/utils";
 import ShieldIcon from "@mui/icons-material/Shield";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import DeleteProfile from "../../components/settings/DeleteProfile";
+import { DeleteProfile } from "../../components/settings";
 
 const GeneralSettings = () => {
   const theme = useTheme();

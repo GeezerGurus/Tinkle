@@ -1,6 +1,7 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
 import { colors } from "@mui/material";
+import { Opacity } from "@mui/icons-material";
 
 // color design tokens export
 export const tokens = (mode) => ({
@@ -183,6 +184,24 @@ export const themeSettings = (mode) => {
       h3: {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 24,
+      },
+      h4: {
+        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontSize: 20,
+      },
+      h5: {
+        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontSize: 16,
+      },
+      h6: {
+        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontSize: 14,
+      },
+      placeholder: {
+        opacity: "0.6",
+        fontSize: "0.875rem",
+        lineHeight: 1.6,
+        fontWeight: "400",
       },
       title: {
         fontSize: "20px",

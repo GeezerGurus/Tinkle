@@ -8,37 +8,28 @@ const itemToBuySchema = new Schema(
       ref: "User",
       required: true,
     },
-    item: {
+    name: {
       type: String,
       required: true,
       trim: true,
       maxlength: 100,
     },
-    price: {
+    quantity: {
       type: Number,
-      min: 0,
-    },
-    currency: {
-      type: String,
-      trim: true,
-      default: "MMK",
-    },
-    category: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    isPurchased: {
-      type: Boolean,
-      default: false,
-    },
-    purchaseDate: {
-      type: Date,
+      min: 1,
     },
     description: {
       type: String,
       trim: true,
       maxlength: 200,
+    },
+    price: {
+      type: Number,
+      min: 0,
+    },
+    isPurchased: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

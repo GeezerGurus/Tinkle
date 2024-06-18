@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Paper,
   IconButton,
@@ -5,13 +6,30 @@ import {
   FormControl,
   Button,
 } from "@mui/material";
-import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { EntryBox, EntryInput } from "../utils";
+import api from "../../api/api";
 
 const AddItem = ({ onClose }) => {
+  const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSaveItem = async () => {
+    try {
+      const response = await api.post(
+        "/users/5faabc3fe0baf627b85e6a2d/itemstobuy",
+        { name, quantity, price, description }
+      );
+      onClose();
+    } catch (error) {
+      console.error("Error adding new item:", error);
+      throw error;
+    }
+  };
+
   return (
-    // Container
     <Paper
       sx={{
         width: "710px",
@@ -21,11 +39,10 @@ const AddItem = ({ onClose }) => {
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
+        padding: "24px",
       }}
     >
-      {/* Close button  */}
       <IconButton
-        onClose={onClose}
         sx={{
           position: "absolute",
           top: 16,
@@ -36,44 +53,64 @@ const AddItem = ({ onClose }) => {
         <CloseIcon fontSize="large" />
       </IconButton>
 
-      {/* Title  */}
-      <Typography variant="title3">Add Item</Typography>
+      <Typography variant="h6">Add Item</Typography>
 
-      {/* Form  */}
       <EntryBox>
-        <Typography variant="text2">Name:</Typography>
+        <Typography variant="body1">Name:</Typography>
         <FormControl>
-          <EntryInput placeholder="Enter item name" />
+          <EntryInput
+            placeholder="Enter item name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </FormControl>
       </EntryBox>
       <EntryBox>
-        <Typography variant="text2">Quantity:</Typography>
+        <Typography variant="body1">Quantity:</Typography>
         <FormControl>
-          <EntryInput placeholder="Enter number of items" type="number" />
+          <EntryInput
+            placeholder="Enter number of items"
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          />
         </FormControl>
       </EntryBox>
       <EntryBox>
-        <Typography variant="text2">Price:</Typography>
+        <Typography variant="body1">Price:</Typography>
         <FormControl>
-          <EntryInput placeholder="Enter item price" type="number" />
+          <EntryInput
+            placeholder="Enter item price"
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </FormControl>
       </EntryBox>
       <EntryBox>
-        <Typography variant="text2">Description:</Typography>
+        <Typography variant="body1">Description:</Typography>
         <FormControl>
-          <EntryInput placeholder="Enter a description (optional)" />
+          <EntryInput
+            placeholder="Enter a description (optional)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </FormControl>
       </EntryBox>
 
-      {/* Save button  */}
       <Button
+        variant="contained"
+        onClick={handleSaveItem}
         sx={{
           backgroundColor: "black",
-          width: "243px",
+          width: "100%",
+          maxWidth: "243px",
           height: "45px",
+          alignSelf: "center",
+          mt: 2,
         }}
       >
-        <Typography variant="text2" sx={{ color: "white" }}>
+        <Typography variant="body1" sx={{ color: "white" }}>
           Save Item
         </Typography>
       </Button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -7,130 +7,36 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { AddItem, ItemBox } from "../../components/to buy list";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useParams } from "react-router-dom";
+import { AddItem, ItemBox } from "../../components/to buy list";
+import api from "../../api/api";
+import toDoListImage from "../../assets/to_do_list.png";
 
 const ToBuyItems = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("active");
+  const [items, setItems] = useState([]);
+  const { listId } = useParams();
 
-  let { listId } = useParams();
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await api.get("/itemstobuy");
+        setItems(response.data);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+    fetchItems();
+  }, []);
 
-  // Items for active and closed states
-  const activeItems = [
-    {
-      name: "Laptop",
-      quantity: 1,
-      description: "High-performance laptop for gaming and work",
-      price: 1200,
-      state: "active",
-    },
-    {
-      name: "Headphones",
-      quantity: 2,
-      description: "Wireless headphones with noise cancellation",
-      price: 250,
-      state: "active",
-    },
-    {
-      name: "Bookshelf",
-      quantity: 1,
-      description: "Wooden bookshelf with multiple shelves",
-      price: 150,
-      state: "active",
-    },
-    {
-      name: "Smartphone",
-      quantity: 1,
-      description: "Latest model with 5G connectivity",
-      price: 900,
-      state: "active",
-    },
-    {
-      name: "Chair",
-      quantity: 4,
-      description: "Comfortable office chair with adjustable height",
-      price: 200,
-      state: "active",
-    },
-  ];
-
-  const closedItems = [
-    {
-      name: "Monitor",
-      quantity: 2,
-      description: "27-inch IPS monitor for professional use",
-      price: 300,
-      state: "closed",
-    },
-    {
-      name: "Keyboard",
-      quantity: 1,
-      description: "Mechanical keyboard with RGB backlighting",
-      price: 100,
-      state: "closed",
-    },
-    {
-      name: "Mouse",
-      quantity: 1,
-      description: "Wireless gaming mouse with programmable buttons",
-      price: 80,
-      state: "closed",
-    },
-    {
-      name: "Desk",
-      quantity: 1,
-      description: "Solid wood desk with ample storage",
-      price: 350,
-      state: "closed",
-    },
-    {
-      name: "External Hard Drive",
-      quantity: 2,
-      description: "1TB external SSD drive for fast data transfer",
-      price: 120,
-      state: "closed",
-    },
-    {
-      name: "Printer",
-      quantity: 1,
-      description: "All-in-one printer with WiFi connectivity",
-      price: 150,
-      state: "closed",
-    },
-    {
-      name: "Scanner",
-      quantity: 1,
-      description: "High-resolution scanner for documents and photos",
-      price: 180,
-      state: "closed",
-    },
-    {
-      name: "Desk Lamp",
-      quantity: 2,
-      description: "LED desk lamp with adjustable brightness",
-      price: 40,
-      state: "closed",
-    },
-    {
-      name: "Plant",
-      quantity: 3,
-      description: "Indoor plants for decoration",
-      price: 30,
-      state: "closed",
-    },
-    {
-      name: "Whiteboard",
-      quantity: 1,
-      description: "Magnetic whiteboard for office meetings",
-      price: 50,
-      state: "closed",
-    },
-  ];
+  const filteredItems =
+    page === "active"
+      ? items.filter((item) => !item.isPurchased)
+      : items.filter((item) => item.isPurchased);
 
   return (
-    // Container
     <Box
       sx={{
         width: "100%",
@@ -140,13 +46,31 @@ const ToBuyItems = () => {
         justifyContent: "center",
         alignItems: "center",
         gap: "24px",
+        backgroundImage:
+          filteredItems.length === 0 ? `url(${toDoListImage})` : "none",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "50%",
+        backgroundPosition: "center",
+        position: "relative",
       }}
     >
-      {/* Title  */}
-      <Typography variant="title3" gutterBottom>
+      {/* To remove later */}
+      <Typography
+        variant="h3"
+        sx={{
+          position: "absolute",
+          top: "75%",
+          left: "40%",
+          fontWeight: "bold",
+          opacity: 0.7,
+        }}
+      >
+        There is no list! Try Adding One!
+      </Typography>
+      <Typography variant="h4" gutterBottom>
         {listId}
       </Typography>
-      {/* Nav Buttons  */}
+
       <ButtonGroup variant="contained" sx={{ backgroundColor: "black" }}>
         <Button
           value="active"
@@ -179,7 +103,7 @@ const ToBuyItems = () => {
           Closed
         </Button>
       </ButtonGroup>
-      {/* Contents */}
+
       <Box
         sx={{
           width: "900px",
@@ -191,37 +115,19 @@ const ToBuyItems = () => {
           gap: "14px",
         }}
       >
-        {/* ItemBox components */}
-        {page === "active" && (
-          <>
-            {activeItems.map((item, index) => (
-              <ItemBox
-                key={index}
-                name={item.name}
-                quantity={item.quantity}
-                description={item.description}
-                price={item.price}
-                state={item.state}
-              />
-            ))}
-          </>
-        )}
-        {page === "closed" && (
-          <>
-            {closedItems.map((item, index) => (
-              <ItemBox
-                key={index}
-                name={item.name}
-                quantity={item.quantity}
-                description={item.description}
-                price={item.price}
-                state={item.state}
-              />
-            ))}
-          </>
-        )}
+        {filteredItems.map((item, index) => (
+          <ItemBox
+            key={index}
+            name={item.name}
+            quantity={item.quantity}
+            description={item.description}
+            price={item.price}
+            isPurchased={item.isPurchased}
+            itemId={item._id}
+          />
+        ))}
       </Box>
-      {/* Speed Dial  */}
+
       <IconButton
         onClick={() => setOpen(true)}
         size="large"
@@ -242,7 +148,7 @@ const ToBuyItems = () => {
           }}
         />
       </IconButton>
-      {/* Create Item Modal*/}
+
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
@@ -252,7 +158,11 @@ const ToBuyItems = () => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <AddItem onClose={() => setOpen(false)} />
+          <AddItem
+            onClose={() => {
+              setOpen(false);
+            }}
+          />
         </Box>
       </Modal>
     </Box>

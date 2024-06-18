@@ -11,8 +11,9 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { EntryBox, EntryInput } from "../utils";
 import { tokens } from "../../theme";
+import api from "../../api/api";
 
-const EditItem = ({ onClose, name, quantity, price, description }) => {
+const EditItem = ({ onClose, name, quantity, price, description, itemId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -21,17 +22,28 @@ const EditItem = ({ onClose, name, quantity, price, description }) => {
   const [itemPrice, setItemPrice] = useState(price || "");
   const [itemDescription, setItemDescription] = useState(description || "");
 
-  const handleSave = () => {
-    console.log({
-      name: itemName,
-      quantity: itemQuantity,
-      price: itemPrice,
-      description: itemDescription,
-    });
+  const handleSave = async () => {
+    try {
+      await api.patch(`/users/5faabc3fe0baf627b85e6a2d/itemstobuy/${itemId}`, {
+        name: itemName,
+        quantity: itemQuantity,
+        price: itemPrice,
+        description: itemDescription,
+      });
+      onClose();
+    } catch (error) {
+      console.error("Error updating item:", error);
+    }
   };
 
-  const handleDelete = () => {
-    console.log("Item deleted");
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/itemstobuy/${itemId}`);
+      onClose();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
   return (
     // Container

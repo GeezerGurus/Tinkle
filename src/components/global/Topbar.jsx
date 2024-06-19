@@ -42,6 +42,8 @@ const getTitle = (path) => {
       return "Settings";
     case /^\/profile$/.test(path):
       return "Profile";
+    case /^\/savings$/.test(path):
+      return "Savings";
     case /^\/auth$/.test(path):
       return "Auth";
     case /^\/support$/.test(path):

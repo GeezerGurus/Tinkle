@@ -1,7 +1,6 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
 import { colors } from "@mui/material";
-import { Opacity } from "@mui/icons-material";
 
 // color design tokens export
 export const tokens = (mode) => ({
@@ -233,6 +232,11 @@ export const themeSettings = (mode) => {
         fontSize: "15px",
         color: "black",
         fontWeight: "600",
+      },
+      text3: {
+        fontSize: "16px",
+        color: "black",
+        fontWeight: "400",
       },
     },
   };

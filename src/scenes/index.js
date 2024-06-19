@@ -13,3 +13,4 @@ export { default as Profile } from "./profile/Profile";
 export { default as Support } from "./support/Support";
 export { default as ToBuyList } from "./lists/ToBuyList";
 export { default as ToBuyItems } from "./lists/ToBuyItems";
+export { default as Savings } from "./savings/Savings";

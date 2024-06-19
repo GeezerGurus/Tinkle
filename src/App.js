@@ -36,9 +36,9 @@ function App() {
               <Route path="/records" element={<Records />} />
               <Route path="/knowledge" element={<Knowledge />} />
               <Route path="/lists/debt-list" element={<Debt />} />
-              <Route path="/to-buy-list/lists" element={<ToBuyList />} />
+              <Route path="/lists/to-buy-lists" element={<ToBuyList />} />
               <Route
-                path="/to-buy-list/lists/:listId"
+                path="/lists/to-buy-lists/:listId"
                 element={<ToBuyItems />}
               />
               <Route path="/budget" element={<Budget />} />

@@ -11,9 +11,17 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { EntryBox, EntryInput } from "../utils";
 import { tokens } from "../../theme";
-import api from "../../api/api";
+import { patchItemToBuy, deleteItemToBuy } from "../../api/itemsToBuy";
 
-const EditItem = ({ onClose, name, quantity, price, description, itemId }) => {
+const EditItem = ({
+  onClose,
+  name,
+  quantity,
+  price,
+  description,
+  itemId,
+  refresh,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -23,27 +31,20 @@ const EditItem = ({ onClose, name, quantity, price, description, itemId }) => {
   const [itemDescription, setItemDescription] = useState(description || "");
 
   const handleSave = async () => {
-    try {
-      await api.patch(`/users/5faabc3fe0baf627b85e6a2d/itemstobuy/${itemId}`, {
-        name: itemName,
-        quantity: itemQuantity,
-        price: itemPrice,
-        description: itemDescription,
-      });
-      onClose();
-    } catch (error) {
-      console.error("Error updating item:", error);
-    }
+    await patchItemToBuy(itemId, {
+      name: itemName,
+      quantity: itemQuantity,
+      price: itemPrice,
+      description: itemDescription,
+    });
+    refresh();
+    onClose();
   };
 
   const handleDelete = async () => {
-    try {
-      await api.delete(`/itemstobuy/${itemId}`);
-      onClose();
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    await deleteItemToBuy(itemId);
+    refresh();
+    onClose();
   };
   return (
     // Container
@@ -149,7 +150,7 @@ const EditItem = ({ onClose, name, quantity, price, description, itemId }) => {
           onClick={handleDelete}
         >
           <Typography variant="text2" sx={{ color: "white" }}>
-            Delete Ttem
+            Delete Item
           </Typography>
         </Button>
       </Box>

@@ -7,27 +7,28 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useParams } from "react-router-dom";
 import { AddItem, ItemBox } from "../../components/to buy list";
-import api from "../../api/api";
+import { getItemsToBuy } from "../../api/itemsToBuy";
 import toDoListImage from "../../assets/to_do_list.png";
 
 const ToBuyItems = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("active");
   const [items, setItems] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
   const { listId } = useParams();
 
+  const fetchItems = () => {
+    getItemsToBuy().then((res) => {
+      setItems(res);
+    });
+  };
+
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await api.get("/itemstobuy");
-        setItems(response.data);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    };
     fetchItems();
   }, []);
 
@@ -49,28 +50,21 @@ const ToBuyItems = () => {
         backgroundImage:
           filteredItems.length === 0 ? `url(${toDoListImage})` : "none",
         backgroundRepeat: "no-repeat",
-        backgroundSize: "50%",
+        backgroundSize: "40%",
         backgroundPosition: "center",
         position: "relative",
       }}
     >
-      {/* To remove later */}
-      <Typography
-        variant="h3"
-        sx={{
-          position: "absolute",
-          top: "75%",
-          left: "40%",
-          fontWeight: "bold",
-          opacity: 0.7,
-        }}
+      {/* <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
       >
-        There is no list! Try Adding One!
-      </Typography>
+        <CircularProgress color="inherit" />
+      </Backdrop> */}
+
       <Typography variant="h4" gutterBottom>
         {listId}
       </Typography>
-
       <ButtonGroup variant="contained" sx={{ backgroundColor: "black" }}>
         <Button
           value="active"
@@ -103,7 +97,6 @@ const ToBuyItems = () => {
           Closed
         </Button>
       </ButtonGroup>
-
       <Box
         sx={{
           width: "900px",
@@ -124,10 +117,10 @@ const ToBuyItems = () => {
             price={item.price}
             isPurchased={item.isPurchased}
             itemId={item._id}
+            refresh={fetchItems}
           />
         ))}
       </Box>
-
       <IconButton
         onClick={() => setOpen(true)}
         size="large"
@@ -148,7 +141,6 @@ const ToBuyItems = () => {
           }}
         />
       </IconButton>
-
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
@@ -162,6 +154,8 @@ const ToBuyItems = () => {
             onClose={() => {
               setOpen(false);
             }}
+            items={items}
+            refresh={fetchItems}
           />
         </Box>
       </Modal>

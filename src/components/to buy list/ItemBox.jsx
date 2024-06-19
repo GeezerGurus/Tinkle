@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { DoneAll as DoneAllIcon } from "@mui/icons-material";
 import EditItem from "./EditItem";
-import api from "../../api/api";
+import { patchItemToBuy } from "../../api/itemsToBuy";
 
 const ItemBox = ({
   name,
@@ -19,17 +19,15 @@ const ItemBox = ({
   price,
   isPurchased,
   itemId,
+  refresh,
 }) => {
   const [open, setOpen] = useState(false);
 
   const handleChange = async () => {
-    try {
-      await api.patch(`/users/5faabc3fe0baf627b85e6a2d/itemstobuy/${itemId}`, {
-        isPurchased: !isPurchased,
-      });
-    } catch (error) {
-      console.error("Error updating item:", error);
-    }
+    await patchItemToBuy(itemId, {
+      isPurchased: !isPurchased,
+    });
+    refresh();
   };
 
   return (
@@ -104,6 +102,7 @@ const ItemBox = ({
             price={price}
             description={description}
             itemId={itemId}
+            refresh={refresh}
           />
         </Box>
       </Modal>

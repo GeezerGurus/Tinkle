@@ -8,9 +8,9 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { EntryBox, EntryInput } from "../utils";
-import api from "../../api/api";
+import { postItemsToBuy } from "../../api/itemsToBuy";
 
-const AddItem = ({ onClose }) => {
+const AddItem = ({ onClose, refresh }) => {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
@@ -18,10 +18,8 @@ const AddItem = ({ onClose }) => {
 
   const handleSaveItem = async () => {
     try {
-      const response = await api.post(
-        "/users/5faabc3fe0baf627b85e6a2d/itemstobuy",
-        { name, quantity, price, description }
-      );
+      await postItemsToBuy({ name, quantity, price, description });
+      refresh();
       onClose();
     } catch (error) {
       console.error("Error adding new item:", error);

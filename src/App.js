@@ -11,6 +11,7 @@ import {
   Home,
   Auth,
   Support,
+  Savings,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -46,6 +47,7 @@ function App() {
               <Route path="/auth" element={<Auth />} />
               <Route path="/support" element={<Support />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/savings" element={<Savings />} />
             </Routes>
           </main>
         </div>

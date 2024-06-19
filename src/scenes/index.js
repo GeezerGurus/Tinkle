@@ -9,3 +9,4 @@ export { default as Auth } from "./auth/Auth";
 export { default as Home } from "./home/Home";
 export { default as Profile } from "./profile/Profile";
 export { default as Support } from "./support/Support";
+export { default as Savings } from "./savings/Savings";

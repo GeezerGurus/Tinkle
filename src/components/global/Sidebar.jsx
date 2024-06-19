@@ -28,6 +28,7 @@ import RecordsIcon from "@mui/icons-material/ArticleOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/GridView";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useTheme } from "@emotion/react";
 import { tokens, ColorModeContext } from "../../theme";
 import { useNavigate } from "react-router-dom";
@@ -60,28 +61,37 @@ const Sidebar = ({ mode }) => {
       <Box
         textAlign="center"
         sx={{
-          width: "100%",
-          height: "30px",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "230px",
+          height: "39px",
           gap: "15px",
         }}
       >
         {/* finance tracker header */}
         <Button
           variant="text"
-          endIcon={<MenuIcon />}
           onClick={toggleDrawer(true)}
           sx={{ color: colors.grey[100] }}
         >
           <Typography
             sx={{
-              fontWeight: "600",
-              fontSize: "20px",
+              fontWeight: "700",
+              fontSize: "23px",
               textTransform: "capitalize",
             }}
           >
-            Finance Tracker
+            Tinkle
           </Typography>
         </Button>
+        <MenuOpenIcon
+          sx={{
+            fontWeight: "700",
+            fontSize: "23px",
+          }}
+        />
       </Box>
       {/* buttons and avatar box */}
       <Box

@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Typography,
-  styled,
   FormControl,
   InputAdornment,
   Select,
@@ -12,7 +11,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ArrowBackIos as ArrowBackIosIcon } from "@mui/icons-material";
-import { EntryInput, EntrySelect, EntryBox, Item } from "../utils";
+import { EntryInput, EntryBox, Item } from "../utils";
 import {
   Home as HomeIcon,
   DirectionsCar as DirectionsCarIcon,
@@ -136,7 +135,7 @@ export const EditGoal = ({
           letterSpacing: "-1%",
         }}
       >
-        Create Goal
+        Edit Goal
       </Typography>
       {/* Close Button */}
       <CloseIcon

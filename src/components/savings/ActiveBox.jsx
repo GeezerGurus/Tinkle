@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, LinearProgress, Button, Modal } from "@mui/material";
 import GoalDetails from "./GoalDetails";
-import HouseIcon from "@mui/icons-material/House";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";

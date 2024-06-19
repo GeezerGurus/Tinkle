@@ -6,11 +6,13 @@ import {
   Debt,
   Budget,
   Statistic,
-  Settings,
+  GeneralSettings,
   Profile,
   Home,
   Auth,
   Support,
+  CategorySettings,
+  BalanceAccountSettings,
   Savings,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
@@ -35,14 +37,22 @@ function App() {
               <Route path="/records" element={<Records />} />
               <Route path="/knowledge" element={<Knowledge />} />
               <Route path="/lists/debt-list" element={<Debt />} />
-              <Route path="/to-buy-list/lists" element={<ToBuyList />} />
+              <Route path="/lists/to-buy-lists" element={<ToBuyList />} />
               <Route
-                path="/to-buy-list/lists/:listId"
+                path="/lists/to-buy-lists/:listId"
                 element={<ToBuyItems />}
               />
               <Route path="/budget" element={<Budget />} />
               <Route path="/statistics" element={<Statistic />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings/general" element={<GeneralSettings />} />
+              <Route
+                path="/settings/categories"
+                element={<CategorySettings />}
+              />
+              <Route
+                path="/settings/balance-accounts"
+                element={<BalanceAccountSettings />}
+              />
               <Route path="/profile" element={<Profile />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/support" element={<Support />} />

@@ -11,8 +11,17 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { EntryBox, EntryInput } from "../utils";
 import { tokens } from "../../theme";
+import { patchItemToBuy, deleteItemToBuy } from "../../api/itemsToBuy";
 
-const EditItem = ({ onClose, name, quantity, price, description }) => {
+const EditItem = ({
+  onClose,
+  name,
+  quantity,
+  price,
+  description,
+  itemId,
+  refresh,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -21,17 +30,21 @@ const EditItem = ({ onClose, name, quantity, price, description }) => {
   const [itemPrice, setItemPrice] = useState(price || "");
   const [itemDescription, setItemDescription] = useState(description || "");
 
-  const handleSave = () => {
-    console.log({
+  const handleSave = async () => {
+    await patchItemToBuy(itemId, {
       name: itemName,
       quantity: itemQuantity,
       price: itemPrice,
       description: itemDescription,
     });
+    refresh();
+    onClose();
   };
 
-  const handleDelete = () => {
-    console.log("Item deleted");
+  const handleDelete = async () => {
+    await deleteItemToBuy(itemId);
+    refresh();
+    onClose();
   };
   return (
     // Container
@@ -137,7 +150,7 @@ const EditItem = ({ onClose, name, quantity, price, description }) => {
           onClick={handleDelete}
         >
           <Typography variant="text2" sx={{ color: "white" }}>
-            Delete Ttem
+            Delete Item
           </Typography>
         </Button>
       </Box>

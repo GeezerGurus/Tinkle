@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, LinearProgress, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import ReachedBox from "./ReachedBox";
 import HomeIcon from "@mui/icons-material/Home";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";

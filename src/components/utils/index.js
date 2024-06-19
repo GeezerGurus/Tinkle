@@ -5,4 +5,5 @@ export { default as EntryBox } from "./EntryBox";
 export { default as EntryInput } from "./EntryInput";
 export { default as EntrySelect } from "./EntrySelect";
 export { default as Item } from "./Item";
+export { default as Icons } from "./Icons";
 export { default as SpeedDial } from "./SpeedDial";

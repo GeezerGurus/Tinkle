@@ -22,9 +22,9 @@ import { RecordBtn } from "../utils";
 // Function to map paths to titles
 const getTitle = (path) => {
   switch (true) {
-    case /^\/to-buy-list\/lists\/.*$/.test(path):
+    case /^\/lists\/to-buy-lists\/.*$/.test(path):
       return "To Buy List";
-    case /^\/to-buy-list\/lists$/.test(path):
+    case /^\/lists\/to-buy-lists$/.test(path):
       return "To Buy List";
     case /^\/lists\/debt-list$/.test(path):
       return "Debt List";
@@ -38,7 +38,7 @@ const getTitle = (path) => {
       return "Budget";
     case /^\/statistics$/.test(path):
       return "Statistics";
-    case /^\/settings$/.test(path):
+    case /^\/settings\/.*$/.test(path):
       return "Settings";
     case /^\/profile$/.test(path):
       return "Profile";

@@ -12,7 +12,7 @@ const ListBox = ({ name, description }) => {
       {/* Left  */}
       <Button
         component={Link}
-        to={`/to-buy-list/lists/${name}`}
+        to={`/lists/to-buy-lists/${name}`}
         sx={{
           width: "801px",
           height: "85.64px",

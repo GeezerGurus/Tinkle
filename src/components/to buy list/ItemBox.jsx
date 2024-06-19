@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import {
   Button,
   Paper,
@@ -11,27 +10,43 @@ import {
 } from "@mui/material";
 import { DoneAll as DoneAllIcon } from "@mui/icons-material";
 import EditItem from "./EditItem";
+import { patchItemToBuy } from "../../api/itemsToBuy";
 
-const ItemBox = ({ name, quantity, description, price, state }) => {
+const ItemBox = ({
+  name,
+  quantity,
+  description,
+  price,
+  isPurchased,
+  itemId,
+  refresh,
+}) => {
   const [open, setOpen] = useState(false);
+
+  const handleChange = async () => {
+    await patchItemToBuy(itemId, {
+      isPurchased: !isPurchased,
+    });
+    refresh();
+  };
 
   return (
     // Container
     <Stack direction={"row"} alignItems={"center"} gap={2}>
       {/* Left icon */}
       <IconButton
-        // onClick={() => handleClick("delete")}
+        onClick={() => handleChange()}
         size="large"
         sx={{
           width: "40px",
           height: "40px",
           borderRadius: "50%",
           border: "1px solid",
-          borderColor: state === "closed" ? "white" : "black",
-          backgroundColor: state === "closed" ? "black" : "white",
+          borderColor: isPurchased === true ? "white" : "black",
+          backgroundColor: isPurchased === true ? "black" : "white",
         }}
       >
-        <DoneAllIcon sx={{ color: state === "closed" ? "white" : "black" }} />
+        <DoneAllIcon sx={{ color: isPurchased === true ? "white" : "black" }} />
       </IconButton>
 
       {/* Right box */}
@@ -52,7 +67,9 @@ const ItemBox = ({ name, quantity, description, price, state }) => {
           <Stack direction={"column"} alignItems={"flex-start"}>
             <Typography
               variant="title2"
-              sx={{ textDecoration: state === "closed" ? "line-through" : "" }}
+              sx={{
+                textDecoration: isPurchased === true ? "line-through" : "",
+              }}
             >
               {name} {quantity ? `(${quantity})` : ""}
             </Typography>
@@ -62,9 +79,9 @@ const ItemBox = ({ name, quantity, description, price, state }) => {
           <Typography
             variant="title2"
             color={"blue"}
-            sx={{ textDecoration: state === "closed" ? "line-through" : "" }}
+            sx={{ textDecoration: isPurchased === true ? "line-through" : "" }}
           >
-            {price} $
+            {price && `${price} MMK`}
           </Typography>
         </Button>
       </Paper>
@@ -84,19 +101,13 @@ const ItemBox = ({ name, quantity, description, price, state }) => {
             quantity={quantity}
             price={price}
             description={description}
+            itemId={itemId}
+            refresh={refresh}
           />
         </Box>
       </Modal>
     </Stack>
   );
-};
-
-ItemBox.propTypes = {
-  name: PropTypes.string.isRequired,
-  quantity: PropTypes.number.isRequired,
-  description: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  state: PropTypes.oneOf(["active", "closed"]).isRequired,
 };
 
 export default ItemBox;

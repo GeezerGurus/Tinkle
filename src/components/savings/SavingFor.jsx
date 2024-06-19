@@ -19,10 +19,8 @@ import SchoolIcon from "@mui/icons-material/School";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import WineBarIcon from "@mui/icons-material/WineBar";
-import { Translate } from "@mui/icons-material";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import CreateGoal from "./CreateGoal";
-import EditGoal from "./EditGoal";
 
 const GridBox = styled(Box)(() => ({
   display: "flex",

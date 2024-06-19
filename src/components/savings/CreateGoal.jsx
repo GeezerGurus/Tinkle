@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ArrowBackIos as ArrowBackIosIcon } from "@mui/icons-material";
-import { EntryInput, EntrySelect, EntryBox, Item } from "../utils";
+import { EntryInput, EntryBox, Item } from "../utils";
 import {
   Home as HomeIcon,
   DirectionsCar as DirectionsCarIcon,

@@ -1,9 +1,10 @@
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
+import TableEntry from "./TableEntry";
 
 const Table = () => {
   return (
-    <Paper
+    <Box
       sx={{
         width: "1296px",
         height: "603px",
@@ -11,8 +12,8 @@ const Table = () => {
         color: "black",
       }}
     >
-      Table
-    </Paper>
+      <TableEntry />
+    </Box>
   );
 };
 

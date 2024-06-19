@@ -19,13 +19,21 @@ const ToBuyItems = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("active");
   const [items, setItems] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { listId } = useParams();
 
-  const fetchItems = () => {
-    getItemsToBuy().then((res) => {
+  const fetchItems = async () => {
+    setIsLoading(true);
+    let timeoutId;
+
+    const res = await getItemsToBuy();
+
+    timeoutId = setTimeout(() => {
       setItems(res);
-    });
+      setIsLoading(false);
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   };
 
   useEffect(() => {
@@ -55,12 +63,13 @@ const ToBuyItems = () => {
         position: "relative",
       }}
     >
-      {/* <Backdrop
+      {/* Loading  */}
+      <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color="inherit" />
-      </Backdrop> */}
+      </Backdrop>
 
       <Typography variant="h4" gutterBottom>
         {listId}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Paper,
   IconButton,
@@ -16,7 +16,7 @@ const AddItem = ({ onClose, refresh }) => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSaveItem = async () => {
+  const handleSaveItem = useCallback(async () => {
     try {
       await postItemsToBuy({ name, quantity, price, description });
       refresh();
@@ -25,7 +25,25 @@ const AddItem = ({ onClose, refresh }) => {
       console.error("Error adding new item:", error);
       throw error;
     }
-  };
+  }, [name, quantity, price, description, refresh, onClose]);
+
+  // Enter or Esc key pressed handling
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleSaveItem(event);
+      } else if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleSaveItem, onClose]);
 
   return (
     <Paper

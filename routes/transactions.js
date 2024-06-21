@@ -1,3 +1,4 @@
+const { requireAuth } = require("../middlewares/authentication");//Apply this middleware to routes that should only be accessible to authenticated users. For example look at incomes route
 const {
   addExpense,
   getExpense,
@@ -46,15 +47,25 @@ const{
   patchTransfer,
   deleteTransfer
 } = require("../controllers/transfersController");
+const{
+  signup_post,
+  login_post,
+  logout
+} = require('../controllers/authsController');
 
 const router = require("express").Router();
 
 router
+  //Users sign up and login
+  .post("/signup", signup_post)
+  .post("/login", login_post)
+  .get("/logout", logout)
+
   //Incomes
-  .post("/users/:userId/account/:accountId/incomes", addIncome)
-  .get("/incomes", getIncomes)
-  .patch("/users/:userId/incomes/:incomeId", patchIncomes)
-  .delete("/incomes/:incomeId", deleteIncome)
+  .post("/users/:userId/account/:accountId  /incomes", requireAuth, addIncome)
+  .get("/incomes", requireAuth, getIncomes)
+  .patch("/users/:userId/incomes/:incomeId", requireAuth, patchIncomes)
+  .delete("/incomes/:incomeId", requireAuth, deleteIncome)
 
   //Expenses
   .post("/users/:userId/account/:accountId/expenses", addExpense)

@@ -1,6 +1,5 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
-import { colors } from "@mui/material";
 
 // color design tokens export
 export const tokens = (mode) => ({
@@ -61,6 +60,59 @@ export const tokens = (mode) => ({
           800: "#2a2d64",
           900: "#151632",
         },
+        // New
+        purple: {
+          50: "#F4F4FE",
+          100: "#DEDDFB",
+          200: "#CECCF9",
+          300: "#B8B5F6",
+          400: "#AAA7F5",
+          500: "#9591F2",
+          600: "#8884DC",
+          700: "#6A67AC",
+          800: "#525085",
+          900: "#3F3D66",
+        },
+        mint: {
+          50: "#F8FBF8",
+          100: "#E8F3E9",
+          200: "#DDEEDE",
+          300: "#CDE6CF",
+          400: "#C3E1C6",
+          500: "#B4D9B8",
+          600: "#A4C5A7",
+          700: "#809A83",
+          800: "#637765",
+          900: "#4C5B4D",
+        },
+        green: {
+          50: "#ECF8EF",
+          100: "#C5EACF",
+          200: "#A9E0B7",
+          300: "#81D296",
+          400: "#69C982",
+          500: "#43BC63",
+          600: "#3DAB5A",
+          700: "#308546",
+          800: "#256736",
+          900: "#1C4F2A",
+        },
+        category: {
+          purple: "#7772F2",
+          light_purple: "#AAA7F5",
+          light_blue: "#A8E2F5",
+          orange: "#F5CCA8",
+          blue: "#A8BCF5",
+          red: "#F5ADA8",
+          yellow: "#F5EEA8",
+        },
+        extra: {
+          faint_white: "#F5F5F5",
+          grey_accent: "#7F7F7F",
+          yellow_accent: "#C7B50F",
+          red_accent: "#FE3F2F",
+          faint_black: "#111111",
+        },
       }
     : {
         grey: {
@@ -118,6 +170,59 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
+        // New
+        purple: {
+          50: "#F4F4FE",
+          100: "#DEDDFB",
+          200: "#CECCF9",
+          300: "#B8B5F6",
+          400: "#AAA7F5",
+          500: "#9591F2",
+          600: "#8884DC",
+          700: "#6A67AC",
+          800: "#525085",
+          900: "#3F3D66",
+        },
+        mint: {
+          50: "#F8FBF8",
+          100: "#E8F3E9",
+          200: "#DDEEDE",
+          300: "#CDE6CF",
+          400: "#C3E1C6",
+          500: "#B4D9B8",
+          600: "#A4C5A7",
+          700: "#809A83",
+          800: "#637765",
+          900: "#4C5B4D",
+        },
+        green: {
+          50: "#ECF8EF",
+          100: "#C5EACF",
+          200: "#A9E0B7",
+          300: "#81D296",
+          400: "#69C982",
+          500: "#43BC63",
+          600: "#3DAB5A",
+          700: "#308546",
+          800: "#256736",
+          900: "#1C4F2A",
+        },
+        category: {
+          purple: "#7772F2",
+          light_purple: "#AAA7F5",
+          light_blue: "#A8E2F5",
+          orange: "#F5CCA8",
+          blue: "#A8BCF5",
+          red: "#F5ADA8",
+          yellow: "#F5EEA8",
+        },
+        extra: {
+          faint_white: "#F5F5F5",
+          grey_accent: "#7F7F7F",
+          yellow_accent: "#C7B50F",
+          red_accent: "#FE3F2F",
+          faint_black: "#111111",
+        },
       }),
 });
 
@@ -170,31 +275,67 @@ export const themeSettings = (mode) => {
           }),
     },
     typography: {
-      fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+      fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
       fontSize: 12,
       h1: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 40,
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "3.563rem", // 57px
+        fontWeight: 700,
+        lineHeight: "140%",
       },
       h2: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 32,
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "3rem", // 48px
+        fontWeight: 700,
+        lineHeight: "140%",
       },
       h3: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 24,
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "2.5rem", // 40px
+        fontWeight: 700,
+        lineHeight: "140%",
       },
       h4: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 20,
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "2.063rem", // 33px
+        fontWeight: 700,
+        lineHeight: "140%",
       },
       h5: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 16,
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "1.75rem", // 28px
+        fontWeight: 700,
+        lineHeight: "140%",
       },
       h6: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 14,
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "1.438rem", // 23px
+        fontWeight: 700,
+        lineHeight: "140%",
+      },
+      body1: {
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "1.188rem", // 19px
+        fontWeight: 500,
+        lineHeight: "140%",
+      },
+      body2: {
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "1rem", // 16px
+        fontWeight: 500,
+        lineHeight: "140%",
+      },
+      body3: {
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "1rem", // 16px
+        fontWeight: 700,
+        lineHeight: "140%",
+      },
+      body4: {
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "0.813rem", // 13px
+        fontWeight: 500,
+        lineHeight: "140%",
       },
       placeholder: {
         opacity: "0.6",

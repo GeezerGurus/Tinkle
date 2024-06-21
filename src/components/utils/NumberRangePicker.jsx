@@ -3,7 +3,6 @@ import {
   Box,
   TextField,
   Slider,
-  Typography,
   Menu,
   IconButton,
   Button,

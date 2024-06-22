@@ -6,10 +6,14 @@ import {
   Menu,
   MenuItem,
   Paper,
+  useTheme,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { tokens } from "../../theme";
 
-export const Balancecom = ({ Icon, Title, Amount, Color }) => {
+export const Balancecom = ({ Icon, Title, Amount, BgColor }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -28,104 +32,66 @@ export const Balancecom = ({ Icon, Title, Amount, Color }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        backgroundColor: "white",
-        color: "black",
+        padding: "24px 0 0 24px",
+        backgroundColor: BgColor,
         width: "210px",
         height: "211px",
+        borderRadius: "16px",
       }}
     >
+      {/* Icon  */}
       <Box
         sx={{
           display: "flex",
-          width: "100%",
-          height: "88px",
-          justifyContent: "space-between",
+          width: "64px",
+          height: "64px",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+          borderRadius: "50%",
         }}
       >
-        <Box
+        <Icon
           sx={{
-            display: "flex",
-            width: "64px",
-            height: "64px",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: Color,
-            borderRadius: "50%",
-            margin: "24px",
+            fontSize: "40px",
+            color: colors.purple[600],
           }}
+        />
+      </Box>
+
+      {/* Menu  */}
+      <Box sx={{ position: "absolute", top: 3, right: 3 }}>
+        <IconButton
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
         >
-          <Icon
+          <MoreVertIcon
             sx={{
-              fontSize: "40px",
+              fontSize: "32px",
             }}
           />
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
           }}
         >
-          <IconButton
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-          >
-            <MoreVertIcon
-              sx={{
-                color: "black",
-                fontSize: "32px",
-              }}
-            />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            <MenuItem onClick={handleClose}>Edit</MenuItem>
-          </Menu>
-        </Box>
+          <MenuItem onClick={handleClose}>Edit</MenuItem>
+        </Menu>
       </Box>
 
-      <Box
-        sx={{
-          marginTop: "19px",
-          marginLeft: "24px",
-        }}
-      >
-        <Typography
-          variant="title"
-          sx={{
-            fontSize: "20px",
-            fontWeight: "600",
-            lineHeight: "30px",
-          }}
-        >
+      <Box>
+        {/* Title  */}
+        <Typography variant="h6" gutterBottom>
           {Title}
         </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          marginTop: "19px",
-          marginLeft: "24px",
-          marginBottom: "30px",
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: "32px",
-            fontWeight: "600",
-            lineHeight: "32px",
-            letterSpacing: "1%",
-          }}
-        >
+        {/* Amount  */}
+        <Typography variant="h4" gutterBottom>
           {Amount}
         </Typography>
       </Box>

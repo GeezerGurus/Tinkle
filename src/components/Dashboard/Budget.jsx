@@ -1,56 +1,38 @@
 import React from "react";
-import { Box, Divider, Typography, LinearProgress, Paper } from "@mui/material";
+import {
+  Box,
+  Typography,
+  LinearProgress,
+  Paper,
+  useTheme,
+  Stack,
+} from "@mui/material";
 import { ShowMoreBtn } from "../utils";
+import { tokens } from "../../theme";
 
 const Progress = ({ content, dollar, percent }) => {
   const progressValue = parseInt(percent, 10); // Convert percent to integer
   const isOverspent = progressValue < 0; // Check if overspent
 
   return (
-    <Box
-      sx={{ display: "flex", width: "100%", flexDirection: "column", mb: 2 }}
-    >
-      <Box sx={{ display: "flex", width: "100%", alignItems: "center" }}>
-        {/* Content box */}
-        <Box sx={{ width: "217.5px" }}>
-          <Typography
-            sx={{
-              fontSize: "14px",
-              fontWeight: "500",
-              letterSpacing: "1%",
-              color: "black",
-            }}
-          >
-            {content}
-          </Typography>
-        </Box>
-        {/* Dollar box */}
-        <Box sx={{ width: "60px", textAlign: "right" }}>
-          <Typography
-            sx={{
-              fontSize: "14px",
-              fontWeight: "500",
-              letterSpacing: "1%",
-              color: "black",
-            }}
-          >
-            {dollar}
-          </Typography>
-        </Box>
-        {/* Percent box */}
-        <Box sx={{ width: "40px", textAlign: "right" }}>
-          <Typography
-            sx={{
-              fontSize: "14px",
-              fontWeight: "500",
-              letterSpacing: "1%",
-              color: "black",
-            }}
-          >
-            {percent}
-          </Typography>
-        </Box>
+    <Box sx={{ display: "flex", width: "100%", flexDirection: "column" }}>
+      {/* Texts  */}
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="body4">{content}</Typography>
+
+        <Stack flexDirection={"row"} gap={2}>
+          <Typography variant="body3">{dollar}</Typography>
+          <Typography variant="body2">{percent}</Typography>
+        </Stack>
       </Box>
+
       {/* Progress Bar */}
       <Box sx={{ width: "100%" }}>
         <LinearProgress
@@ -75,84 +57,51 @@ const Progress = ({ content, dollar, percent }) => {
 };
 
 const Budget = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <Paper
       sx={{
         width: "369px",
         height: "274px",
+        padding: "16px 24px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "white",
+        justifyContent: "space-between",
+        borderRadius: "16px",
       }}
     >
       {/* Header box of Budget */}
       <Box
         sx={{
-          height: "23px",
-          marginBottom: "13.5px",
-          width: "317.5px",
+          height: "40px",
+          width: "100%",
           display: "flex",
           justifyContent: "space-between",
+          borderBottom: `${colors.purple[500]} 1px solid`,
         }}
       >
-        <Typography variant="title">Budgets</Typography>
+        <Typography variant="h6">Budgets</Typography>
         <ShowMoreBtn to={"/budget"} />
       </Box>
-      {/* Small line */}
-      <Divider
-        sx={{
-          width: "calc(100% - 64px)",
-          backgroundColor: "black",
-        }}
-      ></Divider>
-      {/* 1st row of Budget */}
+
+      <Progress content="Home" dollar="$60" percent="90%" />
+
+      <Progress content="School" dollar="$70" percent="30%" />
+
+      <Progress content="Gas Fee" dollar="-$300" percent="-56%" />
+
+      {/* Indicators  */}
       <Box
         sx={{
-          marginLeft: "10px",
-          marginTop: "13.5px",
-          width: "84%",
+          width: "100%",
           height: "36px",
-          // backgroundColor: "red",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <Progress content="Home" dollar="$60" percent="90%" />
-      </Box>
-      {/* 2nd row of Budget */}
-      <Box
-        sx={{
-          marginLeft: "10px",
-          width: "84%",
-          height: "36px",
-          marginTop: "16px",
-        }}
-      >
-        <Progress content="School" dollar="$70" percent="30%" />
-      </Box>
-      {/* 3rd row of Budget */}
-      <Box
-        sx={{
-          marginLeft: "10px",
-          width: "84%",
-          height: "36px",
-          marginTop: "16px",
-        }}
-      >
-        <Progress content="Gas Fee" dollar="-$300" percent="-56%" />
-      </Box>
-      {/* Last row of Budget */}
-      <Box
-        sx={{
-          marginTop: "25px",
-          width: "300px",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
           <Box
             sx={{
               width: "16px",
@@ -162,8 +111,8 @@ const Budget = () => {
             }}
           ></Box>
           <Typography variant="text">In Limit</Typography>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        </Stack>
+        <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
           <Box
             sx={{
               width: "16px",
@@ -173,8 +122,8 @@ const Budget = () => {
             }}
           ></Box>
           <Typography variant="text">Risk of Overspent</Typography>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        </Stack>
+        <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
           <Box
             sx={{
               width: "16px",
@@ -184,7 +133,7 @@ const Budget = () => {
             }}
           ></Box>
           <Typography variant="text">Overspent</Typography>
-        </Box>
+        </Stack>
       </Box>
     </Paper>
   );

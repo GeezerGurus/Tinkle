@@ -3,56 +3,29 @@ import {
   Box,
   Typography,
   Select,
-  Button,
   MenuItem,
   Paper,
+  IconButton,
+  useTheme,
+  Stack,
 } from "@mui/material";
 import { styled } from "@mui/material";
-import { FlagIcon } from "react-flag-kit";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
-const USAFlag = () => <FlagIcon code="US" size={28} />;
-const EUFlag = () => <FlagIcon code="EU" size={28} />;
-const JPFlag = () => <FlagIcon code="JP" size={28} />;
-const MMFlag = () => <FlagIcon code="MM" size={28} />;
-
-const StyledFlagContainer = styled(Box)({
-  borderRadius: "25%",
-  overflow: "hidden",
-  width: "28px",
-  height: "28px",
-});
-
-const menuProps = {
-  PaperProps: {
-    style: {
-      backgroundColor: "#707371",
-    },
-  },
-};
+import { tokens } from "../../theme";
 
 const StyledInput = styled("input")({
-  maxWidth: "110px",
+  maxWidth: "104px",
+  background: "none",
   border: "none",
   "&:focus": {
     outline: "none",
   },
-  appearance: "textfield",
-  "&::-webkit-outer-spin-button": {
-    display: "none",
-  },
-  "&::-webkit-inner-spin-button": {
-    display: "none",
-  },
-});
-
-const CustomMenuItem = styled(MenuItem)({
-  "&:hover": {
-    backgroundColor: "#c0c0c0",
-  },
 });
 
 const Exchange = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [currency, setCurrency] = useState("USD");
   const [inputValue, setInput] = useState("");
 
@@ -67,49 +40,38 @@ const Exchange = () => {
   return (
     <Paper
       sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: theme.spacing(1),
+        padding: "16px 24px",
         width: "369px",
         height: "273px",
-        backgroundColor: "white",
+        borderRadius: "16px",
       }}
     >
-      <Typography
-        variant="title"
+      {/* <Stack></Stack> */}
+      <Box>
+        <Typography variant="h6">Currency Exchange</Typography>
+        <Typography variant="body2">1USD = 3200MMK</Typography>
+      </Box>
+
+      {/* Exchange  */}
+      <Paper
         sx={{
-          padding: "19px 30px 0",
-        }}
-      >
-        Currency Exchange
-      </Typography>
-      <Typography
-        sx={{
-          width: "211px",
-          height: "0",
-          fontSize: "14px",
-          fontWeight: "500",
-          color: "rgba(0, 0, 0, 0.5)",
-          padding: "5px 33px",
-        }}
-      >
-        1USD = 3200MMK
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "30px",
+          overflow: "hidden",
+          alignSelf: "center",
+          width: "293px",
+          height: "156px",
           position: "relative",
+          border: "#E0E0E0 1px solid",
+          borderRadius: "21px",
         }}
       >
         {/* Upper Box */}
         <Box
           sx={{
-            width: "293px",
-            height: "78px",
-            border: "1px solid black",
-            borderTopLeftRadius: "24px",
-            borderTopRightRadius: "24px",
-            borderBottom: "none",
+            height: "50%",
+            padding: "0 24px 0 40px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -118,69 +80,25 @@ const Exchange = () => {
           <Select
             value={currency}
             onChange={handleCurrencyChange}
-            MenuProps={menuProps}
             sx={{
-              width: "120px",
               ".MuiOutlinedInput-notchedOutline": { border: 0 },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                 border: "none",
               },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "& .MuiSelect-icon": {
-                color: "black",
-              },
             }}
           >
-            <CustomMenuItem value="USD">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <USAFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  USD
-                </Typography>
-              </Box>
-            </CustomMenuItem>
-            <CustomMenuItem value="Yen">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <JPFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  YEN
-                </Typography>
-              </Box>
-            </CustomMenuItem>
-            <CustomMenuItem value="Euro">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <EUFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  EURO
-                </Typography>
-              </Box>
-            </CustomMenuItem>
-            <CustomMenuItem value="MMK">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <MMFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  MMK
-                </Typography>
-              </Box>
-            </CustomMenuItem>
+            <MenuItem value="USD">
+              <Typography variant="body3">USD</Typography>
+            </MenuItem>
+            <MenuItem value="Yen">
+              <Typography variant="body3">YEN</Typography>
+            </MenuItem>
+            <MenuItem value="Euro">
+              <Typography variant="body3">EURO</Typography>
+            </MenuItem>
+            <MenuItem value="MMK">
+              <Typography variant="body3">MMK</Typography>
+            </MenuItem>
           </Select>
           <StyledInput
             type="number"
@@ -189,36 +107,31 @@ const Exchange = () => {
             onChange={handleInput}
           />
         </Box>
+
         {/* Icon */}
-        <Button
+        <IconButton
           sx={{
             position: "absolute",
-            top: "35%",
-            border: "1px",
-            borderRadius: "50%",
+            top: "34%",
+            left: "40%",
           }}
         >
           <ArrowDownwardIcon
             sx={{
               width: "38px",
               height: "38px",
-              color: "black",
-              backgroundColor: "#00FF47",
-              border: "1px",
+              backgroundColor: colors.purple[500],
               borderRadius: "50%",
             }}
           />
-        </Button>
+        </IconButton>
+
         {/* Lower Box */}
         <Box
           sx={{
-            width: "293px",
-            height: "78px",
-            border: "1px solid black",
-            borderTop: "none",
-            borderBottomLeftRadius: "24px",
-            borderBottomRightRadius: "24px",
-            backgroundColor: "#DEDEDE",
+            height: "50%",
+            padding: "0 24px 0 40px",
+            backgroundColor: colors.purple[200],
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -227,75 +140,29 @@ const Exchange = () => {
           <Select
             value={currency}
             onChange={handleCurrencyChange}
-            MenuProps={menuProps}
             sx={{
-              width: "120px",
               ".MuiOutlinedInput-notchedOutline": { border: 0 },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                 border: "none",
               },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "& .MuiSelect-icon": {
-                color: "black",
-              },
             }}
           >
-            <CustomMenuItem value="USD">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <USAFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  USD
-                </Typography>
-              </Box>
-            </CustomMenuItem>
-            <CustomMenuItem value="Yen">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <JPFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  YEN
-                </Typography>
-              </Box>
-            </CustomMenuItem>
-            <CustomMenuItem value="Euro">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <EUFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  EURO
-                </Typography>
-              </Box>
-            </CustomMenuItem>
-            <CustomMenuItem value="MMK">
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "145px" }}
-              >
-                <StyledFlagContainer>
-                  <MMFlag />
-                </StyledFlagContainer>
-                <Typography sx={{ color: "black", marginLeft: 2 }}>
-                  MMK
-                </Typography>
-              </Box>
-            </CustomMenuItem>
+            <MenuItem value="USD">
+              <Typography variant="body3">USD</Typography>
+            </MenuItem>
+            <MenuItem value="Yen">
+              <Typography variant="body3">YEN</Typography>
+            </MenuItem>
+            <MenuItem value="Euro">
+              <Typography variant="body3">EURO</Typography>
+            </MenuItem>
+            <MenuItem value="MMK">
+              <Typography variant="body3">MMK</Typography>
+            </MenuItem>
           </Select>
-          <Typography sx={{ color: "black", width: "110px" }}>
-            Something here idk
-          </Typography>
+          <StyledInput disabled value="Something here"></StyledInput>
         </Box>
-      </Box>
+      </Paper>
     </Paper>
   );
 };

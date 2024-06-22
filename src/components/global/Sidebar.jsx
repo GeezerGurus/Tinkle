@@ -113,7 +113,11 @@ const Sidebar = ({ mode }) => {
           </Typography>
           <List>
             {[
-              { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
+              {
+                text: "Dashboard",
+                icon: <DashboardIcon />,
+                path: "/dashboard",
+              },
               { text: "Records", icon: <RecordsIcon />, path: "/records" },
               { text: "Lists", icon: <ListsIcon />, path: "/lists/debt-list" },
               {
@@ -291,7 +295,7 @@ const Sidebar = ({ mode }) => {
             <MenuIcon />
           </IconButton>
           <Tooltip title="Dashboard" placement="right" arrow>
-            <IconButton onClick={handleNavigation("/")}>
+            <IconButton onClick={handleNavigation("/dashboard")}>
               <DashboardIcon />
             </IconButton>
           </Tooltip>

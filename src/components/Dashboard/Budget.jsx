@@ -67,7 +67,7 @@ const Budget = () => {
     <Paper
       sx={{
         width: "369px",
-        height: "274px",
+        height: "267px",
         padding: "16px 24px",
         display: "flex",
         flexDirection: "column",

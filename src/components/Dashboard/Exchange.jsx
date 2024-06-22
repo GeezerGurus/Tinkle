@@ -7,7 +7,6 @@ import {
   Paper,
   IconButton,
   useTheme,
-  Stack,
 } from "@mui/material";
 import { styled } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -45,7 +44,7 @@ const Exchange = () => {
         gap: theme.spacing(1),
         padding: "16px 24px",
         width: "369px",
-        height: "273px",
+        height: "275px",
         borderRadius: "16px",
       }}
     >

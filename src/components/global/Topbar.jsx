@@ -9,6 +9,7 @@ import {
   Avatar,
   Divider,
   ListItemIcon,
+  Button,
 } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -16,7 +17,7 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RecordBtn } from "../utils";
 
 // Function to map paths to titles
@@ -28,8 +29,6 @@ const getTitle = (path) => {
       return "To Buy List";
     case /^\/lists\/debt-list$/.test(path):
       return "Debt List";
-    case /^\/$/.test(path):
-      return "Dashboard";
     case /^\/records$/.test(path):
       return "Records";
     case /^\/knowledge$/.test(path):
@@ -50,12 +49,15 @@ const getTitle = (path) => {
       return "Support";
     case /^\/home$/.test(path):
       return "Home";
-    default:
+    case /^\/dashboard$/.test(path):
       return "Dashboard";
+    default:
+      return "English or Spanish?";
   }
 };
 
 const Topbar = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -69,7 +71,9 @@ const Topbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleNavigation = (path) => () => {
+    navigate(path);
+  };
   return (
     <Box
       display="flex"
@@ -85,7 +89,7 @@ const Topbar = () => {
       <Box
         display="flex"
         sx={{
-          width: "166px",
+          width: "300px",
           height: "48px",
         }}
       >
@@ -154,7 +158,10 @@ const Topbar = () => {
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           <MenuItem onClick={handleClose}>
-            <Avatar /> Profile
+            <IconButton onClick={handleNavigation("/profile")}>
+              <Avatar />
+            </IconButton>{" "}
+            Profile
           </MenuItem>
           <MenuItem onClick={handleClose}>
             <Avatar /> My account

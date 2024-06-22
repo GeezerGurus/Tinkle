@@ -89,15 +89,7 @@ const Dashboard = () => {
         </Box>
 
         {/* Left side, Bottom */}
-        <Paper
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            height: "354px",
-          }}
-        >
-          <Transactions />
-        </Paper>
+        <Transactions />
       </Box>
       {/* Right side */}
       <Box

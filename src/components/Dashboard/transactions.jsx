@@ -9,18 +9,23 @@ import {
   TableHead,
   TableRow,
   Paper,
+  useTheme,
 } from "@mui/material";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import { ShowMoreBtn } from "../utils";
+import { tokens } from "../../theme";
 
-const DataRow = ({ data }) => {
+const DataRow = ({ data, colors }) => {
   return (
     <TableRow>
       {data.map((text, index) => (
         <TableCell
           key={index}
           align="center"
-          sx={{ borderBottom: "none", padding: "14px" }}
+          sx={{
+            borderBottom: "none",
+            paddingBottom: "8px",
+          }}
         >
           <Box
             sx={{
@@ -36,7 +41,9 @@ const DataRow = ({ data }) => {
                   height: "10px",
                   borderRadius: "50%",
                   backgroundColor:
-                    parseFloat(data[4].slice(1)) > 50 ? "green" : "red",
+                    parseFloat(data[4].slice(1)) > 50
+                      ? colors.green[100]
+                      : colors.category.red,
                   marginRight: "8px",
                 }}
               />
@@ -48,23 +55,26 @@ const DataRow = ({ data }) => {
                   color: "white",
                   border: "1px solid",
                   borderColor:
-                    parseFloat(data[4].slice(1)) > 50 ? "green" : "red",
+                    parseFloat(data[4].slice(1)) > 50
+                      ? colors.green[100]
+                      : colors.category.red,
                   backgroundColor:
-                    parseFloat(data[4].slice(1)) > 50 ? "green" : "red",
+                    parseFloat(data[4].slice(1)) > 50
+                      ? colors.green[100]
+                      : colors.category.red,
                   borderRadius: "50%",
                 }}
               />
             )}
             <Typography
-              variant="text"
+              variant="body4"
               sx={{
                 color:
                   index === 4
                     ? parseFloat(text.slice(1)) > 50
-                      ? "green"
-                      : "red"
-                    : "black",
-                lineHeight: "150%",
+                      ? colors.green[500]
+                      : colors.extra.red_accent
+                    : "",
               }}
             >
               {text}
@@ -76,18 +86,18 @@ const DataRow = ({ data }) => {
   );
 };
 
-const BasicTable = () => {
+const BasicTable = ({ colors }) => {
   const rowsData = [
     ["Date", "Category", "Account", "Notes", "Amount"],
-    ["01-01-2024", "Groceries", "Savings", "Weekly shopping", "$50.00"],
-    ["01-02-2024", "Utilities", "Checking", "Electric bill", "$100.00"],
-    ["01-03-2024", "Entertainment", "Credit Card", "Movie night", "$20.00"],
-    ["01-04-2024", "Transportation", "Checking", "Gasoline", "$40.00"],
-    ["01-05-2024", "Healthcare", "Savings", "Doctor's visit", "$80.00"],
+    ["01-01-2024", "Groceries", "Savings", "Weekly shopping", "MMK 50.00"],
+    ["01-02-2024", "Utilities", "Checking", "Electric bill", "MMK 100.00"],
+    ["01-03-2024", "Entertainment", "Credit Card", "Movie night", "MMK 20.00"],
+    ["01-04-2024", "Transportation", "Checking", "Gasoline", "MMK 40.00"],
+    ["01-05-2024", "Healthcare", "Savings", "Doctor's visit", "MMK 80.00"],
   ];
 
   return (
-    <TableContainer sx={{ height: "100%" }}>
+    <TableContainer sx={{ overflow: "hidden" }}>
       <Table sx={{ border: "none" }}>
         <TableHead>
           <TableRow>
@@ -97,19 +107,14 @@ const BasicTable = () => {
                 align="center"
                 sx={{ borderBottom: "none" }}
               >
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: "bold", fontSize: "12px", color: "black" }}
-                >
-                  {header}
-                </Typography>
+                <Typography variant="body4">{header}</Typography>
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {rowsData.slice(1).map((rowData, index) => (
-            <DataRow key={index} data={rowData} />
+            <DataRow key={index} data={rowData} colors={colors} />
           ))}
         </TableBody>
       </Table>
@@ -118,33 +123,30 @@ const BasicTable = () => {
 };
 
 const Transactions = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
-    <Box
+    <Paper
       sx={{
-        display: "flex",
-        backgroundColor: "white",
-        flexDirection: "column",
-        color: "black",
-        width: "100%",
         height: "354px",
+        borderRadius: "16px",
       }}
     >
-      <Paper
+      <Box
         sx={{
-          height: "69px",
+          height: "48px",
           display: "flex",
-          width: "100%",
+          margin: "16px 24px 0 24px",
           justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0 23px",
-          backgroundColor: "white",
+          borderBottom: `${colors.purple[500]} 1px solid`,
         }}
       >
-        <Typography variant="title">Transactions</Typography>
+        <Typography variant="h6">Transactions</Typography>
         <ShowMoreBtn to={"/records"} />
-      </Paper>
-      <BasicTable />
-    </Box>
+      </Box>
+      <BasicTable colors={colors} />
+    </Paper>
   );
 };
 

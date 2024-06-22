@@ -11,6 +11,9 @@ import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 
 const Progress = ({ content, dollar, percent }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const progressValue = parseInt(percent, 10); // Convert percent to integer
   const isOverspent = progressValue < 0; // Check if overspent
 
@@ -44,10 +47,10 @@ const Progress = ({ content, dollar, percent }) => {
             direction: isOverspent ? "rtl" : "ltr", // Reverse direction for overspent values only
             "& .MuiLinearProgress-bar": {
               bgcolor: isOverspent
-                ? "red" // Red for overspent
+                ? colors.category.red // overspent
                 : progressValue < 50
-                ? "#FF8844" // Orange for normal spending
-                : "#00F79E", // Green for staying within the limit
+                ? colors.category.orange // normal spending or risl of overspent
+                : colors.green[100], // in limit
             },
           }}
         />
@@ -75,7 +78,7 @@ const Budget = () => {
       {/* Header box of Budget */}
       <Box
         sx={{
-          height: "40px",
+          height: "48px",
           width: "100%",
           display: "flex",
           justifyContent: "space-between",
@@ -106,33 +109,30 @@ const Budget = () => {
             sx={{
               width: "16px",
               height: "16px",
-              border: "0px",
-              backgroundColor: "#00F79E",
+              backgroundColor: colors.green[100],
             }}
           ></Box>
-          <Typography variant="text">In Limit</Typography>
+          <Typography variant="body4">In Limit</Typography>
         </Stack>
         <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
           <Box
             sx={{
               width: "16px",
               height: "16px",
-              border: "0px",
-              backgroundColor: "#FF8744",
+              backgroundColor: colors.category.orange,
             }}
           ></Box>
-          <Typography variant="text">Risk of Overspent</Typography>
+          <Typography variant="body4">Risk of Overspent</Typography>
         </Stack>
         <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
           <Box
             sx={{
               width: "16px",
               height: "16px",
-              backgroundColor: "#FF0000",
-              border: "1px solid",
+              backgroundColor: colors.category.red,
             }}
           ></Box>
-          <Typography variant="text">Overspent</Typography>
+          <Typography variant="body4">Overspent</Typography>
         </Stack>
       </Box>
     </Paper>

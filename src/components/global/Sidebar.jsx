@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Box,
   Drawer,
@@ -14,7 +14,12 @@ import {
   Button,
   Typography,
   Tooltip,
+  styled,
 } from "@mui/material";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+
 import DarkModeIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeIcon from "@mui/icons-material/LightModeOutlined";
 import ArrowIcon from "@mui/icons-material/PlayArrow";
@@ -29,17 +34,60 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/GridView";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { useTheme } from "@emotion/react";
 import { tokens, ColorModeContext } from "../../theme";
 import { useNavigate } from "react-router-dom";
 
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  "&::before": {
+    display: "none",
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(0),
+  marginBottom: theme.spacing(1),
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={
+      <ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem", color: "#8884DC" }} />
+    }
+    {...props}
+  />
+))(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark" ? "rgba(255, 255, 255, .05)" : "white",
+  flexDirection: "row",
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+}));
+
+const lists = [
+  { text: "Debt List", path: "" },
+  { text: "To Buy List", path: "" },
+];
+
 const Sidebar = ({ mode }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [expanded, setExpanded] = React.useState("list");
+
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   const colorMode = useContext(ColorModeContext);
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -125,24 +173,121 @@ const Sidebar = ({ mode }) => {
             {[
               { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
               { text: "Records", icon: <RecordsIcon />, path: "/records" },
-              { text: "Lists", icon: <ListsIcon />, path: "/lists/debt-list" },
+              { text: "Budgets", icon: <BudgetsIcon />, path: "/budget" },
               {
-                text: "Tips and Knowledge",
-                icon: <TipsAndKnowledgeIcon />,
-                path: "/knowledge",
+                text: "Lists",
+                icon: <ListsIcon />,
+                path: "/lists/debt-list",
+                dropdown: true,
+                page: "list",
               },
-              { text: "Budget", icon: <BudgetsIcon />, path: "/budget" },
               {
                 text: "Statistic",
                 icon: <BarChartIcon />,
                 path: "/statistics",
               },
-            ].map(({ text, icon, path }) => (
+              { text: "Goal", icon: <OutlinedFlagIcon />, path: "/savings" },
+              {
+                text: "Knowledge",
+                icon: <TipsAndKnowledgeIcon />,
+                path: "/knowledge",
+                dropdown: true,
+                page: "knowledge",
+              },
+            ].map(({ text, icon, path, dropdown, page }) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton onClick={handleNavigation(path)}>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
+                {!dropdown && (
+                  <>
+                    <ListItemButton
+                      onClick={() => {
+                        handleNavigation(path)();
+                      }}
+                    >
+                      <ListItemIcon>{icon}</ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </>
+                )}
+
+                {dropdown && (
+                  <>
+                    <Accordion
+                      expanded={expanded === page}
+                      onChange={handleChange(page)}
+                    >
+                      <AccordionSummary>
+                        {/* Icon */}
+                        <ListItemIcon>{icon}</ListItemIcon>
+                        {/* Name */}
+                        <Typography>{text}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Box
+                          sx={{
+                            width: "240px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          {page === "list" && (
+                            <Box
+                              sx={{
+                                width: "60%",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "flex-start",
+                                justifyContent: "flex-start",
+                              }}
+                            >
+                              {lists.map(({ text, path }) => (
+                                <ListItem
+                                  key={text}
+                                  disablePadding
+                                  sx={{
+                                    width: "200px",
+                                  }}
+                                >
+                                  <ListItemButton
+                                    onClick={() => {
+                                      handleNavigation(path);
+                                    }}
+                                    sx={{
+                                      height: "40px",
+                                      fontSize: "14px",
+                                      fontWeight: "500",
+                                    }}
+                                  >
+                                    <ListItemIcon sx={{ minWidth: "16px" }}>
+                                      <FiberManualRecordIcon
+                                        sx={{
+                                          width: "11px",
+                                          height: "11px",
+                                          color: "#8884DC",
+                                        }}
+                                      />
+                                    </ListItemIcon>
+                                    <ListItemText primary={text} />
+                                  </ListItemButton>
+                                </ListItem>
+                              ))}
+                            </Box>
+                          )}
+                          {page === "knowledge" && (
+                            <Box>
+                              <Button onClick={handleNavigation("/knowledge1")}>
+                                Knowledge 1
+                              </Button>
+                              <Button onClick={handleNavigation("/knowledge2")}>
+                                Knowledge 2
+                              </Button>
+                            </Box>
+                          )}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  </>
+                )}
               </ListItem>
             ))}
           </List>
@@ -160,13 +305,44 @@ const Sidebar = ({ mode }) => {
             {[
               { text: "About Us", icon: <AboutUsIcon />, path: "/home" },
               { text: "Support", icon: <SupportIcon />, path: "/support" },
-              { text: "Setting", icon: <SettingIcon />, path: "/settings" },
-            ].map(({ text, icon, path }) => (
+              {
+                text: "Setting",
+                icon: <SettingIcon />,
+                path: "/settings",
+                dropdown: true,
+                page: "settings",
+              },
+            ].map(({ text, icon, path, dropdown, page }) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton onClick={handleNavigation(path)}>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
+                {!dropdown && (
+                  <ListItemButton onClick={handleNavigation(path)}>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                )}
+                {dropdown && (
+                  <>
+                    <Accordion
+                      expanded={expanded === page}
+                      onChange={handleChange(page)}
+                    >
+                      <AccordionSummary>
+                        {/* Icon */}
+                        <ListItemIcon>{icon}</ListItemIcon>
+                        {/* Name */}
+                        <Typography>{text}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography>
+                          Lorem ipsum dolor sit amet consectetur, adipisicing
+                          elit. Sunt velit temporibus vero laudantium laborum
+                          nemo error sed exercitationem odio, rem doloremque
+                          nesciunt sit! Quidem optio animi explicabo recusandae
+                          autem enim!
+                        </Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                  </>
+                )}
               </ListItem>
             ))}
           </List>

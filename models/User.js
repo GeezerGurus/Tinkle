@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const { isEmail } = require('validator');
-const bcrypt = require('bcrypt');
+const { isEmail } = require("validator");
+const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
@@ -12,14 +12,14 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: [true, 'Please enter an email'],
+      required: [true, "Please enter an email"],
       unique: true,
-      validate: [isEmail, 'Please enter a valid email']
+      validate: [isEmail, "Please enter a valid email"],
     },
     password: {
       type: String,
-      required: [true, 'Please enter a password'],
-      minlength: [6, 'Minimum password length is 6 characters'],
+      required: [true, "Please enter a password"],
+      minlength: [6, "Minimum password length is 6 characters"],
     },
     isVerified: {
       type: Boolean,
@@ -38,28 +38,33 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.statics.login = async function(username, email, password) {
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+userSchema.statics.login = async function (username, email, password) {
   // Check if the username exists
   const userByUsername = await this.findOne({ username });
   if (!userByUsername) {
-    throw Error('incorrect username');
+    throw Error("incorrect username");
   }
 
   // Check if the email exists for the given username
   const userByEmail = await this.findOne({ username, email });
   if (!userByEmail) {
-    throw Error('incorrect email');
+    throw Error("incorrect email");
   }
 
   // Validate the password
   const auth = await bcrypt.compare(password, userByEmail.password);
   if (!auth) {
-    throw Error('incorrect password');
+    throw Error("incorrect password");
   }
 
   return userByEmail;
 };
-
 
 const User = mongoose.model("User", userSchema);
 

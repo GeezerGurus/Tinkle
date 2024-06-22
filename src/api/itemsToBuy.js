@@ -1,5 +1,7 @@
 import api from "./api";
 
+// /users/5faabc3fe0baf627b85e6a2d/itemstobuy
+
 export const getItemsToBuy = async () => {
   try {
     const response = await api.get("/itemstobuy");

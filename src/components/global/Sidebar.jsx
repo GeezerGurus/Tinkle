@@ -252,7 +252,7 @@ const settings = [
 
 // Menu Items for Open Sidebar
 const MenuOpen = [
-  { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
+  { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
   { text: "Records", icon: <RecordsIcon />, path: "/records" },
   { text: "Budgets", icon: <BudgetsIcon />, path: "/budget" },
   {

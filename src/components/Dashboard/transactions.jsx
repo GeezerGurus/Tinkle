@@ -139,7 +139,7 @@ const Transactions = () => {
           display: "flex",
           margin: "16px 24px 0 24px",
           justifyContent: "space-between",
-          borderBottom: `${colors.purple[500]} 1px solid`,
+          borderBottom: `${colors.purple[600]} 1px solid`,
         }}
       >
         <Typography variant="h6">Transactions</Typography>

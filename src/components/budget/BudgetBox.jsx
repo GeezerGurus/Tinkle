@@ -1,13 +1,14 @@
 import {
-  Button,
   Box,
   Typography,
-  Divider,
   LinearProgress,
   IconButton,
   Modal,
   Paper,
   ButtonGroup,
+  Stack,
+  useTheme,
+  Button,
 } from "@mui/material";
 import { useState } from "react";
 import React from "react";
@@ -15,109 +16,75 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import BudgetDetails from "./BudgetDetails";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import { tokens } from "../../theme";
-import { useTheme } from "@mui/material";
+import ShowMoreBtn from "../utils/ShowMoreBtn";
 
 const budgetTypes = ["Monthly", "Weekly", "Yearly", "One Time"];
 const durationTypes = ["This Month", "This Week", "This Year", "Today"];
 
+// Sample progress details
+const progressDetails = [
+  // { content: "Home", dollar: "$60", percent: "90%" },
+  // { content: "Outdoor", dollar: "$70", percent: "30%" },
+  // { content: "Food", dollar: "-$300", percent: "-56%" },
+];
+
 const Progress = ({ content, dollar, percent }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const progressValue = parseInt(percent, 10); // Convert percent to integer
   const isOverspent = progressValue < 0; // Check if overspent
   return (
     <Box
-      sx={{ display: "flex", width: "100%", flexDirection: "column", mb: 2 }}
+      sx={{ display: "flex", width: "100%", flexDirection: "column", mb: 1 }}
     >
-      <Box sx={{ display: "flex", width: "100%", alignItems: "center" }}>
-        {/* Content box */}
-        <Box sx={{ width: "217.5px" }}>
-          <Typography
-            sx={{
-              fontSize: "20px",
-              fontWeight: "500",
-              letterSpacing: "1%",
-              color: "black",
-              lineHeight: "24.2px",
-            }}
-          >
-            {content}
-          </Typography>
-        </Box>
-        {/* Dollar box */}
-        <Box sx={{ width: "60px", textAlign: "right" }}>
-          <Typography
-            sx={{
-              fontSize: "16px",
-              fontWeight: "500",
-              lineHeight: "19.36px",
-              letterSpacing: "1%",
-              color: "black",
-            }}
-          >
-            {dollar}
-          </Typography>
-        </Box>
-        {/* Percent box */}
-        <Box sx={{ width: "80px", textAlign: "right" }}>
-          <Typography
-            sx={{
-              fontSize: "16px",
-              fontWeight: "500",
-              lineHeight: "19.36px",
-              letterSpacing: "1%",
-              color: "black",
-            }}
-          >
-            {percent}
-          </Typography>
-        </Box>
+      {/* Text  */}
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="body1">{content}</Typography>
+        <Stack flexDirection={"row"} gap={2}>
+          <Typography variant="body3">{dollar}</Typography>
+          <Typography variant="body2">{percent}</Typography>
+        </Stack>
       </Box>
+
       {/* Progress Bar */}
       <Box
         sx={{
-          width: "427px",
+          width: "100%",
           display: "flex",
-          flexDirection: "row",
+          alignItems: "center",
         }}
       >
-        <Box sx={{ width: "355px" }}>
+        <Box sx={{ flexGrow: 1 }}>
           <LinearProgress
             variant="determinate"
             value={isOverspent ? 100 : 100 - progressValue}
             sx={{
-              height: 18,
+              height: 17,
               bgcolor: " #D9D9D9B2",
               direction: isOverspent ? "rtl" : "ltr", // Reverse direction for overspent values only
               "& .MuiLinearProgress-bar": {
                 bgcolor: isOverspent
-                  ? "red" // Red for overspent
+                  ? colors.category.red // overspent
                   : progressValue < 50
-                  ? "#FF8844" // Orange for normal spending
-                  : "#00F79E", // Green for staying within the limit
+                  ? colors.category.orange // normal spending or risk of overspent
+                  : colors.green[100], // in limit
               },
             }}
           />
         </Box>
-        <Box
-          sx={{
-            width: "72px",
-          }}
-        >
-          <Box
-            sx={{
-              width: "72px",
-            }}
-          >
-            <IconButton>
-              <ArrowForwardIosIcon
-                sx={{
-                  color: "black",
-                  marginTop: "-8px",
-                }}
-              />
-            </IconButton>
-          </Box>
-        </Box>
+        <IconButton>
+          <ArrowForwardIosIcon sx={{ color: colors.purple[600] }} />
+        </IconButton>
       </Box>
     </Box>
   );
@@ -147,103 +114,71 @@ const BudgetBox = ({ header }) => {
     // one Budget Box
     <Paper
       sx={{
+        borderRadius: "8px",
         width: "474px",
         height: "408px",
         display: "flex",
+        padding: "16px 48px",
         flexDirection: "column",
-        backgroundColor: "white",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
       {/* Header box of Budgetbox */}
-      <Box
+      <Typography
+        variant="h3"
         sx={{
+          borderBottom: `${colors.purple[600]} 1px solid`,
           height: "69px",
-          width: "360px",
-          display: "flex",
-          marginTop: "14px",
-          marginLeft: "47px",
-        }}
-      >
-        <Typography
-          variant="title"
-          sx={{
-            fontSize: "36px",
-            lineHeight: "54px",
-            fontWeight: "500",
-          }}
-        >
-          {header}
-        </Typography>
-      </Box>
-      {/* Small line */}
-      <Divider
-        sx={{
-          alignSelf: "center",
-          width: "calc(100% - 100px)",
-          backgroundColor: "black",
-        }}
-      ></Divider>
-      {/* 1st row of Budget */}
-      <Box
-        sx={{
-          marginLeft: "47px",
-          marginTop: "25.88px",
-          width: "427px",
-          height: "48px",
-          // backgroundColor: "red",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <Progress content="Home" dollar="$60" percent="90%" />
-      </Box>
-      {/* 2nd row of Budget */}
-      <Box
-        sx={{
-          marginLeft: "47px",
-          marginTop: "33px",
-          width: "427px",
-          height: "48px",
-        }}
-      >
-        <Progress content="Outdoor" dollar="$70" percent="30%" />
-      </Box>
-
-      {/* 3rd row of Budget */}
-      <Box
-        sx={{
-          marginLeft: "47px",
-          marginTop: "33px",
-          width: "427px",
-          height: "48px",
-        }}
-      >
-        <Progress content="Food" dollar="-$300" percent="-56%" />
-      </Box>
-      {/* Last row of Budget */}
-      <Box
-        sx={{
+          alignSelf: "flex-start",
           width: "100%",
-          height: "99px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
         }}
       >
+        {header}
+      </Typography>
+
+      {/* Progress here */}
+      {progressDetails.length > 0 && (
+        <Box sx={{ flexGrow: 1, width: "100%", padding: "24px 0" }}>
+          {progressDetails.map((progressDetail, index) => (
+            <Progress
+              key={index}
+              content={progressDetail.content}
+              dollar={progressDetail.dollar}
+              percent={progressDetail.percent}
+            />
+          ))}
+        </Box>
+      )}
+
+      {/* Add budget  */}
+      {progressDetails.length < 3 && (
         <Button
           sx={{
-            border: "1px dotted black",
-            width: "138px",
-            height: "36px",
-            borderRadius: "8px",
-            textTransform: "none",
+            width: "100%",
+            borderRadius: "16px",
+            border: `2px dashed ${colors.purple[600]}`,
+            height: "25%",
+            display: "flex",
           }}
-          onClick={handleOpen}
         >
-          <Typography variant="text2">Show more</Typography>
+          <Stack alignItems={"center"}>
+            <AddIcon
+              sx={{ width: "32px", height: "32px", color: colors.purple[600] }}
+            />
+            <Typography variant="body2" sx={{ color: colors.purple[600] }}>
+              Tap to add budget
+            </Typography>
+          </Stack>
         </Button>
-      </Box>
-      {/* Pop up  */}
+      )}
+
+      {progressDetails.length >= 3 && (
+        // Show more button
+        <ShowMoreBtn fontSize={"body1"} width="133px" />
+      )}
+
+      {/* Pop up */}
       <Modal open={open} onClose={handleClose}>
         <Paper
           sx={{

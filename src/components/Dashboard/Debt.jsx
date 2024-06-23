@@ -34,7 +34,7 @@ const Debt = () => {
           width: "100%",
           display: "flex",
           justifyContent: "space-between",
-          borderBottom: `${colors.purple[500]} 1px solid`,
+          borderBottom: `${colors.purple[600]} 1px solid`,
         }}
       >
         <Typography variant="h6">Debt List</Typography>

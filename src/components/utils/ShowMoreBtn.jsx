@@ -3,7 +3,7 @@ import { Button, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 
-const ShowMoreBtn = ({ to }) => {
+const ShowMoreBtn = ({ to, fontSize, width }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -12,7 +12,7 @@ const ShowMoreBtn = ({ to }) => {
       component={Link}
       to={to}
       sx={{
-        width: "87px",
+        width: width || "87px",
         height: "34px",
         borderRadius: "8px",
         whiteSpace: "nowrap",
@@ -24,7 +24,7 @@ const ShowMoreBtn = ({ to }) => {
         },
       }}
     >
-      <Typography variant="body4">Show more</Typography>
+      <Typography variant={fontSize || "body4"}>Show more</Typography>
     </Button>
   );
 };

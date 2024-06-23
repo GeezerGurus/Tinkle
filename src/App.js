@@ -20,6 +20,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import ToBuyList from "./scenes/lists/ToBuyList";
 import ToBuyItems from "./scenes/lists/ToBuyItems";
+import { Height } from "@mui/icons-material";
 
 function App() {
   const [theme, colorMode, mode] = useMode();

@@ -20,7 +20,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import ToBuyList from "./scenes/lists/ToBuyList";
 import ToBuyItems from "./scenes/lists/ToBuyItems";
-import { Height } from "@mui/icons-material";
+import Hero from "./scenes/hero/Hero";
 
 function App() {
   const [theme, colorMode, mode] = useMode();
@@ -34,7 +34,8 @@ function App() {
           <main className="content">
             <Topbar />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Hero />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/records" element={<Records />} />
               <Route path="/knowledge" element={<Knowledge />} />
               <Route path="/lists/debt-list" element={<Debt />} />

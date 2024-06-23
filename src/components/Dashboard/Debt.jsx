@@ -1,53 +1,50 @@
-import * as React from "react";
-import { Box, Divider, Typography, Paper } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, Paper, useTheme } from "@mui/material";
 import { Owe } from "./Owe";
 import { Lend } from "./Lend";
 import { ShowMoreBtn } from "../utils";
+import { tokens } from "../../theme";
 
 const Debt = () => {
-  const [checked, setChecked] = React.useState(false);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const [page, setPage] = useState("Owe");
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    setPage(page === "Owe" ? "Lend" : "Owe");
   };
 
   return (
     <Paper
       sx={{
         width: "369px",
-        height: "267px",
-        backgroundColor: "white",
+        height: "302px",
+        padding: "16px 24px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+        gap: "8px",
+        borderRadius: "16px",
       }}
     >
-      {/* Header box of Budget */}
+      {/* Header box of Debt List */}
       <Box
         sx={{
-          height: "23px",
-          marginBottom: "13.5px",
-          width: "317.5px",
+          height: "48px",
+          width: "100%",
           display: "flex",
           justifyContent: "space-between",
+          borderBottom: `${colors.purple[500]} 1px solid`,
         }}
       >
-        <Typography variant="title">Debt List</Typography>
-        <ShowMoreBtn to={"/lists"} />
+        <Typography variant="h6">Debt List</Typography>
+        <ShowMoreBtn to={"/budget"} />
       </Box>
-      {/* Small line */}
-      <Divider
-        sx={{
-          width: "calc(100% - 64px)",
-          backgroundColor: "black",
-          marginBottom: "8px",
-        }}
-      ></Divider>
-      {checked ? (
-        <Lend checked={checked} handleChange={handleChange} />
+
+      {page === "Owe" ? (
+        <Lend handleChange={handleChange} color={colors.category.red} />
       ) : (
-        <Owe checked={checked} handleChange={handleChange} />
+        <Owe handleChange={handleChange} color={colors.green[500]} />
       )}
     </Paper>
   );

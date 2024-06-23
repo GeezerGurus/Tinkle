@@ -1,14 +1,20 @@
 import React from "react";
 import { tokens } from "../../theme";
-import { Typography, useTheme } from "@mui/material";
+import { Paper, Typography, useTheme } from "@mui/material";
+import Profileinfo from "../../components/profile/Profileinfo"
 
 const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
-    <Typography color={colors.greenAccent[500]} variant="h1">
-      Profile
-    </Typography>
+    <Paper sx={{
+      width:"1122px",
+      height:"874px",
+      margin:"0 auto",
+      marginTop:"50px"
+    }}>
+      <Profileinfo/>
+    </Paper>
   );
 };
 

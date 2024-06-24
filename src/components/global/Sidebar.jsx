@@ -346,10 +346,8 @@ const Sidebar = ({ mode }) => {
       role="presentation"
     >
       <Box
-        textAlign="center"
         sx={{
           display: "flex",
-          flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
           width: open ? "230px" : "61px",
@@ -363,7 +361,6 @@ const Sidebar = ({ mode }) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
               alignItems: "center",
             }}
           >
@@ -424,10 +421,7 @@ const Sidebar = ({ mode }) => {
           sx={{
             width: "280px",
             height: "528px",
-            padding: "0px, 26px, 0px, 26px",
-            top: "110",
-            left: "10px",
-            gap: "12px",
+            padding: "0px, 26px",
           }}
         >
           {open ? (
@@ -710,7 +704,6 @@ const Sidebar = ({ mode }) => {
         <Box display="flex" flexDirection="column" gap="10px">
           {/* avatar and name */}
           <Box
-            display="flex"
             sx={{
               width: "240px",
               height: "45px",
@@ -719,7 +712,6 @@ const Sidebar = ({ mode }) => {
               border: open ? "1px solid #E0E0E0" : "none",
               borderRadius: "8px",
               display: "flex",
-              flexDirection: "row",
               justifyContent: "space-around",
               alignItems: "center",
             }}
@@ -741,7 +733,7 @@ const Sidebar = ({ mode }) => {
                 sx={{
                   width: "137px",
                   height: "38px",
-                  padding: "0px 2px 0px 2px",
+                  padding: "0px 2px",
                   gap: "5px",
                   display: open ? "flex" : "none",
                   flexDirection: "column",
@@ -801,8 +793,7 @@ const Sidebar = ({ mode }) => {
                   textTransform: "capitalize",
                   width: "110px",
                   height: "38px",
-                  gap: "8px",
-                  padding: "14px, 24px, 14px, 24px",
+                  padding: "14px, 24px",
                   borderRadius: "8px",
                 }}
               >
@@ -824,8 +815,7 @@ const Sidebar = ({ mode }) => {
                   textTransform: "capitalize",
                   width: "110px",
                   height: "38px",
-                  gap: "8px",
-                  padding: "14px, 24px, 14px, 24px",
+                  padding: "14px, 24px",
                   borderRadius: "8px",
                 }}
               >

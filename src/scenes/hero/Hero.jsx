@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Signup from "../../components/auth/Signup";
+import Form from "../../components/auth/Form";
 
 const Hero = () => {
   const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ const Hero = () => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <Signup onClose={handleClose} />
+          <Form onClose={handleClose} />
         </Box>
       </Modal>
     </div>

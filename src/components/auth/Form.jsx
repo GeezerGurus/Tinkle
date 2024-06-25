@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Paper,
   TextField,
@@ -7,11 +7,15 @@ import {
   Link,
   FormControl,
 } from "@mui/material";
-import { signup, login } from "../../api/authApi";
+import { signup, signin } from "../../api/authApi";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const [page, setPage] = useState("sign-up");
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const togglePage = () => {
     setPage(page === "sign-up" ? "sign-in" : "sign-up");
@@ -19,36 +23,36 @@ const Form = () => {
 
   const signingUp = async (userData) => {
     setIsLoading(true);
-    let timeoutId;
 
     try {
-      await signup(userData);
-      timeoutId = setTimeout(() => {
-        setIsLoading(false);
-      }, 100);
+      const res = await signup(userData);
+      const { user, token } = res;
+      localStorage.setItem("jwt", token);
+      login(user);
+      console.log("User signed up:", user);
+      setIsLoading(false);
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
-
-    return () => clearTimeout(timeoutId);
   };
 
   const loggingIn = async (userData) => {
     setIsLoading(true);
-    let timeoutId;
 
     try {
-      await login(userData);
-      timeoutId = setTimeout(() => {
-        setIsLoading(false);
-      }, 100);
+      const res = await signin(userData);
+      const { user, token } = res;
+      localStorage.setItem("jwt", token);
+      login(user);
+      console.log("User logged in:", user);
+      setIsLoading(false);
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
-
-    return () => clearTimeout(timeoutId);
   };
 
   const handleSubmit = (event) => {

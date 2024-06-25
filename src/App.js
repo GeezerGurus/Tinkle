@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Dashboard,
   Records,
@@ -21,9 +22,24 @@ import { ColorModeContext, useMode } from "./theme";
 import ToBuyList from "./scenes/lists/ToBuyList";
 import ToBuyItems from "./scenes/lists/ToBuyItems";
 import Hero from "./scenes/hero/Hero";
+import { AuthContext } from "../src/context/AuthContext";
+
+const PrivateRoute = ({ children }) => {
+  const { user } = useContext(AuthContext);
+
+  return user ? children : <Navigate to="/" replace />;
+};
 
 function App() {
   const [theme, colorMode, mode] = useMode();
+  const { login } = useContext(AuthContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      login(token);
+    }
+  }, [login]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -35,31 +51,126 @@ function App() {
             <Topbar />
             <Routes>
               <Route path="/" element={<Hero />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/records" element={<Records />} />
-              <Route path="/knowledge" element={<Knowledge />} />
-              <Route path="/lists/debt-list" element={<Debt />} />
-              <Route path="/lists/to-buy-lists" element={<ToBuyList />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/records"
+                element={
+                  <PrivateRoute>
+                    <Records />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/knowledge"
+                element={
+                  <PrivateRoute>
+                    <Knowledge />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/lists/debt-list"
+                element={
+                  <PrivateRoute>
+                    <Debt />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/lists/to-buy-lists"
+                element={
+                  <PrivateRoute>
+                    <ToBuyList />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/lists/to-buy-lists/:listId"
-                element={<ToBuyItems />}
+                element={
+                  <PrivateRoute>
+                    <ToBuyItems />
+                  </PrivateRoute>
+                }
               />
-              <Route path="/budget" element={<Budget />} />
-              <Route path="/statistics" element={<Statistic />} />
-              <Route path="/settings/general" element={<GeneralSettings />} />
+              <Route
+                path="/budget"
+                element={
+                  <PrivateRoute>
+                    <Budget />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/statistics"
+                element={
+                  <PrivateRoute>
+                    <Statistic />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/settings/general"
+                element={
+                  <PrivateRoute>
+                    <GeneralSettings />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/settings/categories"
-                element={<CategorySettings />}
+                element={
+                  <PrivateRoute>
+                    <CategorySettings />
+                  </PrivateRoute>
+                }
               />
               <Route
                 path="/settings/balance-accounts"
-                element={<BalanceAccountSettings />}
+                element={
+                  <PrivateRoute>
+                    <BalanceAccountSettings />
+                  </PrivateRoute>
+                }
               />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/savings" element={<Savings />} />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/support"
+                element={
+                  <PrivateRoute>
+                    <Support />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/home"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/savings"
+                element={
+                  <PrivateRoute>
+                    <Savings />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
           </main>
         </div>

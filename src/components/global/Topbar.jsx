@@ -1,24 +1,11 @@
-import { useContext, React, useState } from "react";
-import {
-  Box,
-  IconButton,
-  useTheme,
-  Typography,
-  Menu,
-  MenuItem,
-  Avatar,
-  Divider,
-  ListItemIcon,
-  Button,
-} from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { React, useContext } from "react";
+import { Box, IconButton, useTheme, Typography } from "@mui/material";
+import { tokens } from "../../theme";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import { useLocation, useNavigate } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useLocation } from "react-router-dom";
 import { RecordBtn } from "../utils";
+import { AuthContext } from "../../context/AuthContext";
 
 // Function to map paths to titles
 const getTitle = (path) => {
@@ -57,23 +44,12 @@ const getTitle = (path) => {
 };
 
 const Topbar = () => {
-  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const colorMode = useContext(ColorModeContext);
   const location = useLocation();
   const title = getTitle(location.pathname);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleNavigation = (path) => () => {
-    navigate(path);
-  };
+  const { logout } = useContext(AuthContext);
+
   return (
     <Box
       display="flex"
@@ -93,9 +69,7 @@ const Topbar = () => {
           height: "48px",
         }}
       >
-        <Typography variant="h2" sx={{ fontSize: "32px" }}>
-          {title}
-        </Typography>
+        <Typography variant="h4">{title}</Typography>
       </Box>
       {/* ICONS */}
       <Box
@@ -112,80 +86,9 @@ const Topbar = () => {
         <IconButton size="large">
           <NotificationsOutlinedIcon />
         </IconButton>
-        <IconButton
-          size="large"
-          onClick={handleClick}
-          aria-controls={open ? "account-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-        >
-          <PersonOutlinedIcon />
+        <IconButton size="large" onClick={logout} aria-haspopup="true">
+          <LogoutIcon />
         </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          slotProps={{
-            paper: {
-              elevation: 0,
-              sx: {
-                overflow: "visible",
-                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                mt: 1.5,
-                "& .MuiAvatar-root": {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: 1,
-                },
-                "&::before": {
-                  content: '""',
-                  display: "block",
-                  position: "absolute",
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: "background.paper",
-                  transform: "translateY(-50%) rotate(45deg)",
-                  zIndex: 0,
-                },
-              },
-            },
-          }}
-          transformOrigin={{ horizontal: "right", vertical: "top" }}
-          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-        >
-          <MenuItem onClick={handleClose}>
-            <IconButton onClick={handleNavigation("/profile")}>
-              <Avatar />
-            </IconButton>{" "}
-            Profile
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <Avatar /> My account
-          </MenuItem>
-          <Divider />
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <PersonAdd fontSize="small" />
-            </ListItemIcon>
-            Add another account
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
-        </Menu>
       </Box>
     </Box>
   );

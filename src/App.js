@@ -6,6 +6,7 @@ import {
   Knowledge,
   Debt,
   Budget,
+  BudgetPeriod,
   Statistic,
   GeneralSettings,
   Profile,
@@ -15,6 +16,7 @@ import {
   CategorySettings,
   BalanceAccountSettings,
   Savings,
+  BudgetOverview,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -27,7 +29,8 @@ import { AuthContext } from "../src/context/AuthContext";
 const PrivateRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
 
-  return user ? children : <Navigate to="/" replace />;
+  // return user ? children : <Navigate to="/" replace />;
+  return children;
 };
 
 function App() {
@@ -104,6 +107,22 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Budget />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/budget/:periodType"
+                element={
+                  <PrivateRoute>
+                    <BudgetPeriod />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/budget/:periodType/:budgetId"
+                element={
+                  <PrivateRoute>
+                    <BudgetOverview />
                   </PrivateRoute>
                 }
               />

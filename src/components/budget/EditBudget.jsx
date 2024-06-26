@@ -31,7 +31,7 @@ import {
 } from "@mui/icons-material";
 import dayjs from "dayjs";
 
-const CreateBudget = ({ onClose }) => {
+const EditBudget = ({ onClose }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [acc, setAcc] = useState("wallet");
@@ -60,7 +60,7 @@ const CreateBudget = ({ onClose }) => {
       }}
     >
       {/* Title  */}
-      <Typography variant="h4">Create Budget</Typography>
+      <Typography variant="h4">Edit Budget</Typography>
 
       <Box
         sx={{
@@ -281,10 +281,9 @@ const CreateBudget = ({ onClose }) => {
             backgroundColor: colors.purple[600],
             textTransform: "none",
             color: "white",
-            borderRadius: "8px",
           }}
         >
-          <Typography variant="body2">Create</Typography>
+          <Typography variant="body2">Save</Typography>
         </Button>
         <Button
           onClick={onClose}
@@ -293,7 +292,6 @@ const CreateBudget = ({ onClose }) => {
             height: "40px",
             backgroundColor: colors.purple[200],
             textTransform: "none",
-            borderRadius: "8px",
           }}
         >
           <Typography variant="body2">Cancel</Typography>
@@ -303,4 +301,4 @@ const CreateBudget = ({ onClose }) => {
   );
 };
 
-export default CreateBudget;
+export default EditBudget;

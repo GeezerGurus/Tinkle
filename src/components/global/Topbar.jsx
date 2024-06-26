@@ -22,6 +22,8 @@ const getTitle = (path) => {
       return "Knowledge";
     case /^\/budget$/.test(path):
       return "Budget";
+    case /^\/budget\/.*$/.test(path):
+      return "Budget";
     case /^\/statistics$/.test(path):
       return "Statistics";
     case /^\/settings\/.*$/.test(path):

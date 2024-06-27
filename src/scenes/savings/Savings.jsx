@@ -3,37 +3,19 @@ import {
   Box,
   Button,
   ButtonGroup,
-  styled,
-  Modal,
   Typography,
+  useTheme,
+  Stack,
 } from "@mui/material";
 import { Active, Paused, Reached } from "../../components/savings";
 import { SpeedDial } from "../../components/utils";
 import SavingFor from "../../components/savings/SavingFor";
-
-const SubTitle = ({ page }) => {
-  if (page === "active") {
-    return (
-      <Typography variant="title2" sx={{ lineHeight: "29.05px" }}>
-        Active Saving
-      </Typography>
-    );
-  } else if (page === "paused") {
-    return (
-      <Typography variant="title2" sx={{ lineHeight: "29.05px" }}>
-        Paused Saving
-      </Typography>
-    );
-  } else {
-    return (
-      <Typography variant="title2" sx={{ lineHeight: "29.05px" }}>
-        Reached Saving
-      </Typography>
-    );
-  }
-};
+import { tokens } from "../../theme";
 
 export const Savings = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("active");
 
@@ -53,35 +35,40 @@ export const Savings = () => {
     // Container
     <Box
       sx={{
-        backgroundColor: "white",
         width: "100%",
         height: "90%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        position: "relative",
         gap: "24px",
       }}
     >
       {/* Speed Dial */}
-      <SpeedDial page={<SavingFor />} />
+      <SpeedDial modal={<SavingFor />} />
+
       {/* Nav Buttons */}
-      <ButtonGroup variant="contained" sx={{ backgroundColor: "black" }}>
+      <ButtonGroup
+        variant="contained"
+        sx={{ borderRadius: "16px", border: `1px solid ${colors.purple[600]}` }}
+      >
         {/* Active */}
         <Button
           value="active"
           onClick={() => setPage("active")}
           sx={{
+            borderRadius: "16px",
             width: "245.67px",
             height: "37px",
-            backgroundColor: page === "active" ? "black" : "white",
+            backgroundColor: page === "active" ? colors.purple[600] : "white",
             color: page === "active" ? "white" : "black",
             "&:hover": {
-              backgroundColor: page === "active" ? "grey" : "darkgrey",
+              backgroundColor: colors.purple[200],
             },
           }}
         >
-          Active
+          <Typography variant="body2">Active</Typography>
         </Button>
         {/* Paused */}
         <Button
@@ -90,48 +77,53 @@ export const Savings = () => {
           sx={{
             width: "245.67px",
             height: "37px",
-            backgroundColor: page === "paused" ? "black" : "white",
+            backgroundColor: page === "paused" ? colors.purple[600] : "white",
             color: page === "paused" ? "white" : "black",
             "&:hover": {
-              backgroundColor: page === "paused" ? "grey" : "darkgrey",
+              backgroundColor: colors.purple[200],
             },
           }}
         >
-          Paused
+          <Typography variant="body2">Paused</Typography>
         </Button>
         {/* Reached */}
         <Button
           value="reached"
           onClick={() => setPage("reached")}
           sx={{
+            borderRadius: "16px",
             width: "245.67px",
             height: "37px",
-            backgroundColor: page === "reached" ? "black" : "white",
+            backgroundColor: page === "reached" ? colors.purple[600] : "white",
             color: page === "reached" ? "white" : "black",
             "&:hover": {
-              backgroundColor: page === "reached" ? "grey" : "darkgrey",
+              backgroundColor: colors.purple[200],
             },
           }}
         >
-          Reached
+          <Typography variant="body2">Reached</Typography>
         </Button>
       </ButtonGroup>
+
       {/* Sub Title */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "190px",
-          height: "42px",
-        }}
-      >
+      <Stack alignItems={"center"}>
         <Box
-          sx={{ width: "120px", height: "8px", backgroundColor: "#00F79E" }}
+          sx={{
+            width: "120px",
+            height: "8px",
+            backgroundColor:
+              page === "active"
+                ? colors.vibrant.green
+                : page === "paused"
+                ? colors.extra.grey
+                : colors.vibrant.yellow,
+          }}
         />
-        <SubTitle page={page} />
-      </Box>
+        <Typography variant="h6">
+          {page.charAt(0).toUpperCase() + page.slice(1)} Saving
+        </Typography>
+      </Stack>
+
       {/* Contents */}
       {renderPage()}
     </Box>

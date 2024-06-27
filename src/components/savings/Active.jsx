@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import ActiveBox from "./ActiveBox";
+import SavingItem from "./SavingItem";
 import HomeIcon from "@mui/icons-material/Home";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
@@ -43,7 +43,7 @@ export const Active = () => {
     // Container
     <Box
       sx={{
-        width: "1059px",
+        width: "65%",
         height: "779px",
         gap: "25px",
         display: "flex",
@@ -55,7 +55,7 @@ export const Active = () => {
     >
       {/* Contents */}
       {ActiveItems.map((item, index) => (
-        <ActiveBox
+        <SavingItem
           key={index}
           name={item.name}
           saved={item.saved}
@@ -63,6 +63,7 @@ export const Active = () => {
           icon={item.icon}
           bgColor={item.bgColor}
           date={item.date}
+          state={"active"}
         />
       ))}
     </Box>

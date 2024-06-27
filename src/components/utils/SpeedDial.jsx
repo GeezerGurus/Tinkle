@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Box, IconButton, Modal, Typography } from "@mui/material";
-import { CreateList, ListBox } from "../../components/to buy list";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { Box, IconButton, Modal, useTheme } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { tokens } from "../../theme";
 
-const SpeedDial = ({ page }) => {
+const SpeedDial = ({ modal }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [open, setOpen] = useState(false);
   return (
     <Box>
@@ -17,14 +20,14 @@ const SpeedDial = ({ page }) => {
           bottom: 16,
           width: "116px",
           height: "116px",
+          backgroundColor: colors.purple[200],
         }}
       >
-        <AddCircleIcon
+        <AddIcon
           fontSize="large"
           sx={{
-            color: "#2099DD",
-            width: "116px",
-            height: "116px",
+            width: "48px",
+            height: "48px",
           }}
         />
       </IconButton>
@@ -38,8 +41,8 @@ const SpeedDial = ({ page }) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          {page &&
-            React.cloneElement(page, {
+          {modal &&
+            React.cloneElement(modal, {
               onClose: () => setOpen(false),
             })}
         </Box>

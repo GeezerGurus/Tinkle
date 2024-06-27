@@ -1,9 +1,7 @@
 export { default as Active } from "./Active";
 export { default as Paused } from "./Paused";
 export { default as Reached } from "./Reached";
-export { default as ActiveBox } from "./ActiveBox";
-export { default as PausedBox } from "./PausedBox";
-export { default as ReachedBox } from "./ReachedBox";
+export { default as ActiveBox } from "./SavingItem";
 export { default as GoalDetails } from "./GoalDetails";
 export { default as AddSaveAmount } from "./AddSaveAmount";
 export { default as SavingFor } from "./SavingFor";

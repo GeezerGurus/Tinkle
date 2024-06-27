@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, Typography, LinearProgress, Button } from "@mui/material";
-import PausedBox from "./PausedBox";
+import { Box } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import SavingItem from "./SavingItem";
+
 export const Paused = () => {
   const PausedItems = [
     {
@@ -43,7 +44,7 @@ export const Paused = () => {
     // Container
     <Box
       sx={{
-        width: "1059px",
+        width: "65%",
         height: "779px",
         gap: "25px",
         display: "flex",
@@ -55,7 +56,7 @@ export const Paused = () => {
     >
       {/* Contents */}
       {PausedItems.map((item, index) => (
-        <PausedBox
+        <SavingItem
           key={index}
           name={item.name}
           saved={item.saved}
@@ -63,6 +64,7 @@ export const Paused = () => {
           icon={item.icon}
           bgColor={item.bgColor}
           date={item.date}
+          state={"paused"}
         />
       ))}
     </Box>

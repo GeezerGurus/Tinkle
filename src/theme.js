@@ -108,7 +108,10 @@ export const tokens = (mode) => ({
           yellow: "#F5EEA8",
         },
         extra: {
+          pure_white: "FFFFFF",
           faint_white: "#F5F5F5",
+          light_grey: "#F0F0F0",
+          grey: "#D6D6D6",
           grey_accent: "#7F7F7F",
           yellow_accent: "#C7B50F",
           red_accent: "#FE3F2F",
@@ -227,7 +230,10 @@ export const tokens = (mode) => ({
           yellow: "#F5EEA8",
         },
         extra: {
+          pure_white: "FFFFFF",
           faint_white: "#F5F5F5",
+          light_grey: "#F0F0F0",
+          grey: "#D6D6D6",
           grey_accent: "#7F7F7F",
           yellow_accent: "#C7B50F",
           red_accent: "#FE3F2F",

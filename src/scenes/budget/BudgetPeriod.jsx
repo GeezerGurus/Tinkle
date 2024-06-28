@@ -168,13 +168,14 @@ const BudgetPeriod = () => {
       {/* Contents box */}
       <Box
         sx={{
-          width: "60%",
+          width: "65%",
           height: "781px",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
           overflowY: "auto",
-          gap: "14px",
+          gap: "24px",
+          padding: "0px 2%",
         }}
       >
         {budgetItems.map((budgetItem, index) => (

@@ -267,7 +267,7 @@ const MenuOpen = [
     icon: <BarChartIcon />,
     path: "/statistics",
   },
-  { text: "Goal", icon: <OutlinedFlagIcon />, path: "/savings" },
+  { text: "Goals", icon: <OutlinedFlagIcon />, path: "/goals" },
   {
     text: "Knowledge",
     icon: <TipsAndKnowledgeIcon />,

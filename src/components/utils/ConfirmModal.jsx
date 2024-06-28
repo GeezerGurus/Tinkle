@@ -2,7 +2,7 @@ import { Button, Paper, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import React from "react";
 
-const DeleteConfirm = ({ onClose }) => {
+const ConfirmModal = ({ onClose, color, type, description }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -20,18 +20,12 @@ const DeleteConfirm = ({ onClose }) => {
     >
       <Typography variant="h4">
         Do you really want to{" "}
-        <Typography
-          component="span"
-          variant="h4"
-          sx={{ color: colors.extra.red_accent }}
-        >
-          Delete
+        <Typography component="span" variant="h4" sx={{ color: color }}>
+          {type}
         </Typography>
         ?
       </Typography>
-      <Typography variant="body1">
-        This action will delete your whole budget plan.
-      </Typography>
+      <Typography variant="body1">{description}</Typography>
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
           sx={{
@@ -41,6 +35,9 @@ const DeleteConfirm = ({ onClose }) => {
             textTransform: "none",
             color: "white",
             borderRadius: "8px",
+            "&:hover": {
+              backgroundColor: colors.purple[200],
+            },
           }}
         >
           <Typography variant="body2">Yes</Typography>
@@ -62,4 +59,4 @@ const DeleteConfirm = ({ onClose }) => {
   );
 };
 
-export default DeleteConfirm;
+export default ConfirmModal;

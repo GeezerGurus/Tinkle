@@ -29,7 +29,7 @@ import {
 } from "@mui/icons-material";
 import { Item } from "../utils";
 
-const CreateAccount = ({ onClose }) => {
+const EditAccount = ({ onClose }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -53,7 +53,7 @@ const CreateAccount = ({ onClose }) => {
       }}
     >
       {/* Title  */}
-      <Typography variant="h4">Create Account</Typography>
+      <Typography variant="h4">Edit Account</Typography>
 
       <Box
         sx={{
@@ -177,7 +177,7 @@ const CreateAccount = ({ onClose }) => {
             },
           }}
         >
-          <Typography variant="body2">Create</Typography>
+          <Typography variant="body2">Save</Typography>
         </Button>
         <Button
           onClick={onClose}
@@ -196,4 +196,4 @@ const CreateAccount = ({ onClose }) => {
   );
 };
 
-export default CreateAccount;
+export default EditAccount;

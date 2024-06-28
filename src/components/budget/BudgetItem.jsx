@@ -13,7 +13,7 @@ const BudgetItem = ({ title, total, progressPercent, spent, remains }) => {
   return (
     <Paper
       sx={{
-        width: "984px",
+        width: "100%",
         minHeight: "152px",
         borderRadius: "16px",
         backgroundColor: colors.purple[100],

@@ -7,16 +7,15 @@ import {
   useTheme,
   Stack,
 } from "@mui/material";
-import { Active, Paused, Reached } from "../../components/savings";
+import { Active, Paused, Reached } from "../../components/goals";
 import { SpeedDial } from "../../components/utils";
-import SavingFor from "../../components/savings/SavingFor";
+import SavingFor from "../../components/goals/SavingFor";
 import { tokens } from "../../theme";
 
-export const Savings = () => {
+export const Goals = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [open, setOpen] = useState(false);
   const [page, setPage] = useState("active");
 
   // Sub Title Change Handle
@@ -130,4 +129,4 @@ export const Savings = () => {
   );
 };
 
-export default Savings;
+export default Goals;

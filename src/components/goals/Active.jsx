@@ -45,12 +45,13 @@ export const Active = () => {
       sx={{
         width: "65%",
         height: "779px",
-        gap: "25px",
+        gap: "24px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         overflowY: "auto",
         overflowX: "hidden",
+        padding: "0px 2%",
       }}
     >
       {/* Contents */}

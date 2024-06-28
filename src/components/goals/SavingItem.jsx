@@ -8,7 +8,7 @@ import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { tokens } from "../../theme";
 import EditGoal from "./EditGoal";
-import { Progress } from "../utils";
+import { ConfirmModal, Progress } from "../utils";
 
 export const SavingItem = ({
   name,
@@ -21,25 +21,16 @@ export const SavingItem = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const percentage = goal > 0 ? (saved / goal) * 100 : 0;
+  const [modal, setModal] = useState("");
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenModal(false);
   };
 
-  const handlePause = () => {
-    console.log({
-      Paused: "true",
-    });
-  };
-
-  const handleDelete = () => {
-    console.log({
-      Deleted: "true",
-    });
-  };
   return (
     <>
       {/* Main Box */}
@@ -47,7 +38,7 @@ export const SavingItem = ({
         sx={{
           borderRadius: "16px",
           border: state === "reached" && "1px solid black",
-          width: "1059px",
+          width: "100%",
           minHeight: "176px",
           backgroundColor:
             state === "active"
@@ -100,49 +91,49 @@ export const SavingItem = ({
             {/* Right Side */}
             <Stack direction={"row"}>
               {/* Pause Button */}
-              <IconButton onClick={handlePause}>
-                {state === "active" ? (
+              {state === "active" ? (
+                <IconButton
+                  onClick={() => {
+                    setModal("paused");
+                    setOpenModal(true);
+                  }}
+                >
                   <PauseCircleOutlineIcon
                     sx={{ width: "28px", height: "28px" }}
                   />
-                ) : state === "closed" ? (
+                </IconButton>
+              ) : state === "paused" ? (
+                <IconButton
+                  onClick={() => {
+                    setModal("play");
+                    // setOpenModal(true);
+                  }}
+                >
                   <PlayCircleOutlineIcon
                     sx={{ width: "28px", height: "28px" }}
                   />
-                ) : (
-                  ""
-                )}
-              </IconButton>
+                </IconButton>
+              ) : (
+                ""
+              )}
 
               {/* Edit Button */}
-              <IconButton onClick={() => setOpenEdit(true)}>
+              <IconButton
+                onClick={() => {
+                  setModal("edit");
+                  setOpenModal(true);
+                }}
+              >
                 <BorderColorIcon sx={{ width: "28px", height: "28px" }} />
               </IconButton>
 
-              {/* Edit Modal  */}
-              <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  <EditGoal
-                    onClose={() => setOpenEdit(false)}
-                    savedAlready={saved}
-                    goal={goal}
-                    name={name}
-                    iconF={icon}
-                    bgColor={bgColor}
-                    dateF={date}
-                  />
-                </Box>
-              </Modal>
-
               {/* Delete Button */}
-              <IconButton onClick={handleDelete}>
+              <IconButton
+                onClick={() => {
+                  setModal("delete");
+                  setOpenModal(true);
+                }}
+              >
                 <DeleteIcon sx={{ width: "28px", height: "28px" }} />
               </IconButton>
             </Stack>
@@ -204,6 +195,43 @@ export const SavingItem = ({
           </Box>
         </Box>
       </Box>
+      {/* Edit Modal  */}
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          {modal === "edit" ? (
+            <EditGoal
+              onClose={() => setOpenModal(false)}
+              savedAlready={saved}
+              goal={goal}
+              name={name}
+              iconF={icon}
+              bgColor={bgColor}
+              dateF={date}
+            />
+          ) : modal === "delete" ? (
+            <ConfirmModal
+              type={"Delete"}
+              color={colors.extra.red_accent}
+              description={"This action will delete your whole Saving plan."}
+              onClose={handleClose}
+            />
+          ) : (
+            <ConfirmModal
+              type={"Pause"}
+              color={colors.purple[600]}
+              description={"This action will pause your Saving plan."}
+              onClose={handleClose}
+            />
+          )}
+        </Box>
+      </Modal>
     </>
   );
 };

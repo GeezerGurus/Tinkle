@@ -24,7 +24,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams } from "react-router-dom";
 import { tokens } from "../../theme";
-import { Progress, DeleteConfirm, BackBtn } from "../../components/utils";
+import { Progress, ConfirmModal, BackBtn } from "../../components/utils";
 import { EditBudget } from "../../components/budget";
 
 const rows = [
@@ -214,9 +214,10 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
         </ButtonGroup>
       </Stack>
 
+      {/* Item details  */}
       <Paper
         sx={{
-          width: "992px",
+          width: "56%",
           minHeight: "184px",
           borderRadius: "16px",
           backgroundColor: colors.purple[100],
@@ -280,7 +281,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
       {/* Contents box table */}
       <Box
         sx={{
-          width: "992px",
+          width: "56%",
           height: "781px",
           display: "flex",
           alignItems: "center",
@@ -359,7 +360,10 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
               // refresh={fetchItems}
             />
           ) : (
-            <DeleteConfirm
+            <ConfirmModal
+              type={"Delete"}
+              color={colors.extra.red_accent}
+              description={"This action will delete your whole Budget plan."}
               onClose={() => {
                 setOpen(false);
               }}

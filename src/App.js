@@ -15,7 +15,7 @@ import {
   Support,
   CategorySettings,
   BalanceAccountSettings,
-  Savings,
+  Goals,
   BudgetOverview,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
@@ -183,10 +183,10 @@ function App() {
                 }
               />
               <Route
-                path="/savings"
+                path="/goals"
                 element={
                   <PrivateRoute>
-                    <Savings />
+                    <Goals />
                   </PrivateRoute>
                 }
               />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IconButton,
   Box,
@@ -7,14 +7,18 @@ import {
   MenuItem,
   Paper,
   useTheme,
+  Modal,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { tokens } from "../../theme";
+import EditAccount from "./EditAccount";
 
-export const Balancecom = ({ Icon, Title, Amount, BgColor }) => {
+export const Account = ({ Icon, Title, Amount, BgColor }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -81,7 +85,14 @@ export const Balancecom = ({ Icon, Title, Amount, BgColor }) => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>Edit</MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setOpenModal(true);
+            }}
+          >
+            Edit
+          </MenuItem>
         </Menu>
       </Box>
 
@@ -95,8 +106,21 @@ export const Balancecom = ({ Icon, Title, Amount, BgColor }) => {
           {Amount}
         </Typography>
       </Box>
+      {/* Edit modal  */}
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <EditAccount onClose={() => setOpenModal(false)} />
+        </Box>
+      </Modal>
     </Paper>
   );
 };
 
-export default Balancecom;
+export default Account;

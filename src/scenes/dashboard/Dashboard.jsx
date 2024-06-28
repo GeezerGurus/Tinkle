@@ -4,20 +4,57 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import GridViewIcon from "@mui/icons-material/GridView";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { tokens } from "../../theme";
-import { useTheme, Box, Paper } from "@mui/material";
+import { useTheme, Box } from "@mui/material";
 import {
   Budget,
   Exchange,
   Debt,
   Chart,
   Transactions,
-  Balance,
+  Account,
   Statistics,
+  NewAccount,
 } from "../../components/dashboard";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const accounts = [
+    {
+      icon: MonetizationOnIcon,
+      title: "Wallet",
+      amount: "$2190.19",
+    },
+    {
+      icon: AccountBalanceIcon,
+      title: "Bank",
+      amount: "$2,345.67",
+    },
+    {
+      icon: GridViewIcon,
+      title: "Kpay",
+      amount: "$3,456.78",
+    },
+    {
+      icon: CreditScoreIcon,
+      title: "Saving",
+      amount: "$4,567.89",
+    },
+  ];
+
+  const colorOrder = [
+    colors.purple[500],
+    colors.mint[500],
+    colors.purple[200],
+    colors.mint[300],
+  ];
+
+  // Ensure the accounts array has exactly 4 elements
+  const filledAccounts = [
+    ...accounts,
+    ...Array(4 - accounts.length).fill({ isPlaceholder: true }),
+  ];
 
   return (
     // Main box
@@ -50,32 +87,21 @@ const Dashboard = () => {
             marginBottom: "24px",
           }}
         >
-          <Balance
-            Icon={MonetizationOnIcon}
-            Title="Wallet"
-            Amount="$2190.19"
-            BgColor={colors.purple[500]}
-          />
-          <Balance
-            Icon={AccountBalanceIcon}
-            Title="Bank"
-            Amount="$2,345.67"
-            BgColor={colors.mint[500]}
-          />
-          <Balance
-            Icon={GridViewIcon}
-            Title="Kpay"
-            Amount="$3,456.78"
-            BgColor={colors.purple[200]}
-          />
-          <Balance
-            Icon={CreditScoreIcon}
-            Title="Saving"
-            Amount="$4,567.89"
-            BgColor={colors.mint[300]}
-          />
+          {filledAccounts.map((account, index) =>
+            account.isPlaceholder ? (
+              <NewAccount key={index} BgColor={colorOrder[index]} />
+            ) : (
+              <Account
+                key={index}
+                Icon={account.icon}
+                Title={account.title}
+                Amount={account.amount}
+                BgColor={colorOrder[index]}
+              />
+            )
+          )}
         </Box>
-        {/* Left side, Middle*/}
+        {/* Left side, Middle */}
         <Box
           sx={{
             display: "flex",

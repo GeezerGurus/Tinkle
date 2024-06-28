@@ -1,14 +1,14 @@
 import React from "react";
-//import { tokens } from "../../theme";
+import { tokens } from "../../theme";
 import { Box } from "@mui/material";
-//import { useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { BudgetBox } from "../../components/budget";
 
 import ShowMoreBox from "../../components/budget/ShowMoreBox";
 
 const Budget = () => {
-  //const theme = useTheme();
-  //const colors = tokens(theme.palette.mode);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   return (
     // Container
     <Box

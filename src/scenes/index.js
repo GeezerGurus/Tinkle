@@ -16,3 +16,5 @@ export { default as Support } from "./support/Support";
 export { default as ToBuyList } from "./lists/ToBuyList";
 export { default as ToBuyItems } from "./lists/ToBuyItems";
 export { default as Goals } from "./goals/Goals";
+export { default as Books } from "./books/Books";
+export { default as Collection } from "./books/Collection";

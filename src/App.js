@@ -17,6 +17,8 @@ import {
   BalanceAccountSettings,
   Goals,
   BudgetOverview,
+  Books,
+  Collection,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -187,6 +189,22 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Goals />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/books"
+                element={
+                  <PrivateRoute>
+                    <Books />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/books/:collection"
+                element={
+                  <PrivateRoute>
+                    <Collection />
                   </PrivateRoute>
                 }
               />

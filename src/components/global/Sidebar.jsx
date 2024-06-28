@@ -151,8 +151,9 @@ const Dropdown = ({ content, Navigation, onClick }) => {
         >
           <ListItemButton
             onClick={() => {
-              onClick();
               Navigation(path);
+              console.log(path);
+              onClick();
             }}
             sx={{
               height: "40px",
@@ -184,7 +185,7 @@ const Dropdown = ({ content, Navigation, onClick }) => {
 
 // Closed Side bar Menu Items component
 
-const Tool = ({ Navigation, title, icon, path, dropdown, onClick }) => {
+const Tool = ({ title, icon, path, dropdown, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -239,7 +240,7 @@ const lists = [
 // knowledge
 const knowledge = [
   { text: "Videos", path: "" },
-  { text: "Books", path: "" },
+  { text: "Books", path: "/books" },
   { text: "Documentations", path: "" },
 ];
 
@@ -316,6 +317,7 @@ const Sidebar = ({ mode }) => {
   };
 
   const handleNavigation = (path) => () => {
+    console.log(`Opened with path:${path}`);
     navigate(path);
     setOpen(false);
     setExpanded(false); // Reset expanded state when navigating
@@ -483,7 +485,6 @@ const Sidebar = ({ mode }) => {
                         title={text}
                         icon={icon}
                         path={path}
-                        Navigation={handleNavigation}
                         dropdown={dropdown}
                         onClick={
                           dropdown
@@ -537,14 +538,14 @@ const Sidebar = ({ mode }) => {
                             {page === "list" && (
                               <Dropdown
                                 content={lists}
-                                Navigation={handleNavigation}
+                                Navigation={navigate}
                                 onClick={handleDropdownClick}
                               />
                             )}
                             {page === "knowledge" && (
                               <Dropdown
                                 content={knowledge}
-                                Navigation={handleNavigation}
+                                Navigation={navigate}
                                 onClick={handleDropdownClick}
                               />
                             )}
@@ -556,7 +557,6 @@ const Sidebar = ({ mode }) => {
                         title={text}
                         icon={icon}
                         path={path}
-                        Navigation={handleNavigation}
                         dropdown={dropdown}
                         onClick={
                           dropdown
@@ -637,7 +637,6 @@ const Sidebar = ({ mode }) => {
                           title={text}
                           icon={icon}
                           path={path}
-                          Navigation={handleNavigation}
                           onClick={
                             dropdown
                               ? handleDropdownClick(page)
@@ -678,7 +677,7 @@ const Sidebar = ({ mode }) => {
                             >
                               <Dropdown
                                 content={settings}
-                                Navigation={handleNavigation}
+                                Navigation={navigate}
                                 onClick={handleDropdownClick}
                               />
                             </Box>
@@ -689,7 +688,6 @@ const Sidebar = ({ mode }) => {
                           title={text}
                           icon={icon}
                           path={path}
-                          Navigation={handleNavigation}
                           dropdown={dropdown}
                           onClick={handleDropdownClick(page)}
                         />
@@ -831,6 +829,7 @@ const Sidebar = ({ mode }) => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
+                mt: 25,
               }}
             >
               <Tooltip title="Profile" placement="right">

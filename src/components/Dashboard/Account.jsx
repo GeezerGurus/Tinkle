@@ -8,6 +8,7 @@ import {
   Paper,
   useTheme,
   Modal,
+  Stack,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { tokens } from "../../theme";
@@ -102,9 +103,12 @@ export const Account = ({ Icon, Title, Amount, BgColor }) => {
           {Title}
         </Typography>
         {/* Amount  */}
-        <Typography variant="h4" gutterBottom>
-          {Amount}
-        </Typography>
+        <Stack direction={"row"} alignItems={"center"} gap={1}>
+          <Typography variant="h4" gutterBottom>
+            {Amount}
+          </Typography>
+          <Typography variant="body1">MMK</Typography>
+        </Stack>
       </Box>
       {/* Edit modal  */}
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -116,7 +120,12 @@ export const Account = ({ Icon, Title, Amount, BgColor }) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <EditAccount onClose={() => setOpenModal(false)} />
+          <EditAccount
+            name={Title}
+            balance={Amount}
+            type={Icon}
+            onClose={() => setOpenModal(false)}
+          />
         </Box>
       </Modal>
     </Paper>

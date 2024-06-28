@@ -1,9 +1,9 @@
 import { React, useState } from "react";
-import { Modal, Box, Button, Typography } from "@mui/material";
+import { Modal, Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import Container from "../records/Container";
 
-const RecordBtn = () => {
+const RecordBtn = ({ color, hoverColor }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -21,13 +21,16 @@ const RecordBtn = () => {
         startIcon={<Add />}
         onClick={handleClickOpen}
         sx={{
-          width: "97px",
+          width: "114px",
           height: "38px",
           textTransform: "capitalize",
-          background: "#000000",
-          borderRadius: "8px",
+          background: color || "#000000",
+          borderRadius: "48px",
           fontSize: "16px",
           lineHeight: "24px ",
+          "&:hover": {
+            backgroundColor: hoverColor,
+          },
         }}
       >
         Record

@@ -24,22 +24,22 @@ const Dashboard = () => {
     {
       icon: MonetizationOnIcon,
       title: "Wallet",
-      amount: "$2190.19",
+      amount: 219019,
     },
     {
       icon: AccountBalanceIcon,
       title: "Bank",
-      amount: "$2,345.67",
+      amount: 234567,
     },
     {
       icon: GridViewIcon,
       title: "Kpay",
-      amount: "$3,456.78",
+      amount: 345678,
     },
     {
       icon: CreditScoreIcon,
       title: "Saving",
-      amount: "$4,567.89",
+      amount: 456789,
     },
   ];
 

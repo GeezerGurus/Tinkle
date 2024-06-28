@@ -1,5 +1,5 @@
 import { React, useContext } from "react";
-import { Box, IconButton, useTheme, Typography } from "@mui/material";
+import { Box, IconButton, useTheme, Typography, Stack } from "@mui/material";
 import { tokens } from "../../theme";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -70,23 +70,25 @@ const Topbar = () => {
     <Box
       display="flex"
       justifyContent="space-between"
-      p={2}
+      alignItems="center"
       sx={{
+        padding: "16px 32px",
         width: "100%",
-        height: "78px",
-        backgroundColor: theme.palette.frameBackground.default,
+        height: "80px",
       }}
     >
       {/* header */}
-      <Box
-        display="flex"
-        sx={{
-          width: "300px",
-          height: "48px",
-        }}
-      >
+      <Stack>
         <Typography variant="h4">{title}</Typography>
-      </Box>
+        <Box
+          sx={{
+            width: "100%",
+            backgroundColor: colors.purple[600],
+            height: "4px",
+          }}
+        />
+      </Stack>
+
       {/* ICONS */}
       <Box
         display="flex"
@@ -98,12 +100,16 @@ const Topbar = () => {
         }}
       >
         {/* Record Button  */}
-        <RecordBtn />
+        <RecordBtn color={colors.purple[600]} hoverColor={colors.purple[200]} />
         <IconButton size="large">
-          <NotificationsOutlinedIcon />
+          <NotificationsOutlinedIcon
+            sx={{ width: "32px", height: "32px", color: colors.purple[500] }}
+          />
         </IconButton>
         <IconButton size="large" onClick={logout} aria-haspopup="true">
-          <LogoutIcon />
+          <LogoutIcon
+            sx={{ width: "32px", height: "32px", color: colors.purple[500] }}
+          />
         </IconButton>
       </Box>
     </Box>

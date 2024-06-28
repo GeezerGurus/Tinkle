@@ -29,15 +29,13 @@ import {
 } from "@mui/icons-material";
 import { Item } from "../utils";
 
-const EditAccount = ({ onClose }) => {
+const EditAccount = ({ onClose, name, balance, type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
+  const [accountName, setAccountName] = useState(name || "");
+  const [currentBalance, setCurrentBalance] = useState(balance || 0);
+  const [selectedOption, setSelectedOption] = useState(type || "");
 
   return (
     <Paper
@@ -67,6 +65,10 @@ const EditAccount = ({ onClose }) => {
       >
         <TextField
           label="Name"
+          value={accountName || ""}
+          onChange={(e) => {
+            setAccountName(e.target.value);
+          }}
           fullWidth
           InputLabelProps={{
             shrink: true,
@@ -77,6 +79,10 @@ const EditAccount = ({ onClose }) => {
           type="number"
           label="Currency Balance"
           fullWidth
+          value={currentBalance || 0}
+          onChange={(e) => {
+            setCurrentBalance(e.target.value);
+          }}
           inputProps={{ min: "0" }}
           InputProps={{
             endAdornment: <InputAdornment position="end">MMK</InputAdornment>,
@@ -90,7 +96,7 @@ const EditAccount = ({ onClose }) => {
           <InputLabel shrink>Category</InputLabel>
           <Select
             value={selectedOption}
-            onChange={handleChange}
+            onChange={(event) => setSelectedOption(event.target.value)}
             displayEmpty
             label="Category"
           >

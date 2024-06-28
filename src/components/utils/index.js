@@ -7,3 +7,4 @@ export { default as EntrySelect } from "./EntrySelect";
 export { default as Item } from "./Item";
 export { default as Icons } from "./Icons";
 export { default as SpeedDial } from "./SpeedDial";
+export { default as BookContents } from "./BookContents";

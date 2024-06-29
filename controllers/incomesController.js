@@ -1,7 +1,9 @@
+const { checkUser } = require("../middlewares/authentication");
 const IncomeSchema = require("../models/Income");
 
 exports.addIncome = async (req, res) => {
-  const { userId, accountId } = req.params
+  checkUser()
+  const { accountId } = req.params
   const { name, amount, payer, date, category, notes } = req.body;
 
   try {
@@ -14,7 +16,7 @@ exports.addIncome = async (req, res) => {
     }
 
     const income = IncomeSchema({
-      userId,
+      userId: res.locals.user._id,
       account: accountId,
       name,
       amount,

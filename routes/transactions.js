@@ -62,7 +62,7 @@ router
   .get("/logout", logout)
 
   //Incomes
-  .post("/users/:userId/account/:accountId  /incomes", requireAuth, addIncome)
+  .post("/users/:userId/account/:accountId /incomes", requireAuth, addIncome)
   .get("/incomes", requireAuth, getIncomes)
   .patch("/users/:userId/incomes/:incomeId", requireAuth, patchIncomes)
   .delete("/incomes/:incomeId", requireAuth, deleteIncome)

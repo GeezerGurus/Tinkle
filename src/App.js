@@ -7,7 +7,7 @@ import {
   Debt,
   Budget,
   BudgetPeriod,
-  Statistic,
+  Statistics,
   GeneralSettings,
   Profile,
   Home,
@@ -132,7 +132,7 @@ function App() {
                 path="/statistics"
                 element={
                   <PrivateRoute>
-                    <Statistic />
+                    <Statistics />
                   </PrivateRoute>
                 }
               />

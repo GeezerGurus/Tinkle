@@ -41,9 +41,11 @@ const ToBuyItems = () => {
   }, []);
 
   const filteredItems =
-    page === "active"
-      ? items.filter((item) => !item.isPurchased)
-      : items.filter((item) => item.isPurchased);
+    items && items.length > 0
+      ? page === "active"
+        ? items.filter((item) => !item.isPurchased)
+        : items.filter((item) => item.isPurchased)
+      : [];
 
   return (
     <Box

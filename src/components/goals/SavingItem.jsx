@@ -144,7 +144,7 @@ export const SavingItem = ({
             percent={percentage}
             height={32}
             showPercentText={true}
-            barColor={state === "reached" ? colors.vibrant.yellow : ""}
+            bgColor={state === "reached" ? colors.vibrant.yellow : ""}
           />
 
           {/* Bottom Section */}

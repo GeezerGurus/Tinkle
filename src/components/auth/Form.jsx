@@ -6,14 +6,25 @@ import {
   Button,
   Link,
   FormControl,
+  IconButton,
+  InputAdornment,
+  useTheme,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { signup, signin } from "../../api/authApi";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import FormImage from "../../assets/form.png";
+import { tokens } from "../../theme";
 
 const Form = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [page, setPage] = useState("sign-up");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -70,6 +81,15 @@ const Form = () => {
       loggingIn(userData);
     }
   };
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleToggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   return (
     <Paper
       sx={{
@@ -79,15 +99,18 @@ const Form = () => {
         display: "flex",
         justifyContent: "flex-end",
         overflow: "hidden",
-        background: "linear-gradient(135deg, #9591F2, #B4D9B8);",
+        backgroundImage: `url(${FormImage})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "left",
       }}
     >
       <Paper
         sx={{
-          width: "66%",
+          padding: "88px 96px",
+          width: "693px",
           height: "100%",
           borderRadius: "40px 0 0 40px",
-          p: 4,
         }}
       >
         <FormControl
@@ -103,7 +126,11 @@ const Form = () => {
         >
           {page === "sign-up" && (
             <>
-              <Typography variant="h3" gutterBottom>
+              <Typography
+                variant="h3"
+                sx={{ color: colors.purple[900] }}
+                gutterBottom
+              >
                 Let's Sign Up!
               </Typography>
               <Typography
@@ -120,39 +147,93 @@ const Form = () => {
                 label="Username"
                 variant="outlined"
                 fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 name="email"
                 label="Email"
                 variant="outlined"
                 fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 name="password"
                 label="Password"
                 variant="outlined"
                 fullWidth
-                type="password"
+                type={showPassword ? "text" : "password"} // Toggle visibility based on state
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleTogglePasswordVisibility}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
+                name="confirmPassword"
                 label="Confirm Password"
                 variant="outlined"
                 fullWidth
-                type="password"
+                type={showConfirmPassword ? "text" : "password"} // Toggle visibility based on state
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle confirm password visibility"
+                        onClick={handleToggleConfirmPasswordVisibility}
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Button
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ height: "56px" }}
+                sx={{
+                  height: "56px",
+                  backgroundColor: colors.purple[800],
+                  "&:hover": {
+                    backgroundColor: colors.purple[600],
+                  },
+                  textTransform: "none",
+                }}
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? "Creating Account..." : "Create Account"}
+                <Typography variant="body2">
+                  {isLoading ? "Creating Account..." : "Create Account"}
+                </Typography>
               </Button>
               <Typography>
-                Already have an account?
-                <Link href="#" onClick={togglePage}>
+                Already have an account?{" "}
+                <Link
+                  href="#"
+                  onClick={togglePage}
+                  sx={{ color: colors.purple[600], textDecoration: "none" }}
+                >
                   Sign in
                 </Link>
               </Typography>
@@ -161,7 +242,11 @@ const Form = () => {
 
           {page === "sign-in" && (
             <>
-              <Typography variant="h3" gutterBottom>
+              <Typography
+                variant="h3"
+                sx={{ color: colors.purple[900] }}
+                gutterBottom
+              >
                 Welcome Back!
               </Typography>
               <Typography
@@ -177,33 +262,67 @@ const Form = () => {
                 label="Username"
                 variant="outlined"
                 fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 name="email"
                 label="Email"
                 variant="outlined"
                 fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 name="password"
                 label="Password"
                 variant="outlined"
                 fullWidth
-                type="password"
+                type={showPassword ? "text" : "password"} // Toggle visibility based on state
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleTogglePasswordVisibility}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Button
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ height: "56px" }}
+                sx={{
+                  height: "56px",
+                  backgroundColor: colors.purple[800],
+                  "&:hover": {
+                    backgroundColor: colors.purple[600],
+                  },
+                  textTransform: "none",
+                }}
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? "Signing In..." : "Sign In"}
+                <Typography variant="body2">
+                  {isLoading ? "Signing In..." : "Sign In"}
+                </Typography>
               </Button>
               <Typography>
-                Don't have an account yet?
-                <Link href="#" onClick={togglePage}>
+                Don't have an account yet?{" "}
+                <Link
+                  href="#"
+                  onClick={togglePage}
+                  sx={{ color: colors.purple[600], textDecoration: "none" }}
+                >
                   Sign up
                 </Link>
               </Typography>

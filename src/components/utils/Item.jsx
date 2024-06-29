@@ -1,7 +1,13 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const Item = ({ icon, text, bgColor, marginRight, iconSize = "24px" }) => {
+const Item = ({
+  icon,
+  text,
+  bgColor = "black",
+  marginRight,
+  iconSize = "24px",
+}) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       {icon &&

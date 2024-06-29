@@ -28,7 +28,7 @@ const Dashboard = () => {
     },
     {
       icon: AccountBalanceIcon,
-      title: "Bank",
+      title: "Banking",
       amount: 234567,
     },
     {

@@ -97,8 +97,8 @@ export const SavingFor = ({ onClose }) => {
       {/* Middle Section */}
       <Box
         sx={{
-          width: "251px",
-          height: "106px",
+          width: "284px",
+          height: "116px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -114,33 +114,57 @@ export const SavingFor = ({ onClose }) => {
             shrink: true,
           }}
         />
-        <Button
-          onClick={() => setOpen(true)}
-          variant="contained"
+
+        {/* Create and Cancel Buttons */}
+        <Box
           sx={{
-            width: "276px",
+            width: "100%",
             height: "44px",
-            backgroundColor: colors.purple[600],
-            "&:hover": {
-              backgroundColor: colors.purple[200],
-            },
-            textTransform: "none",
+            display: "flex",
+            justifyContent: "space-between",
           }}
         >
-          <Typography variant="body2">Create</Typography>
-        </Button>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <Box
+          {/* Create Button */}
+          <Button
+            onClick={() => setOpen(true)}
+            variant="contained"
             sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%,-50%)",
+              width: "136px",
+              height: "44px",
+              backgroundColor: colors.purple[600],
+              "&:hover": {
+                backgroundColor: colors.purple[200],
+              },
+              textTransform: "none",
             }}
           >
-            <CreateGoal onClose={handleClose} name={name} />
-          </Box>
-        </Modal>
+            <Typography variant="body2">Create</Typography>
+          </Button>
+          <Modal open={open} onClose={() => setOpen(false)}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%,-50%)",
+              }}
+            >
+              <CreateGoal onClose={handleClose} name={name} />
+            </Box>
+          </Modal>
+          {/* Cancel Button */}
+          <Button
+            onClick={onClose}
+            sx={{
+              width: "136px",
+              height: "44px",
+              backgroundColor: colors.purple[200],
+              textTransform: "none",
+            }}
+          >
+            <Typography variant="body2">Cancel</Typography>
+          </Button>
+        </Box>
       </Box>
       {/* Bottom Section */}
       <Typography variant="h6">Some things people save for:</Typography>

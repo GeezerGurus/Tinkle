@@ -1,89 +1,57 @@
 import * as React from "react";
-import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material";
-import Switch from "@mui/material/Switch";
-import Checkbox from "@mui/material/Checkbox";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
+import FormatOverlineIcon from "@mui/icons-material/FormatOverline";
 
-const label = { inputProps: { "aria-label": "Switch demo" } };
+const transactions = [
+  { amount: "$120", payer: "Electricity Bill", dueDate: "2024-07-10" },
+  { amount: "$75", payer: "Only Fans", dueDate: "2024-07-05" },
+  { amount: "$200", payer: "Car Maintenance", dueDate: "2024-07-15" },
+  { amount: "$50", payer: "Gym Membership", dueDate: "2024-07-01" },
+  { amount: "$150", payer: "Home Cleaning Service", dueDate: "2024-07-08" },
+];
 
-const CheckItem = styled(Box)(() => ({
-  display: "flex",
-  alignItems: "center",
-  width: "301px",
-}));
-
-export const Owe = ({ checked, handleChange }) => {
+export const Owe = ({ handleChange, color }) => {
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
+        gap: "8px",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+      {/* Title  */}
+      <Stack
+        width={"100%"}
+        flexDirection={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
       >
-        <Typography
-          sx={{
-            width: "62px",
-            color: "#000000",
-            height: "24px",
-            fontSize: "20px",
-            fontWeight: "400",
-          }}
-        >
+        <Typography variant="body1" color={color}>
           I Owe
         </Typography>
-        <Switch
-          checked={checked}
-          onChange={handleChange}
-          inputProps={{ "aria-label": "controlled" }}
-        />
-      </Box>
-      {/* checkboxes */}
-      <CheckItem>
-        <Checkbox {...label} sx={{ color: "black" }} />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "416px",
-          }}
+        <IconButton sx={{ transform: "rotate(180deg)" }} onClick={handleChange}>
+          <FormatOverlineIcon
+            sx={{ width: "28px", height: "28px", color: color }}
+          />
+        </IconButton>
+      </Stack>
+      {/* Map over transactions */}
+      {transactions.map((transaction, index) => (
+        <Stack
+          key={index}
+          flexDirection={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          width={"100%"}
+          sx={{ borderBottom: "1px solid", height: "24px", gap: "8px" }}
         >
-          <Typography variant="text">$700 to John</Typography>
-          <Typography variant="text">Due - 26-11-24</Typography>
-        </Box>
-      </CheckItem>
-      <CheckItem>
-        <Checkbox {...label} sx={{ color: "black" }} />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "416px",
-          }}
-        >
-          <Typography variant="text">$100 to Sarah</Typography>
-          <Typography variant="text">Due - 14-07-24</Typography>
-        </Box>
-      </CheckItem>
-      <CheckItem>
-        <Checkbox {...label} sx={{ color: "black" }} />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "416px",
-          }}
-        >
-          <Typography variant="text">$30 to Alex</Typography>
-          <Typography variant="text">Due - 26-2-25</Typography>
-        </Box>
-      </CheckItem>
+          <Typography variant="body4">
+            {transaction.amount} to {transaction.payer}
+          </Typography>
+          <Typography variant="body4">Due - {transaction.dueDate}</Typography>
+        </Stack>
+      ))}
     </Box>
   );
 };

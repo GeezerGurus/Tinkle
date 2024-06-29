@@ -23,7 +23,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
     <Box
       sx={{
         width: "100%",
-        height: "369px",
+        height: "442px",
         //backgroundColor: "green",
         display: "flex",
         flexDirection: "column",
@@ -33,7 +33,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
       <Box
         sx={{
           width: "597.93px",
-          height: "39px",
+          height: "64px",
           display: "flex",
           alignSelf: "center",
           //backgroundColor: "red",
@@ -42,7 +42,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
         <Box
           sx={{
             width: "119.85px",
-            height: "100%",
+            height: "60%",
             borderRadius: "12px 0px 0px 12px",
             border: "1px solid black",
             display: "flex",
@@ -61,8 +61,8 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
         <Box
           sx={{
             width: "358.23px",
-            height: "100%",
-            backgroundColor: "#240202",
+            height: "60%",
+            backgroundColor: "#8884DC",
             color: "white",
             display: "flex",
             justifyContent: "center",
@@ -74,7 +74,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
         <Box
           sx={{
             width: "119.85px",
-            height: "100%",
+            height: "60%",
             borderRadius: "0px 12px 12px 0px",
             border: "1px solid black",
             display: "flex",
@@ -90,7 +90,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
       {/* Two Boxes of pie chart and lines */}
       <Box
         sx={{
-          height: "330px",
+          height: "378px",
           width: "100%",
           display: "flex",
           justifyContent: "space-around",
@@ -101,7 +101,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
         <Box
           sx={{
             width: "603px",
-            height: "284px",
+            height: "378px",
             borderRadius: "8px",
             border: "1px solid #E0E0E0",
             boxShadow: "",
@@ -155,7 +155,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
         <Box
           sx={{
             width: "603px",
-            height: "284px",
+            height: "378px",
             borderRadius: "8px",
             border: "1px solid #E0E0E0",
             boxShadow: "",
@@ -201,7 +201,7 @@ const Firstrow = ({ caption, onPrevMonth, onNextMonth }) => {
               }}
             >
               {/* for line chart */}
-              <LineChart data={data} labels={labels} height="206px" />
+              <LineChart data={data} labels={labels} height="300px" />
             </Box>
           </Box>
         </Box>

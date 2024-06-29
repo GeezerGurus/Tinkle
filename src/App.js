@@ -1,23 +1,48 @@
-import { Routes, Route } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Dashboard,
   Records,
   Knowledge,
   Debt,
   Budget,
+  BudgetPeriod,
   Statistic,
-  Settings,
+  GeneralSettings,
   Profile,
   Home,
   Auth,
   Support,
+  CategorySettings,
+  BalanceAccountSettings,
+  Savings,
+  BudgetOverview,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import ToBuyList from "./scenes/lists/ToBuyList";
+import ToBuyItems from "./scenes/lists/ToBuyItems";
+import Hero from "./scenes/hero/Hero";
+import { AuthContext } from "../src/context/AuthContext";
+
+const PrivateRoute = ({ children }) => {
+  const { user } = useContext(AuthContext);
+
+  // return user ? children : <Navigate to="/" replace />;
+  return children;
+};
 
 function App() {
   const [theme, colorMode, mode] = useMode();
+  const { login } = useContext(AuthContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      login(token);
+    }
+  }, [login]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -28,17 +53,143 @@ function App() {
           <main className="content">
             <Topbar />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/records" element={<Records />} />
-              <Route path="/knowledge" element={<Knowledge />} />
-              <Route path="/lists/debt-list" element={<Debt />} />
-              <Route path="/budget" element={<Budget />} />
-              <Route path="/statistics" element={<Statistic />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Hero />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/records"
+                element={
+                  <PrivateRoute>
+                    <Records />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/knowledge"
+                element={
+                  <PrivateRoute>
+                    <Knowledge />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/lists/debt-list"
+                element={
+                  <PrivateRoute>
+                    <Debt />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/lists/to-buy-lists"
+                element={
+                  <PrivateRoute>
+                    <ToBuyList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/lists/to-buy-lists/:listId"
+                element={
+                  <PrivateRoute>
+                    <ToBuyItems />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/budget"
+                element={
+                  <PrivateRoute>
+                    <Budget />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/budget/:periodType"
+                element={
+                  <PrivateRoute>
+                    <BudgetPeriod />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/budget/:periodType/:budgetId"
+                element={
+                  <PrivateRoute>
+                    <BudgetOverview />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/statistics"
+                element={
+                  <PrivateRoute>
+                    <Statistic />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/settings/general"
+                element={
+                  <PrivateRoute>
+                    <GeneralSettings />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/settings/categories"
+                element={
+                  <PrivateRoute>
+                    <CategorySettings />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/settings/balance-accounts"
+                element={
+                  <PrivateRoute>
+                    <BalanceAccountSettings />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/support"
+                element={
+                  <PrivateRoute>
+                    <Support />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/home"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/savings"
+                element={
+                  <PrivateRoute>
+                    <Savings />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
           </main>
         </div>

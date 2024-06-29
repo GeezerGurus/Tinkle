@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const Item = ({ icon, text, bgColor }) => {
+const Item = ({ icon, text, bgColor, marginRight, iconSize = "24px" }) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       {icon &&
@@ -9,7 +9,8 @@ const Item = ({ icon, text, bgColor }) => {
           sx: {
             color: "white",
             backgroundColor: bgColor,
-            marginRight: "10px",
+            marginRight: marginRight || "10px",
+            fontSize: iconSize,
           },
         })}
       <Typography sx={{ color: "black" }}>{text}</Typography>

@@ -53,26 +53,26 @@ const Dashboard = () => {
           <Balance
             Icon={MonetizationOnIcon}
             Title="Wallet"
-            Amount="$1,234.56"
-            Color=" #E3D23D"
+            Amount="$2190.19"
+            BgColor={colors.purple[500]}
           />
           <Balance
             Icon={AccountBalanceIcon}
             Title="Bank"
             Amount="$2,345.67"
-            Color="#5DE381"
+            BgColor={colors.mint[500]}
           />
           <Balance
             Icon={GridViewIcon}
             Title="Kpay"
             Amount="$3,456.78"
-            Color="#4B47E3"
+            BgColor={colors.purple[200]}
           />
           <Balance
             Icon={CreditScoreIcon}
             Title="Saving"
             Amount="$4,567.89"
-            Color="#E33E32"
+            BgColor={colors.mint[300]}
           />
         </Box>
         {/* Left side, Middle*/}
@@ -89,15 +89,7 @@ const Dashboard = () => {
         </Box>
 
         {/* Left side, Bottom */}
-        <Paper
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            height: "354px",
-          }}
-        >
-          <Transactions />
-        </Paper>
+        <Transactions />
       </Box>
       {/* Right side */}
       <Box

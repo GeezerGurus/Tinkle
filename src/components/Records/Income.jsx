@@ -95,7 +95,7 @@ const Income = () => {
             type="number"
             inputProps={{ min: "0" }}
             startAdornment={
-              <InputAdornment position="start" sx={{ color: "grren" }}>
+              <InputAdornment position="start" sx={{ color: "green" }}>
                 <Typography
                   sx={{ color: "green", fontWeight: "400", fontSize: "24px" }}
                 >

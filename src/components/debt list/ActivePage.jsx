@@ -1,14 +1,57 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useTheme,
+  SpeedDial,
+  SpeedDialAction,
+} from "@mui/material";
 import { tokens } from "../../theme";
 import Debt from "./Debt";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import AddIcon from "@mui/icons-material/Add";
 
+const actions = [
+  {
+    icon: (
+      <PowerSettingsNewIcon
+        sx={{ transform: "rotate(180deg)", color: "red" }}
+      />
+    ),
+    name: "Lend",
+  },
+  {
+    icon: <PowerSettingsNewIcon sx={{ color: "green" }} />,
+    name: "Save",
+  },
+];
 const ActivePage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(3) }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: theme.spacing(3),
+        height: "100vh", // Set height to full viewport height
+        overflowY: "auto", // Enable vertical scrolling
+        padding: theme.spacing(2), // Add some padding
+        "::-webkit-scrollbar": {
+          width: "7px",
+        },
+        "::-webkit-scrollbar-track": {
+          background: "#EAE5E5",
+        },
+        "::-webkit-scrollbar-thumb": {
+          background: "#544D4D",
+          height: "86.56px",
+          borderRadius: "2px",
+        },
+        "::-webkit-scrollbar-thumb:hover": {
+          background: "#555",
+        },
+      }}
     >
       {/* Lent part  */}
       <Box>
@@ -35,8 +78,8 @@ const ActivePage = () => {
             gap: theme.spacing(1),
           }}
         >
-          <Debt bgColor="brown" />
-          <Debt bgColor="brown" />
+          <Debt bgColor="#FFF2F2" />
+          <Debt bgColor="#FFF2F2" />
         </Box>
       </Box>
       {/* Owe Part  */}
@@ -64,10 +107,36 @@ const ActivePage = () => {
             gap: theme.spacing(1),
           }}
         >
-          <Debt bgColor="brown" />
-          <Debt bgColor="brown" />
+          <Debt bgColor="#FFF2F2" />
+          <Debt bgColor="#FFF2F2" />
         </Box>
       </Box>
+      <SpeedDial
+        ariaLabel="SpeedDial example"
+        sx={{
+          position: "absolute",
+          bottom: -30,
+          right: 130,
+          width: "116px",
+          //backgroundColor: "#2099DD",
+        }}
+        icon={
+          <AddIcon
+            sx={{
+              //backgroundColor: "#2099DD",
+              color: "white",
+            }}
+          />
+        }
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+          />
+        ))}
+      </SpeedDial>
     </Box>
   );
 };

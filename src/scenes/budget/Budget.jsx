@@ -5,7 +5,6 @@ import { BudgetBox } from "../../components/budget";
 
 const Budget = () => {
   const theme = useTheme();
-
   return (
     // Container
     <Box

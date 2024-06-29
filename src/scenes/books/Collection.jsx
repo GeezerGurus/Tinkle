@@ -5,6 +5,7 @@ import { tokens } from "../../theme";
 import { Link, useParams } from "react-router-dom";
 import { ArrowBackIos as ArrowBackIosIcon } from "@mui/icons-material";
 import { BookContents } from "../../components/utils";
+import { BackBtn } from "../../components/utils";
 
 const favorite = [
   {
@@ -66,6 +67,7 @@ const Collection = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-around",
+        position: "relative",
       }}
     >
       {/* Header */}
@@ -76,7 +78,6 @@ const Collection = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative",
           mt: 2,
         }}
       >
@@ -88,22 +89,9 @@ const Collection = () => {
             .join(" ")}
         </Typography>
         {/* Call Back Button */}
-        <Button
-          component={Link}
-          to={path}
-          startIcon={
-            <ArrowBackIosIcon sx={{ width: "20px", height: "20px" }} />
-          }
-          sx={{
-            height: "34px",
-            mr: 2,
-            position: "absolute",
-            top: "20%",
-            left: 0,
-          }}
-        >
-          <Typography variant="body1">Back</Typography>
-        </Button>
+        <Box sx={{ position: "absolute", left: 16, top: 16 }}>
+          <BackBtn />
+        </Box>
       </Box>
       {/* Contents */}
       <Grid
@@ -119,7 +107,6 @@ const Collection = () => {
           overflowY: "auto",
         }}
       >
-        {/* <Grid container> */}
         {favorite.map((item, index) => (
           <Grid item>
             <BookContents
@@ -131,8 +118,6 @@ const Collection = () => {
             />
           </Grid>
         ))}
-
-        {/* </Grid> */}
       </Grid>
     </Paper>
   );

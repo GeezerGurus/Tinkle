@@ -361,8 +361,9 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
             />
           ) : (
             <ConfirmModal
-              type={"Delete"}
+              highlight={"Delete"}
               color={colors.extra.red_accent}
+              promptText={"Do you really want to Delete?"}
               description={"This action will delete your whole Budget plan."}
               onClose={() => {
                 setOpen(false);

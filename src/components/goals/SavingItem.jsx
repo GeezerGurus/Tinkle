@@ -183,7 +183,11 @@ export const SavingItem = ({
                   transform: "translate(-50%, -50%)",
                 }}
               >
-                <GoalDetails onClose={handleClose} saved={saved} goal={goal} />
+                <GoalDetails
+                  onClose={() => setOpen(false)}
+                  saved={saved}
+                  goal={goal}
+                />
               </Box>
             </Modal>
 

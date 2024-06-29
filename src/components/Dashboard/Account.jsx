@@ -123,7 +123,7 @@ export const Account = ({ Icon, Title, Amount, BgColor }) => {
           <EditAccount
             name={Title}
             balance={Amount}
-            type={Icon}
+            Type={<Icon />}
             onClose={() => setOpenModal(false)}
           />
         </Box>

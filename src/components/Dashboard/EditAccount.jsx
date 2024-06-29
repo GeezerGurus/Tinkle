@@ -26,16 +26,22 @@ import {
   AutoGraph as AutoGraphIcon,
   PriceCheck as PriceCheckIcon,
   List as ListIcon,
+  MonetizationOn as MonetizationOnIcon,
+  AccountBalance as AccountBalanceIcon,
+  GridView as GridViewIcon,
+  CreditScore as CreditScoreIcon,
 } from "@mui/icons-material";
 import { Item } from "../utils";
 
-const EditAccount = ({ onClose, name, balance, type }) => {
+const EditAccount = ({ onClose, name, balance, Type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [accountName, setAccountName] = useState(name || "");
   const [currentBalance, setCurrentBalance] = useState(balance || 0);
-  const [selectedOption, setSelectedOption] = useState(type || "");
+  const [selectedOption, setSelectedOption] = useState(name || "");
+
+  console.log(selectedOption);
 
   return (
     <Paper
@@ -162,8 +168,31 @@ const EditAccount = ({ onClose, name, balance, type }) => {
             <MenuItem value="income">
               <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
             </MenuItem>
+            <MenuItem value="wallet">
+              <Item
+                icon={<MonetizationOnIcon />}
+                text="Wallet"
+                bgColor="brown"
+              />
+            </MenuItem>
+            <MenuItem value="bank">
+              <Item icon={<AccountBalanceIcon />} text="Bank" bgColor="gold" />
+            </MenuItem>
+            <MenuItem value="kpay">
+              <Item icon={<GridViewIcon />} text="Kpay" bgColor="blue" />
+            </MenuItem>
+            <MenuItem value="saving">
+              <Item
+                icon={<CreditScoreIcon />}
+                text="Saving"
+                bgColor="lightgreen"
+              />
+            </MenuItem>
             <MenuItem value="others">
               <Item icon={<ListIcon />} text="Others" bgColor="brown" />
+            </MenuItem>
+            <MenuItem value={name}>
+              <Item icon={Type} text={name} bgColor="lightgreen" />
             </MenuItem>
           </Select>
         </FormControl>

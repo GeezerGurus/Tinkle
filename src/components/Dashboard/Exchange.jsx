@@ -21,19 +21,59 @@ const StyledInput = styled("input")({
   },
 });
 
+// Exchange Rates data
+
+const exchangeRates = {
+  USD: { MMK: 3200, Yen: 110, Euro: 0.85, USD: 1 },
+  MMK: { USD: 0.00031, Yen: 0.034, Euro: 0.00027, MMK: 1 },
+  Yen: { USD: 0.0091, MMK: 29.5, Euro: 0.0077, Yen: 1 },
+  Euro: { USD: 1.18, MMK: 3740, Yen: 130, Euro: 1 },
+};
+
 const Exchange = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [currency, setCurrency] = useState("USD");
-  const [inputValue, setInput] = useState("");
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
 
-  const handleCurrencyChange = (event) => {
-    setCurrency(event.target.value);
+  const [inputCurrency, setInputCurrency] = useState("USD");
+  const [outputCurrency, setOutputCurrency] = useState("MMK");
+
+  const handleInputCurrencyChange = (event) => {
+    const selectedCurrency = event.target.value;
+    setInputCurrency(selectedCurrency);
+    if (selectedCurrency === outputCurrency) {
+      setOutputCurrency(inputCurrency);
+      setInputCurrency(outputCurrency);
+    }
+    setOutput("");
+  };
+
+  const handleOutputCurrencyChange = (event) => {
+    const selectedCurrency = event.target.value;
+    setOutputCurrency(selectedCurrency);
+    if (selectedCurrency === inputCurrency) {
+      setInputCurrency(outputCurrency);
+      setOutputCurrency(inputCurrency);
+    }
+    setOutput("");
   };
 
   const handleInput = (event) => {
     setInput(event.target.value);
+  };
+
+  const handleConvert = () => {
+    const rate = exchangeRates[inputCurrency][outputCurrency];
+    const result = input * rate;
+    setOutput(result.toFixed(2));
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleConvert();
+    }
   };
 
   return (
@@ -51,7 +91,10 @@ const Exchange = () => {
       {/* <Stack></Stack> */}
       <Box>
         <Typography variant="h6">Currency Exchange</Typography>
-        <Typography variant="body2">1USD = 3200MMK</Typography>
+        <Typography variant="body2">
+          1 {inputCurrency} = {exchangeRates[inputCurrency][outputCurrency]}{" "}
+          {outputCurrency}
+        </Typography>
       </Box>
 
       {/* Exchange  */}
@@ -77,8 +120,8 @@ const Exchange = () => {
           }}
         >
           <Select
-            value={currency}
-            onChange={handleCurrencyChange}
+            value={inputCurrency}
+            onChange={handleInputCurrencyChange}
             sx={{
               ".MuiOutlinedInput-notchedOutline": { border: 0 },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -86,29 +129,24 @@ const Exchange = () => {
               },
             }}
           >
-            <MenuItem value="USD">
-              <Typography variant="body3">USD</Typography>
-            </MenuItem>
-            <MenuItem value="Yen">
-              <Typography variant="body3">YEN</Typography>
-            </MenuItem>
-            <MenuItem value="Euro">
-              <Typography variant="body3">EURO</Typography>
-            </MenuItem>
-            <MenuItem value="MMK">
-              <Typography variant="body3">MMK</Typography>
-            </MenuItem>
+            {Object.keys(exchangeRates).map((currency) => (
+              <MenuItem key={currency} value={currency}>
+                <Typography variant="body3">{currency}</Typography>
+              </MenuItem>
+            ))}
           </Select>
           <StyledInput
             type="number"
             placeholder="Enter amount"
-            value={inputValue}
+            value={input}
             onChange={handleInput}
+            onKeyPress={handleKeyPress}
           />
         </Box>
 
         {/* Icon */}
         <IconButton
+          onClick={handleConvert}
           sx={{
             position: "absolute",
             top: "34%",
@@ -137,8 +175,8 @@ const Exchange = () => {
           }}
         >
           <Select
-            value={currency}
-            onChange={handleCurrencyChange}
+            value={outputCurrency}
+            onChange={handleOutputCurrencyChange}
             sx={{
               ".MuiOutlinedInput-notchedOutline": { border: 0 },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -146,20 +184,17 @@ const Exchange = () => {
               },
             }}
           >
-            <MenuItem value="USD">
-              <Typography variant="body3">USD</Typography>
-            </MenuItem>
-            <MenuItem value="Yen">
-              <Typography variant="body3">YEN</Typography>
-            </MenuItem>
-            <MenuItem value="Euro">
-              <Typography variant="body3">EURO</Typography>
-            </MenuItem>
-            <MenuItem value="MMK">
-              <Typography variant="body3">MMK</Typography>
-            </MenuItem>
+            {Object.keys(exchangeRates).map((currency) => (
+              <MenuItem
+                key={currency}
+                value={currency}
+                disabled={currency === inputCurrency}
+              >
+                <Typography variant="body3">{currency}</Typography>
+              </MenuItem>
+            ))}
           </Select>
-          <StyledInput disabled value="Something here"></StyledInput>
+          <StyledInput disabled value={output} />
         </Box>
       </Paper>
     </Paper>

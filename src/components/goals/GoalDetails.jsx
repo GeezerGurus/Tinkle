@@ -14,10 +14,12 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import CircularProgress from "@mui/material/CircularProgress";
 import AddSaveAmount from "./AddSaveAmount";
 import { tokens } from "../../theme";
+import ConfirmModal from "../utils/ConfirmModal";
 
 function CircularProgressBar(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <Box
       sx={{
@@ -55,7 +57,7 @@ function CircularProgressBar(props) {
         }}
       />
 
-      {/* Inneeree teeext  */}
+      {/* Inner text */}
       <Stack
         alignItems={"center"}
         gap={3}
@@ -90,12 +92,10 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [open, setOpen] = useState(false);
+  const [modal, setModal] = useState("");
+  const [openModal, setOpenModal] = useState(false);
   const percentage = goal > 0 ? (saved / goal) * 100 : 0;
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <Paper
       sx={{
@@ -120,7 +120,12 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
           <PauseCircleOutlineIcon sx={{ width: "40px", height: "40px" }} />
         </IconButton>
         <Typography variant="h4">Goal</Typography>
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            setModal("reached");
+            setOpenModal(true);
+          }}
+        >
           <FlagOutlinedIcon sx={{ width: "40px", height: "40px" }} />
         </IconButton>
       </Stack>
@@ -137,13 +142,16 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
         <Typography variant="h6">Estimated time to reach goal</Typography>
         <Stack direction={"row"} alignItems={"center"} gap={1}>
           <Typography variant="h5">20</Typography>
-          <Typography variant="body1">week</Typography>
+          <Typography variant="body1">weeks</Typography>
         </Stack>
       </Stack>
-      {/* Bottons */}
+      {/* Buttons */}
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setModal("add");
+            setOpenModal(true);
+          }}
           sx={{
             width: "240px",
             height: "40px",
@@ -151,22 +159,14 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
             textTransform: "none",
             color: "white",
             borderRadius: "8px",
+            "&:hover": {
+              backgroundColor: colors.purple[200],
+            },
           }}
         >
           <Typography variant="body2">Add amount</Typography>
         </Button>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <AddSaveAmount onClose={handleClose} />
-          </Box>
-        </Modal>
+
         <Button
           onClick={onClose}
           sx={{
@@ -180,6 +180,39 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
           <Typography variant="body2">Cancel</Typography>
         </Button>
       </Stack>
+      <Modal
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+          }}
+        >
+          {modal === "reached" ? (
+            <ConfirmModal
+              color={colors.extra.yellow_accent}
+              highlight="Reached"
+              promptText="Do you want to set goal as Reached?"
+              description="This action will set your Saving plan as reached."
+              onClose={() => {
+                setOpenModal(false);
+              }}
+            />
+          ) : (
+            <AddSaveAmount
+              onClose={() => {
+                setOpenModal(false);
+              }}
+            />
+          )}
+        </Box>
+      </Modal>
     </Paper>
   );
 };

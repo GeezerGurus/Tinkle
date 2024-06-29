@@ -2,14 +2,24 @@ import { Button, Paper, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import React from "react";
 
-const ConfirmModal = ({ onClose, color, type, description }) => {
+const ConfirmModal = ({
+  onClose,
+  color,
+  highlight,
+  description,
+  promptText,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  // Split the promptText into parts using a regular expression to match the highlight word, ignoring case
+  const regex = new RegExp(`(${highlight})`, "i");
+  const parts = promptText.split(regex);
 
   return (
     <Paper
       sx={{
-        width: "501px",
+        width: "auto",
         height: "221px",
         padding: "30px 36px",
         display: "flex",
@@ -19,11 +29,20 @@ const ConfirmModal = ({ onClose, color, type, description }) => {
       }}
     >
       <Typography variant="h4">
-        Do you really want to{" "}
-        <Typography component="span" variant="h4" sx={{ color: color }}>
-          {type}
-        </Typography>
-        ?
+        {parts.map((part, index) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <Typography
+              component="span"
+              variant="h4"
+              key={index}
+              sx={{ color: color }}
+            >
+              {part}
+            </Typography>
+          ) : (
+            <span key={index}>{part}</span>
+          )
+        )}
       </Typography>
       <Typography variant="body1">{description}</Typography>
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>

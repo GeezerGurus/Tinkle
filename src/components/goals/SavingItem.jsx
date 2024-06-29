@@ -106,7 +106,7 @@ export const SavingItem = ({
                 <IconButton
                   onClick={() => {
                     setModal("play");
-                    // setOpenModal(true);
+                    setOpenModal(true);
                   }}
                 >
                   <PlayCircleOutlineIcon
@@ -217,16 +217,26 @@ export const SavingItem = ({
             />
           ) : modal === "delete" ? (
             <ConfirmModal
-              type={"Delete"}
+              highlight={"Delete"}
               color={colors.extra.red_accent}
+              promptText={"Do you really want to Delete?"}
               description={"This action will delete your whole Saving plan."}
+              onClose={handleClose}
+            />
+          ) : modal === "paused" ? (
+            <ConfirmModal
+              highlight={"Pause"}
+              color={colors.purple[600]}
+              promptText={"Do you really want to Pause?"}
+              description={"This action will pause your Saving plan."}
               onClose={handleClose}
             />
           ) : (
             <ConfirmModal
-              type={"Pause"}
-              color={colors.purple[600]}
-              description={"This action will pause your Saving plan."}
+              highlight={"Resume"}
+              color={colors.green[500]}
+              promptText={"Do you want to Resume your goal?"}
+              description={"This action will set your Saving plan as reached."}
               onClose={handleClose}
             />
           )}

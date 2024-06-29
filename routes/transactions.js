@@ -1,4 +1,4 @@
-const { requireAuth } = require("../middlewares/authentication");//Apply this middleware to routes that should only be accessible to authenticated users. For example look at incomes route
+const { requireAuth } = require("../middlewares/authentication"); //Apply this middleware to routes that should only be accessible to authenticated users. For example look at incomes route
 const {
   addExpense,
   getExpense,
@@ -15,7 +15,7 @@ const {
   addUser,
   getUser,
   patchUser,
-  deleteUser
+  deleteUser,
 } = require("../controllers/usersController");
 const {
   addAccount,
@@ -29,29 +29,29 @@ const {
   patchDebts,
   deleteDebt,
 } = require("../controllers/debtsController");
-const { 
+const {
   addBudget,
   getBudget,
   patchBudget,
   deleteBudget,
 } = require("../controllers/budgetsController");
-const{
+const {
   addItemsToBuy,
   getItemsToBuy,
   deleteItemsToBuy,
-  patchItemsToBuy
+  patchItemsToBuy,
 } = require("../controllers/itemsToBuyController");
-const{
+const {
   addTransfer,
   getTransfer,
   patchTransfer,
-  deleteTransfer
+  deleteTransfer,
 } = require("../controllers/transfersController");
-const{
+const {
   signup_post,
   login_post,
-  logout
-} = require('../controllers/authsController');
+  logout,
+} = require("../controllers/authsController");
 
 const router = require("express").Router();
 
@@ -62,7 +62,7 @@ router
   .get("/logout", logout)
 
   //Incomes
-  .post("/users/:userId/account/:accountId /incomes", requireAuth, addIncome)
+  .post("/users/:userId/account/:accountId/incomes", requireAuth, addIncome)
   .get("/incomes", requireAuth, getIncomes)
   .patch("/users/:userId/incomes/:incomeId", requireAuth, patchIncomes)
   .delete("/incomes/:incomeId", requireAuth, deleteIncome)
@@ -102,7 +102,7 @@ router
   .get("/itemstobuy", getItemsToBuy)
   .patch("/users/:userId/itemstobuy/:itemtobuyId", patchItemsToBuy)
   .delete("/itemstobuy/:id", deleteItemsToBuy)
-  
+
   //Transfer
   .post("/users/:userId/transfer", addTransfer)
   .get("/transfer", getTransfer)

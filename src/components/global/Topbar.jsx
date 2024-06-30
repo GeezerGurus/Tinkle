@@ -51,6 +51,20 @@ const getTitle = (path) => {
       return "Home";
     case /^\/dashboard$/.test(path):
       return "Dashboard";
+      case /^\/video$/.test(path):
+        return "Videos";
+      case /^\/video\/favourites$/.test(path):
+        return "Videos";
+      case /^\/video\/saving$/.test(path):
+        return "Videos";
+      case /^\/video\/business$/.test(path):
+        return "Videos";
+      case /^\/video\/budgets$/.test(path):
+        return "Videos";
+      case /^\/video\/life$/.test(path):
+        return "Videos";
+      case /^\/video\/tinkle$/.test(path):
+        return "Videos";
     default:
       return "English or Spanish?";
   }

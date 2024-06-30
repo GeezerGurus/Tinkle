@@ -21,6 +21,8 @@ import { ColorModeContext, useMode } from "./theme";
 import ToBuyList from "./scenes/lists/ToBuyList";
 import ToBuyItems from "./scenes/lists/ToBuyItems";
 import Hero from "./scenes/hero/Hero";
+import Video from "./scenes/Videos/Video";
+import VideoCollection from "./scenes/Videos/VideoCollection";
 
 function App() {
   const [theme, colorMode, mode] = useMode();
@@ -60,6 +62,11 @@ function App() {
               <Route path="/support" element={<Support />} />
               <Route path="/home" element={<Home />} />
               <Route path="/savings" element={<Savings />} />
+              <Route path="/video" element={<Video />} />
+              <Route
+                path="/video/:Videocollection"
+                element={<VideoCollection />}
+              />
             </Routes>
           </main>
         </div>

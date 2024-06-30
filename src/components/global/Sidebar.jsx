@@ -238,7 +238,7 @@ const lists = [
 
 // knowledge
 const knowledge = [
-  { text: "Videos", path: "" },
+  { text: "Videos", path: "/video" },
   { text: "Books", path: "" },
   { text: "Documentations", path: "" },
 ];

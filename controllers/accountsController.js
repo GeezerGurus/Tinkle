@@ -1,25 +1,22 @@
 const AccountSchema = require("../models/Account");
 
 exports.addAccount = async (req, res) => {
-  const { userId } = req.params;
-  const { name, balance, currency, description } = req.body;
+  const userId = req.userId;
+  const { name, balance, type } = req.body;
 
   try {
-    if (!userId || !balance || !name ) {
+    if (!userId || !balance || !name) {
       return res.status(400).json({ message: "All fields are required!" });
     }
     if (balance <= 0 || !balance === "number") {
-      return res
-        .status(400)
-        .json({ message: "Balance amount must be a positive number!" });
+      return res.status(400).json({ message: "Balance amount must be a positive number!" });
     }
 
     const account = AccountSchema({
       userId,
       name,
       balance,
-      currency,
-      description
+      type
     });
 
     await account.save();
@@ -32,7 +29,7 @@ exports.addAccount = async (req, res) => {
 
 exports.getAccount = async (req, res) => {
   try {
-    const account = await AccountSchema.find().sort({ createdAt: -1 });
+    const account = await AccountSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(account);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -43,9 +40,13 @@ exports.patchAccount = async (req, res) => {
   const { accountId } = req.params;
   const { name, balance, currency, description } = req.body;
   try {
-        const account = await AccountSchema.findOne({ _id: accountId });
+        const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
         if (!account) {
-            return res.status(404).json({ message: "Income not found!" });
+            return res.status(404).json({ message: "Account not found!" });
+        }
+
+        if (balance <= 0 || !balance === "number") {
+          return res.status(400).json({ message: "Balance amount must be a positive number!" });
         }
 
         if (name) account.name = name;
@@ -63,7 +64,7 @@ exports.patchAccount = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
   const { accountId } = req.params;
-  AccountSchema.findByIdAndDelete(accountId)
+  AccountSchema.findOneAndDelete({ userId: req.userId, _id:accountId })
     .then((account) => {
       res.status(200).json({ message: "Account Deleted" });
     })

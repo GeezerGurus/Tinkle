@@ -16,6 +16,7 @@ const itemToBuySchema = new Schema(
     },
     quantity: {
       type: Number,
+      require: true,
       min: 1,
     },
     description: {
@@ -25,6 +26,7 @@ const itemToBuySchema = new Schema(
     },
     price: {
       type: Number,
+      require: true,
       min: 0,
     },
     isPurchased: {

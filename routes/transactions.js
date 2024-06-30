@@ -1,17 +1,5 @@
 const { requireAuth } = require("../middlewares/authentication"); //Apply this middleware to routes that should only be accessible to authenticated users. For example look at incomes route
 const {
-  addExpense,
-  getExpense,
-  deleteExpense,
-  putExpense,
-} = require("../controllers/expensesController");
-const {
-  addIncome,
-  getIncomes,
-  deleteIncome,
-  patchIncomes,
-} = require("../controllers/incomesController");
-const {
   addUser,
   getUser,
   patchUser,
@@ -23,6 +11,12 @@ const {
   deleteAccount,
   patchAccount,
 } = require("../controllers/accountsController");
+const{
+  addItemsToBuy,
+  getItemsToBuy,
+  deleteItemsToBuy,
+  patchItemsToBuy
+} = require("../controllers/itemsToBuyController");
 const {
   addDebt,
   getDebts,
@@ -36,22 +30,46 @@ const {
   deleteBudget,
 } = require("../controllers/budgetsController");
 const {
-  addItemsToBuy,
-  getItemsToBuy,
-  deleteItemsToBuy,
-  patchItemsToBuy,
-} = require("../controllers/itemsToBuyController");
-const {
-  addTransfer,
-  getTransfer,
-  patchTransfer,
-  deleteTransfer,
-} = require("../controllers/transfersController");
+  addBook,
+  getBook,
+  patchBook,
+  deleteBook
+} = require("../controllers/booksController");
 const {
   signup_post,
   login_post,
   logout,
 } = require("../controllers/authsController");
+const {
+  addDocument,
+  getDocument,
+  patchDocument,
+  deleteDocument
+} = require("../controllers/documentController");
+const {
+  addVideo,
+  getVideo,
+  patchVideo,
+  deleteVideo
+} = require("../controllers/videosController");
+const {
+  addRecord,
+  getRecord,
+  putRecord,
+  deleteRecord
+} = require("../controllers/recordController");
+const {
+  addCategory,
+  getCategory,
+  patchCategory,
+  deleteCategory
+} = require("../controllers/categoryController");
+const {
+  addSetting,
+  getSetting,
+  patchSetting,
+  deleteSetting
+} = require("../controllers/settingsController");
 
 const router = require("express").Router();
 
@@ -61,18 +79,6 @@ router
   .post("/login", login_post)
   .get("/logout", logout)
 
-  //Incomes
-  .post("/users/:userId/account/:accountId/incomes", requireAuth, addIncome)
-  .get("/incomes", requireAuth, getIncomes)
-  .patch("/users/:userId/incomes/:incomeId", requireAuth, patchIncomes)
-  .delete("/incomes/:incomeId", requireAuth, deleteIncome)
-
-  //Expenses
-  .post("/users/:userId/account/:accountId/expenses", addExpense)
-  .get("/expenses", getExpense)
-  .put("/users/:userId/expenses/:expenseId", putExpense)
-  .delete("/expenses/:expenseId", deleteExpense)
-
   //User
   .post("/users", addUser)
   .get("/users", getUser)
@@ -80,33 +86,63 @@ router
   .delete("/users/:id", deleteUser)
 
   //Accounts
-  .post("/users/:userId/account", addAccount)
-  .get("/account", getAccount)
-  .patch("/account/:accountId", patchAccount)
-  .delete("/account/:accountId", deleteAccount)
+  .post("/account", requireAuth, addAccount)
+  .get("/account", requireAuth, getAccount)
+  .patch("/account/:accountId", requireAuth, patchAccount)
+  .delete("/account/:accountId", requireAuth, deleteAccount)
 
   //Debts
-  .post("/debt", addDebt)
-  .get("/debt", getDebts)
-  .patch("/users/:userId/debt/:debtId", patchDebts)
-  .delete("/debt/:debtId", deleteDebt)
+  .post("/debt", requireAuth, addDebt)
+  .get("/debt", requireAuth, getDebts)
+  .patch("/debt/:debtId", requireAuth, patchDebts)
+  .delete("/debt/:debtId", requireAuth, deleteDebt)
 
   //Budgets
-  .post("/users/:userId/budget", addBudget)
-  .get("/budget", getBudget)
-  .patch("/users/:userId/budget/:budgetId", patchBudget)
-  .delete("/budget/:budgetId", deleteBudget)
+  .post("/budget", requireAuth, addBudget)
+  .get("/budget", requireAuth, getBudget)
+  .patch("/budget/:budgetId", requireAuth, patchBudget)
+  .delete("/budget/:budgetId", requireAuth, deleteBudget)
 
   //Items to Buy
-  .post("/users/:userId/itemstobuy", addItemsToBuy)
-  .get("/itemstobuy", getItemsToBuy)
-  .patch("/users/:userId/itemstobuy/:itemtobuyId", patchItemsToBuy)
-  .delete("/itemstobuy/:id", deleteItemsToBuy)
+  .post("/itemstobuy", requireAuth, addItemsToBuy)
+  .get("/itemstobuy", requireAuth, getItemsToBuy)
+  .patch("/itemstobuy/:itemtobuyId", requireAuth, patchItemsToBuy)
+  .delete("/itemstobuy/:itemtobuyId", requireAuth, deleteItemsToBuy)
 
-  //Transfer
-  .post("/users/:userId/transfer", addTransfer)
-  .get("/transfer", getTransfer)
-  .patch("/users/:userId/transfer/:transferId", patchTransfer)
-  .delete("/transfer/:id", deleteTransfer);
+  //Book
+  .post("/book", requireAuth,addBook)
+  .get("/book", requireAuth, getBook)
+  .put("/book/:bookid", requireAuth, patchBook)
+  .delete("/book/:bookid", requireAuth, deleteBook)
+
+  //Document
+  .post("/document", requireAuth, addDocument)
+  .get("/document", requireAuth, getDocument)
+  .put("/document/:documentId", requireAuth, patchDocument)
+  .delete("/document/:documentId", requireAuth, deleteDocument)
+
+  //Video
+  .post("/video", requireAuth, addVideo)
+  .get("/video", requireAuth, getVideo)
+  .put("/video/:id", requireAuth, patchVideo)
+  .delete("/video/:id", requireAuth, deleteVideo)
+
+  //Record
+  .post("/record", requireAuth, addRecord)
+  .get("/record", requireAuth, getRecord)
+  .put("/account/:accountId/categories/:categoryId/record/:recordId", requireAuth, putRecord)
+  .delete("/account/:accountId/categories/:categoryId/record/:recordId", requireAuth, deleteRecord)
+
+  //Categories
+  .post("/categories", requireAuth, addCategory)
+  .get("/categories", requireAuth, getCategory)
+  .patch("/categories/:categoryId", requireAuth, patchCategory)
+  .delete("/categories/:categoryId", requireAuth, deleteCategory)
+
+  //Setting
+  .post("/setting", requireAuth, addSetting)
+  .get("/setting", requireAuth, getSetting)
+  .patch("/setting/:settingId", requireAuth, patchSetting)
+  .delete("/setting/:settingId", requireAuth, deleteSetting)
 
 module.exports = router;

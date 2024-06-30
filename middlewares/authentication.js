@@ -11,6 +11,7 @@ const requireAuth = (req, res, next) => {
         res.redirect('/');//If error occurs, redirect back to login page. For now I leave it as home page
       } else {
         console.log(decodedToken);
+        req.userId = decodedToken.id;
         next();
       }
     });

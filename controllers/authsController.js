@@ -40,12 +40,17 @@ const createToken = (id) => {
 };
 
 exports.signup_post = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, job, phoneNo } = req.body;
 
   try {
-    const user = await User.create({ username, email, password });
+    const user = await User.create({ username, email, password, job, phoneNo });
     const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, { 
+      httpOnly: false,
+      secure: true,
+      sameSite: 'Strict',
+      maxAge: maxAge * 1000 
+    });
     res.status(201).json({ user: user._id, token: token });
     console.log(user);
   } catch (err) {
@@ -62,6 +67,8 @@ exports.login_post = async (req, res) => {
     const token = createToken(user._id);
     res.cookie("jwt", token, {
       httpOnly: false,
+      secure: true,
+      sameSite: 'Strict',
       maxAge: maxAge * 1000,
     });
     res.status(200).json({ user: user._id, token: token });

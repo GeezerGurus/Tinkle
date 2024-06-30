@@ -8,19 +8,20 @@ const settingsSchema = new Schema(
       ref: "User",
       required: true,
     },
-    notificationPreferences: {
-      email: { type: Boolean, default: true },
-      push: { type: Boolean, default: true },
-    },
     theme: {
       type: String,
       enum: ["light", "dark"],
       default: "light",
     },
-    currency: {
+    default_interval: {
       type: String,
-      default: "MMK",
+      required: true,
+      trim: true,
     },
+    hide_dec: {
+      type: Boolean,
+      default: false,
+    }
   },
   { timestamps: true }
 );

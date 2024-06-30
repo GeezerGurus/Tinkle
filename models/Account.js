@@ -20,15 +20,10 @@ const accountSchema = new Schema(
       trim: true,
       min: 0,
     },
-    currency: {
-      type: String,
-      trim: true,
-      default: "MMK",
-    },
-    description: {
-      type: String,
-      trim: true,
-      maxlength: 200,
+    type: {
+      type : String,
+      trim : true,
+      maxlength: 255,
     },
   },
   { timestamps: true }

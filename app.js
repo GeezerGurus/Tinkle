@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { readdirSync } = require("fs");
 const cookieParser = require('cookie-parser');
-const { checkUser } = require('./middlewares/authentication');
+const { requireAuth, checkUser } = require('./middlewares/authentication');
 
 const app = express();
 

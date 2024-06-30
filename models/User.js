@@ -21,18 +21,14 @@ const userSchema = new Schema(
       required: [true, "Please enter a password"],
       minlength: [6, "Minimum password length is 6 characters"],
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: {
+    job: {
       type: String,
+      required: [true, "Please enter your job"]
     },
-    resetPasswordToken: {
+    phoneNo: {
       type: String,
-    },
-    resetPasswordExpires: {
-      type: Date,
+      required: [true, "Please enter a phone number"],
+      unique: true,
     },
   },
   { timestamps: true }

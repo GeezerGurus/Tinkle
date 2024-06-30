@@ -1,11 +1,10 @@
 const DebtSchema = require("../models/Debt");
 
 exports.addDebt = async (req, res) => {
-  const { userId } = req.params
+  const userId = req.userId;
   const { name, amount, currency, category, payer, startDate, endDate, description } = req.body;
 
   try {
-    //validations
     if ( !currency || !name || !amount || !startDate || !category || !endDate) {
       return res.status(400).json({ message: "All fields are required!" });
     }
@@ -35,7 +34,7 @@ exports.addDebt = async (req, res) => {
 
 exports.getDebts = async (req, res) => {
   try {
-    const debt = await DebtSchema.find().sort({ createdAt: -1 });
+    const debt = await DebtSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(debt);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -43,10 +42,10 @@ exports.getDebts = async (req, res) => {
 };
 
 exports.patchDebts = async (req, res) => {
-  const { userId, debtId } = req.params;
+  const { debtId } = req.params;
   const { name, amount, payer, category, description } = req.body;
   try {
-        const debt = await DebtSchema.findOne({ _id: debtId });
+        const debt = await DebtSchema.findOne({ userId: req.userId, _id: debtId });
         if (!debt) {
             return res.status(404).json({ message: "Debt not found!" });
         }
@@ -72,8 +71,8 @@ exports.patchDebts = async (req, res) => {
 }
 
 exports.deleteDebt = async (req, res) => {
-  const { id } = req.params;
-  DebtSchema.findByIdAndDelete(id)
+  const { debtId } = req.params;
+  DebtSchema.findOneAndDelete({ userId: req.userId, _id: debtId})
     .then((debt) => {
       res.status(200).json({ message: "Debt Deleted" });
     })

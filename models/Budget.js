@@ -8,7 +8,7 @@ const budgetSchema = new Schema(
       ref: "User",
       required: true,
     },
-    category: {
+    name: {
       type: String,
       required: true,
       trim: true,
@@ -19,10 +19,17 @@ const budgetSchema = new Schema(
       trim: true,
       min: 0,
     },
-    currency: {
-      type: String,
+    spent: {
+      type: Number,
+      required: true,
       trim: true,
-      default: "MMK",
+      min: 0,
+    },
+    remain: {
+      type: Number,
+      required: true,
+      trim: true,
+      min: 0,
     },
     startDate: {
       type: Date,

@@ -1,12 +1,11 @@
 const BudgetSchema = require("../models/Budget");
 
 exports.addBudget = async (req, res) => {
-  const { userId } = req.params
-  const { period, currency, amount, endDate, startDate, category, description } = req.body;
+  const userId = req.userId;
+  const { name, remain, period, spent, amount, endDate, startDate, description } = req.body;
 
   try {
-    //validations
-    if (!endDate || !startDate || !amount || !period || !category) {
+    if ( !spent || !name || !remain || !endDate || !startDate || !amount || !period) {
       return res.status(400).json({ message: "All fields are required!" });
     }
     if (amount <= 0 || !amount === "number") {
@@ -15,12 +14,13 @@ exports.addBudget = async (req, res) => {
 
     const budget = BudgetSchema({
       userId,
+      name,
       period,
       amount,
-      currency,
+      spent,
+      remain,
       endDate,
       startDate,
-      category,
       description
     });
   
@@ -34,7 +34,7 @@ exports.addBudget = async (req, res) => {
 
 exports.getBudget = async (req, res) => {
   try {
-    const budget = await BudgetSchema.find().sort({ createdAt: -1 });
+    const budget = await BudgetSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(budget);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -43,9 +43,9 @@ exports.getBudget = async (req, res) => {
 
 exports.patchBudget = async (req, res) => {
   const { budgetId } = req.params;
-  const { period, currency, amount, endDate, startDate, category, description } = req.body;
+  const { name, remain, period, spent, amount, endDate, startDate, description } = req.body;
   try {
-        const budget = await BudgetSchema.findOne({ _id: budgetId });
+        const budget = await BudgetSchema.findOne({ userId: req.userId ,_id: budgetId });
         if (!budget) {
             return res.status(404).json({ message: "Budget not found!" });
         }
@@ -53,14 +53,16 @@ exports.patchBudget = async (req, res) => {
           return res.status(400).json({ message: "Amount must be a positive number!" });
         }
 
+        if (userId) budget.userId = userId;
         if (period) budget.period = period;
-        if (currency) budget.name = currency;
+        if (spent) budget.name = spent;
         if (amount) budget.amount = amount;
+        if (remain) budget.remain = remain;
+        if (name) budget.name = name;
         if (endDate) budget.endDate = endDate;
         if (startDate) budget.startDate = startDate;
-        if (category) budget.category = category;
         if (description) budget.description = description;
-
+        
         await budget.save();
 
         res.status(200).json({ message: "Budget updated successfully", budget });
@@ -72,7 +74,7 @@ exports.patchBudget = async (req, res) => {
 
 exports.deleteBudget = async (req, res) => {
   const { id } = req.params;
-  BudgetSchema.findByIdAndDelete(id)
+  BudgetSchema.findOneAndDelete({userId: req.userId, id})
     .then((budget) => {
       res.status(200).json({ message: "Budget Deleted" });
     })

@@ -67,6 +67,9 @@ const ConfirmModal = ({
             width: "208px",
             height: "40px",
             backgroundColor: colors.purple[200],
+            "&:hover": {
+              backgroundColor: colors.purple[100],
+            },
             textTransform: "none",
             borderRadius: "8px",
           }}

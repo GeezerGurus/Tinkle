@@ -1,12 +1,26 @@
 import { Box, LinearProgress, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
-const Progress = ({ percent, height, showPercentText, barColor }) => {
+const Progress = ({ percent, height, showPercentText, barColor, bgColor }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const progressValue = parseInt(percent, 10); // Convert percent to integer
   const isOverspent = progressValue < 0; // Check if overspent
+
+  const getBarColor = () => {
+    if (barColor) {
+      return barColor;
+    }
+    if (isOverspent) {
+      return colors.category.red; // overspent
+    }
+    if (progressValue < 50) {
+      return colors.category.orange; // normal spending or risk of overspent
+    }
+    return colors.green[100]; // in limit
+  };
+
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <Box sx={{ width: "100%" }}>
@@ -15,14 +29,10 @@ const Progress = ({ percent, height, showPercentText, barColor }) => {
           value={isOverspent ? 100 : 100 - progressValue}
           sx={{
             height: height || 17,
-            bgcolor: barColor || colors.extra.light_grey,
+            bgcolor: bgColor || colors.extra.light_grey,
             direction: isOverspent ? "rtl" : "ltr", // Reverse direction for overspent values only
             "& .MuiLinearProgress-bar": {
-              bgcolor: isOverspent
-                ? colors.category.red // overspent
-                : progressValue < 50
-                ? colors.category.orange // normal spending or risk of overspent
-                : colors.green[100], // in limit
+              bgcolor: getBarColor(),
             },
           }}
         />

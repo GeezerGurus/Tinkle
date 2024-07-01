@@ -1,123 +1,136 @@
-import { Box, Typography, TextField,Button } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Typography,
+  TextField,
+  Button,
+  Paper,
+  Stack,
+  useTheme,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { tokens } from "../../theme";
 
-const UpdatePassword = () => {
+const UpdatePassword = ({ onClose }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleToggleShowPassword = (setter) => {
+    setter((show) => !show);
+  };
+
   return (
-    <Box
+    <Paper
       sx={{
-        bgcolor: "#FFFFFF",
-        width: "807px",
-        height: "677px",
+        padding: "32px 112px",
+        width: 686,
+        height: 472,
         borderRadius: "8px",
-        border: "1px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        gap: "20px",
+        flexDirection: "column",
       }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          height: "77px",
+      <Typography variant="h4">Update your password</Typography>
+      <Typography variant="body1">
+        Enter your current password and new password
+      </Typography>
+
+      <TextField
+        type={showCurrentPassword ? "text" : "password"}
+        label="Current Password"
+        fullWidth
+        InputLabelProps={{
+          shrink: true,
         }}
-      >
-        <Typography
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => handleToggleShowPassword(setShowCurrentPassword)}
+                edge="end"
+              >
+                {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <TextField
+        type={showNewPassword ? "text" : "password"}
+        label="New Password"
+        fullWidth
+        InputLabelProps={{
+          shrink: true,
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => handleToggleShowPassword(setShowNewPassword)}
+                edge="end"
+              >
+                {showNewPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <TextField
+        type={showConfirmPassword ? "text" : "password"}
+        label="Confirm New Password"
+        fullWidth
+        InputLabelProps={{
+          shrink: true,
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => handleToggleShowPassword(setShowConfirmPassword)}
+                edge="end"
+              >
+                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <Stack gap={1} direction="row" justifyContent="space-between">
+        <Button
           sx={{
-            textAlign:"center",
-            fontFamily: "Inter",
-            fontWeight: "600",
-            fontSize: "32px",
-            lineHeight: "48px",
+            width: 208,
+            height: 40,
+            backgroundColor: colors.purple[600],
+            textTransform: "none",
+            color: "white",
           }}
         >
-          Update your password
-        </Typography>
-      </Box>
-      <Box
-        display="flex"
-        flexDirection="column"
-        sx={{
-          width: "688px",
-          height: "530px",
-          marginTop: "20px",
-          marginLeft: "59px",
-          gap: "44px",
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: "Inter",
-            fontWeight: "400",
-            fontSize: "20px",
-            lineHeight: "30px",
-            textAlign: "center",
-          }}
-        >
-          Enter your current password and new password
-        </Typography>
-        <Box sx={{ width: "688px", height: "111px" }}>
-          <Typography
-            sx={{
-              fontFamily: "Inter",
-              fontWeight: "400",
-              fontSize: "20px",
-              lineHeight: "30px",
-            }}
-          >
-            Current Password
-          </Typography>
-          <TextField
-            variant="outlined"
-            size="medium"
-            sx={{ width: "687px", height: "56px" }}
-          ></TextField>
-        </Box>
-        <Box sx={{ width: "688px", height: "111px" }}>
-          <Typography
-            sx={{
-              fontFamily: "Inter",
-              fontWeight: "400",
-              fontSize: "20px",
-              lineHeight: "30px",
-            }}
-          >
-            New Password
-          </Typography>
-          <TextField
-            variant="outlined"
-            size="medium"
-            sx={{ width: "687px", height: "56px" }}
-          ></TextField>
-        </Box>
-        <Box sx={{ width: "688px", height: "111px" }}>
-          <Typography
-            sx={{
-              fontFamily: "Inter",
-              fontWeight: "400",
-              fontSize: "20px",
-              lineHeight: "30px",
-            }}
-          >
-            Confirm New Password
-          </Typography>
-          <TextField
-            variant="outlined"
-            size="medium"
-            sx={{ width: "687px", height: "56px" }}
-          ></TextField>
-        </Box>
-        <Button variant="contained" sx={{ width: "156px", height: "38px", borderRadius: "4px", alignSelf:"center"}}>
-          <Typography
-            sx={{
-              fontFamily: "Inter",
-              fontWeight: "500",
-              fontSize: "20px",
-              lineHeight: "30px",
-              textAlign: "center",
-              textTransform:"capitalize"
-            }}
-          >
-            Confirm
-          </Typography>
+          <Typography variant="body2">Save</Typography>
         </Button>
-      </Box>
-    </Box>
+        <Button
+          onClick={onClose}
+          sx={{
+            width: 208,
+            height: 40,
+            backgroundColor: colors.purple[200],
+            textTransform: "none",
+          }}
+        >
+          <Typography variant="body2">Cancel</Typography>
+        </Button>
+      </Stack>
+    </Paper>
   );
 };
+
 export default UpdatePassword;

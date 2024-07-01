@@ -1,160 +1,105 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  useTheme,
-  SpeedDial,
-  SpeedDialAction,
-} from "@mui/material";
+import { Box, Typography, useTheme, Stack } from "@mui/material";
 import { tokens } from "../../theme";
 import Debt from "./Debt";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import AddIcon from "@mui/icons-material/Add";
-const actions = [
+
+const debts = [
   {
-    icon: (
-      <PowerSettingsNewIcon
-        sx={{ transform: "rotate(180deg)", color: "red" }}
-      />
-    ),
-    name: "Lend",
+    name: "John Doe",
+    purpose: "Car Loan",
+    amount: "5,000,000",
+    dueDate: "2024-12-31",
+    isActive: false,
   },
   {
-    icon: <PowerSettingsNewIcon sx={{ color: "green" }} />,
-    name: "Save",
+    name: "Jane Smith",
+    purpose: "Mortgage",
+    amount: "50,000,000",
+    dueDate: "2025-06-15",
+    isActive: false,
+  },
+  {
+    name: "Alex Johnson",
+    purpose: "Personal Loan",
+    amount: "1,200,000",
+    dueDate: "2024-09-01",
+    isActive: false,
   },
 ];
 
 const ClosedPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <Box
       sx={{
+        width: "88%",
         display: "flex",
         flexDirection: "column",
         gap: theme.spacing(3),
-        height: "100vh", // Set height to full viewport height
-        overflowY: "auto", // Enable vertical scrolling
+        overflowY: "auto",
         padding: theme.spacing(2),
-        "::-webkit-scrollbar": {
-          width: "7px",
-        },
-        "::-webkit-scrollbar-track": {
-          background: "#EAE5E5",
-        },
-        "::-webkit-scrollbar-thumb": {
-          background: "#544D4D",
-          height: "86.56px",
-          borderRadius: "2px",
-        },
-        "::-webkit-scrollbar-thumb:hover": {
-          background: "#555",
-        },
       }}
     >
-      {/* Common Scrollable Container */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: theme.spacing(3),
-        }}
-      >
-        {/* Lent part */}
-        <Box>
-          {/* I lent */}
+      {/* Lent part  */}
+      <Box>
+        {/* I lent  */}
+        <Stack alignItems={"center"}>
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              backgroundColor: "yellow",
-              padding: theme.spacing(2), // Add some padding
+              width: "120px",
+              height: "8px",
+              backgroundColor: colors.extra.grey,
             }}
-          >
-            <Box
-              sx={{ width: "120px", height: "8px", backgroundColor: "#00F79E" }}
+          />
+          <Typography variant="h6" gutterBottom>
+            I Lent
+          </Typography>
+        </Stack>
+        {/* Active Debt list  */}
+        <Stack width={"100%"} gap={2}>
+          {debts.map((debt, index) => (
+            <Debt
+              key={index}
+              name={debt.name}
+              purpose={debt.purpose}
+              amount={debt.amount}
+              dueDate={debt.dueDate}
+              isActive={debt.isActive}
             />
-            <Typography variant="h6">I Lent</Typography>
-          </Box>
-          {/* Active Debt list */}
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              gap: theme.spacing(1),
-            }}
-          >
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-          </Box>
-        </Box>
-        {/* Owe Part */}
-        <Box>
-          {/* I Owe */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              backgroundColor: "yellow",
-              padding: theme.spacing(2), // Add some padding
-            }}
-          >
-            <Box
-              sx={{ width: "120px", height: "8px", backgroundColor: "#FF0000" }}
-            />
-            <Typography variant="h6">I Owe</Typography>
-          </Box>
-          {/* Closed Debt list */}
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              gap: theme.spacing(1),
-            }}
-          >
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-            <Debt bgColor="#FFF2F2" />
-          </Box>
-        </Box>
+          ))}
+        </Stack>
       </Box>
-      <SpeedDial
-        ariaLabel="SpeedDial example"
-        sx={{
-          position: "absolute",
-          bottom: -30,
-          right: 130,
-          width: "116px",
-          //backgroundColor: "#2099DD",
-        }}
-        icon={
-          <AddIcon
+      {/* Owe Part  */}
+      <Box>
+        {/* I Owe  */}
+        <Stack alignItems={"center"}>
+          <Box
             sx={{
-              //backgroundColor: "#2099DD",
-              color: "white",
+              width: "120px",
+              height: "8px",
+              backgroundColor: colors.extra.grey,
             }}
           />
-        }
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-          />
-        ))}
-      </SpeedDial>
+          <Typography variant="h6" gutterBottom>
+            I Owe
+          </Typography>
+        </Stack>
+        {/* Closed Debt list  */}
+        <Stack width={"100%"} gap={2}>
+          {debts.map((debt, index) => (
+            <Debt
+              key={index}
+              name={debt.name}
+              purpose={debt.purpose}
+              amount={debt.amount}
+              dueDate={debt.dueDate}
+              isActive={debt.isActive}
+            />
+          ))}
+        </Stack>
+      </Box>
     </Box>
   );
 };

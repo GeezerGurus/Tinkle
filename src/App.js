@@ -7,7 +7,7 @@ import {
   Debt,
   Budget,
   BudgetPeriod,
-  Statistic,
+  Statistics,
   GeneralSettings,
   Profile,
   Home,
@@ -19,6 +19,7 @@ import {
   BudgetOverview,
   Books,
   Collection,
+  DebtItems,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
@@ -93,6 +94,14 @@ function App() {
                 }
               />
               <Route
+                path="/lists/debt-list/:debtItemId"
+                element={
+                  <PrivateRoute>
+                    <DebtItems />
+                  </PrivateRoute>
+                }
+              />
+              <Route
                 path="/lists/to-buy-lists"
                 element={
                   <PrivateRoute>
@@ -136,7 +145,7 @@ function App() {
                 path="/statistics"
                 element={
                   <PrivateRoute>
-                    <Statistic />
+                    <Statistics />
                   </PrivateRoute>
                 }
               />

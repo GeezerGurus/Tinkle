@@ -26,6 +26,8 @@ const getTitle = (path) => {
       return "To Buy List";
     case /^\/lists\/debt-list$/.test(path):
       return "Debt List";
+    case /^\/lists\/debt-list\/.*$/.test(path):
+      return "Debt List";
     case /^\/records$/.test(path):
       return "Records";
     case /^\/knowledge$/.test(path):

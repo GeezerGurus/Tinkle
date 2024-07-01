@@ -14,7 +14,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { tokens } from "../../theme";
 import EditAccount from "./EditAccount";
 
-export const Account = ({ Icon, Title, Amount, BgColor }) => {
+export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -39,15 +39,15 @@ export const Account = ({ Icon, Title, Amount, BgColor }) => {
         justifyContent: "space-between",
         padding: "24px 0 0 24px",
         backgroundColor: BgColor,
-        width: "210px",
-        height: "211px",
+        width: isSmallScreen ? "45%" : "210px",
+        height: isSmallScreen ? "73px" : "211px",
         borderRadius: "16px",
       }}
     >
       {/* Icon  */}
       <Box
         sx={{
-          display: "flex",
+          display: isSmallScreen ? "none" : "flex",
           width: "64px",
           height: "64px",
           justifyContent: "center",
@@ -74,7 +74,7 @@ export const Account = ({ Icon, Title, Amount, BgColor }) => {
         >
           <MoreVertIcon
             sx={{
-              fontSize: "32px",
+              fontSize: isSmallScreen ? "24px" : "32px",
             }}
           />
         </IconButton>
@@ -91,23 +91,26 @@ export const Account = ({ Icon, Title, Amount, BgColor }) => {
               handleClose();
               setOpenModal(true);
             }}
+            sx={isSmallScreen ? { fontSize: "12px" } : { fontSize: "16px" }}
           >
             Edit
           </MenuItem>
         </Menu>
       </Box>
 
-      <Box>
+      <Box sx={{ mt: isSmallScreen ? -1 : 0 }}>
         {/* Title  */}
-        <Typography variant="h6" gutterBottom>
+        <Typography variant={isSmallScreen ? "body3" : "h6"} gutterBottom>
           {Title}
         </Typography>
         {/* Amount  */}
-        <Stack direction={"row"} alignItems={"center"} gap={1}>
-          <Typography variant="h4" gutterBottom>
-            {Amount}
+        <Stack direction={"row"} alignItems="center" gap={1}>
+          <Typography variant={isSmallScreen ? "body2" : "h4"} gutterBottom>
+            {Amount} {isSmallScreen ? "MMK" : ""}
           </Typography>
-          <Typography variant="body1">MMK</Typography>
+          <Typography variant="body1" display={isSmallScreen ? "none" : ""}>
+            MMK
+          </Typography>
         </Stack>
       </Box>
       {/* Edit modal  */}
@@ -125,6 +128,7 @@ export const Account = ({ Icon, Title, Amount, BgColor }) => {
             balance={Amount}
             Type={<Icon />}
             onClose={() => setOpenModal(false)}
+            isSmallScreen={isSmallScreen}
           />
         </Box>
       </Modal>

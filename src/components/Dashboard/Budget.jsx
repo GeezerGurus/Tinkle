@@ -59,17 +59,18 @@ const Progress = ({ content, dollar, percent }) => {
   );
 };
 
-const Budget = () => {
+const Budget = ({ isSmallScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
     <Paper
       sx={{
-        width: "369px",
-        height: "267px",
+        width: isSmallScreen ? "100%" : "369px",
+        height: isSmallScreen ? "278px" : "267px",
         padding: "16px 24px",
         display: "flex",
+        alignItems: "center",
         flexDirection: "column",
         justifyContent: "space-between",
         borderRadius: "16px",

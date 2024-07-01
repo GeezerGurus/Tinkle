@@ -334,6 +334,7 @@ const Sidebar = ({ mode }) => {
                           text={text}
                           theme={theme}
                           Navigation={navigate}
+                          setOpen={setOpen}
                         />
                       ) : (
                         <CloseSideItems
@@ -356,7 +357,7 @@ const Sidebar = ({ mode }) => {
                       key={text}
                       disablePadding
                       sx={{
-                        width: "88%",
+                        width: "85%",
                         borderRadius: "8px",
                         "&:hover": {
                           backgroundColor: "white",
@@ -374,6 +375,7 @@ const Sidebar = ({ mode }) => {
                           ChangePage={handleChange}
                           expanded={expanded}
                           content={content}
+                          setOpen={setOpen}
                         />
                       ) : (
                         <CloseSideItems
@@ -419,7 +421,7 @@ const Sidebar = ({ mode }) => {
                       key={text}
                       disablePadding
                       sx={{
-                        width: open ? "80%" : "61px",
+                        width: open ? "85%" : "61px",
                         borderRadius: "8px",
                         "&:hover": {
                           backgroundColor: colors.purple[100],
@@ -436,6 +438,7 @@ const Sidebar = ({ mode }) => {
                               text={text}
                               theme={theme}
                               Navigation={navigate}
+                              setOpen={setOpen}
                             />
                           ) : (
                             <CloseSideItems
@@ -464,6 +467,7 @@ const Sidebar = ({ mode }) => {
                               ChangePage={handleChange}
                               expanded={expanded}
                               content={content}
+                              setOpen={setOpen}
                             />
                           ) : (
                             <CloseSideItems

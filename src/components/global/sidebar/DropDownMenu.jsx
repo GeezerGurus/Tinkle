@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { Box, ListItemIcon, Typography, styled } from "@mui/material";
+import {
+  Box,
+  ListItemIcon,
+  Typography,
+  styled,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 import { ArrowForwardIosSharp as ArrowForwardIosSharpIcon } from "@mui/icons-material";
 
@@ -61,7 +68,11 @@ export const DropDownMenu = ({
   ChangePage,
   expanded,
   content,
+  setOpen,
 }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Accordion expanded={expanded === page} onChange={ChangePage(page)}>
       <AccordionSummary>
@@ -75,7 +86,7 @@ export const DropDownMenu = ({
       <AccordionDetails>
         <Box
           sx={{
-            width: "240px",
+            width: isSmallScreen ? "200px" : "240px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -85,6 +96,7 @@ export const DropDownMenu = ({
             content={content}
             Navigation={navigate}
             onClick={DropdownClick}
+            setOpen={setOpen}
           />
         </Box>
       </AccordionDetails>

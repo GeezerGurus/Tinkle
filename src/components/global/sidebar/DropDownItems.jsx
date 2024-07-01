@@ -11,7 +11,7 @@ import {
 import { FiberManualRecord as FiberManualRecordIcon } from "@mui/icons-material";
 import { tokens } from "../../../theme";
 
-export const DropDownItems = ({ content, Navigation, onClick }) => {
+export const DropDownItems = ({ content, Navigation, onClick, setOpen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -40,6 +40,7 @@ export const DropDownItems = ({ content, Navigation, onClick }) => {
             onClick={() => {
               Navigation(path);
               onClick();
+              setOpen(false);
             }}
             sx={{
               height: "40px",

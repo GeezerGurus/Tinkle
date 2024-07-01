@@ -4,7 +4,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import GridViewIcon from "@mui/icons-material/GridView";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { tokens } from "../../theme";
-import { useTheme, Box } from "@mui/material";
+import { useTheme, Box, useMediaQuery } from "@mui/material";
 import {
   Budget,
   Exchange,
@@ -19,6 +19,9 @@ import {
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const sidebarWidth = 84;
 
   const accounts = [
     {
@@ -36,11 +39,11 @@ const Dashboard = () => {
       title: "Kpay",
       amount: 345678,
     },
-    {
-      icon: CreditScoreIcon,
-      title: "Saving",
-      amount: 456789,
-    },
+    // {
+    //   icon: CreditScoreIcon,
+    //   title: "Saving",
+    //   amount: 456789,
+    // },
   ];
 
   const colorOrder = [
@@ -61,10 +64,14 @@ const Dashboard = () => {
     <Box
       sx={{
         display: "flex",
+        flexDirection: isSmallScreen ? "column" : "row",
+        alignItems: "center",
         justifyContent: "center",
-        width: "100%",
-        height: "946px",
+        width: isSmallScreen ? "80%  " : `calc(100% - ${sidebarWidth}px)`,
+        height: isSmallScreen ? "auto" : "946px",
         marginTop: theme.spacing(3),
+        ml: 5,
+        overflowX: "hidden",
       }}
     >
       {/* Main, Left */}
@@ -73,23 +80,30 @@ const Dashboard = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          width: "912px",
-          height: "892px",
-          marginRight: "24px",
+          width: isSmallScreen ? "100%" : "912px",
+          height: isSmallScreen ? "auto" : "892px",
+          marginRight: isSmallScreen ? 0 : "24px",
+          overflowX: "hidden",
         }}
       >
         {/* Left side, Top */}
         <Box
           sx={{
             display: "flex",
-            height: "211px",
+            height: isSmallScreen ? "156px" : "211px",
             justifyContent: "space-between",
             marginBottom: "24px",
+            flexWrap: isSmallScreen ? "wrap" : "nowrap",
+            overflow: "hidden",
           }}
         >
           {filledAccounts.map((account, index) =>
             account.isPlaceholder ? (
-              <NewAccount key={index} BgColor={colorOrder[index]} />
+              <NewAccount
+                key={index}
+                BgColor={colorOrder[index]}
+                isSmallScreen={isSmallScreen}
+              />
             ) : (
               <Account
                 key={index}
@@ -97,6 +111,7 @@ const Dashboard = () => {
                 Title={account.title}
                 Amount={account.amount}
                 BgColor={colorOrder[index]}
+                isSmallScreen={isSmallScreen}
               />
             )
           )}
@@ -104,37 +119,43 @@ const Dashboard = () => {
         {/* Left side, Middle */}
         <Box
           sx={{
+            width: "100%",
             display: "flex",
+            flexDirection: isSmallScreen ? "column" : "row",
+            alignItems: "center",
             justifyContent: "space-between",
-            height: "279px",
+            height: isSmallScreen ? "550px" : "279px",
             marginBottom: "24px",
+            overflowX: "hidden",
           }}
         >
-          <Statistics />
-          <Chart />
+          <Statistics isSmallScreen={isSmallScreen} />
+          <Chart isSmallScreen={isSmallScreen} />
         </Box>
 
         {/* Left side, Bottom */}
-        <Transactions />
+        <Transactions isSmallScreen={isSmallScreen} />
       </Box>
       {/* Right side */}
       <Box
         sx={{
+          width: isSmallScreen ? "100%" : "auto",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          height: "892px",
+          height: isSmallScreen ? "920px" : "892px",
           borderRadius: "8px",
+          overflowX: "hidden",
         }}
       >
         {/* Budget */}
-        <Budget />
+        <Budget isSmallScreen={isSmallScreen} />
 
         {/* Currency Exchange */}
-        <Exchange />
+        <Exchange isSmallScreen={isSmallScreen} />
 
         {/* Debt List */}
-        <Debt />
+        <Debt isSmallScreen={isSmallScreen} />
       </Box>
     </Box>
   );

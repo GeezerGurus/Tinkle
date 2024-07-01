@@ -21,7 +21,7 @@ import {
   Collection,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import ToBuyList from "./scenes/lists/ToBuyList";
 import ToBuyItems from "./scenes/lists/ToBuyItems";
@@ -39,6 +39,8 @@ function App() {
   const [theme, colorMode, mode] = useMode();
   const { login } = useContext(AuthContext);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -50,8 +52,10 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+
         <div className="app">
-          <Sidebar mode={mode} />
+          {isSmallScreen ? ("") : (<Sidebar mode={mode} />)}
+
           <main className="content">
             <Topbar />
             <Routes>

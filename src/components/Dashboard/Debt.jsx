@@ -5,7 +5,7 @@ import { Lend } from "./Lend";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 
-const Debt = () => {
+const Debt = ({ isSmallScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -18,7 +18,7 @@ const Debt = () => {
   return (
     <Paper
       sx={{
-        width: "369px",
+        width: isSmallScreen ? "100%" : "369px",
         height: "302px",
         padding: "16px 24px",
         display: "flex",

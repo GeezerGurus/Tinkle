@@ -1,9 +1,11 @@
-import { Box, Button, Modal, Stack, Typography } from "@mui/material";
+import { Box, Button, Modal, Stack, Typography, useTheme } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import React, { useState } from "react";
 import CreateAccount from "./CreateAccount";
-
-const NewAccount = ({ BgColor }) => {
+import { tokens } from "../../theme";
+const NewAccount = ({ BgColor, isSmallScreen }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -13,8 +15,8 @@ const NewAccount = ({ BgColor }) => {
           setOpenModal(true);
         }}
         sx={{
-          width: "210px",
-          height: "211px",
+          width: isSmallScreen ? "45%" : "210px",
+          height: isSmallScreen ? "73px" : "211px",
           borderRadius: "16px",
           border: `2px dashed ${BgColor}`,
           textTransform: "none",
@@ -29,9 +31,18 @@ const NewAccount = ({ BgColor }) => {
           }}
         >
           <AddCircleRoundedIcon
-            sx={{ width: "64px", height: "64px", color: BgColor }}
+            sx={{
+              width: isSmallScreen ? "34px" : "64px",
+              height: isSmallScreen ? "34px" : "64px",
+              color: BgColor,
+            }}
           />
-          <Typography variant="body1">Add Account</Typography>
+          <Typography
+            variant={isSmallScreen ? "body2" : "body1"}
+            color={theme.palette.mode === "dark" ? "white" : "black"}
+          >
+            Add Account
+          </Typography>
         </Stack>
       </Button>
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -43,7 +54,10 @@ const NewAccount = ({ BgColor }) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <CreateAccount onClose={() => setOpenModal(false)} />
+          <CreateAccount
+            onClose={() => setOpenModal(false)}
+            isSmallScreen={isSmallScreen}
+          />
         </Box>
       </Modal>
     </>

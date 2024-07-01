@@ -26,7 +26,7 @@ import {
   List as ListIcon,
 } from "@mui/icons-material";
 
-const CreateAccount = ({ onClose }) => {
+const CreateAccount = ({ onClose, isSmallScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -40,9 +40,9 @@ const CreateAccount = ({ onClose }) => {
   return (
     <Paper
       sx={{
-        width: "686px",
-        height: "418px",
-        padding: "32px 112px",
+        width: isSmallScreen ? "359px" : "686px",
+        height: isSmallScreen ? "470px" : "418px",
+        padding: isSmallScreen ? "19px" : "32px 112px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
@@ -159,7 +159,11 @@ const CreateAccount = ({ onClose }) => {
         </TextField>
       </Box>
 
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           sx={{
             width: "208px",

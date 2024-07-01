@@ -122,13 +122,14 @@ const BasicTable = ({ colors }) => {
   );
 };
 
-const Transactions = () => {
+const Transactions = ({ isSmallScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
     <Paper
       sx={{
+        display: isSmallScreen ? "none" : "",
         height: "354px",
         borderRadius: "16px",
       }}

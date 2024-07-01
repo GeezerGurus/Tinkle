@@ -30,7 +30,7 @@ const exchangeRates = {
   Euro: { USD: 1.18, MMK: 3740, Yen: 130, Euro: 1 },
 };
 
-const Exchange = () => {
+const Exchange = ({ isSmallScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -83,7 +83,7 @@ const Exchange = () => {
         flexDirection: "column",
         gap: theme.spacing(1),
         padding: "16px 24px",
-        width: "369px",
+        width: isSmallScreen ? "100%" : "369px",
         height: "275px",
         borderRadius: "16px",
       }}

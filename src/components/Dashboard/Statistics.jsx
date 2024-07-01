@@ -1,15 +1,15 @@
 import { Box, Paper } from "@mui/material";
 
-export const Statistics = () => {
+export const Statistics = ({ isSmallScreen }) => {
   return (
     <Paper
       sx={{
         display: "flex",
         backgroundColor: "white",
         color: "black",
-        width: "60%",
-        height: "100%",
-        marginRight: "24px",
+        width: isSmallScreen ? "100%" : "60%",
+        height: isSmallScreen ? "252px" : "100%",
+        marginRight: isSmallScreen ? 0 : "24px",
       }}
     ></Paper>
   );

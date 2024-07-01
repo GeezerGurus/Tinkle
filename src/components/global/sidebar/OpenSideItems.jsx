@@ -13,18 +13,19 @@ export const OpenSideItems = ({
   Navigation,
   theme,
   colors = tokens(theme.palette.mode),
+  setOpen,
 }) => {
   return (
     <ListItemButton
       onClick={() => {
         Navigation(path);
+        setOpen(false);
       }}
       sx={{
         borderRadius: "8px",
         "&:hover": {
           backgroundColor: colors.purple[100],
           borderRadius: "8px",
-          width: "70%",
         },
       }}
     >

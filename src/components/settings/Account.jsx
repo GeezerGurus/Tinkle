@@ -55,7 +55,7 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
         </Typography>
       </Stack>
 
-      {/* Edit button  */}
+      {/* Buttons  */}
       <Stack direction={"row"} alignItems="center">
         <IconButton
           onClick={() => {

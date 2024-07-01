@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Box, IconButton, Modal, Typography } from "@mui/material";
+import React from "react";
+import { Box, Typography, useTheme } from "@mui/material";
 import { CreateList, ListBox } from "../../components/to buy list";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { tokens } from "../../theme";
+import { BackBtn, SpeedDial } from "../../components/utils";
 
 const ToBuyList = () => {
-  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const lists = [
     {
@@ -51,20 +53,32 @@ const ToBuyList = () => {
       sx={{
         width: "100%",
         height: "90%",
+        gap: 1,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        position: "relative",
       }}
     >
+      {/* Back button  */}
+      <Box sx={{ position: "absolute", left: 16, top: 16 }}>
+        <BackBtn />
+      </Box>
+
       {/* Title  */}
-      <Typography variant="title3" gutterBottom>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ borderBottom: `3px solid ${colors.purple[600]}` }}
+      >
         Your Lists
       </Typography>
+
       {/* Contents */}
       <Box
         sx={{
-          width: "900px",
+          width: "56%",
           height: "781px",
           display: "flex",
           alignItems: "center",
@@ -82,40 +96,9 @@ const ToBuyList = () => {
           />
         ))}
       </Box>
+
       {/* Speed Dial  */}
-      <IconButton
-        onClick={() => setOpen(true)}
-        size="large"
-        sx={{
-          position: "absolute",
-          right: 16,
-          bottom: 16,
-          width: "116px",
-          height: "116px",
-        }}
-      >
-        <AddCircleIcon
-          fontSize="large"
-          sx={{
-            color: "#2099DD",
-            width: "116px",
-            height: "116px",
-          }}
-        />
-      </IconButton>
-      {/* Create List Modal*/}
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <CreateList onClose={() => setOpen(false)} />
-        </Box>
-      </Modal>
+      <SpeedDial modal={<CreateList />} />
     </Box>
   );
 };

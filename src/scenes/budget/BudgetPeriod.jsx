@@ -16,7 +16,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useParams } from "react-router-dom";
 import { BudgetItem, CreateBudget } from "../../components/budget";
-import { BackBtn } from "../../components/utils";
+import { BackBtn, SpeedDial } from "../../components/utils";
 import { tokens } from "../../theme";
 
 const budgetItems = [
@@ -190,45 +190,8 @@ const BudgetPeriod = () => {
         ))}
       </Box>
 
-      {/* Add new budget button */}
-      <IconButton
-        onClick={() => setOpen(true)}
-        size="large"
-        sx={{
-          position: "absolute",
-          right: 16,
-          bottom: 16,
-          width: "116px",
-          height: "116px",
-          backgroundColor: colors.purple[200],
-        }}
-      >
-        <AddIcon
-          fontSize="large"
-          sx={{
-            width: "48px",
-            height: "48px",
-          }}
-        />
-      </IconButton>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <CreateBudget
-            onClose={() => {
-              setOpen(false);
-            }}
-            items={items}
-            // refresh={fetchItems}
-          />
-        </Box>
-      </Modal>
+      {/* Create Budget  */}
+      <SpeedDial modal={<CreateBudget items={items} />} />
     </Box>
   );
 };

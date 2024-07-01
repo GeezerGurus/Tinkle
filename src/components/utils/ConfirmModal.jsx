@@ -4,6 +4,7 @@ import React from "react";
 
 const ConfirmModal = ({
   onClose,
+  onClick,
   color,
   highlight,
   description,
@@ -53,6 +54,7 @@ const ConfirmModal = ({
       </Typography>
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
+          onClick={onClick}
           sx={{
             width: "208px",
             height: "40px",

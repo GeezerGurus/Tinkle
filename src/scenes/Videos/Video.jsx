@@ -1,6 +1,6 @@
 import React from "react";
 import { tokens } from "../../theme";
-import { Paper, Typography, useTheme } from "@mui/material";
+import { Paper, useTheme } from "@mui/material";
 import Videopage from "../../components/knowledge/Videopage";
 
 const Video = () => {

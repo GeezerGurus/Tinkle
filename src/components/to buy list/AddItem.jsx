@@ -1,31 +1,32 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Paper,
-  IconButton,
   Typography,
-  FormControl,
+  useTheme,
+  TextField,
+  Stack,
   Button,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { EntryBox, EntryInput } from "../utils";
 import { postItemsToBuy } from "../../api/itemsToBuy";
+import { tokens } from "../../theme";
 
 const AddItem = ({ onClose, refresh }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSaveItem = useCallback(async () => {
     try {
-      await postItemsToBuy({ name, quantity, price, description });
+      await postItemsToBuy({ name, description });
       refresh();
       onClose();
     } catch (error) {
       console.error("Error adding new item:", error);
       throw error;
     }
-  }, [name, quantity, price, description, refresh, onClose]);
+  }, [name, description, refresh, onClose]);
 
   // Enter or Esc key pressed handling
   useEffect(() => {
@@ -48,6 +49,7 @@ const AddItem = ({ onClose, refresh }) => {
   return (
     <Paper
       sx={{
+        padding: "32px 116px",
         width: "710px",
         height: "426px",
         position: "relative",
@@ -55,81 +57,64 @@ const AddItem = ({ onClose, refresh }) => {
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        padding: "24px",
       }}
     >
-      <IconButton
-        sx={{
-          position: "absolute",
-          top: 16,
-          right: 16,
+      {/* Title  */}
+      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+        Add Item
+      </Typography>
+
+      {/* Form  */}
+      <TextField
+        fullWidth
+        label="Name"
+        placeholder="What is it?"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        InputLabelProps={{
+          shrink: true,
         }}
-        onClick={onClose}
-      >
-        <CloseIcon fontSize="large" />
-      </IconButton>
+      />
 
-      <Typography variant="h6">Add Item</Typography>
-
-      <EntryBox>
-        <Typography variant="body1">Name:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter item name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="body1">Quantity:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter number of items"
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="body1">Price:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter item price"
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="body1">Description:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter a description (optional)"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-
-      <Button
-        variant="contained"
-        onClick={handleSaveItem}
-        sx={{
-          backgroundColor: "black",
-          width: "100%",
-          maxWidth: "243px",
-          height: "45px",
-          alignSelf: "center",
-          mt: 2,
+      <TextField
+        fullWidth
+        label="Description"
+        multiline
+        maxRows={2}
+        placeholder="Enter a description (optional)"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        InputLabelProps={{
+          shrink: true,
         }}
-      >
-        <Typography variant="body1" sx={{ color: "white" }}>
-          Save Item
-        </Typography>
-      </Button>
+      />
+
+      {/* Buttons  */}
+      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+        <Button
+          onClick={handleSaveItem}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[600],
+            textTransform: "none",
+            color: "white",
+          }}
+        >
+          <Typography variant="body2">Save</Typography>
+        </Button>
+        <Button
+          onClick={onClose}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[200],
+            textTransform: "none",
+          }}
+        >
+          <Typography variant="body2">Cancel</Typography>
+        </Button>
+      </Stack>
     </Paper>
   );
 };

@@ -1,7 +1,7 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
-import PieActiveArc from "./PieChart";
+import PieActiveArc from "./Piechart";
 
 const pieData = [
   { id: 0, value: 88000, label: "Education and Development" },

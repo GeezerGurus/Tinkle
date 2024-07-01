@@ -1,27 +1,53 @@
 import React, { useState } from "react";
 import { tokens } from "../../theme";
-import { Box, Button, ButtonGroup, useTheme, styled } from "@mui/material";
-import { ActivePage, ClosedPage } from "../../components/debt list";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  useTheme,
+  styled,
+  Typography,
+  SpeedDial,
+  SpeedDialAction,
+  Modal,
+} from "@mui/material";
+import { ActivePage, AddDebt, ClosedPage } from "../../components/debt list";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   width: "433px",
   height: "37px",
-  backgroundColor: "white",
-  color: "black",
   textTransform: "none",
   "&:hover": {
     backgroundColor: theme.palette.neutral.dark,
     color: "white",
   },
-  fontWeight: "600",
-  fontSize: "16px",
+  borderRadius: "16px",
 }));
+
+const actions = [
+  {
+    icon: (
+      <PowerSettingsNewIcon
+        sx={{ transform: "rotate(180deg)", color: "green" }}
+      />
+    ),
+    name: "Lend",
+  },
+  {
+    icon: <PowerSettingsNewIcon sx={{ color: "red" }} />,
+    name: "Owe",
+  },
+];
 
 const Debt = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [page, setPage] = useState("active");
+  const [openModal, setOpenModal] = useState(false);
+  const [modal, setModal] = useState("");
 
   const handlePage = (event) => {
     setPage(event.target.value);
@@ -41,7 +67,6 @@ const Debt = () => {
       sx={{
         width: "100%",
         height: "100%",
-        backgroundColor: "green",
         display: "flex",
         justifyContent: "center",
       }}
@@ -51,7 +76,6 @@ const Debt = () => {
         sx={{
           marginTop: theme.spacing(3),
           width: "1249px",
-          backgroundColor: "blue",
           height: "auto",
           display: "flex",
           flexDirection: "column",
@@ -60,38 +84,84 @@ const Debt = () => {
         }}
       >
         {/* Top nav  */}
-        <ButtonGroup variant="contained" sx={{ backgroundColor: "black" }}>
+        <ButtonGroup
+          sx={{
+            borderRadius: "16px",
+          }}
+        >
           <StyledButton
             value="active"
             onClick={handlePage}
             sx={{
-              backgroundColor: page === "active" ? "black" : "white",
-              color: page === "active" ? "white" : "black",
+              backgroundColor: page === "active" ? colors.purple[600] : "white",
+              color: page === "active" ? "white" : colors.purple[600],
               "&:hover": {
-                backgroundColor: page === "active" ? "grey" : "darkgrey",
+                backgroundColor:
+                  page === "active" ? colors.purple[200] : colors.purple[100],
               },
             }}
           >
-            Active
+            <Typography variant="body2">Active</Typography>
           </StyledButton>
           <StyledButton
             value="closed"
             onClick={handlePage}
             sx={{
-              backgroundColor: page === "closed" ? "black" : "white",
-              color: page === "closed" ? "white" : "black",
+              backgroundColor: page === "closed" ? colors.purple[600] : "white",
+              color: page === "closed" ? "white" : colors.purple[600],
               "&:hover": {
-                backgroundColor: page === "closed" ? "grey" : "darkgrey",
+                backgroundColor:
+                  page === "closed" ? colors.purple[200] : colors.purple[100],
               },
             }}
           >
-            Closed
+            <Typography variant="body2">Closed</Typography>
           </StyledButton>
         </ButtonGroup>
-
         {/* Rendering  */}
         {renderPage()}
+
+        {/* MUI speed dial  */}
+        <SpeedDial
+          ariaLabel="SpeedDial"
+          sx={{
+            bottom: 16,
+            right: 16,
+            position: "fixed",
+          }}
+          icon={<SpeedDialIcon />}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipOpen
+              tooltipTitle={action.name}
+              onClick={() => {
+                setModal(action.name);
+                setOpenModal(true);
+              }}
+            />
+          ))}
+        </SpeedDial>
       </Box>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          {/* Render different components based on selected action */}
+          {modal === "Lend" ? (
+            <AddDebt action={"lent"} />
+          ) : (
+            <AddDebt action={"owe"} />
+          )}
+        </Box>
+      </Modal>
     </Box>
   );
 };

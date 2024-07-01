@@ -15,7 +15,7 @@ const SpeedDial = ({ modal }) => {
         onClick={() => setOpen(true)}
         size="large"
         sx={{
-          position: "absolute",
+          position: "fixed",
           right: 16,
           bottom: 16,
           width: "116px",

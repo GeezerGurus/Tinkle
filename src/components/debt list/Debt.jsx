@@ -1,148 +1,197 @@
-import { Box, Button, Divider, Paper, Typography } from "@mui/material";
-import React from "react";
-const Due = ({ duedate }) => {
-  return (
-    <Box
-      sx={{
-        width: "1185px",
-        height: "29px",
-        display: "flex",
-        justifyContent: "space-between",
-        //backgroundColor: "red",
-      }}
-    >
-      <Button
-        sx={{
-          width: "161px",
-          height: "29px",
-          borderRadius: "4px",
-          backgroundColor: "black",
-          color: "white",
-        }}
-      >
-        +Add Record
-      </Button>
-      <Box
-        sx={{
-          width: "142px",
-          height: "29px",
-          fontSize: "16px",
-          lineHeight: "19.36px",
-          letterSpacing: "1%",
-          fontWeight: "500",
-          color: "#A3A3A3",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "end",
-        }}
-      >
-        {" "}
-        Due-
-        <Typography
-          sx={{
-            fontSize: "16px",
-            lineHeight: "19.36px",
-            letterSpacing: "1%",
-            fontWeight: "500",
-            color: "black",
-          }}
-        >
-          {duedate}
-        </Typography>
-      </Box>
-    </Box>
-  );
-};
-const Cap = ({ name, reason, amount }) => {
-  return (
-    <Box
-      sx={{
-        width: "1185px",
-        height: "50px",
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <Box
-        sx={{
-          height: "50px",
-          width: "592.5px",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: "34px",
-            lineHeight: "29.05px",
-            fontWeight: "600",
-            letterSpacing: "4%",
-            color: "black",
-          }}
-        >
-          {name}
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "16px",
-            lineHeight: "19.36px",
-            fontWeight: "600",
-            letterSpacing: "4%",
-            color: "#A3A3A3",
-          }}
-        >
-          {reason}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          height: "100%",
-          width: "592.5px",
-          display: "flex",
-          justifyContent: "end",
-          alignItems: "center",
-          color: "black",
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: "19px",
-            lineHeight: "22.99px",
-            fontWeight: "500",
-            letterSpacing: "1%",
-          }}
-        >
-          {amount}
-        </Typography>
-      </Box>
-    </Box>
-  );
-};
-const ActiveDebt = ({ bgColor }) => {
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Modal,
+  Paper,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React, { useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { tokens } from "../../theme";
+import CreateDebtRecord from "./CreateDebtRecord";
+import { ConfirmModal } from "../utils";
+import { Link, useLocation } from "react-router-dom";
+import EditDebtList from "./EditDebtList";
+
+const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const location = useLocation();
+  const [openModal, setOpenModal] = useState(false);
+  const [modal, setModal] = useState("");
+
   return (
     <Paper
       sx={{
-        width: "1240px",
-        height: "175px",
-        backgroundColor: bgColor,
+        width: "100%",
+        height: "160px",
+        padding: "16px 32px",
+        backgroundColor: colors.purple[100],
+        borderRadius: "16px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
       }}
     >
-      <Cap name={"Daniel"} reason={"For his car"} amount={"500,000.00 MMK"} />
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Left  */}
+        <Stack>
+          <Typography variant="h6">{name}</Typography>
+          <Typography variant="body2" sx={{ color: colors.extra.grey_accent }}>
+            {purpose}
+          </Typography>
+        </Stack>
+        <Stack>
+          <Stack direction={"row"} alignItems={"flex-end"} gap={1}>
+            <Typography variant="body1">{amount}</Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: colors.extra.grey_accent }}
+            >
+              MMK
+            </Typography>
+          </Stack>
+          <Stack direction={"row"} alignItems={"flex-end"} gap={1}>
+            <Typography
+              variant="body2"
+              sx={{ color: colors.extra.grey_accent }}
+            >
+              Due -
+            </Typography>
+            <Typography variant="body2">{dueDate}</Typography>
+          </Stack>
+        </Stack>
+      </Box>
+      {/* Top  */}
       <Divider
         sx={{
           backgroundColor: "#00000033",
-          width: "calc(100% - 54px)",
+          width: "100%",
           height: "2px",
-          //backgroundColor: "black",
         }}
       />
-      <Due duedate={"02-01-2024"} />
+      {/* Bottom  */}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          onClick={() => {
+            setModal("create-record");
+            setOpenModal(true);
+          }}
+          disabled={!isActive}
+          sx={{
+            width: "93px",
+            height: "32px",
+            borderRadius: "8px",
+            color: colors.extra.faint_white,
+            backgroundColor: colors.purple[600],
+            "&:hover": {
+              backgroundColor: colors.purple[200],
+            },
+            textTransform: "none",
+          }}
+        >
+          <Typography variant="body2">+ Add</Typography>
+        </Button>
+        <Button
+          component={Link}
+          to={`${location.pathname}/${name.toLowerCase()}`}
+          sx={{
+            borderRadius: "8px",
+            textTransform: "none",
+            "&:hover": { backgroundColor: colors.purple[300] },
+          }}
+        >
+          <Typography variant="body2">See Details</Typography>
+        </Button>
+        <Stack direction={"row"}>
+          <IconButton
+            onClick={() => {
+              setModal("edit-debtlist");
+              setOpenModal(true);
+            }}
+          >
+            <EditIcon
+              fontSize="large"
+              sx={{
+                color: colors.vibrant.light_blue,
+              }}
+            />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setModal("Delete_Confirm");
+              setOpenModal(true);
+            }}
+          >
+            <DeleteIcon
+              fontSize="large"
+              sx={{
+                color: colors.extra.red_accent,
+              }}
+            />
+          </IconButton>
+        </Stack>
+      </Box>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          {modal === "create-record" ? (
+            <CreateDebtRecord
+              onClose={() => {
+                setOpenModal(false);
+              }}
+              // refresh={fetchItems}
+            />
+          ) : modal === "edit-debtlist" ? (
+            <EditDebtList
+              action={action}
+              onClose={() => {
+                setOpenModal(false);
+              }}
+            />
+          ) : (
+            <ConfirmModal
+              onClose={() => {
+                setOpenModal(false);
+              }}
+              color={colors.extra.red_accent}
+              highlight={"Delete"}
+              description={
+                "This action will delete your whole Debt and its records."
+              }
+              promptText={"Do you really want to Delete?"}
+            />
+          )}
+        </Box>
+      </Modal>
     </Paper>
   );
 };
 
-export default ActiveDebt;
+export default Debt;

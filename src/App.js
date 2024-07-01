@@ -19,6 +19,7 @@ import {
   BudgetOverview,
   Books,
   Collection,
+  DebtItems,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -85,6 +86,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Debt />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/lists/debt-list/:debtItemId"
+                element={
+                  <PrivateRoute>
+                    <DebtItems />
                   </PrivateRoute>
                 }
               />

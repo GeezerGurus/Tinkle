@@ -20,7 +20,7 @@ const{
 const {
   addDebt,
   getDebts,
-  patchDebts,
+  patchDebt,
   deleteDebt,
 } = require("../controllers/debtsController");
 const {
@@ -55,7 +55,7 @@ const {
 const {
   addRecord,
   getRecord,
-  putRecord,
+  patchRecord,
   deleteRecord
 } = require("../controllers/recordController");
 const {
@@ -70,6 +70,18 @@ const {
   patchSetting,
   deleteSetting
 } = require("../controllers/settingsController");
+const {
+  addLend,
+  getLends,
+  patchLend,
+  deleteLend
+} = require("../controllers/lendsController");
+const {
+  addOwe,
+  getOwes,
+  patchOwe,
+  deleteOwe
+} = require("../controllers/owesController");
 
 const router = require("express").Router();
 
@@ -94,7 +106,7 @@ router
   //Debts
   .post("/debt", requireAuth, addDebt)
   .get("/debt", requireAuth, getDebts)
-  .patch("/debt/:debtId", requireAuth, patchDebts)
+  .patch("/debt/:debtId", requireAuth, patchDebt)
   .delete("/debt/:debtId", requireAuth, deleteDebt)
 
   //Budgets
@@ -130,8 +142,8 @@ router
   //Record
   .post("/record", requireAuth, addRecord)
   .get("/record", requireAuth, getRecord)
-  .put("/account/:accountId/categories/:categoryId/record/:recordId", requireAuth, putRecord)
-  .delete("/account/:accountId/categories/:categoryId/record/:recordId", requireAuth, deleteRecord)
+  .patch("/record/:recordId", requireAuth, patchRecord)
+  .delete("/record/:recordId", requireAuth, deleteRecord)
 
   //Categories
   .post("/categories", requireAuth, addCategory)
@@ -144,5 +156,17 @@ router
   .get("/setting", requireAuth, getSetting)
   .patch("/setting/:settingId", requireAuth, patchSetting)
   .delete("/setting/:settingId", requireAuth, deleteSetting)
+
+  //Lends
+  .post("/lend", requireAuth, addLend)
+  .get("/lend", requireAuth, getLends)
+  .patch("/lend/:lendId", requireAuth, patchLend)
+  .delete("/lend/:lendId", requireAuth, deleteLend)
+
+  //Owes
+  .post("/owe", requireAuth, addOwe)
+  .get("/owe", requireAuth, getOwes)
+  .patch("/owe/:oweId", requireAuth, patchOwe)
+  .delete("/owe/:oweId", requireAuth, deleteOwe)
 
 module.exports = router;

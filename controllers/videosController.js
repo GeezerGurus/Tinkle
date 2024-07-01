@@ -10,6 +10,7 @@ exports.addVideo = async (req, res) => {
     }
 
     const video = VideoSchema({
+        userId,
         title,
         creator,
         description,

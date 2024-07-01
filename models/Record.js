@@ -12,16 +12,28 @@ const recordSchema = new Schema(
         accountId: {
             type: Schema.Types.ObjectId,
             ref: "Account",
-            required: true,
         },
-        categoryId: {
+        fromaccountId: {
             type: Schema.Types.ObjectId,
-            ref: "Category",
-            required: true,
+            ref: "Account",
+            required: function() {
+                return this.type === "transfer";
+            }
+        },
+        toaccountId: {
+            type: Schema.Types.ObjectId,
+            ref: "Account",
+            required: function() {
+                return this.type === "transfer";
+            }
+        },
+        budgetId: {
+            type: Schema.Types.ObjectId,
+            ref: "Budget",
         },
         type: {
             type: String,
-            require: [true, 'Type is required'],
+            required: [true, 'Type is required'],
             enum: {
                 values: ['income', 'expense', 'transfer'],
                 message: 'Type is either: income, expense, or transfer'    
@@ -43,15 +55,10 @@ const recordSchema = new Schema(
             required: [true, 'Date is required'],
             trim: true,
         },
-        payer: {
+        transactor: {
             type: String,
             trim: true,
             maxlength: [100, 'Payer cannot exceed 100 characters'],
-        },
-        payee: {
-            type: String,
-            trim: true,
-            maxlength: [100, 'Payee cannot exceed 100 characters'],
         },
         notes: {
             type: String,

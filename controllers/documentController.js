@@ -10,6 +10,7 @@ exports.addDocument = async (req, res) => {
     }
 
     const Document = DocumentSchema({
+        userId,
         title,
         author,
         description,

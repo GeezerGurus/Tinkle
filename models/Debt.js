@@ -3,10 +3,23 @@ const Schema = mongoose.Schema;
 
 const debtSchema = new Schema(
   {
+    type: {
+      type: String,
+      required: [true, 'Type is required'],
+      enum: {
+          values: ['lend', 'owe'],
+          message: 'Type is either: lend or owe'    
+      }
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+    },
+    accountId: {
+        type: Schema.Types.ObjectId,
+        ref: "Account",
+        required: true,
     },
     name: {
       type: String,
@@ -14,7 +27,7 @@ const debtSchema = new Schema(
       trim: true,
       maxlength: 50,
     },
-    payer: {
+    purpose: {
       type: String,
       trim: true,
       maxlength: 50,
@@ -25,28 +38,13 @@ const debtSchema = new Schema(
       trim: true,
       min: 0,
     },
-    currency: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    category: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    startDate: {
+    Date: {
       type: Date,
       required: true,
     },
-    endDate: {
+    DueDate: {
       type: Date,
       required: true,
-    },
-    description: {
-      type: String,
-      trim: true,
-      maxlength: 200,
     },
   },
   { timestamps: true }

@@ -10,6 +10,7 @@ exports.addBook = async (req, res) => {
     }
 
     const Book = BookSchema({
+      userId,
       title,
       author,
       category,

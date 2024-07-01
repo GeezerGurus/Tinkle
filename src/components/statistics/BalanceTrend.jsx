@@ -1,7 +1,7 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
-import LineChart from "./Linechart";
+import LineChart from "./LineChart";
 
 const data = {
   income: Array.from({ length: 31 }, (_, i) => Math.random() * 1000),

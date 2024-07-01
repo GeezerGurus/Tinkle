@@ -12,10 +12,9 @@ import { tokens } from "../../theme";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditDebtRecord from "./EditDebtRecord";
-import CreateDebtRecord from "./CreateDebtRecord";
 import { ConfirmModal } from "../utils";
 
-const DebtRecord = ({ amount, currency, dueDate, onEdit, onDelete, Icon }) => {
+const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 

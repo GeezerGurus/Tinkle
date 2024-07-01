@@ -4,10 +4,10 @@ import {
   Typography,
   Stack,
   Button,
-  Select,
   MenuItem,
   TextField,
   Grid,
+  useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
 import Category from "../../components/settings/Category";
@@ -22,6 +22,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import MovieIcon from "@mui/icons-material/Movie";
 import { Icons as iconsMap } from "../../components/utils";
+import { tokens } from "../../theme";
 
 const categories = [
   { icon: HomeIcon, backgroundColor: "red", name: "Home" },
@@ -46,7 +47,7 @@ const categories = [
   { icon: MovieIcon, backgroundColor: "yellow", name: "Movies" },
 ];
 
-const colors = [
+const Colors = [
   "red",
   "blue",
   "green",
@@ -60,6 +61,9 @@ const colors = [
 ];
 
 const CategorySettings = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [icon, setIcon] = useState("");
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
@@ -69,110 +73,84 @@ const CategorySettings = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
         width: "100%",
         height: "100%",
       }}
     >
       <Paper
         sx={{
-          width: "1269px",
-          height: "910px",
-          padding: "0 90px",
+          mt: "48px",
+          width: "64%",
+          borderRadius: "12px",
+          padding: "24px",
+          height: "833px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-around",
           alignItems: "center",
+          backgroundColor: colors.purple[50],
         }}
       >
-        <Box
+        <Stack
+          width={"100%"}
+          gap={2}
+          pb={6}
           sx={{
-            width: "1089px",
-            padding: "0 46px",
-            borderBottom: "1px solid black",
-            paddingBottom: "77px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: 2,
+            borderBottom: `2px solid black`,
           }}
         >
           <Typography
-            variant="title3"
-            sx={{ borderBottom: "1px solid black", pb: 1 }}
+            variant="h4"
+            gutterBottom
+            sx={{
+              borderBottom: `2px solid ${colors.purple[600]}`,
+              alignSelf: "flex-start",
+            }}
           >
-            Create new Category
+            Create a Category
           </Typography>
-
-          <Box sx={{ display: "flex", gap: "43px", alignItems: "flex-end" }}>
-            <Stack gap={2}>
-              <Typography variant="title">Icon</Typography>
-              <Select
-                sx={{ width: "120px", height: "56px" }}
+          <Box sx={{ display: "flex", gap: "40px", alignItems: "flex-end" }}>
+            <Stack gap={1} width={"10%"}>
+              <Typography variant="body2">Icon</Typography>
+              <TextField
+                select
                 value={icon}
+                placeholder="Select Icon"
                 onChange={(e) => setIcon(e.target.value)}
                 displayEmpty
-                renderValue={(selected) => {
-                  if (!selected) {
-                    return (
-                      <Typography variant="placeholder">Select Icon</Typography>
-                    );
-                  }
-                  const SelectedIcon = selected;
-                  return <SelectedIcon />;
-                }}
               >
                 {iconsMap.map((Icon, index) => (
                   <MenuItem key={index} value={Icon}>
                     <Icon />
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
             </Stack>
 
-            <Stack gap={2}>
-              <Typography variant="title">Color</Typography>
-              <Select
+            <Stack gap={1} width={"30%"}>
+              <Typography variant="body2">Color</Typography>
+              <TextField
+                select
                 sx={{
-                  width: "255px",
-                  height: "56px",
                   backgroundColor: color,
                 }}
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 displayEmpty
-                renderValue={(selected) => {
-                  if (!selected) {
-                    return (
-                      <Typography variant="placeholder">
-                        Choose your color
-                      </Typography>
-                    );
-                  }
-                  return (
-                    <Box
-                      sx={{
-                        width: "30px",
-                        height: "30px",
-                        backgroundColor: selected,
-                        borderRadius: "50%",
-                      }}
-                    />
-                  );
-                }}
+                placeholder="Choose your color"
               >
-                {colors.map((color) => (
+                {Colors.map((color) => (
                   <MenuItem
                     key={color}
                     value={color}
                     sx={{ backgroundColor: color, height: "30px" }}
                   />
                 ))}
-              </Select>
+              </TextField>
             </Stack>
 
-            <Stack gap={2}>
-              <Typography variant="title">Name</Typography>
+            <Stack gap={1} width={"50%"}>
+              <Typography variant="body2">Name</Typography>
               <TextField
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -183,51 +161,45 @@ const CategorySettings = () => {
             <Button
               variant="contained"
               sx={{
-                width: "82px",
+                width: "10%",
                 height: "46px",
-                backgroundColor: "#2196F3",
+                textTransform: "none",
+                backgroundColor: colors.purple[600],
                 mt: 2,
               }}
             >
-              ADD
+              Add
             </Button>
           </Box>
-        </Box>
-
-        <Paper
+        </Stack>
+        <Typography
+          variant="h4"
+          gutterBottom
           sx={{
-            width: "1089px",
-            height: "573px",
-            display: "flex",
-            flexDirection: "column",
-            mt: 4,
+            borderBottom: `2px solid ${colors.purple[600]}`,
+            alignSelf: "flex-start",
           }}
         >
-          <Stack
-            sx={{ width: "100%", height: "81px" }}
-            justifyContent="center"
-            pl={6}
-          >
-            <Typography variant="title3">Category List</Typography>
-          </Stack>
+          Your Categories
+        </Typography>
 
-          <Box sx={{ height: "470px", overflowY: "auto" }}>
-            <Grid
-              container
-              columnGap={2}
-              sx={{ display: "flex", justifyContent: "space-around" }}
-            >
-              {categories.map((category, index) => (
-                <Category
-                  key={index}
-                  icon={category.icon}
-                  backgroundColor={category.backgroundColor}
-                  name={category.name}
-                />
-              ))}
-            </Grid>
-          </Box>
-        </Paper>
+        <Box sx={{ width: "100%", height: "470px", overflowY: "auto" }}>
+          <Grid
+            container
+            // columnGap={2}
+            rowGap={2}
+            sx={{ display: "flex", justifyContent: "space-around" }}
+          >
+            {categories.map((category, index) => (
+              <Category
+                key={index}
+                icon={category.icon}
+                backgroundColor={category.backgroundColor}
+                name={category.name}
+              />
+            ))}
+          </Grid>
+        </Box>
       </Paper>
     </Box>
   );

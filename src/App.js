@@ -20,6 +20,8 @@ import {
   Books,
   Collection,
   DebtItems,
+  Video,
+  VideoCollection,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
@@ -55,7 +57,7 @@ function App() {
         <CssBaseline />
 
         <div className="app">
-          {isSmallScreen ? ("") : (<Sidebar mode={mode} />)}
+          {isSmallScreen ? "" : <Sidebar mode={mode} />}
 
           <main className="content">
             <Topbar />
@@ -218,6 +220,22 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Collection />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/videos"
+                element={
+                  <PrivateRoute>
+                    <Video />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/videos/:videoCollection"
+                element={
+                  <PrivateRoute>
+                    <VideoCollection />
                   </PrivateRoute>
                 }
               />

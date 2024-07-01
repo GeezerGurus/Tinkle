@@ -21,9 +21,10 @@ const ConfirmModal = ({
       sx={{
         width: "auto",
         height: "221px",
-        padding: "30px 36px",
+        padding: "32px 40px",
         display: "flex",
         flexDirection: "column",
+        gap: "16px",
         justifyContent: "space-between",
         alignItems: "center",
       }}
@@ -44,7 +45,12 @@ const ConfirmModal = ({
           )
         )}
       </Typography>
-      <Typography variant="body1">{description}</Typography>
+      <Typography
+        variant="body1"
+        sx={{ textAlign: "center", color: colors.purple[900] }}
+      >
+        {description}
+      </Typography>
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
           sx={{

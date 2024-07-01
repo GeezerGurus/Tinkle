@@ -11,11 +11,11 @@ import {
   Switch,
   Button,
   Modal,
+  TextField,
 } from "@mui/material";
-import { EntrySelect } from "../../components/utils";
+import { ConfirmModal } from "../../components/utils";
 import ShieldIcon from "@mui/icons-material/Shield";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import { DeleteProfile } from "../../components/settings";
 
 const GeneralSettings = () => {
   const theme = useTheme();
@@ -37,12 +37,14 @@ const GeneralSettings = () => {
       {/* Main Box  */}
       <Paper
         sx={{
-          width: "954px",
+          borderRadius: "12px",
+          width: "56%",
           height: "791px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          padding: "0 85px",
+          padding: "48px 48px",
+          backgroundColor: colors.purple[50],
         }}
       >
         <Box
@@ -55,7 +57,11 @@ const GeneralSettings = () => {
           }}
         >
           {/* Title  */}
-          <Typography variant="title3" sx={{ borderBottom: "1px solid black" }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ borderBottom: `2px solid ${colors.purple[600]}` }}
+          >
             General
           </Typography>
           {/* Contents  */}
@@ -67,22 +73,23 @@ const GeneralSettings = () => {
             }}
           >
             {/* Left  */}
-            <Stack gap={2}>
-              <Typography variant="text2">
+            <Stack gap={1}>
+              <Typography variant="body2">
                 Default interval on Dashboard
               </Typography>
-              <EntrySelect
+              <TextField
+                select
                 value={interval}
                 onChange={(e) => setInterval(e.target.value)}
                 sx={{ width: "220px", height: "56px" }}
               >
                 <MenuItem value="monthly">This month</MenuItem>
                 <MenuItem value="yearly">This year</MenuItem>
-              </EntrySelect>
+              </TextField>
             </Stack>
             {/* Right  */}
-            <Stack gap={2}>
-              <Typography variant="text2">Number format</Typography>
+            <Stack gap={1}>
+              <Typography variant="body2">Number format</Typography>
               <FormControlLabel
                 control={<Switch defaultChecked />}
                 label="Hide decimal within amount"
@@ -90,80 +97,75 @@ const GeneralSettings = () => {
             </Stack>
           </Box>
           {/* Title 2  */}
-          <Typography variant="title3" sx={{ borderBottom: "1px solid black" }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ borderBottom: `2px solid ${colors.purple[600]}` }}
+          >
             Personal data & Privacy
           </Typography>
           {/* Contents 2 */}
           <Stack gap={2}>
-            <Typography variant="text2">Documents to review</Typography>
+            <Typography variant="body2">Documents to review</Typography>
             <Stack direction={"row"} justifyContent={"space-around"} gap={5}>
               <Button
                 variant="outlined"
-                startIcon={<ShieldIcon sx={{ color: "#006EEF" }} />}
+                startIcon={<ShieldIcon sx={{ color: colors.purple[600] }} />}
                 sx={{
                   width: "179px",
                   height: "44px",
-                  borderRadius: 4,
-                  border: "2px solid #006EEF",
+                  borderRadius: "28px",
+                  border: `2px solid ${colors.purple[600]}`,
+                  textTransform: "none",
                 }}
               >
-                Privacy policies
+                <Typography variant="body2"> Privacy policies</Typography>
               </Button>
               <Button
                 variant="outlined"
-                startIcon={<InsertDriveFileIcon sx={{ color: "#006EEF" }} />}
+                startIcon={
+                  <InsertDriveFileIcon sx={{ color: colors.purple[600] }} />
+                }
                 sx={{
                   width: "179px",
                   height: "44px",
-                  borderRadius: 4,
-                  border: "2px solid #006EEF",
+                  borderRadius: "28px",
+                  border: `2px solid ${colors.purple[600]}`,
+                  textTransform: "none",
                 }}
               >
-                Terms of service
+                <Typography variant="body2"> Terms of service </Typography>
               </Button>
             </Stack>
           </Stack>
           {/* Data portability  */}
           <Stack
             gap={2}
-            borderBottom={"1px solid black"}
+            borderBottom={`2px solid ${colors.purple[600]}`}
             pb={2}
-            width={"796px"}
+            width={"100%"}
           >
-            <Typography variant="text2">Data portability</Typography>
-            <Typography
-              variant="text2"
-              sx={{ lineHeight: "150%", fontWeight: "400" }}
-            >
+            <Typography variant="body2">Data portability</Typography>
+            <Typography variant="body2">
               You have right to change your personal data by editing your
               profile information, change your transaction data for cash
               accounts by editing them. You can delete your transactions from
               linked accounts by deleting the whole set of transactions - this
-              data is not editable.
-            </Typography>
-            <Typography
-              variant="text2"
-              sx={{ lineHeight: "150%", fontWeight: "400" }}
-            >
-              You have right to be informed about the data we hold about you and
-              you can transfer your data and you have right to be forgotten and
-              delete all your data - all of which you can do by sending us an
-              email to support@budgetbakers.com.
-            </Typography>
-            <Typography
-              variant="text2"
-              sx={{ lineHeight: "150%", fontWeight: "400" }}
-            >
-              In case you have any specific issues or request, please contact
-              our Data Protection Officer on email: dpo@budgetbakers.com.
+              data is not editable. You have right to be informed about the data
+              we hold about you and you can transfer your data and you have
+              right to be forgotten and delete all your data - all of which you
+              can do by sending us an email to support@budgetbakers.com. In case
+              you have any specific issues or request, please contact our Data
+              Protection Officer on email: dpo@budgetbakers.com.
             </Typography>
           </Stack>
           <Button
             onClick={() => setOpen(true)}
             variant="contained"
             sx={{
-              backgroundColor: "#E00000",
+              backgroundColor: colors.extra.red_accent,
               borderRadius: 2,
+              borderRadius: "8px",
               width: "247px",
               alignSelf: "center",
               textTransform: "none",
@@ -185,7 +187,19 @@ const GeneralSettings = () => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <DeleteProfile onClose={() => setOpen(false)} />
+          <ConfirmModal
+            onClose={() => setOpen(false)}
+            color={colors.extra.red_accent}
+            highlight={"DELETE"}
+            promptText={"DELETE PROFILE AND ALL DATA?"}
+            description={
+              <>
+                All financial transaction, bank connection and profile
+                information is
+                <br /> irreversibly deleted and all data is lost.
+              </>
+            }
+          />
         </Box>
       </Modal>
     </Box>

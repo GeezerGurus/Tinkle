@@ -57,11 +57,24 @@ exports.addRecord = async (req, res) => {
   }
 };
 
-exports.getRecord = async (req, res) => {
+exports.getRecords = async (req, res) => {
   try {
     const record = await RecordSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(record);
   } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
+exports.getaRecord = async (req, res) => {
+  const { recordId } = req.params;
+  try {
+    const record = await RecordSchema.findById({ userId: req.userId, _id: recordId});
+    if (!record) {
+      return res.status(404).json({ message: "Record not found!" });
+    }
+    res.status(200).json(record)
+  } catch {
     res.status(500).json({ message: error });
   }
 };

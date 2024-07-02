@@ -79,7 +79,29 @@ exports.login_post = async (req, res) => {
   }
 };
 
-exports.logout = (req, res) => {
-  res.cookie("jwt", "", { maxAge: 1 });
-  res.redirect("/"); //If logout,this redirect to home page(possible the best to login page)
+exports.getUser = async (req, res) => {
+  try {
+      const user = await User.findById({ _id: req.userId })
+      if (!user) {
+          return res.status(404).json({ message: "User not found!" });
+      }
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(500).json({ message: error });
+  }
+};
+
+exports.logout = async(req, res) => {
+  try {
+      const user = await User.findById({ _id: req.userId })
+      if (user) {
+        res.cookie("jwt", "", { maxAge: 1 });
+        res.redirect("/"); //If logout,this redirect to home page(possible the best to login page)
+      }
+      else {
+        return res.status(404).json({ message: "User not found!" });
+      }
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
 };

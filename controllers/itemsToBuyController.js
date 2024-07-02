@@ -1,16 +1,16 @@
 const ItemToBuy = require("../models/ItemToBuy");
 
-exports.addItemsToBuy = (req, res) => {
+exports.addItemToBuy = (req, res) => {
   const userId = req.userId;
-  const { name, quantity, description, price, isPurchased } = req.body;
+  const { tobuylistId, name, quantity, description, price, isPurchased } = req.body;
 
-  // Validations
-  if ( !name || !quantity || !price ) {
-    return res.status(400).json({ message: "User ID, name, and quantity are required!" });
+  if ( !tobuylistId || name || !quantity || !price ) {
+    return res.status(400).json({ message: "User ID, tobuylistId, name, and quantity are required!" });
   }
 
   const itemToBuy = new ItemToBuy({
     userId,
+    tobuylistId,
     name,
     quantity,
     description,
@@ -28,7 +28,8 @@ exports.addItemsToBuy = (req, res) => {
 };
 
 exports.getItemsToBuy = (req, res) => {
-  ItemToBuy.find({ userId: req.userId }).sort({ createdAt: -1 })
+  const { tobuylistId } = req.body;
+  ItemToBuy.find({ userId: req.userId, tobuylistId: tobuylistId }).sort({ createdAt: -1 })
     .then((items) => {
       res.status(200).json(items);
     })
@@ -37,13 +38,27 @@ exports.getItemsToBuy = (req, res) => {
     });
 };
 
-exports.patchItemsToBuy = async (req, res) => {
+exports.getaItemToBuy = async (req, res) => {
   const { itemtobuyId } = req.params;
-  const { name, price, isPurchased, description, quantity } = req.body;
+  const { tobuylistId } = req.body;
   try {
-    const itemstobuy = await ItemToBuy.findOne({ userId: req.userId, _id: itemtobuyId });
+    const itemtobuy = await ItemToBuy.findById({ userId: req.userId, tobuylistId: tobuylistId, _id: itemtobuyId});
+    if (!itemtobuy) {
+      return res.status(404).json({ message: "Item To Buy not found!" });
+    }
+    res.status(200).json(itemtobuy)
+  } catch {
+    res.status(500).json({ message: error });
+  }
+};
+
+exports.patchItemToBuy = async (req, res) => {
+  const { itemtobuyId } = req.params;
+  const { tobuylistId, name, price, isPurchased, description, quantity } = req.body;
+  try {
+    const itemstobuy = await ItemToBuy.findOne({ userId: req.userId, tobuylistId: tobuylistId, _id: itemtobuyId });
     if (!itemstobuy) {
-      return res.status(404).json({ message: "Items To Buy not found!" });
+      return res.status(404).json({ message: "Item To Buy not found!" });
     }
 
     if (name !== undefined) itemstobuy.name = name;
@@ -61,10 +76,10 @@ exports.patchItemsToBuy = async (req, res) => {
   }
 };
 
-exports.deleteItemsToBuy = (req, res) => {
+exports.deleteItemToBuy = (req, res) => {
   const { itemtobuyId } = req.params;
-
-  ItemToBuy.findOneAndDelete({ userId: req.userId,_id:itemtobuyId })
+  const { tobuylistId } = req.body;
+  ItemToBuy.findOneAndDelete({ userId: req.userId, tobuylistId: tobuylistId, _id:itemtobuyId })
     .then((item) => {
       if (!item) {
         return res.status(404).json({ message: "Item To Buy not found!" });

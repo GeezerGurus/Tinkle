@@ -2,7 +2,7 @@ const BookSchema = require("../models/Book");
 
 exports.addBook = async (req, res) => {
   const userId = req.userId;
-  const { title, author, category, description, rating, link, coverImage } = req.body;
+  const { title, author, category, description, rating, link, coverImage,favourite } = req.body;
 
   try {
     if (!title || !author || !link) {
@@ -17,7 +17,8 @@ exports.addBook = async (req, res) => {
       description,
       rating,
       link,
-      coverImage
+      coverImage,
+      favourite
     });
 
     await Book.save();
@@ -28,10 +29,32 @@ exports.addBook = async (req, res) => {
   }
 };
 
-exports.getBook = async (req, res) => {
+exports.getBooks = async (req, res) => {
   try {
-    const Book = await BookSchema.find().sort({ createdAt: -1 });
+    const Book = await BookSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(Book);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
+exports.getaBook = async (req, res) => {
+  const { bookId } = req.params;
+  try {
+    const book = await AccountSchema.findById({ userId: req.userId, _id: bookId});
+    if (!book) {
+      return res.status(404).json({ message: "Book not found!" });
+    }
+    res.status(200).json(book)
+  } catch {
+    res.status(500).json({ message: error });
+  }
+};
+
+exports.getFavouriteBooks = async (req, res) => {
+  try { 
+    const Book = await BookSchema.find({ userId: req.userId, favourite: true }).sort({ createdAt: -1 })
+    res.status(200).jason(Book);
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -39,9 +62,9 @@ exports.getBook = async (req, res) => {
 
 exports.patchBook = async (req, res) => {
   const { bookId } = req.params;
-  const { title, author, category, description, rating, link, coverImage } = req.body;
+  const { title, author, category, description, rating, link, coverImage, favourite } = req.body;
   try {
-        const Book = await BookSchema.findById({ _id: bookId });
+        const Book = await BookSchema.findById({ userId: req.userId, _id: bookId });
         if (!Book) {
             return res.status(404).json({ message: "Book not found!" });
         }
@@ -53,6 +76,7 @@ exports.patchBook = async (req, res) => {
         if (link) Book.link = link;
         if (description) Book.description = description;
         if (coverImage) Book.coverImage = coverImage;
+        if (favourite) Book.favourite = favourite;
 
         await Book.save();
 
@@ -64,7 +88,7 @@ exports.patchBook = async (req, res) => {
 
 exports.deleteBook = async (req, res) => {
   const { bookId } = req.params;
-  BookSchema.findOneAndDelete({ _id:bookId })
+  BookSchema.findOneAndDelete({ userId: req.userId, _id:bookId })
     .then((Book) => {
       res.status(200).json({ message: "Book Deleted" });
     })

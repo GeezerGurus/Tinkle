@@ -26,10 +26,19 @@ exports.addVideo = async (req, res) => {
   }
 };
 
-exports.getVideo = async (req, res) => {
+exports.getVideos = async (req, res) => {
   try {
-    const video = await VideoSchema.find().sort({ createdAt: -1 });
+    const video = await VideoSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(video);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
+exports.getFavouriteVideos = async (req, res) => {
+  try { 
+    const video = await VideoSchema.find({ userId: req.userId, favourite: true }).sort({ createdAt: -1 })
+    res.status(200).jason(video);
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -39,7 +48,7 @@ exports.patchVideo = async (req, res) => {
   const { videoId } = req.params;
   const { title, creator, description, link, thumbnail } = req.body;
   try {
-        const video = await VideoSchema.findById({ _id: videoId });
+        const video = await VideoSchema.findById({ userId: req.userId, _id: videoId });
         if (!video) {
             return res.status(404).json({ message: "Video not found!" });
         }
@@ -60,7 +69,7 @@ exports.patchVideo = async (req, res) => {
 
 exports.deleteVideo = async (req, res) => {
   const { videoId } = req.params;
-  VideoSchema.findOneAndDelete({ _id:videoId })
+  VideoSchema.findOneAndDelete({ userId: req.userId, _id:videoId })
     .then((video) => {
       res.status(200).json({ message: "Video Deleted" });
     })

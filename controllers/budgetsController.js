@@ -32,11 +32,24 @@ exports.addBudget = async (req, res) => {
   }
 };
 
-exports.getBudget = async (req, res) => {
+exports.getBudgets = async (req, res) => {
   try {
     const budget = await BudgetSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(budget);
   } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
+exports.getaBudget = async (req, res) => {
+  const { budgetId } = req.params;
+  try {
+    const budget = await BudgetSchema.findById({ userId: req.userId, _id: budgetId});
+    if (!budget) {
+      return res.status(404).json({ message: "Budget not found!" });
+    }
+    res.status(200).json(budget)
+  } catch {
     res.status(500).json({ message: error });
   }
 };

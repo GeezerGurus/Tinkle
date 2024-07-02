@@ -46,6 +46,19 @@ exports.getLends = async (req, res) => {
   }
 };
 
+exports.getaLend = async (req, res) => {
+  const { lendId } = req.params;
+  try {
+    const lend = await LendSchema.findById({ userId: req.userId, _id: lendId});
+    if (!lend) {
+      return res.status(404).json({ message: "Lend not found!" });
+    }
+    res.status(200).json(lend)
+  } catch {
+    res.status(500).json({ message: error });
+  }
+};
+
 exports.patchLend = async (req, res) => {
   const { lendId } = req.params;
   const { debtId, amount } = req.body;

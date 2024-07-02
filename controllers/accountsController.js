@@ -27,11 +27,24 @@ exports.addAccount = async (req, res) => {
   }
 };
 
-exports.getAccount = async (req, res) => {
+exports.getAccounts = async (req, res) => {
   try {
     const account = await AccountSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
     res.status(200).json(account);
   } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
+exports.getaAccount = async (req, res) => {
+  const { accountId } = req.params;
+  try {
+    const account = await AccountSchema.findById({ userId: req.userId, _id: accountId});
+    if (!account) {
+      return res.status(404).json({ message: "Account not found!" });
+    }
+    res.status(200).json(account)
+  } catch {
     res.status(500).json({ message: error });
   }
 };

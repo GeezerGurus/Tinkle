@@ -46,6 +46,19 @@ exports.getOwes = async (req, res) => {
   }
 };
 
+exports.getaOwe = async (req, res) => {
+  const { oweId } = req.params;
+  try {
+    const owe = await OweSchema.findById({ userId: req.userId, _id: oweId});
+    if (!owe) {
+      return res.status(404).json({ message: "Owe not found!" });
+    }
+    res.status(200).json(owe)
+  } catch {
+    res.status(500).json({ message: error });
+  }
+};
+
 exports.patchOwe = async (req, res) => {
   const { oweId } = req.params;
   const { debtId, amount } = req.body;

@@ -41,6 +41,10 @@ const bookSchema = new Schema(
       trim: true,
       maxlength: 500,
     },
+    favourite: {
+      type: Boolean,
+      default: false,
+    }
   },
   { timestamps: true }
 );

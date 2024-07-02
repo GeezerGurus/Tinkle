@@ -8,6 +8,11 @@ const itemToBuySchema = new Schema(
       ref: "User",
       required: true,
     },
+    tobuylistId: {
+      type: Schema.Types.ObjectId,
+      ref: "ToBuyList",
+      required: true,
+    },
     name: {
       type: String,
       required: true,

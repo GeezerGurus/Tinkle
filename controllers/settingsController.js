@@ -25,7 +25,7 @@ exports.addSetting = async (req, res) => {
     };
 };
 
-exports.getSetting = async (req, res) => {
+exports.getSettings = async (req, res) => {
     try {
       const setting = await SettingSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
       res.status(200).json(setting);
@@ -33,6 +33,19 @@ exports.getSetting = async (req, res) => {
       res.status(500).json({ message: error });
     }
 };
+
+exports.getaSetting = async (req, res) => {
+    const { settingId } = req.params;
+    try {
+      const setting = await SettingSchema.findById({ userId: req.userId, _id: settingId});
+      if (!setting) {
+        return res.status(404).json({ message: "Setting not found!" });
+      }
+      res.status(200).json(setting)
+    } catch {
+      res.status(500).json({ message: error });
+    }
+  };
 
 exports.patchSetting = async (req, res) => {
     const { settingtId } = req.params;

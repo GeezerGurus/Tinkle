@@ -1,12 +1,14 @@
-import { Box, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
-import TableData from "./RecordsTable";
+import RecordsTable from "./RecordsTable";
 
 const Records = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper
@@ -29,10 +31,10 @@ const Records = () => {
           borderBottom: `${colors.purple[600]} 1px solid`,
         }}
       >
-        <Typography variant="h4">Records</Typography>
+        <Typography variant={isSmallScreen ? "h6" : "h4"}>Records</Typography>
         <ShowMoreBtn to={"/records"} />
       </Box>
-      <TableData
+      <RecordsTable
         data={[
           {
             date: "2024-06-01",

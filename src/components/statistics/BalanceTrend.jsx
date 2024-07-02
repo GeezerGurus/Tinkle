@@ -1,4 +1,4 @@
-import { Box, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 import LineChart from "./Linechart";
@@ -14,11 +14,13 @@ const BalanceTrend = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       sx={{
         border: `1px solid ${colors.purple[600]}`,
-        height: "100%",
+        height: isSmallScreen ? "252px" :"100%",
         borderRadius: "16px",
         padding: "24px",
         display: "flex",
@@ -35,7 +37,9 @@ const BalanceTrend = () => {
           borderBottom: `${colors.purple[600]} 1px solid`,
         }}
       >
-        <Typography variant="h4">Balance Trend</Typography>
+        <Typography variant={isSmallScreen ? "h6" : "h4"}>
+          Balance Trend
+        </Typography>
       </Box>
       <LineChart data={data} labels={labels} height="300px" />
     </Paper>

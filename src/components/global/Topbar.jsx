@@ -80,6 +80,7 @@ const Topbar = () => {
   const title = getTitle(location.pathname);
   const { logout } = useContext(AuthContext);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -95,7 +96,7 @@ const Topbar = () => {
         alignItems="center"
         sx={{
           padding: "16px 32px",
-          width: "100%",
+          maxWidth: "100%",
           height: "80px",
         }}
       >

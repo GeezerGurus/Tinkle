@@ -1,10 +1,13 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { useTheme } from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 import { BudgetBox } from "../../components/budget";
 
 const Budget = () => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     // Container
     <Box
@@ -12,16 +15,23 @@ const Budget = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        overflowX: "hidden",
       }}
     >
       {/* Main */}
       <Box
         sx={{
-          marginTop: theme.spacing(3),
-          width: "987px",
-          height: "855px",
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: theme.spacing(3),
+          width: isMediumScreen ? (isSmallScreen ? "95%" : "60%") : "987px",
+          height: "855px",
+          gridTemplateColumns: isMediumScreen
+            ? isSmallScreen
+              ? "repeat(1, 1fr)"
+              : "repeat(1, 1fr)"
+            : "repeat(2, 1fr)",
           gap: "39px",
         }}
       >

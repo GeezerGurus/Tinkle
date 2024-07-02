@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Box, IconButton, Modal, useTheme } from "@mui/material";
+import { Box, IconButton, Modal, useMediaQuery, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { tokens } from "../../theme";
 
 const SpeedDial = ({ modal }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [open, setOpen] = useState(false);
   return (
@@ -18,16 +20,16 @@ const SpeedDial = ({ modal }) => {
           position: "fixed",
           right: 16,
           bottom: 16,
-          width: "116px",
-          height: "116px",
+          width: isSmallScreen ? "72px" : "116px",
+          height: isSmallScreen ? "72px" : "116px",
           backgroundColor: colors.purple[200],
         }}
       >
         <AddIcon
           fontSize="large"
           sx={{
-            width: "48px",
-            height: "48px",
+            width: isSmallScreen ? "32px" : "48px",
+            height: isSmallScreen ? "32px" : "48px",
           }}
         />
       </IconButton>

@@ -1,4 +1,4 @@
-import { Box, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 import PieActiveArc from "./Piechart";
@@ -14,16 +14,20 @@ const Expenses = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       sx={{
+        maxWidth: "100%",
         border: `1px solid ${colors.purple[600]}`,
         height: "100%",
         borderRadius: "16px",
-        padding: "24px",
+        padding: isSmallScreen ? "10px" : "24px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        overflowX: "hidden",
       }}
     >
       <Box
@@ -35,7 +39,7 @@ const Expenses = () => {
           borderBottom: `${colors.purple[600]} 1px solid`,
         }}
       >
-        <Typography variant="h4">Expenses</Typography>
+        <Typography variant={isSmallScreen ? "h6" : "h4"}>Expenses</Typography>
       </Box>
       <PieActiveArc data={pieData} />
     </Paper>

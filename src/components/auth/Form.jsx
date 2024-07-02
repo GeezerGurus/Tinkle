@@ -9,6 +9,7 @@ import {
   IconButton,
   InputAdornment,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { signup, signin } from "../../api/authApi";
@@ -27,6 +28,11 @@ const Form = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   const togglePage = () => {
     setPage(page === "sign-up" ? "sign-in" : "sign-up");
@@ -93,24 +99,29 @@ const Form = () => {
   return (
     <Paper
       sx={{
-        width: "1040px",
-        height: "704px",
-        borderRadius: "40px 0 0 40px",
+        width: isLargeScreen ? "80vw" : "1040px",
+        height: isMediumScreen ? "95vh" : isLaptop ? "95vh" : "704px",
+        borderRadius: isMediumScreen ? " 40px" : "40px 0 0 40px",
         display: "flex",
         justifyContent: "flex-end",
         overflow: "hidden",
         backgroundImage: `url(${FormImage})`,
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
-        backgroundPosition: "left",
+        backgroundPosition: isSmallScreen ? "top" : "left",
       }}
     >
       <Paper
         sx={{
-          padding: "88px 96px",
-          width: "693px",
-          height: "100%",
-          borderRadius: "40px 0 0 40px",
+          padding: isSmallScreen
+            ? "20px 20px 50px"
+            : isLaptop
+            ? "50px 96px"
+            : "88px 96px",
+          width: isSmallScreen ? "100%" : isMediumScreen ? "80%" : "693px",
+          height: isSmallScreen ? "90%" : "100%",
+          borderRadius: isSmallScreen ? " 40px 40px 0 0" : "40px 0 0 40px",
+          mt: isSmallScreen ? 15 : undefined,
         }}
       >
         <FormControl
@@ -127,16 +138,16 @@ const Form = () => {
           {page === "sign-up" && (
             <>
               <Typography
-                variant="h3"
+                variant={isSmallScreen ? "h6" : "h3"}
                 sx={{ color: colors.purple[900] }}
                 gutterBottom
               >
                 Let's Sign Up!
               </Typography>
               <Typography
-                variant="body2"
+                variant={isSmallScreen ? "body4" : "body2"}
                 align="center"
-                width={"422px"}
+                width={isSmallScreen ? "100%" : "422px"}
                 gutterBottom
               >
                 Sign up and create an account, so that you can start tracking
@@ -150,6 +161,9 @@ const Form = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                InputProps={{
+                  sx: { height: isSmallScreen ? "45px" : undefined },
+                }}
               />
               <TextField
                 name="email"
@@ -158,6 +172,9 @@ const Form = () => {
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
+                }}
+                InputProps={{
+                  sx: { height: isSmallScreen ? "45px" : undefined },
                 }}
               />
               <TextField
@@ -170,6 +187,7 @@ const Form = () => {
                   shrink: true,
                 }}
                 InputProps={{
+                  sx: { height: isSmallScreen ? "45px" : undefined },
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
@@ -192,6 +210,7 @@ const Form = () => {
                   shrink: true,
                 }}
                 InputProps={{
+                  sx: { height: isSmallScreen ? "45px" : undefined },
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
@@ -213,7 +232,7 @@ const Form = () => {
                 color="primary"
                 fullWidth
                 sx={{
-                  height: "56px",
+                  height: isSmallScreen ? "45px" : "56px",
                   backgroundColor: colors.purple[800],
                   "&:hover": {
                     backgroundColor: colors.purple[600],
@@ -227,7 +246,7 @@ const Form = () => {
                   {isLoading ? "Creating Account..." : "Create Account"}
                 </Typography>
               </Button>
-              <Typography>
+              <Typography variant={isSmallScreen ? "body2" : undefined}>
                 Already have an account?{" "}
                 <Link
                   href="#"
@@ -243,7 +262,7 @@ const Form = () => {
           {page === "sign-in" && (
             <>
               <Typography
-                variant="h3"
+                variant={isSmallScreen ? "h6" : "h3"}
                 sx={{ color: colors.purple[900] }}
                 gutterBottom
               >
@@ -252,7 +271,7 @@ const Form = () => {
               <Typography
                 variant="body2"
                 align="center"
-                width={"422px"}
+                width={isSmallScreen ? "100%" : "422px"}
                 gutterBottom
               >
                 Sign in to access your account and manage your finances.
@@ -265,6 +284,9 @@ const Form = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                InputProps={{
+                  sx: { height: isSmallScreen ? "45px" : undefined },
+                }}
               />
               <TextField
                 name="email"
@@ -273,6 +295,9 @@ const Form = () => {
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
+                }}
+                InputProps={{
+                  sx: { height: isSmallScreen ? "45px" : undefined },
                 }}
               />
               <TextField
@@ -285,6 +310,7 @@ const Form = () => {
                   shrink: true,
                 }}
                 InputProps={{
+                  sx: { height: isSmallScreen ? "45px" : undefined },
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
@@ -316,7 +342,7 @@ const Form = () => {
                   {isLoading ? "Signing In..." : "Sign In"}
                 </Typography>
               </Button>
-              <Typography>
+              <Typography variant={isSmallScreen ? "body2" : undefined}>
                 Don't have an account yet?{" "}
                 <Link
                   href="#"

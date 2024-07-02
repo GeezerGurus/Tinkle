@@ -1,55 +1,66 @@
-import { Paper, Typography } from "@mui/material";
+import { Paper, Stack, Typography, useTheme } from "@mui/material";
 import React from "react";
+import { tokens } from "../../theme";
 
-const Total = ({ header, amount, color, percent }) => {
+const Total = ({ type }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <Paper
       sx={{
+        borderRadius: "16px",
+        display: "flex",
+        padding: "24px",
+        flexDirection: "column",
+        gap: "16px",
         width: "400px",
         height: "216px",
         backgroundColor: "white",
       }}
     >
       {/* Header  */}
-      <Typography
-        sx={{
-          fontSize: "16px",
-          lineHeight: "24px",
-          fontWeight: "600",
-          color: "black",
-          marginTop: "24px",
-          marginLeft: "24px",
-        }}
-      >
-        {header}
-      </Typography>
+      {type === "income" ? (
+        <Typography variant="h6" sx={{ color: colors.purple[900] }}>
+          Total Income You Have
+        </Typography>
+      ) : (
+        <Typography variant="h6" sx={{ color: colors.purple[900] }}>
+          Total Expense You Made
+        </Typography>
+      )}
+
       {/* Amount */}
-      <Typography
-        sx={{
-          fontSize: "40px",
-          lineHeight: "44px",
-          fontWeight: "600",
-          letterSpacing: "-2%",
-          color: color,
-          marginTop: "16px",
-          marginLeft: "24px",
-        }}
-      >
-        {amount}
-      </Typography>
+      {type === "income" ? (
+        <Stack direction={"row"} alignItems={"baseline"} gap={1}>
+          <Typography variant="h3" sx={{ color: colors.purple[600] }}>
+            45,678
+          </Typography>
+          <Typography variant="h4" sx={{ color: colors.purple[600] }}>
+            MMK
+          </Typography>
+        </Stack>
+      ) : (
+        <Stack direction={"row"} alignItems={"baseline"} gap={1}>
+          <Typography variant="h3" sx={{ color: colors.extra.red_accent }}>
+            2,405
+          </Typography>
+          <Typography variant="h4" sx={{ color: colors.extra.red_accent }}>
+            MMK
+          </Typography>
+        </Stack>
+      )}
+
       {/* Percent */}
-      <Typography
-        sx={{
-          fontSize: "16px",
-          lineHeight: "24px",
-          fontWeight: "500",
-          color: "black",
-          marginTop: "16px",
-          marginLeft: "24px",
-        }}
-      >
-        {percent}
-      </Typography>
+      {type === "income" ? (
+        <Typography variant="body2" sx={{ color: colors.extra.grey_accent }}>
+          +20% more income than the month before
+        </Typography>
+      ) : (
+        <Typography variant="body2" sx={{ color: colors.extra.grey_accent }}>
+          +33% more expense than the month before
+        </Typography>
+      )}
     </Paper>
   );
 };

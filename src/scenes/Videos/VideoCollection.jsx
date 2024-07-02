@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Typography, useTheme, Paper, Grid } from "@mui/material";
+import { Box, Typography, useTheme, Paper, Grid } from "@mui/material";
 import { tokens } from "../../theme";
-import { Link, useParams } from "react-router-dom";
-import { ArrowBackIos as ArrowBackIosIcon } from "@mui/icons-material";
-import { VideoContents } from "../../components/utils";
+import { useParams } from "react-router-dom";
+import { BackBtn, VideoContents } from "../../components/utils";
 
 const favourites = [
   { img: "", title: "How to get your ex back", avatar: "", author: "Zaw" },
@@ -21,10 +20,10 @@ const favourites = [
   { img: "", title: "How to get your ex back", avatar: "", author: "Zaw" },
 ];
 
-const path = "/videos";
 const VideoCollection = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const [isOverflowing, setIsOverflowing] = useState(false);
   const gridRef = useRef(null);
   const { videoCollection } = useParams();
@@ -53,8 +52,11 @@ const VideoCollection = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-around",
+        position: "relative",
       }}
     >
+      {/* Call Back Button */}
+      <BackBtn />
       {/* Gradient title */}
       <Box
         sx={{
@@ -103,25 +105,6 @@ const VideoCollection = () => {
                 .join(" ")
             : "Video Collection"}
         </Typography>
-        {/* Call Back Button */}
-        <Button
-          component={Link}
-          to={path}
-          startIcon={
-            <ArrowBackIosIcon sx={{ width: "20px", height: "20px" }} />
-          }
-          sx={{
-            height: "34px",
-            mr: 2,
-            position: "absolute",
-            top: "20%",
-            left: 0,
-          }}
-        >
-          <Typography textTransform="capitalize" variant="body1">
-            Back
-          </Typography>
-        </Button>
       </Box>
       {/* Contents */}
       <Grid

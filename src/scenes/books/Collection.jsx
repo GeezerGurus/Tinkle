@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Typography, useTheme, Paper, Grid } from "@mui/material";
+import { Box, Typography, useTheme, Paper, Grid } from "@mui/material";
 
 import { tokens } from "../../theme";
-import { Link, useParams } from "react-router-dom";
-import { ArrowBackIos as ArrowBackIosIcon } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
 import { BookContents } from "../../components/utils";
 import { BackBtn } from "../../components/utils";
 
@@ -88,10 +87,9 @@ const Collection = () => {
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(" ")}
         </Typography>
+
         {/* Call Back Button */}
-        <Box sx={{ position: "absolute", left: 16, top: 16 }}>
-          <BackBtn />
-        </Box>
+        <BackBtn />
       </Box>
       {/* Contents */}
       <Grid

@@ -93,9 +93,9 @@ const DebtItems = () => {
           gap: theme.spacing(3),
         }}
       >
-        <Box sx={{ position: "absolute", left: 16, top: 16 }}>
-          <BackBtn />
-        </Box>
+        {/* Back button  */}
+        <BackBtn />
+
         <Stack alignItems={"center"}>
           <Typography variant="h4" sx={{ color: colors.purple[600] }}>
             Owe to {debtItemId}

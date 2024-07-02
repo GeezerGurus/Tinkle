@@ -9,7 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { styled } from "@mui/material";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { tokens } from "../../theme";
 
 const StyledInput = styled("input")({
@@ -153,7 +153,7 @@ const Exchange = ({ isSmallScreen }) => {
             left: "40%",
           }}
         >
-          <ArrowDownwardIcon
+          <KeyboardArrowDownIcon
             sx={{
               width: "38px",
               height: "38px",

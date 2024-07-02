@@ -21,7 +21,7 @@ const ConfirmModal = ({
     <Paper
       sx={{
         width: "auto",
-        height: "221px",
+        height: "auto",
         padding: "32px 40px",
         display: "flex",
         flexDirection: "column",

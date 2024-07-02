@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Paper,
   Typography,
@@ -17,9 +17,9 @@ const AddRecord = ({ onClose }) => {
   const colors = tokens(theme.palette.mode);
   const [page, setPage] = useState("expense");
 
-  const handlePageChange = (event) => {
-    setPage(event.target.value);
-  };
+  const handlePageChange = useCallback((value) => {
+    setPage(value);
+  }, []);
 
   const buttonStyles = {
     borderRadius: "16px",
@@ -27,6 +27,19 @@ const AddRecord = ({ onClose }) => {
     flexGrow: 1,
     textTransform: "none",
   };
+
+  const pageComponent = (() => {
+    switch (page) {
+      case "expense":
+        return <Expense />;
+      case "income":
+        return <Income />;
+      case "transfer":
+        return <Transfer />;
+      default:
+        return null;
+    }
+  })();
 
   return (
     <Paper
@@ -54,8 +67,7 @@ const AddRecord = ({ onClose }) => {
         {["expense", "income", "transfer"].map((type) => (
           <Button
             key={type}
-            value={type}
-            onClick={handlePageChange}
+            onClick={() => handlePageChange(type)}
             sx={{
               ...buttonStyles,
               backgroundColor: page === type ? colors.purple[600] : "white",
@@ -75,13 +87,7 @@ const AddRecord = ({ onClose }) => {
       </ButtonGroup>
 
       {/* Conditional Rendering */}
-      {page === "expense" ? (
-        <Expense />
-      ) : page === "income" ? (
-        <Income />
-      ) : (
-        <Transfer />
-      )}
+      {pageComponent}
 
       <Stack gap={1} direction="row" justifyContent="space-between">
         <Button
@@ -111,4 +117,4 @@ const AddRecord = ({ onClose }) => {
   );
 };
 
-export default AddRecord;
+export default React.memo(AddRecord);

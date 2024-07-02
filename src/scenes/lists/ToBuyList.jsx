@@ -62,9 +62,7 @@ const ToBuyList = () => {
       }}
     >
       {/* Back button  */}
-      <Box sx={{ position: "absolute", left: 16, top: 16 }}>
-        <BackBtn />
-      </Box>
+      <BackBtn />
 
       {/* Title  */}
       <Typography

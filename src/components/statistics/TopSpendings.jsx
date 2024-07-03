@@ -1,4 +1,11 @@
-import { Box, Paper, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 import { Progress } from "../utils";
@@ -29,6 +36,8 @@ const TopSpendings = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       sx={{
@@ -51,7 +60,9 @@ const TopSpendings = () => {
           borderBottom: `${colors.purple[600]} 1px solid`,
         }}
       >
-        <Typography variant="h4">Top Spendings</Typography>
+        <Typography variant={isSmallScreen ? "h6" : "h4"}>
+          Top Spendings
+        </Typography>
       </Box>
 
       {/* Categories */}
@@ -63,14 +74,18 @@ const TopSpendings = () => {
         }}
       >
         {pieData.map((category) => (
-          <Stack minHeight={"64px"} key={category.id}>
+          <Stack minHeight={isSmallScreen ? "auto" : "64px"} key={category.id}>
             <Stack
               direction={"row"}
               width={"100%"}
               justifyContent={"space-between"}
             >
-              <Typography variant="body1">{category.label}</Typography>
-              <Typography variant="body1">{`${category.value} MMK`}</Typography>
+              <Typography variant={isSmallScreen ? "body2" : "body1"}>
+                {category.label}
+              </Typography>
+              <Typography
+                variant={isSmallScreen ? "body2" : "body1"}
+              >{`${category.value} MMK`}</Typography>
             </Stack>
             <Progress
               percent={`${(category.value / 300000) * 100}%`} // Example calculation based on max value (300000 MMK)

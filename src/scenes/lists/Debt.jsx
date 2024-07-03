@@ -10,14 +10,15 @@ import {
   SpeedDial,
   SpeedDialAction,
   Modal,
+  useMediaQuery,
 } from "@mui/material";
 import { ActivePage, AddDebt, ClosedPage } from "../../components/debt list";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  width: "433px",
-  height: "37px",
+const StyledButton = styled(Button)(({ theme, isMediumScreen }) => ({
+  width: isMediumScreen ? "60%" : "433px",
+  height: isMediumScreen ? "100%" : "37px",
   textTransform: "none",
   "&:hover": {
     backgroundColor: theme.palette.neutral.dark,
@@ -49,6 +50,11 @@ const Debt = () => {
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
 
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
   const handlePage = (event) => {
     setPage(event.target.value);
   };
@@ -61,11 +67,15 @@ const Debt = () => {
     }
   };
 
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
   return (
     // Container
     <Box
       sx={{
-        width: "100%",
+        width: isMediumScreen ? "100%" : isLaptop ? `92vw` : "100%",
         height: "100%",
         display: "flex",
         justifyContent: "center",
@@ -75,7 +85,7 @@ const Debt = () => {
       <Box
         sx={{
           marginTop: theme.spacing(3),
-          width: "1249px",
+          width: isMediumScreen ? "90%" : "1249px",
           height: "auto",
           display: "flex",
           flexDirection: "column",
@@ -86,10 +96,12 @@ const Debt = () => {
         {/* Top nav  */}
         <ButtonGroup
           sx={{
+            width: isMediumScreen ? "100%" : undefined,
             borderRadius: "16px",
           }}
         >
           <StyledButton
+            isMediumScreen={isMediumScreen}
             value="active"
             onClick={handlePage}
             sx={{
@@ -104,6 +116,7 @@ const Debt = () => {
             <Typography variant="body2">Active</Typography>
           </StyledButton>
           <StyledButton
+            isMediumScreen={isMediumScreen}
             value="closed"
             onClick={handlePage}
             sx={{
@@ -156,9 +169,9 @@ const Debt = () => {
         >
           {/* Render different components based on selected action */}
           {modal === "Lend" ? (
-            <AddDebt action={"lent"} />
+            <AddDebt action={"lent"} onClose={handleCloseModal} />
           ) : (
-            <AddDebt action={"owe"} />
+            <AddDebt action={"owe"} onClose={handleCloseModal} />
           )}
         </Box>
       </Modal>

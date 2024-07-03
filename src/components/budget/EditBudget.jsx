@@ -9,6 +9,7 @@ import {
   Button,
   TextField,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
@@ -41,6 +42,9 @@ const EditBudget = ({ onClose }) => {
   const [startDate, setStartDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [endDate, setEndDate] = useState(dayjs().format("YYYY-MM-DD"));
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   const handleChange = (event) => {
     const { value } = event.target;
     setSelectedOption(typeof value === "string" ? value.split(",") : value);
@@ -49,9 +53,16 @@ const EditBudget = ({ onClose }) => {
   return (
     <Paper
       sx={{
-        width: "686px",
-        height: period === "one-time" ? " 870px" : "704px",
-        padding: "32px 112px",
+        width: isSmallScreen ? "360px" : "686px",
+        height:
+          period === "one-time"
+            ? isSmallScreen
+              ? "700px"
+              : " 870px"
+            : isSmallScreen
+            ? "630px"
+            : "704px",
+        padding: isSmallScreen ? "19px 10px" : "32px 112px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
@@ -60,7 +71,7 @@ const EditBudget = ({ onClose }) => {
       }}
     >
       {/* Title  */}
-      <Typography variant="h4">Edit Budget</Typography>
+      <Typography variant={isSmallScreen ? "h5" : "h4"}>Edit Budget</Typography>
 
       <Box
         sx={{
@@ -78,6 +89,7 @@ const EditBudget = ({ onClose }) => {
           fullWidth
           inputProps={{ min: "0" }}
           InputProps={{
+            sx: { height: isSmallScreen ? "75%" : "100%" },
             startAdornment: (
               <InputAdornment position="start" sx={{ color: "green" }}>
                 <Typography
@@ -100,6 +112,7 @@ const EditBudget = ({ onClose }) => {
           InputLabelProps={{
             shrink: true,
           }}
+          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
         />
 
         <TextField
@@ -108,6 +121,10 @@ const EditBudget = ({ onClose }) => {
           select
           label="Category"
           fullWidth
+          InputLabelProps={{
+            sx: { mt: isSmallScreen ? "-2%" : "" },
+          }}
+          InputProps={{ sx: { height: isSmallScreen ? "80%" : "100%" } }}
         >
           <MenuItem value="food">
             <Item
@@ -182,6 +199,7 @@ const EditBudget = ({ onClose }) => {
           select
           label="Period"
           fullWidth
+          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
         >
           <MenuItem value="monthly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -214,6 +232,7 @@ const EditBudget = ({ onClose }) => {
             value={startDate}
             onChange={(event) => setStartDate(event.target.value)}
             InputProps={{
+              sx: { height: isSmallScreen ? "75%" : "100%" },
               inputProps: {
                 min: "2022-01-01", // Set min and max dates if needed
                 max: "2025-12-31",
@@ -230,6 +249,7 @@ const EditBudget = ({ onClose }) => {
             fullWidth
             onChange={(event) => setEndDate(event.target.value)}
             InputProps={{
+              sx: { height: isSmallScreen ? "75%" : "100%" },
               inputProps: {
                 min: "2022-01-01", // Set min and max dates if needed
                 max: "2025-12-31",
@@ -244,6 +264,7 @@ const EditBudget = ({ onClose }) => {
           select
           label="Balance Account"
           fullWidth
+          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
         >
           <MenuItem value="wallet">
             <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
@@ -273,7 +294,11 @@ const EditBudget = ({ onClose }) => {
         />
       </Box>
 
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           sx={{
             width: "208px",

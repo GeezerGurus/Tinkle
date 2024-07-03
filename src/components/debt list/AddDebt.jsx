@@ -7,6 +7,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -46,12 +47,19 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
     setSelectedDate(event.target.value);
   };
 
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Paper
       sx={{
-        width: "686px",
-        height: "739px",
-        padding: "32px 112px",
+        width: isSmallScreen ? "44vh" : isMediumScreen ? "65vh" : "686px",
+        height: isLaptop ? "95vh" : "739px",
+        padding: isSmallScreen
+          ? "16px 28px"
+          : isLaptop
+          ? "16px 112px"
+          : "32px 112px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
@@ -100,6 +108,9 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         InputLabelProps={{
           shrink: true,
         }}
+        InputProps={{
+          sx: { height: isLaptop ? "42px" : undefined },
+        }}
       />
 
       <TextField
@@ -108,6 +119,9 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         fullWidth
         InputLabelProps={{
           shrink: true,
+        }}
+        InputProps={{
+          sx: { height: isLaptop ? "42px" : undefined },
         }}
       />
 
@@ -119,6 +133,7 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         onChange={handleAmountChange}
         inputProps={{ min: "0" }}
         InputProps={{
+          sx: { height: isLaptop ? "42px" : undefined },
           startAdornment: (
             <InputAdornment position="start" sx={{ color: "green" }}>
               {action === "lent" ? (
@@ -151,6 +166,9 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         fullWidth
         InputLabelProps={{
           shrink: true,
+        }}
+        InputProps={{
+          sx: { height: isLaptop ? "42px" : undefined },
         }}
       >
         <MenuItem value="food">
@@ -214,6 +232,7 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
           shrink: true,
         }}
         InputProps={{
+          sx: { height: isLaptop ? "42px" : undefined },
           inputProps: {
             min: "2020-01-01",
             max: "2030-12-31",
@@ -231,6 +250,7 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
           shrink: true,
         }}
         InputProps={{
+          sx: { height: isLaptop ? "42px" : undefined },
           inputProps: {
             min: "2020-01-01",
             max: "2030-12-31",
@@ -238,11 +258,15 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         }}
       />
 
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           sx={{
-            width: "208px",
-            height: "40px",
+            width: isSmallScreen ? "208px" : isMediumScreen ? "190px" : "208px",
+            height: isMediumScreen ? "35px" : "40px",
             backgroundColor: colors.purple[600],
             textTransform: "none",
             color: "white",
@@ -253,8 +277,8 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         <Button
           onClick={onClose}
           sx={{
-            width: "208px",
-            height: "40px",
+            width: isSmallScreen ? "208px" : isMediumScreen ? "190px" : "208px",
+            height: isMediumScreen ? "35px" : "40px",
             backgroundColor: colors.purple[200],
             textTransform: "none",
           }}

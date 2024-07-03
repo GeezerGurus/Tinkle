@@ -8,6 +8,8 @@ import {
   TableContainer,
   TableRow,
   Paper,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
@@ -43,6 +45,8 @@ const RecordsTable = ({ data }) => {
       <Typography variant="body4">{method}</Typography>
     </Box>
   );
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box sx={{ overflow: "auto" }}>
@@ -64,11 +68,13 @@ const RecordsTable = ({ data }) => {
                   {getIconForFact(row.fact)}
                   <Typography variant="body4">{row.fact}</Typography>
                 </TableCell>
-                <TableCell sx={{ borderBottom: "none" }}>
-                  <Typography variant="body4">
-                    {renderCashMethod(row.method)}
-                  </Typography>
-                </TableCell>
+                {!isSmallScreen && (
+                  <TableCell sx={{ borderBottom: "none" }}>
+                    <Typography variant="body4">
+                      {renderCashMethod(row.method)}
+                    </Typography>
+                  </TableCell>
+                )}
                 <TableCell sx={{ borderBottom: "none" }} align="right">
                   <Typography variant="body4" sx={{ color: "red" }}>
                     {row.amount}

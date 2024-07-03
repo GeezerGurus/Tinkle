@@ -90,7 +90,7 @@ const list = [
 
 // knowledge
 const knowledge = [
-  { text: "Videos", path: "" },
+  { text: "Videos", path: "/videos" },
   { text: "Books", path: "/books" },
 ];
 

@@ -8,6 +8,7 @@ import {
   useTheme,
   IconButton,
   InputAdornment,
+  useMediaQuery,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { tokens } from "../../theme";
@@ -19,6 +20,9 @@ const UpdatePassword = ({ onClose }) => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   const handleToggleShowPassword = (setter) => {
     setter((show) => !show);
   };
@@ -26,9 +30,9 @@ const UpdatePassword = ({ onClose }) => {
   return (
     <Paper
       sx={{
-        padding: "32px 112px",
-        width: 686,
-        height: 472,
+        padding: isSmallScreen ? "16px 24px" : "32px 112px",
+        width: isSmallScreen ? 359 : 686,
+        height: isSmallScreen ? 524 : 472,
         borderRadius: "8px",
         display: "flex",
         alignItems: "center",
@@ -37,8 +41,10 @@ const UpdatePassword = ({ onClose }) => {
         flexDirection: "column",
       }}
     >
-      <Typography variant="h4">Update your password</Typography>
-      <Typography variant="body1">
+      <Typography variant={isSmallScreen ? "h6" : "h4"}>
+        Update your password
+      </Typography>
+      <Typography variant={isSmallScreen ? "body4" : "body1"}>
         Enter your current password and new password
       </Typography>
 
@@ -50,6 +56,7 @@ const UpdatePassword = ({ onClose }) => {
           shrink: true,
         }}
         InputProps={{
+          sx: { height: "42px" },
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
@@ -71,6 +78,7 @@ const UpdatePassword = ({ onClose }) => {
           shrink: true,
         }}
         InputProps={{
+          sx: { height: "42px" },
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
@@ -92,6 +100,7 @@ const UpdatePassword = ({ onClose }) => {
           shrink: true,
         }}
         InputProps={{
+          sx: { height: "42px" },
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
@@ -105,7 +114,11 @@ const UpdatePassword = ({ onClose }) => {
         }}
       />
 
-      <Stack gap={1} direction="row" justifyContent="space-between">
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent="space-between"
+      >
         <Button
           sx={{
             width: 208,

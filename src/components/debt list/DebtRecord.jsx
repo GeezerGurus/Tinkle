@@ -7,6 +7,7 @@ import {
   useTheme,
   Modal,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,10 +21,13 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
 
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Paper
       sx={{
-        padding: "24px",
+        padding: isMediumScreen ? "16px 8px" : "24px",
         width: "96%",
         minHeight: "118px",
         backgroundColor: colors.purple[100],
@@ -38,14 +42,17 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
         {Icon &&
           React.cloneElement(Icon, {
             sx: {
-              width: "72px",
-              height: "72px",
+              width: isSmallScreen ? "70px" : "72px",
+              height: isSmallScreen ? "70px" : "72px",
               color: colors.extra.yellow_accent,
             },
           })}
         <Stack>
           <Stack direction={"row"} alignItems={"baseline"} gap={1}>
-            <Typography variant="body1" sx={{ color: colors.extra.red_accent }}>
+            <Typography
+              variant={isSmallScreen ? "body3" : "body1"}
+              sx={{ color: colors.extra.red_accent }}
+            >
               {amount}
             </Typography>
             <Typography
@@ -57,13 +64,13 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
           </Stack>
           <Stack direction={"row"} alignItems={"baseline"} gap={1}>
             <Typography
-              variant="body2"
+              variant={isSmallScreen ? "body3" : "body2"}
               sx={{ color: colors.extra.grey_accent }}
             >
               Due -
             </Typography>
             <Typography
-              variant="body2"
+              variant={isSmallScreen ? "body3" : "body2"}
               sx={{ color: colors.extra.faint_black }}
             >
               {dueDate}
@@ -79,7 +86,7 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
           }}
         >
           <EditIcon
-            fontSize="large"
+            fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
               color: colors.vibrant.light_blue,
             }}
@@ -92,7 +99,7 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
           }}
         >
           <DeleteIcon
-            fontSize="large"
+            fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
               color: colors.extra.red_accent,
             }}

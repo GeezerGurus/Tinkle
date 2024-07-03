@@ -7,6 +7,8 @@ import {
   Typography,
   useTheme,
   Backdrop,
+  IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -15,6 +17,8 @@ import { useParams } from "react-router-dom";
 import { BudgetItem, CreateBudget } from "../../components/budget";
 import { BackBtn, SpeedDial } from "../../components/utils";
 import { tokens } from "../../theme";
+
+const sidebarWidth = 84;
 
 const budgetItems = [
   {
@@ -63,6 +67,9 @@ const BudgetPeriod = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { periodType } = useParams();
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   // Mock function to simulate fetching data
   // const fetchItems = async () => {
   //   setIsLoading(true);
@@ -84,14 +91,16 @@ const BudgetPeriod = () => {
   return (
     <Box
       sx={{
+        // p: isSmallScreen ? 4 : "",
         width: "100%",
-        height: "90%",
+        height: isSmallScreen ? "auto" : "90%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         gap: "24px",
         position: "relative",
+        overflowX: isSmallScreen ? "hidden" : "",
       }}
     >
       {/* Loading */}
@@ -108,7 +117,7 @@ const BudgetPeriod = () => {
       {/* Header Stack */}
       <Stack alignItems={"center"}>
         {/* Header */}
-        <Typography variant="h4" gutterBottom>
+        <Typography variant={isSmallScreen ? "h5" : "h4"} gutterBottom>
           {periodType
             .split("-")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -119,13 +128,15 @@ const BudgetPeriod = () => {
         <ButtonGroup
           variant="contained"
           sx={{
+            width: isSmallScreen ? "80%" : "100%",
             borderRadius: "16px",
             border: `1px solid ${colors.purple[600]}`,
+            justifyContent: "center",
           }}
         >
           <Button
             sx={{
-              width: "96px",
+              width: isSmallScreen ? "25%" : "96px",
               borderRadius: "16px",
               backgroundColor: "white",
               color: colors.purple[700],
@@ -147,7 +158,7 @@ const BudgetPeriod = () => {
           </Stack>
           <Button
             sx={{
-              width: "96px",
+              width: isSmallScreen ? "25%" : "96px",
               borderRadius: "16px",
               backgroundColor: "white",
               color: colors.purple[700],
@@ -164,8 +175,8 @@ const BudgetPeriod = () => {
       {/* Contents box */}
       <Box
         sx={{
-          width: "65%",
-          height: "781px",
+          width: isMediumScreen ? "100%" : "65%",
+          height: isSmallScreen ? "auto" : "781px",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",

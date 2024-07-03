@@ -9,6 +9,7 @@ import {
   useTheme,
   Stack,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { EditProfilePic, UpdatePassword } from "../../components/profile";
@@ -47,6 +48,10 @@ const Profile = () => {
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
   const [openProfilePicModal, setOpenProfilePicModal] = useState(false);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+
   const renderInputField = (label, value, openInput, setOpenInput) => (
     <Stack
       direction="row"
@@ -56,14 +61,34 @@ const Profile = () => {
     >
       {openInput ? (
         <>
-          <Typography variant="h6" sx={{ color: colors.purple[900] }}>
-            {label}
-          </Typography>
-          <TextField sx={{ width: 456 }} placeholder={value} />
-          <Stack direction="row" gap={1}>
+          <Stack
+            direction={isMediumScreen ? "column" : "row"}
+            justifyContent={"space-between"}
+            width={"90%"}
+          >
+            <Typography
+              variant={isMediumScreen ? "body3" : "h6"}
+              sx={{ color: colors.purple[900], width: "230px" }}
+            >
+              {label}
+            </Typography>
+            <TextField
+              sx={{
+                width: isSmallScreen ? "100%" : "100%",
+              }}
+              placeholder={value}
+            />
+          </Stack>
+          <Stack direction={isMediumScreen ? "column" : "row"} gap={1}>
             <Button
               sx={{
-                width: 101,
+                width: isMediumScreen
+                  ? isSmallScreen
+                    ? 60
+                    : 80
+                  : isSmallLaptop
+                  ? 90
+                  : 101,
                 textTransform: "none",
                 backgroundColor: colors.purple[600],
               }}
@@ -72,7 +97,13 @@ const Profile = () => {
             </Button>
             <Button
               sx={{
-                width: 101,
+                width: isMediumScreen
+                  ? isSmallScreen
+                    ? 60
+                    : 80
+                  : isSmallLaptop
+                  ? 90
+                  : 101,
                 textTransform: "none",
                 backgroundColor: colors.purple[200],
               }}
@@ -85,10 +116,15 @@ const Profile = () => {
       ) : (
         <>
           <Stack gap={1}>
-            <Typography variant="body1" sx={{ color: colors.purple[900] }}>
+            <Typography
+              variant={isMediumScreen ? "body3" : "body1"}
+              sx={{ color: colors.purple[900] }}
+            >
               {label}
             </Typography>
-            <Typography variant="h6">{value}</Typography>
+            <Typography variant={isMediumScreen ? "body4" : "h6"}>
+              {value}
+            </Typography>
           </Stack>
           <EditButton onClick={() => setOpenInput(true)} />
         </>
@@ -100,44 +136,63 @@ const Profile = () => {
     <Box
       sx={{
         width: "100%",
-        height: 874,
+        height: isMediumScreen ? "auto" : 874,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Paper sx={{ width: "64%", borderRadius: "22px" }}>
+      <Paper
+        sx={{ width: isSmallScreen ? "95%" : "64%", borderRadius: "22px" }}
+      >
         {/* Banner  */}
         <Box
           sx={{
-            height: 156,
-            borderRadius: "22px 22px 0 0",
+            height: isMediumScreen ? (isSmallScreen ? 110 : 140) : 156,
+            borderRadius: isSmallScreen ? "10px 10px 0 0" : "22px 22px 0 0",
             backgroundImage: `url(${BannerImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         />
         {/* Contents  */}
-        <Box sx={{ padding: "0 40px 32px 40px" }}>
+        <Box
+          sx={{
+            padding: isSmallScreen ? " 0 24px 16px 24px" : "0 40px 32px 40px",
+          }}
+        >
           {/* Head  */}
           <Box
             display="flex"
+            flexDirection={isMediumScreen ? "column" : "row"}
             justifyContent="space-between"
             position="relative"
+            alignItems={isMediumScreen ? "center" : undefined}
           >
-            <Stack direction="row" gap={2} position="relative">
+            <Stack
+              direction={isSmallScreen ? "column" : "row"}
+              gap={isSmallScreen ? 0 : 2}
+              position="relative"
+              alignItems={isSmallScreen ? "center" : undefined}
+              justifyContent={"center"}
+            >
               <Avatar
                 src={UserProfile}
                 alt="avatar"
                 sx={{
-                  width: 155,
-                  height: 155,
+                  width: isSmallScreen ? 120 : 155,
+                  height: isSmallScreen ? 120 : 155,
                   border: "15px solid white",
                   top: -56,
                 }}
               />
-              <Stack>
-                <Typography variant="h3">Yei Khant Lwin</Typography>
+              <Stack
+                alignItems={isSmallScreen ? "center" : undefined}
+                sx={{ mt: isSmallScreen ? -5 : undefined }}
+              >
+                <Typography variant={isMediumScreen ? "h6" : "h3"}>
+                  Yei Khant Lwin
+                </Typography>
                 <Typography variant="body1">
                   Doctor, Lawyer, Astronaut, Plumber
                 </Typography>
@@ -148,7 +203,7 @@ const Profile = () => {
               sx={{
                 width: 191,
                 height: 42,
-                mt: 4,
+                mt: isMediumScreen ? (isSmallScreen ? 4 : -5) : 4,
                 borderRadius: "4px",
                 textTransform: "none",
                 backgroundColor: colors.purple[600],
@@ -162,10 +217,10 @@ const Profile = () => {
           {/* Form  */}
           <Paper
             sx={{
-              margin: "0 auto",
+              margin: isMediumScreen ? "16px auto" : "0 auto",
               width: "100%",
               borderRadius: "22px",
-              padding: "32px 24px",
+              padding: isMediumScreen ? "19px" : "32px 24px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

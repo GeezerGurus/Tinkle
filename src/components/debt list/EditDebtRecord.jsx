@@ -6,6 +6,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -45,12 +46,16 @@ const EditDebtRecord = ({ onClose, amount, account, date }) => {
     setSelectedDate(event.target.value);
   };
 
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Paper
       sx={{
-        width: "686px",
+        width: isSmallScreen ? "359px" : "686px",
         height: "427px",
-        padding: "32px 112px",
+        padding: isSmallScreen ? "16px 26px" : "32px 112px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
@@ -70,6 +75,7 @@ const EditDebtRecord = ({ onClose, amount, account, date }) => {
         onChange={handleAmountChange}
         inputProps={{ min: "0" }}
         InputProps={{
+          sx: { height: isSmallScreen ? "45px" : undefined },
           startAdornment: (
             <InputAdornment position="start" sx={{ color: "green" }}>
               <Typography
@@ -94,6 +100,9 @@ const EditDebtRecord = ({ onClose, amount, account, date }) => {
         fullWidth
         InputLabelProps={{
           shrink: true,
+        }}
+        InputProps={{
+          sx: { height: isSmallScreen ? "45px" : undefined },
         }}
       >
         <MenuItem value="food">
@@ -157,6 +166,7 @@ const EditDebtRecord = ({ onClose, amount, account, date }) => {
           shrink: true,
         }}
         InputProps={{
+          sx: { height: isSmallScreen ? "45px" : undefined },
           inputProps: {
             min: "2020-01-01",
             max: "2030-12-31",
@@ -164,7 +174,11 @@ const EditDebtRecord = ({ onClose, amount, account, date }) => {
         }}
       />
 
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           sx={{
             width: "208px",

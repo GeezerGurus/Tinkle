@@ -7,6 +7,7 @@ import {
   Grid,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -21,6 +22,10 @@ import {
 const Statistics = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallLaptop = useMediaQuery(theme.breakpoints.up("md"));
 
   // const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
@@ -48,38 +53,51 @@ const Statistics = () => {
   // const handleNextMonth = () => {
   //   setCurrentMonth((prev) => (prev === 11 ? 0 : prev + 1));
   // };
+  const sidebarWidth = 84;
 
   return (
     <Box
       sx={{
-        width: "100%",
+        overflowX: isSmallScreen ? "hidden" : "",
+        width: isMediumScreen
+          ? isSmallScreen
+            ? "100%"
+            : `calc(98vw - ${sidebarWidth}px)`
+          : isSmallLaptop
+          ? `calc(98vw - ${sidebarWidth}px)`
+          : "100%",
         height: "92%",
         display: "flex",
         pt: 2,
-        justifyContent: "center",
+        justifyContent: "",
       }}
     >
       <Box
         sx={{
-          width: "90%",
+          width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          gap: isSmallScreen ? 5 : "",
         }}
       >
         {/* top bar  */}
-        <Stack alignItems={"center"}>
+        <Stack
+          alignItems={"center"}
+          mb={isMediumScreen ? (isSmallScreen ? "" : 2) : ""}
+        >
           {/* Navigate left and right */}
           <ButtonGroup
             variant="contained"
             sx={{
+              width: isSmallScreen ? "80%" : "100%",
               borderRadius: "16px",
               border: `1px solid ${colors.purple[600]}`,
             }}
           >
             <Button
               sx={{
-                width: "96px",
+                width: isSmallScreen ? "25%" : "96px",
                 borderRadius: "16px",
                 backgroundColor: "white",
                 color: colors.purple[700],
@@ -101,7 +119,7 @@ const Statistics = () => {
             </Stack>
             <Button
               sx={{
-                width: "96px",
+                width: isSmallScreen ? "25%" : "96px",
                 borderRadius: "16px",
                 backgroundColor: "white",
                 color: colors.purple[700],
@@ -121,19 +139,20 @@ const Statistics = () => {
           justifyContent={"center"}
           alignItems={"center"}
           height={"100%"}
-          maxHeight={"872px"}
+          maxHeight={isSmallScreen ? "100%" : "872px"}
           columnGap={5}
+          rowGap={5}
         >
-          <Grid item xs={5} height={"45%"}>
+          <Grid item xs={11} md={5} height={isSmallScreen ? "425px" : "45%"}>
             <Expenses />
           </Grid>
-          <Grid item xs={5} height={"45%"}>
+          <Grid item xs={11} md={5} height={isSmallScreen ? "252px" : "45%"}>
             <BalanceTrend />
           </Grid>
-          <Grid item xs={5} height={"45%"}>
+          <Grid item xs={11} md={5} height={isSmallScreen ? "65%" : "45%"}>
             <TopSpendings />
           </Grid>
-          <Grid item xs={5} height={"45%"}>
+          <Grid item xs={11} md={5} height={isSmallScreen ? "65%" : "45%"}>
             <Records />
           </Grid>
         </Grid>

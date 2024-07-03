@@ -7,6 +7,7 @@ import {
   Stack,
   useTheme,
   Button,
+  useMediaQuery,
 } from "@mui/material";
 import React from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -28,6 +29,7 @@ const Progress = ({ content, dollar, percent, period }) => {
 
   const progressValue = parseInt(percent, 10); // Convert percent to integer
   const isOverspent = progressValue < 0; // Check if overspent
+
   return (
     <Box
       sx={{ display: "flex", width: "100%", flexDirection: "column", mb: 1 }}
@@ -90,14 +92,17 @@ const Progress = ({ content, dollar, percent, period }) => {
 const BudgetBox = ({ period }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const boxWidth = isSmallScreen ? "100%" : "474px";
 
   return (
     // one Budget Box
     <Paper
       sx={{
         borderRadius: "8px",
-        width: "474px",
-        height: "408px",
+        width: boxWidth,
+        height: isSmallScreen ? "100%" : "408px",
         display: "flex",
         padding: "16px 48px",
         flexDirection: "column",
@@ -107,7 +112,7 @@ const BudgetBox = ({ period }) => {
     >
       {/* Header box of Budgetbox */}
       <Typography
-        variant="h3"
+        variant={isSmallScreen ? "h4" : "h3"}
         sx={{
           borderBottom: `${colors.purple[600]} 1px solid`,
           height: "69px",
@@ -148,7 +153,10 @@ const BudgetBox = ({ period }) => {
             <AddIcon
               sx={{ width: "32px", height: "32px", color: colors.purple[600] }}
             />
-            <Typography variant="body2" sx={{ color: colors.purple[600] }}>
+            <Typography
+              variant={isSmallScreen ? "body1" : "body2"}
+              sx={{ color: colors.purple[600] }}
+            >
               Tap to add budget
             </Typography>
           </Stack>

@@ -16,6 +16,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  useMediaQuery,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -117,6 +118,11 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
   const { periodType } = useParams();
   const [modal, setModal] = useState("");
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const sidebarWidth = 84;
+
   // Mock function to simulate fetching data
   // const fetchItems = async () => {
   //   setIsLoading(true);
@@ -138,6 +144,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
   return (
     <Box
       sx={{
+        p: isSmallScreen ? 1 : "",
         width: "100%",
         height: "90%",
         display: "flex",
@@ -146,6 +153,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
         alignItems: "center",
         gap: "24px",
         position: "relative",
+        overflowX: isSmallScreen ? "hidden" : "",
       }}
     >
       {/* Loading */}
@@ -162,7 +170,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
       {/* Header Stack */}
       <Stack alignItems={"center"}>
         {/* Header */}
-        <Typography variant="h4" gutterBottom>
+        <Typography variant={isSmallScreen ? "h5" : "h4"} gutterBottom>
           Overview
         </Typography>
 
@@ -170,13 +178,14 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
         <ButtonGroup
           variant="contained"
           sx={{
+            width: isMediumScreen ? "80%" : "100%",
             borderRadius: "16px",
             border: `1px solid ${colors.purple[600]}`,
           }}
         >
           <Button
             sx={{
-              width: "96px",
+              width: isSmallScreen ? "25%" : "96px",
               borderRadius: "16px",
               backgroundColor: "white",
               color: colors.purple[700],
@@ -198,7 +207,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
           </Stack>
           <Button
             sx={{
-              width: "96px",
+              width: isSmallScreen ? "25%" : "96px",
               borderRadius: "16px",
               backgroundColor: "white",
               color: colors.purple[700],
@@ -215,11 +224,11 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
       {/* Item details  */}
       <Paper
         sx={{
-          width: "56%",
+          width: isMediumScreen ? (isSmallScreen ? "100%" : "80%") : "56%",
           minHeight: "184px",
           borderRadius: "16px",
           backgroundColor: colors.purple[100],
-          padding: "32px 56px",
+          padding: isSmallScreen ? "19px 24px" : "32px 56px",
         }}
       >
         <Stack justifyContent={"space-between"} sx={{ height: "100%" }}>
@@ -231,7 +240,9 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
             sx={{ width: "100%" }}
           >
             <Stack direction={"row"} alignItems={"center"}>
-              <Typography variant="h6">Home</Typography>
+              <Typography variant={isSmallScreen ? "body1" : "h6"}>
+                Home
+              </Typography>
               <IconButton
                 onClick={() => {
                   setModal("Edit_Budget");
@@ -250,8 +261,12 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
             </Stack>
 
             <Stack direction={"row"} alignItems={"flex-end"} gap={"4px"}>
-              <Typography variant="h6">500</Typography>{" "}
-              <Typography variant="body1">MMK</Typography>
+              <Typography variant={isSmallScreen ? "body3" : "h6"}>
+                500
+              </Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body1"}>
+                MMK
+              </Typography>
             </Stack>
           </Stack>
 
@@ -261,16 +276,26 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
           {/* Info  */}
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Stack alignItems={"flex-start"}>
-              <Typography variant="body3">200 MMK</Typography>
-              <Typography variant="body2">Spent</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body3"}>
+                200 MMK
+              </Typography>
+              <Typography variant={isSmallScreen ? "body3" : "body2"}>
+                Spent
+              </Typography>
             </Stack>
             <Stack alignItems={"center"}>
               <Typography variant="body3">80%</Typography>
-              <Typography variant="body2">Remains</Typography>
+              <Typography variant={isSmallScreen ? "body3" : "body2"}>
+                Remains
+              </Typography>
             </Stack>
             <Stack alignItems={"flex-end"}>
-              <Typography variant="body3">300 MMK</Typography>
-              <Typography variant="body2">Remains</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body3"}>
+                300 MMK
+              </Typography>
+              <Typography variant={isSmallScreen ? "body3" : "body2"}>
+                Remains
+              </Typography>
             </Stack>
           </Stack>
         </Stack>
@@ -279,7 +304,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
       {/* Contents box table */}
       <Box
         sx={{
-          width: "56%",
+          width: isSmallScreen ? "100%" : "56%",
           height: "781px",
           display: "flex",
           alignItems: "center",
@@ -289,13 +314,21 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
         }}
       >
         <TableContainer component={Paper}>
-          <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table
+            stickyHeader
+            sx={{ minWidth: isSmallScreen ? "100%" : 650 }}
+            aria-label="simple table"
+          >
             <TableHead>
               <TableRow>
                 <TableCell align="center">Date</TableCell>
                 <TableCell align="center">Category</TableCell>
-                <TableCell align="center">Account</TableCell>
-                <TableCell align="center">Note</TableCell>
+                {!isSmallScreen && (
+                  <>
+                    <TableCell align="center">Account</TableCell>
+                    <TableCell align="center">Note</TableCell>
+                  </>
+                )}
                 <TableCell align="center">Amount</TableCell>
               </TableRow>
             </TableHead>
@@ -309,8 +342,12 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
                     {row.date}
                   </TableCell>
                   <TableCell align="center">{row.category}</TableCell>
-                  <TableCell align="center">{row.account}</TableCell>
-                  <TableCell align="center">{row.note}</TableCell>
+                  {!isSmallScreen && (
+                    <>
+                      <TableCell align="center">{row.account}</TableCell>
+                      <TableCell align="center">{row.note}</TableCell>
+                    </>
+                  )}
                   <TableCell align="center">{row.amount}</TableCell>
                 </TableRow>
               ))}
@@ -330,14 +367,18 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
           position: "absolute",
           right: 16,
           bottom: 16,
-          width: "116px",
-          height: "116px",
+          width: isSmallScreen ? "72px" : "116px",
+          height: isSmallScreen ? "72px" : "116px",
           backgroundColor: colors.purple[200],
         }}
       >
         <DeleteIcon
           fontSize="large"
-          sx={{ color: colors.extra.red_accent, width: "48px", height: "48px" }}
+          sx={{
+            color: colors.extra.red_accent,
+            width: isSmallScreen ? "32px" : "48px",
+            height: isSmallScreen ? "32px" : "48px",
+          }}
         />
       </IconButton>
       <Modal open={open} onClose={() => setOpen(false)}>

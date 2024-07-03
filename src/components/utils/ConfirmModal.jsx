@@ -1,4 +1,11 @@
-import { Button, Paper, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Button,
+  Paper,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { tokens } from "../../theme";
 import React from "react";
 
@@ -17,12 +24,14 @@ const ConfirmModal = ({
   const regex = new RegExp(`(${highlight})`, "i");
   const parts = promptText.split(regex);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       sx={{
         width: "auto",
         height: "auto",
-        padding: "32px 40px",
+        padding: isSmallScreen ? "16px 32px" : "32px 40px",
         display: "flex",
         flexDirection: "column",
         gap: "16px",
@@ -30,12 +39,12 @@ const ConfirmModal = ({
         alignItems: "center",
       }}
     >
-      <Typography variant="h4">
+      <Typography variant={isSmallScreen ? "h6" : "h4"} textAlign={"center"}>
         {parts.map((part, index) =>
           part.toLowerCase() === highlight.toLowerCase() ? (
             <Typography
               component="span"
-              variant="h4"
+              variant={isSmallScreen ? "h6" : "h4"}
               key={index}
               sx={{ color: color }}
             >
@@ -47,7 +56,7 @@ const ConfirmModal = ({
         )}
       </Typography>
       <Typography
-        variant="body1"
+        variant={isSmallScreen ? "body4" : "body1"}
         sx={{ textAlign: "center", color: colors.purple[900] }}
       >
         {description}
@@ -56,8 +65,8 @@ const ConfirmModal = ({
         <Button
           onClick={onClick}
           sx={{
-            width: "208px",
-            height: "40px",
+            width: isSmallScreen ? "134px" : "208px",
+            height: isSmallScreen ? "44px" : "40px",
             backgroundColor: colors.purple[600],
             textTransform: "none",
             color: "white",
@@ -72,8 +81,8 @@ const ConfirmModal = ({
         <Button
           onClick={onClose}
           sx={{
-            width: "208px",
-            height: "40px",
+            width: isSmallScreen ? "134px" : "208px",
+            height: isSmallScreen ? "44px" : "40px",
             backgroundColor: colors.purple[200],
             "&:hover": {
               backgroundColor: colors.purple[100],

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import DebtRecord from "../../components/debt list/DebtRecord";
 import { BackBtn, SpeedDial } from "../../components/utils";
@@ -72,10 +72,14 @@ const DebtItems = () => {
     },
   ];
 
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       sx={{
-        width: "100%",
+        width: isSmallScreen ? "100%" : isLaptop ? "92vw" : "100%",
         height: "100%",
         display: "flex",
         justifyContent: "center",
@@ -97,13 +101,23 @@ const DebtItems = () => {
         <BackBtn />
 
         <Stack alignItems={"center"}>
-          <Typography variant="h4" sx={{ color: colors.purple[600] }}>
+          <Typography
+            variant={isSmallScreen ? "h6" : "h4"}
+            sx={{ color: colors.purple[600] }}
+          >
             Owe to {debtItemId}
           </Typography>
           <Stack direction={"row"} alignItems={"baseline"} gap={1}>
-            <Typography variant="body1">Amount Still Owe -</Typography>
-            <Typography variant="h5">500,000.00</Typography>
-            <Typography variant="h6" sx={{ color: colors.extra.grey }}>
+            <Typography variant={isSmallScreen ? "body4" : "body1"}>
+              Amount Still Owe -
+            </Typography>
+            <Typography variant={isSmallScreen ? "body3" : "h5"}>
+              500,000.00
+            </Typography>
+            <Typography
+              variant={isSmallScreen ? "body3" : "h6"}
+              sx={{ color: colors.extra.grey }}
+            >
               MMK
             </Typography>
           </Stack>

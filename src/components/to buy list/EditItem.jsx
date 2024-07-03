@@ -1,57 +1,38 @@
 import {
   Paper,
-  IconButton,
   Typography,
-  FormControl,
   Button,
-  Box,
   useTheme,
+  TextField,
+  Stack,
 } from "@mui/material";
 import React, { useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import { EntryBox, EntryInput } from "../utils";
 import { tokens } from "../../theme";
-import { patchItemToBuy, deleteItemToBuy } from "../../api/itemsToBuy";
+import { patchItemToBuy } from "../../api/itemsToBuy";
 
-const EditItem = ({
-  onClose,
-  name,
-  quantity,
-  price,
-  description,
-  itemId,
-  refresh,
-}) => {
+const EditItem = ({ onClose, name, description, itemId, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [itemName, setItemName] = useState(name || "");
-  const [itemQuantity, setItemQuantity] = useState(quantity || "");
-  const [itemPrice, setItemPrice] = useState(price || "");
   const [itemDescription, setItemDescription] = useState(description || "");
 
   const handleSave = async () => {
     await patchItemToBuy(itemId, {
       name: itemName,
-      quantity: itemQuantity,
-      price: itemPrice,
       description: itemDescription,
     });
     refresh();
     onClose();
   };
 
-  const handleDelete = async () => {
-    await deleteItemToBuy(itemId);
-    refresh();
-    onClose();
-  };
   return (
     // Container
     <Paper
       sx={{
+        padding: "32px 116px",
         width: "710px",
-        height: "580px",
+        height: "426px",
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -59,101 +40,61 @@ const EditItem = ({
         alignItems: "center",
       }}
     >
-      {/* Close button  */}
-      <IconButton
-        onClose={onClose}
-        sx={{
-          position: "absolute",
-          top: 16,
-          right: 16,
-        }}
-        onClick={onClose}
-      >
-        <CloseIcon fontSize="large" />
-      </IconButton>
-
       {/* Title  */}
-      <Typography variant="title3">Edit Item</Typography>
+      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+        Edit Item
+      </Typography>
 
       {/* Form  */}
-      <EntryBox>
-        <Typography variant="text2">Name:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter item name"
-            value={itemName || ""}
-            onChange={(e) => setItemName(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="text2">Quantity:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter number of items"
-            type="number"
-            value={itemQuantity || ""}
-            onChange={(e) => setItemQuantity(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="text2">Price:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter item price"
-            type="number"
-            value={itemPrice || ""}
-            onChange={(e) => setItemPrice(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="text2">Description:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter a description (optional)"
-            value={itemDescription || ""}
-            onChange={(e) => setItemDescription(e.target.value)}
-          />
-        </FormControl>
-      </EntryBox>
-
-      {/* Buttons  */}
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: theme.spacing(4),
+      <TextField
+        fullWidth
+        label="Name"
+        placeholder="What is it?"
+        value={itemName || ""}
+        onChange={(e) => setItemName(e.target.value)}
+        InputLabelProps={{
+          shrink: true,
         }}
-      >
+      />
+
+      <TextField
+        fullWidth
+        label="Description"
+        multiline
+        maxRows={2}
+        placeholder="Enter a description (optional)"
+        value={itemDescription || ""}
+        onChange={(e) => setItemDescription(e.target.value)}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+      {/* Buttons  */}
+      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
-          sx={{
-            backgroundColor: "black",
-            width: "243px",
-            height: "45px",
-          }}
           onClick={handleSave}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[600],
+            textTransform: "none",
+            color: "white",
+          }}
         >
-          <Typography variant="text2" sx={{ color: "white" }}>
-            Save Item
-          </Typography>
+          <Typography variant="body2">Save</Typography>
         </Button>
         <Button
+          onClick={onClose}
           sx={{
-            backgroundColor: "red",
-            width: "243px",
-            height: "45px",
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[200],
+            textTransform: "none",
           }}
-          onClick={handleDelete}
         >
-          <Typography variant="text2" sx={{ color: "white" }}>
-            Delete Item
-          </Typography>
+          <Typography variant="body2">Cancel</Typography>
         </Button>
-      </Box>
+      </Stack>
     </Paper>
   );
 };

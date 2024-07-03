@@ -19,3 +19,5 @@ export { default as ToBuyItems } from "./lists/ToBuyItems";
 export { default as Goals } from "./goals/Goals";
 export { default as Books } from "./books/Books";
 export { default as Collection } from "./books/Collection";
+export { default as Video } from "./videos/Video";
+export { default as VideoCollection } from "./videos/VideoCollection";

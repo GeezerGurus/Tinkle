@@ -1,17 +1,30 @@
-import { Button, Paper, Stack, Typography, Modal, Box } from "@mui/material";
+import {
+  Button,
+  Paper,
+  Stack,
+  Typography,
+  Modal,
+  Box,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CreateAccount from "./CreateAccount";
+import { tokens } from "../../theme";
 
 const AddAccount = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [open, setOpen] = useState(false);
 
   return (
     <Paper
       sx={{
-        width: "1292px",
-        height: "101px",
-        border: "2px dashed rgba(0, 0, 0, 0.6)",
+        width: "100%",
+        height: "136px",
+        borderRadius: "16px",
+        border: `2px dashed ${colors.purple[600]}`,
       }}
     >
       <Button
@@ -29,8 +42,12 @@ const AddAccount = () => {
         }}
       >
         <Stack alignItems={"center"}>
-          <AddIcon sx={{ width: "56px", height: "56px" }} />
-          <Typography variant="h3">Tap to add account</Typography>
+          <AddIcon
+            sx={{ width: "48px", height: "48px", color: colors.purple[600] }}
+          />
+          <Typography variant="body1" sx={{ color: colors.purple[600] }}>
+            Tap to add account
+          </Typography>
         </Stack>
       </Button>
       {/* Delete Profile Modal*/}

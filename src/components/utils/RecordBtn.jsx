@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Modal, Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import Container from "../records/Container";
+import AddRecord from "../records/AddRecord";
 
 const RecordBtn = ({ color, hoverColor }) => {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ const RecordBtn = ({ color, hoverColor }) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <Container onClose={handleClose} />
+          <AddRecord onClose={handleClose} />
         </Box>
       </Modal>
     </Box>

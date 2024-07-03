@@ -11,6 +11,7 @@ import React from "react";
 
 const ConfirmModal = ({
   onClose,
+  onClick,
   color,
   highlight,
   description,
@@ -28,16 +29,17 @@ const ConfirmModal = ({
   return (
     <Paper
       sx={{
-        width: isSmallScreen ? "378px" : "auto",
-        height: isSmallScreen ? "222px" : "221px",
-        padding: "30px 36px",
+        width: "auto",
+        height: "auto",
+        padding: isSmallScreen ? "16px 32px" : "32px 40px",
         display: "flex",
         flexDirection: "column",
+        gap: "16px",
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
-      <Typography variant={isSmallScreen ? "h6" : "h4"}>
+      <Typography variant={isSmallScreen ? "h6" : "h4"} textAlign={"center"}>
         {parts.map((part, index) =>
           part.toLowerCase() === highlight.toLowerCase() ? (
             <Typography
@@ -53,11 +55,15 @@ const ConfirmModal = ({
           )
         )}
       </Typography>
-      <Typography variant={isSmallScreen ? "body4" : "body1"}>
+      <Typography
+        variant={isSmallScreen ? "body4" : "body1"}
+        sx={{ textAlign: "center", color: colors.purple[900] }}
+      >
         {description}
       </Typography>
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
+          onClick={onClick}
           sx={{
             width: isSmallScreen ? "134px" : "208px",
             height: isSmallScreen ? "44px" : "40px",

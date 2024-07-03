@@ -2,12 +2,12 @@ import {
   Paper,
   IconButton,
   Typography,
-  FormControl,
   Button,
   InputAdornment,
   MenuItem,
-  Box,
   useTheme,
+  TextField,
+  Stack,
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,7 +16,7 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import HouseIcon from "@mui/icons-material/House";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import { EntryBox, EntryInput, EntrySelect, Item } from "../utils";
+import { Item } from "../utils";
 import { tokens } from "../../theme";
 
 const EditAccount = ({ onClose, name, balance, type }) => {
@@ -24,7 +24,7 @@ const EditAccount = ({ onClose, name, balance, type }) => {
   const colors = tokens(theme.palette.mode);
 
   const [accountName, setAccountName] = useState(name || "");
-  const [currentBalance, setCurrentBalance] = useState(balance || "");
+  const [currentBalance, setCurrentBalance] = useState(Number(balance) || 0);
   const [selectedOption, setSelectedOption] = useState(type || "");
 
   const menuProps = {
@@ -38,10 +38,6 @@ const EditAccount = ({ onClose, name, balance, type }) => {
 
   const handleSave = () => {
     console.log("Saved");
-  };
-
-  const handleDelete = () => {
-    console.log("Item deleted");
   };
 
   const types = [
@@ -80,8 +76,9 @@ const EditAccount = ({ onClose, name, balance, type }) => {
   return (
     <Paper
       sx={{
-        width: "710px",
-        height: "426px",
+        padding: "32px 112px",
+        width: "686px",
+        height: "418px",
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -103,97 +100,93 @@ const EditAccount = ({ onClose, name, balance, type }) => {
       {/* Title */}
       <Typography variant="h4">Edit Account</Typography>
       {/* Form */}
-      <EntryBox>
-        <Typography variant="body1">Account Name:</Typography>
-        <FormControl>
-          <EntryInput
-            placeholder="Enter name"
-            value={accountName || ""}
-            onChange={(e) => {
-              setAccountName(e.target.value);
-            }}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="body1">Current Balance:</Typography>
-        <FormControl>
-          <EntryInput
-            type="number"
-            placeholder="Enter amount"
-            inputProps={{ min: "0" }}
-            startAdornment={
-              <InputAdornment position="start" sx={{ color: "green" }}>
-                <Typography
-                  sx={{ color: "green", fontWeight: "400", fontSize: "24px" }}
-                >
-                  +
-                </Typography>
-              </InputAdornment>
-            }
-            endAdornment={<InputAdornment position="end">MMK</InputAdornment>}
-          />
-        </FormControl>
-      </EntryBox>
-      <EntryBox>
-        <Typography variant="body1">Type:</Typography>
-        <FormControl>
-          <EntrySelect
-            value={selectedOption}
-            onChange={(event) => setSelectedOption(event.target.value)}
-            displayEmpty
-            MenuProps={menuProps}
-            renderValue={(selected) =>
-              selected ? (
-                <Item {...types.find((type) => type.value === selected)} />
-              ) : (
-                <Typography variant="placeholder">Choose a category</Typography>
-              )
-            }
-          >
-            {types.map((type) => (
-              <MenuItem key={type.value} value={type.value}>
-                <Item {...type} />
-              </MenuItem>
-            ))}
-          </EntrySelect>
-        </FormControl>
-      </EntryBox>
-      {/* Buttons  */}
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: theme.spacing(4),
+      <TextField
+        placeholder="Enter a name"
+        label="Name"
+        fullWidth
+        onChange={(e) => {
+          setAccountName(e.target.value);
         }}
+        value={accountName || ""}
+        inputProps={{ min: "0" }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+
+      <TextField
+        type="number"
+        label="Current Balance"
+        value={currentBalance}
+        onChange={(e) => {
+          setCurrentBalance(Number(e.target.value));
+        }}
+        fullWidth
+        inputProps={{ min: "0" }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start" sx={{ color: "green" }}>
+              <Typography
+                sx={{ color: "green", fontWeight: "400", fontSize: "24px" }}
+              >
+                +
+              </Typography>
+            </InputAdornment>
+          ),
+          endAdornment: <InputAdornment position="end">MMK</InputAdornment>,
+        }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+
+      <TextField
+        select
+        fullWidth
+        label="Type"
+        value={selectedOption}
+        onChange={(event) => setSelectedOption(event.target.value)}
+        displayEmpty
+        InputLabelProps={{
+          shrink: true,
+        }}
+        MenuProps={menuProps}
+        renderValue={(selected) => (
+          <Item {...types.find((type) => type.value === selected)} />
+        )}
       >
+        {types.map((type) => (
+          <MenuItem key={type.value} value={type.value}>
+            <Item {...type} />
+          </MenuItem>
+        ))}
+      </TextField>
+      {/* Buttons  */}
+      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
-          sx={{
-            backgroundColor: "black",
-            width: "243px",
-            height: "45px",
-          }}
           onClick={handleSave}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[600],
+            textTransform: "none",
+            color: "white",
+          }}
         >
-          <Typography variant="text2" sx={{ color: "white" }}>
-            Save Item
-          </Typography>
+          <Typography variant="body2">Save</Typography>
         </Button>
         <Button
+          onClick={onClose}
           sx={{
-            backgroundColor: "red",
-            width: "243px",
-            height: "45px",
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[200],
+            textTransform: "none",
           }}
-          onClick={handleDelete}
         >
-          <Typography variant="text2" sx={{ color: "white" }}>
-            Delete Item
-          </Typography>
+          <Typography variant="body2">Cancel</Typography>
         </Button>
-      </Box>
+      </Stack>
     </Paper>
   );
 };

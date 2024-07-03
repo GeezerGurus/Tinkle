@@ -1,9 +1,13 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { Account, AddAccount } from "../../components/settings";
 import { Home, AccountBalance, CreditCard } from "@mui/icons-material";
+import { tokens } from "../../theme";
 
 const BalanceAccountSettings = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const accounts = [
     {
       icon: Home,
@@ -39,19 +43,26 @@ const BalanceAccountSettings = () => {
       <Box
         sx={{
           mt: 3,
-          width: "1292px",
+          width: "80%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          gap: "56px",
+          alignItems: "center",
+          gap: "24px",
         }}
       >
         {/* Title  */}
-        <Typography variant="title3" sx={{ borderBottom: "1px solid black" }}>
-          Balance Account Settings
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            borderBottom: `2px solid ${colors.purple[600]}`,
+            alignSelf: "flex-start",
+          }}
+        >
+          Your Balance Accounts
         </Typography>
         {/* Accounts  */}
-        <Stack gap={1}>
+        <Stack gap={1} width={"100%"}>
           {accounts.map((account, index) => (
             <Account
               key={index}

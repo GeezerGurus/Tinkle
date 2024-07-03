@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import {
   Dashboard,
   Records,
@@ -20,6 +20,8 @@ import {
   Books,
   Collection,
   DebtItems,
+  Video,
+  VideoCollection,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
@@ -31,9 +33,7 @@ import { AuthContext } from "../src/context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
-
-  // return user ? children : <Navigate to="/" replace />;
-  return children;
+  return children; // Update based on your actual authentication logic
 };
 
 function App() {
@@ -41,6 +41,7 @@ function App() {
   const { login } = useContext(AuthContext);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -49,16 +50,25 @@ function App() {
     }
   }, [login]);
 
+  const hideTopbarAndSidebarRoutes = ["/"]; // Add routes where you want to hide Topbar and Sidebar
+
+  const shouldShowTopbarAndSidebar = !hideTopbarAndSidebarRoutes.includes(
+    location.pathname
+  );
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
         <div className="app">
-          {isSmallScreen ? ("") : (<Sidebar mode={mode} />)}
-
+          {isSmallScreen || !shouldShowTopbarAndSidebar ? (
+            ""
+          ) : (
+            <Sidebar mode={mode} />
+          )}
           <main className="content">
-            <Topbar />
+            {shouldShowTopbarAndSidebar && <Topbar />}
             <Routes>
               <Route path="/" element={<Hero />} />
               <Route
@@ -218,6 +228,22 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Collection />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/videos"
+                element={
+                  <PrivateRoute>
+                    <Video />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/videos/:videoCollection"
+                element={
+                  <PrivateRoute>
+                    <VideoCollection />
                   </PrivateRoute>
                 }
               />

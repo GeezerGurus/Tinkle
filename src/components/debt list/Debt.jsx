@@ -7,6 +7,7 @@ import {
   Paper,
   Stack,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -26,12 +27,14 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       sx={{
         width: "100%",
         height: "160px",
-        padding: "16px 32px",
+        padding: isSmallScreen ? " 8px 16px" : "16px 32px",
         backgroundColor: colors.purple[100],
         borderRadius: "16px",
         display: "flex",
@@ -54,9 +57,11 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
             {purpose}
           </Typography>
         </Stack>
-        <Stack>
+        <Stack justifyContent={"center"}>
           <Stack direction={"row"} alignItems={"flex-end"} gap={1}>
-            <Typography variant="body1">{amount}</Typography>
+            <Typography variant={isSmallScreen ? "body2" : "body1"}>
+              {amount}
+            </Typography>
             <Typography
               variant="body2"
               sx={{ color: colors.extra.grey_accent }}
@@ -71,7 +76,9 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
             >
               Due -
             </Typography>
-            <Typography variant="body2">{dueDate}</Typography>
+            <Typography variant={isSmallScreen ? "body3" : "body2"}>
+              {dueDate}
+            </Typography>
           </Stack>
         </Stack>
       </Box>
@@ -100,7 +107,7 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
           disabled={!isActive}
           sx={{
             width: "93px",
-            height: "32px",
+            height: isSmallScreen ? "29px" : "32px",
             borderRadius: "8px",
             color: colors.extra.faint_white,
             backgroundColor: colors.purple[600],
@@ -131,7 +138,7 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
             }}
           >
             <EditIcon
-              fontSize="large"
+              fontSize={isSmallScreen ? "33px" : "large"}
               sx={{
                 color: colors.vibrant.light_blue,
               }}
@@ -144,7 +151,7 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
             }}
           >
             <DeleteIcon
-              fontSize="large"
+              fontSize={isSmallScreen ? "33px" : "large"}
               sx={{
                 color: colors.extra.red_accent,
               }}

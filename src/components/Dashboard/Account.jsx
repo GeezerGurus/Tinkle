@@ -13,12 +13,14 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { tokens } from "../../theme";
 import EditAccount from "./EditAccount";
+import { ConfirmModal } from "../utils";
 
 export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [modal, setModal] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
 
@@ -89,11 +91,22 @@ export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
           <MenuItem
             onClick={() => {
               handleClose();
+              setModal("edit");
               setOpenModal(true);
             }}
             sx={isSmallScreen ? { fontSize: "12px" } : { fontSize: "16px" }}
           >
             Edit
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setModal("delete");
+              setOpenModal(true);
+            }}
+            sx={isSmallScreen ? { fontSize: "12px" } : { fontSize: "16px" }}
+          >
+            Delete
           </MenuItem>
         </Menu>
       </Box>
@@ -123,13 +136,32 @@ export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <EditAccount
-            name={Title}
-            balance={Amount}
-            Type={<Icon />}
-            onClose={() => setOpenModal(false)}
-            isSmallScreen={isSmallScreen}
-          />
+          {modal === "edit" ? (
+            <EditAccount
+              name={Title}
+              balance={Amount}
+              Type={<Icon />}
+              onClose={() => setOpenModal(false)}
+              isSmallScreen={isSmallScreen}
+            />
+          ) : (
+            <ConfirmModal
+              onClose={() => {
+                setOpenModal(false);
+              }}
+              color={colors.extra.red_accent}
+              highlight={"Delete"}
+              description={
+                <>
+                  Sure you really want to delete the account <b>{Title}</b>? The
+                  account will be removed from your budgets. All account
+                  transactions, standing orders, and debts will be irrevocably
+                  lost.
+                </>
+              }
+              promptText={"Do you really want to Delete?"}
+            />
+          )}
         </Box>
       </Modal>
     </Paper>

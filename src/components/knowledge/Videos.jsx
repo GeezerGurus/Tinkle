@@ -1,0 +1,166 @@
+import React, { useMemo } from "react";
+import { Box, Button, Typography, Grid, useTheme } from "@mui/material";
+import ArrowIcon from "@mui/icons-material/KeyboardArrowRight";
+import VideoContents from "../utils/VideoContents";
+import { Link } from "react-router-dom";
+import { tokens } from "../../theme";
+
+const videoData = {
+  favourites: [
+    { img: "", title: "How to get your ex back", avatar: "", author: "Zaw" },
+    { img: "", title: "How to talk to girls", avatar: "", author: "Zaw" },
+    { img: "", title: "How to make her happy", avatar: "", author: "Zaw" },
+    {
+      img: "",
+      title: "How to make her fall in love with you",
+      avatar: "",
+      author: "Zaw",
+    },
+    { img: "", title: "Date ideas", avatar: "", author: "Zaw" },
+    { img: "", title: "What to do on your dates", avatar: "", author: "Zaw" },
+  ],
+  budgets: [
+    { img: "", title: "How to go broke like a pro", avatar: "", author: "YY" },
+    { img: "", title: "How to save money", avatar: "", author: "YY" },
+    { img: "", title: "How to eat without money", avatar: "", author: "YY" },
+    {
+      img: "",
+      title: "How to go out with friends without money",
+      avatar: "",
+      author: "YY",
+    },
+    {
+      img: "",
+      title: "How to be financially stable",
+      avatar: "",
+      author: "YY",
+    },
+  ],
+  saving: [
+    {
+      img: "",
+      title: "How to save money without money",
+      avatar: "",
+      author: "Sithu",
+    },
+    {
+      img: "",
+      title: "How to eat food which are expired",
+      avatar: "",
+      author: "Sithu",
+    },
+    {
+      img: "",
+      title: "How to save your money on dates",
+      avatar: "",
+      author: "Sithu",
+    },
+    {
+      img: "",
+      title: "Top recycling tips for college students",
+      avatar: "",
+      author: "Sithu",
+    },
+  ],
+  business: [
+    { img: "", title: "How to do drug dealing", avatar: "", author: "Yei" },
+    {
+      img: "",
+      title: "Where to start online scamming",
+      avatar: "",
+      author: "Yei",
+    },
+    {
+      img: "",
+      title: "How to sell human body in 2024",
+      avatar: "",
+      author: "Yei",
+    },
+  ],
+  tinkle: [
+    { img: "", title: "How to use our app", avatar: "", author: "Zayer" },
+    {
+      img: "",
+      title: "How to stalk using our app",
+      avatar: "",
+      author: "Zayer",
+    },
+  ],
+  life: [
+    {
+      img: "",
+      title: "Just give up on your dream and d*e",
+      avatar: "",
+      author: "TT",
+    },
+  ],
+};
+
+const Videos = ({ header }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const path = header.toLowerCase().replace(" ", "-");
+  const videos = useMemo(() => {
+    return videoData[header.toLowerCase()];
+  }, [header]);
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      {/* Video genre header */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        sx={{
+          width: "100%",
+          height: "56px",
+          padding: "0 16px",
+          marginTop: "50px",
+        }}
+      >
+        <Typography variant="h3">{header}</Typography>
+        <Button
+          component={Link}
+          to={`/videos/${path}`}
+          variant="text"
+          sx={{
+            width: "150px",
+            height: "27px",
+            alignSelf: "center",
+            color: colors.purple[600],
+          }}
+          endIcon={<ArrowIcon />}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            View All
+          </Typography>
+        </Button>
+      </Box>
+      {/* Video content box */}
+      <Grid container rowSpacing={5} columnSpacing={1}>
+        {videos.length > 0 ? (
+          videos.map((item, index) => (
+            <Grid item>
+              <VideoContents
+                key={index}
+                title={item.title}
+                author={item.author}
+                pathImage={item.img}
+                vdavatar={item.avatar}
+              />
+            </Grid>
+          ))
+        ) : (
+          <Typography>No videos available</Typography>
+        )}
+      </Grid>
+    </Box>
+  );
+};
+
+export default Videos;

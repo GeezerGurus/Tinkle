@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   ButtonGroup,
   Button,
-  Modal,
   Stack,
   Typography,
   useTheme,
@@ -12,7 +11,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import AddIcon from "@mui/icons-material/Add";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useParams } from "react-router-dom";
@@ -113,9 +111,8 @@ const BudgetPeriod = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Box sx={{ position: "absolute", left: 16, top: isSmallScreen ? 0 : 16 }}>
-        <BackBtn />
-      </Box>
+      {/* Back button  */}
+      <BackBtn />
 
       {/* Header Stack */}
       <Stack alignItems={"center"}>
@@ -200,7 +197,7 @@ const BudgetPeriod = () => {
         ))}
       </Box>
 
-      {/* Create Budget */}
+      {/* Create Budget  */}
       <SpeedDial modal={<CreateBudget items={items} />} />
     </Box>
   );

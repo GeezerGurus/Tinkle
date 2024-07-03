@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import {
   Box,
-  FormControl,
   InputAdornment,
   MenuItem,
+  TextField,
   Typography,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import { EntryInput, EntryBox, EntrySelect, Item } from "../utils";
+import { Item } from "../utils";
 import {
   Wallet as WalletIcon,
   AccountBalance as AccountBalanceIcon,
@@ -28,16 +28,6 @@ import {
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 
-const menuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: "144px",
-      backgroundColor: "white",
-      border: "1px solid black",
-    },
-  },
-};
-
 const getCurrentTimeString = () => {
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, "0");
@@ -49,8 +39,9 @@ const Expense = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [acc, setAcc] = useState("wallet");
-  const [selectedOption, setSelectedOption] = useState("food");
+  const [acc, setAcc] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
+  const [budget, setBudget] = useState("");
   const [time, setTime] = useState(getCurrentTimeString());
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [note, setNote] = useState("");
@@ -58,182 +49,237 @@ const Expense = () => {
   return (
     <Box
       sx={{
-        width: "614px",
-        height: "554px",
+        width: "100%",
+        padding: "16px 112px",
+        flexGrow: 1,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
       }}
     >
-      <EntryBox>
-        <Typography variant="text2">Account:</Typography>
-        <EntrySelect
-          value={acc}
-          onChange={(event) => setAcc(event.target.value)}
-          MenuProps={menuProps}
-        >
-          <MenuItem value="wallet">
-            <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
-          </MenuItem>
-          <MenuItem value="bank">
-            <Item icon={<AccountBalanceIcon />} text="Bank" bgColor="orange" />
-          </MenuItem>
-          <MenuItem value="savings">
-            <Item icon={<SavingsIcon />} text="Savings" bgColor="pink" />
-          </MenuItem>
-          <MenuItem value="Kpay">
-            <Item icon={<PhonelinkRingIcon />} text="Kpay" bgColor="blue" />
-          </MenuItem>
-        </EntrySelect>
-      </EntryBox>
+      <TextField
+        label="Account"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        fullWidth
+        select
+        value={acc}
+        onChange={(event) => setAcc(event.target.value)}
+      >
+        <MenuItem value="wallet">
+          <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
+        </MenuItem>
+        <MenuItem value="bank">
+          <Item icon={<AccountBalanceIcon />} text="Bank" bgColor="orange" />
+        </MenuItem>
+        <MenuItem value="savings">
+          <Item icon={<SavingsIcon />} text="Savings" bgColor="pink" />
+        </MenuItem>
+        <MenuItem value="Kpay">
+          <Item icon={<PhonelinkRingIcon />} text="Kpay" bgColor="blue" />
+        </MenuItem>
+      </TextField>
 
-      <EntryBox>
-        <Typography variant="text2">Amount:</Typography>
-        <FormControl>
-          <EntryInput
-            type="number"
-            inputProps={{ min: "0" }}
-            startAdornment={
-              <InputAdornment position="start">
-                <Typography
-                  sx={{ color: "red", fontWeight: "600", fontSize: "24px" }}
-                >
-                  -
-                </Typography>
-              </InputAdornment>
-            }
-            endAdornment={<InputAdornment position="end">MMK</InputAdornment>}
+      <TextField
+        label="Amount"
+        type="number"
+        fullWidth
+        placeholder="Enter amount"
+        inputProps={{ min: "0" }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start" sx={{ color: "red" }}>
+              <Typography
+                sx={{ color: "red", fontWeight: "400", fontSize: "24px" }}
+              >
+                -
+              </Typography>
+            </InputAdornment>
+          ),
+          endAdornment: <InputAdornment position="end">MMK</InputAdornment>,
+        }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+
+      <TextField
+        fullWidth
+        select
+        InputLabelProps={{
+          shrink: true,
+        }}
+        label="Catgory"
+        value={selectedOption}
+        onChange={(event) => setSelectedOption(event.target.value)}
+        displayEmpty
+      >
+        <MenuItem value="food">
+          <Item
+            icon={<RestaurantIcon />}
+            text="Food and Drinks"
+            bgColor="red"
           />
-        </FormControl>
-      </EntryBox>
-
-      <EntryBox>
-        <Typography variant="text2">Category:</Typography>
-        <EntrySelect
-          value={selectedOption}
-          onChange={(event) => setSelectedOption(event.target.value)}
-          displayEmpty
-          MenuProps={menuProps}
-        >
-          <MenuItem value="food">
-            <Item
-              icon={<RestaurantIcon />}
-              text="Food and Drinks"
-              bgColor="red"
-            />
-          </MenuItem>
-          <MenuItem value="shopping">
-            <Item
-              icon={<LocalMallIcon />}
-              text="Shopping"
-              bgColor="lightblue"
-            />
-          </MenuItem>
-          <MenuItem value="housing">
-            <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-          </MenuItem>
-          <MenuItem value="transportation">
-            <Item
-              icon={<DirectionsBusIcon />}
-              text="Transportation"
-              bgColor="grey"
-            />
-          </MenuItem>
-          <MenuItem value="vehicle">
-            <Item
-              icon={<DirectionsCarIcon />}
-              text="Vehicle"
-              bgColor="purple"
-            />
-          </MenuItem>
-          <MenuItem value="life">
-            <Item
-              icon={<ManIcon />}
-              text="Life & Entertainment"
-              bgColor="lightgreen"
-            />
-          </MenuItem>
-          <MenuItem value="communication">
-            <Item
-              icon={<TvIcon />}
-              text="Communication, PC"
-              bgColor="magenta"
-            />
-          </MenuItem>
-          <MenuItem value="financialIncome">
-            <Item
-              icon={<PaymentsIcon />}
-              text="Financial Incomes"
-              bgColor="lightblue"
-            />
-          </MenuItem>
-          <MenuItem value="investment">
-            <Item
-              icon={<AutoGraphIcon />}
-              text="Investments"
-              bgColor="#db2c55"
-            />
-          </MenuItem>
-          <MenuItem value="income">
-            <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-          </MenuItem>
-          <MenuItem value="others">
-            <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-          </MenuItem>
-        </EntrySelect>
-      </EntryBox>
-
-      <EntryBox>
-        <Typography variant="text2">Time:</Typography>
-        <FormControl>
-          <EntryInput
-            type="time"
-            value={time}
-            onChange={(event) => setTime(event.target.value)}
+        </MenuItem>
+        <MenuItem value="shopping">
+          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
+        </MenuItem>
+        <MenuItem value="housing">
+          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
+        </MenuItem>
+        <MenuItem value="transportation">
+          <Item
+            icon={<DirectionsBusIcon />}
+            text="Transportation"
+            bgColor="grey"
           />
-        </FormControl>
-      </EntryBox>
-
-      <EntryBox>
-        <Typography variant="text2">Date:</Typography>
-        <FormControl>
-          <EntryInput
-            type="date"
-            value={date}
-            onChange={(event) => setDate(event.target.value)}
-            InputProps={{
-              inputProps: {
-                min: "2022-01-01", // Set min and max dates if needed
-                max: "2025-12-31",
-              },
-            }}
+        </MenuItem>
+        <MenuItem value="vehicle">
+          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
+        </MenuItem>
+        <MenuItem value="life">
+          <Item
+            icon={<ManIcon />}
+            text="Life & Entertainment"
+            bgColor="lightgreen"
           />
-        </FormControl>
-      </EntryBox>
-
-      <EntryBox>
-        <Typography variant="text2">Payee:</Typography>
-        <FormControl>
-          <EntryInput />
-        </FormControl>
-      </EntryBox>
-
-      <EntryBox>
-        <Typography variant="text2">Note:</Typography>
-        <FormControl>
-          <EntryInput
-            multiline
-            rows={2}
-            value={note}
-            onChange={(event) => setNote(event.target.value)}
-            variant="outlined"
-            sx={{
-              height: "65px",
-            }}
+        </MenuItem>
+        <MenuItem value="communication">
+          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
+        </MenuItem>
+        <MenuItem value="financialIncome">
+          <Item
+            icon={<PaymentsIcon />}
+            text="Financial Incomes"
+            bgColor="lightblue"
           />
-        </FormControl>
-      </EntryBox>
+        </MenuItem>
+        <MenuItem value="investment">
+          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
+        </MenuItem>
+        <MenuItem value="income">
+          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
+        </MenuItem>
+        <MenuItem value="others">
+          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
+        </MenuItem>
+      </TextField>
+
+      <TextField
+        type="time"
+        fullWidth
+        placeholder="Enter time"
+        label="Time"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        value={time}
+        onChange={(event) => setTime(event.target.value)}
+      />
+
+      <TextField
+        type="date"
+        label="Date"
+        fullWidth
+        placeholder="Enter date"
+        value={date}
+        onChange={(event) => setDate(event.target.value)}
+        InputProps={{
+          inputProps: {
+            min: "2022-01-01", // Set min and max dates if needed
+            max: "2025-12-31",
+          },
+        }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+
+      <TextField
+        label="Payee"
+        placeholder="Enter payee name"
+        fullWidth
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+
+      <TextField
+        fullWidth
+        select
+        InputLabelProps={{
+          shrink: true,
+        }}
+        label="Budget"
+        value={budget}
+        onChange={(event) => setBudget(event.target.value)}
+        displayEmpty
+      >
+        <MenuItem value="food">
+          <Item
+            icon={<RestaurantIcon />}
+            text="Food and Drinks"
+            bgColor="red"
+          />
+        </MenuItem>
+        <MenuItem value="shopping">
+          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
+        </MenuItem>
+        <MenuItem value="housing">
+          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
+        </MenuItem>
+        <MenuItem value="transportation">
+          <Item
+            icon={<DirectionsBusIcon />}
+            text="Transportation"
+            bgColor="grey"
+          />
+        </MenuItem>
+        <MenuItem value="vehicle">
+          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
+        </MenuItem>
+        <MenuItem value="life">
+          <Item
+            icon={<ManIcon />}
+            text="Life & Entertainment"
+            bgColor="lightgreen"
+          />
+        </MenuItem>
+        <MenuItem value="communication">
+          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
+        </MenuItem>
+        <MenuItem value="financialIncome">
+          <Item
+            icon={<PaymentsIcon />}
+            text="Financial Incomes"
+            bgColor="lightblue"
+          />
+        </MenuItem>
+        <MenuItem value="investment">
+          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
+        </MenuItem>
+        <MenuItem value="income">
+          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
+        </MenuItem>
+        <MenuItem value="others">
+          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
+        </MenuItem>
+      </TextField>
+
+      <TextField
+        label="Note"
+        placeholder="Enter note (optional)"
+        multiline
+        fullWidth
+        maxRows={2}
+        value={note}
+        onChange={(event) => setNote(event.target.value)}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
     </Box>
   );
 };

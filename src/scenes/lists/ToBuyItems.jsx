@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  IconButton,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Box, Button, ButtonGroup, Typography, useTheme } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useParams } from "react-router-dom";
 import { AddItem, ItemBox } from "../../components/to buy list";
 import { getItemsToBuy } from "../../api/itemsToBuy";
 import toDoListImage from "../../assets/to_do_list.png";
+import { tokens } from "../../theme";
+import { BackBtn, SpeedDial } from "../../components/utils";
 
 const ToBuyItems = () => {
-  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [page, setPage] = useState("active");
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,41 +69,59 @@ const ToBuyItems = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Typography variant="h4" gutterBottom>
-        {listId}
-      </Typography>
-      <ButtonGroup variant="contained" sx={{ backgroundColor: "black" }}>
+      {/* Back button  */}
+      <BackBtn />
+
+      <ButtonGroup
+        variant="contained"
+        sx={{ borderRadius: "16px", border: `1px solid ${colors.purple[600]}` }}
+      >
         <Button
           value="active"
           onClick={() => setPage("active")}
           sx={{
+            textTransform: "none",
+            borderRadius: "16px",
             width: "433px",
             height: "42px",
-            backgroundColor: page === "active" ? "black" : "white",
-            color: page === "active" ? "white" : "black",
+            backgroundColor: page === "active" ? colors.purple[600] : "white",
+            color: page === "active" ? "white" : colors.purple[600],
             "&:hover": {
-              backgroundColor: page === "active" ? "grey" : "darkgrey",
+              backgroundColor:
+                page === "active" ? colors.purple[200] : "darkgrey",
             },
           }}
         >
-          Active
+          <Typography variant="body2">Active</Typography>
         </Button>
         <Button
           value="closed"
           onClick={() => setPage("closed")}
           sx={{
+            textTransform: "none",
+            borderRadius: "16px",
             width: "433px",
             height: "42px",
-            backgroundColor: page === "closed" ? "black" : "white",
-            color: page === "closed" ? "white" : "black",
+            backgroundColor: page === "closed" ? colors.purple[600] : "white",
+            color: page === "closed" ? "white" : colors.purple[600],
             "&:hover": {
-              backgroundColor: page === "closed" ? "grey" : "darkgrey",
+              backgroundColor:
+                page === "closed" ? colors.purple[200] : "darkgrey",
             },
           }}
         >
-          Closed
+          <Typography variant="body2">Closed</Typography>
         </Button>
       </ButtonGroup>
+
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ borderBottom: `3px solid ${colors.purple[600]}` }}
+      >
+        {listId}
+      </Typography>
+
       <Box
         sx={{
           width: "900px",
@@ -132,44 +146,9 @@ const ToBuyItems = () => {
           />
         ))}
       </Box>
-      <IconButton
-        onClick={() => setOpen(true)}
-        size="large"
-        sx={{
-          position: "absolute",
-          right: 16,
-          bottom: 16,
-          width: "116px",
-          height: "116px",
-        }}
-      >
-        <AddCircleIcon
-          fontSize="large"
-          sx={{
-            color: "#2099DD",
-            width: "116px",
-            height: "116px",
-          }}
-        />
-      </IconButton>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <AddItem
-            onClose={() => {
-              setOpen(false);
-            }}
-            items={items}
-            refresh={fetchItems}
-          />
-        </Box>
-      </Modal>
+
+      {/* Add item  */}
+      <SpeedDial modal={<AddItem items={items} refresh={fetchItems} />} />
     </Box>
   );
 };

@@ -1,8 +1,11 @@
-import { Button, Paper, Stack, Typography, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Button, Paper, Stack, Typography, useTheme } from "@mui/material";
 import React from "react";
+import { tokens } from "../../theme";
 
 const DeleteCategory = ({ onClose, icon: Icon, backgroundColor, name }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const handleDelete = () => {
     console.log(`Deleting category ${name}`);
     onClose();
@@ -11,35 +14,29 @@ const DeleteCategory = ({ onClose, icon: Icon, backgroundColor, name }) => {
   return (
     <Paper
       sx={{
-        width: "694px",
-        height: "475px",
+        width: "623px",
+        height: "355px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        padding: "24px",
+        padding: "32px",
       }}
     >
       {/* Title  */}
-      <Typography variant="h2">Delete Category</Typography>
-      {/* Close button  */}
-      <IconButton
-        onClose={onClose}
-        sx={{
-          position: "absolute",
-          top: 16,
-          right: 16,
-        }}
-        onClick={onClose}
-      >
-        <CloseIcon fontSize="large" />
-      </IconButton>
+      <Stack direction={"row"} gap={1}>
+        <Typography variant="h4" sx={{ color: colors.extra.red_accent }}>
+          DELETE
+        </Typography>
+        <Typography variant="h4">Category?</Typography>
+      </Stack>
+
       {/* Main  */}
       <Stack direction="row" alignItems="center" spacing={2}>
         <Icon
           sx={{
-            width: "73px",
-            height: "73px",
+            width: "40px",
+            height: "40px",
             color: "white",
             backgroundColor: backgroundColor,
             borderRadius: "50%",
@@ -49,24 +46,48 @@ const DeleteCategory = ({ onClose, icon: Icon, backgroundColor, name }) => {
         <Typography variant="h4">{name}</Typography>
       </Stack>
       {/* Text  */}
-      <Stack alignItems={"center"}>
-        <Typography variant="h5">Do you really want to delete</Typography>
-        <Typography variant="h5">
-          category <b>{name}</b>?
+      <Stack direction={"row"} alignItems={"baseline"} gap={1}>
+        <Typography variant="body1">
+          Do you really want to delete category
+        </Typography>
+        <Typography variant="h6">
+          <b>{name}</b>?
         </Typography>
       </Stack>
       {/* Delete button  */}
-      <Button
-        onClick={handleDelete}
-        sx={{
-          width: "244px",
-          height: "56px",
-          color: "white",
-          backgroundColor: "red",
-        }}
-      >
-        <Typography variant="h6">Delete</Typography>
-      </Button>
+      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+        <Button
+          onClick={handleDelete}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[600],
+            textTransform: "none",
+            color: "white",
+            borderRadius: "8px",
+            "&:hover": {
+              backgroundColor: colors.purple[200],
+            },
+          }}
+        >
+          <Typography variant="body2">Yes</Typography>
+        </Button>
+        <Button
+          onClick={onClose}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[200],
+            "&:hover": {
+              backgroundColor: colors.purple[100],
+            },
+            textTransform: "none",
+            borderRadius: "8px",
+          }}
+        >
+          <Typography variant="body2">No</Typography>
+        </Button>
+      </Stack>
     </Paper>
   );
 };

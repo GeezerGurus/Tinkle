@@ -1,15 +1,32 @@
-import { Button, Paper, Stack, Typography, Box, Modal } from "@mui/material";
+import {
+  Paper,
+  Stack,
+  Typography,
+  Box,
+  Modal,
+  useTheme,
+  IconButton,
+} from "@mui/material";
 import React, { useState } from "react";
 import EditAccount from "./EditAccount";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { tokens } from "../../theme";
+import { ConfirmModal } from "../utils";
 
 const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
-  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const [openModal, setOpenModal] = useState(false);
+  const [modal, setModal] = useState("");
   return (
     <Paper
       sx={{
-        width: "1292px",
-        height: "101px",
+        width: "100%",
+        height: "104px",
         display: "flex",
+        borderRadius: "16px",
         justifyContent: "space-between",
         alignItems: "center",
         padding: 2,
@@ -27,20 +44,48 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
             padding: "4px",
           }}
         />
-        <Typography variant="h3">{name}</Typography>
+        <Typography variant="h6">{name}</Typography>
       </Stack>
       {/* Text  */}
-      <Typography variant="h5" sx={{ flexGrow: 1 }}>
-        <b>Balance - {balance}</b> MMK
-      </Typography>
-      {/* Edit button  */}
-      <Button onClick={() => setOpen(true)}>
-        <Typography variant="h4" sx={{ color: "#2099DD" }}>
-          Edit
+      <Stack direction={"row"} gap={1} sx={{ flexGrow: 1 }}>
+        <Typography variant="body2">Balance -</Typography>
+        <Typography variant="body3">{balance}</Typography>
+        <Typography variant="body2" sx={{ color: colors.purple[900] }}>
+          MMK
         </Typography>
-      </Button>
+      </Stack>
+
+      {/* Buttons  */}
+      <Stack direction={"row"} alignItems="center">
+        <IconButton
+          onClick={() => {
+            setModal("edit-debtrecord");
+            setOpenModal(true);
+          }}
+        >
+          <EditIcon
+            fontSize="large"
+            sx={{
+              color: colors.vibrant.light_blue,
+            }}
+          />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            setModal("delete");
+            setOpenModal(true);
+          }}
+        >
+          <DeleteIcon
+            fontSize="large"
+            sx={{
+              color: colors.extra.red_accent,
+            }}
+          />
+        </IconButton>
+      </Stack>
       {/* Edit Account Modal*/}
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box
           sx={{
             position: "absolute",
@@ -49,13 +94,32 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <EditAccount
-            onClose={() => setOpen(false)}
-            name={name}
-            balance={balance}
-            icon={Icon}
-            bgColor={backgroundColor}
-          />
+          {modal === "edit-debtrecord" ? (
+            <EditAccount
+              onClose={() => setOpenModal(false)}
+              name={name}
+              balance={balance}
+              icon={Icon}
+              bgColor={backgroundColor}
+            />
+          ) : (
+            <ConfirmModal
+              onClose={() => {
+                setOpenModal(false);
+              }}
+              color={colors.extra.red_accent}
+              highlight={"Delete"}
+              description={
+                <>
+                  Sure you really want to delete the account <b>{name}</b>? The
+                  account will be removed from your budgets. All account
+                  transactions, standing orders, and debts will be irrevocably
+                  lost.
+                </>
+              }
+              promptText={"Do you really want to Delete?"}
+            />
+          )}
         </Box>
       </Modal>
     </Paper>

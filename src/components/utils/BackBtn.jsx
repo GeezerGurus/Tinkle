@@ -11,6 +11,7 @@ const BackBtn = () => {
       onClick={() => navigate(-1)}
       size="large"
       startIcon={<NavigateBeforeIcon />}
+      sx={{ position: "absolute", top: 16, left: 16 }}
     >
       Back
     </Button>

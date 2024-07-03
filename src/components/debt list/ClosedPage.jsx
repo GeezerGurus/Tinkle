@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, useTheme, Stack } from "@mui/material";
+import { Box, Typography, useTheme, Stack, useMediaQuery } from "@mui/material";
 import { tokens } from "../../theme";
 import Debt from "./Debt";
 
@@ -31,10 +31,15 @@ const ClosedPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
   return (
     <Box
       sx={{
-        width: "88%",
+        width: isMediumScreen ? "100%" : "88%",
         display: "flex",
         flexDirection: "column",
         gap: theme.spacing(3),

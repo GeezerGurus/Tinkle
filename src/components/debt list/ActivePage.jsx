@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Typography, useTheme, Stack, Modal } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useTheme,
+  Stack,
+  Modal,
+  useMediaQuery,
+} from "@mui/material";
 import { tokens } from "../../theme";
 import Debt from "./Debt";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
@@ -32,10 +39,12 @@ const ActivePage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       sx={{
-        width: "88%",
+        width: isMediumScreen ? "100%" : "88%",
         display: "flex",
         flexDirection: "column",
         gap: theme.spacing(3),

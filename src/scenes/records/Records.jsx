@@ -1,27 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { tokens } from "../../theme";
 import { Box, useTheme } from "@mui/material";
-import { Table, Chart, Toolbar, Total } from "../../components/records";
+import {
+  Chart,
+  Toolbar,
+  Total,
+  TransactionsTable,
+} from "../../components/records";
 
-const totalValues = [
-  {
-    header: "Total Income",
-    amount: "$45,678",
-    color: "#43BC63",
-    percent: "+20% month over month",
-  },
-  {
-    header: "Total Expense",
-    amount: "$2,405",
-    color: "#FE3F2F",
-    percent: "+33% month over month",
-  },
-];
 const Records = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [tableState, setTableState] = useState("");
+
   return (
-    // Container
     <Box
       sx={{
         display: "flex",
@@ -29,35 +22,23 @@ const Records = () => {
         alignItems: "center",
       }}
     >
-      {/* Main Box */}
       <Box
         sx={{
           marginTop: theme.spacing(3),
-          width: "1296px",
+          width: "72%",
           height: "899px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
         }}
       >
-        {/* Top */}
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          {totalValues.map((total, index) => (
-            <Total
-              key={index}
-              header={total.header}
-              amount={total.amount}
-              color={total.color}
-              percent={total.percent}
-            />
-          ))}
-
+          <Total type={"income"} />
+          <Total type={"expense"} />
           <Chart />
         </Box>
-        {/* Middle */}
-        <Toolbar />
-        {/* Bottom */}
-        <Table />
+        <Toolbar tableState={tableState} setTableState={setTableState} />
+        <TransactionsTable action={tableState} />
       </Box>
     </Box>
   );

@@ -9,6 +9,7 @@ import {
   Divider,
   useTheme,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import EditList from "./EditList";
 import { Link } from "react-router-dom";
@@ -24,6 +25,9 @@ const ListBox = ({ name, description }) => {
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     // Container
     <Paper
@@ -33,7 +37,7 @@ const ListBox = ({ name, description }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        width: "88%",
+        width: isSmallScreen ? "90%" : isMediumScreen ? "90vw" : "88%",
         minHeight: "153px",
         borderRadius: "16px",
       }}
@@ -47,12 +51,18 @@ const ListBox = ({ name, description }) => {
       >
         {/* Left  */}
         <Stack>
-          <Typography variant="h6">{name}</Typography>
-          <Typography variant="body2">{description}</Typography>
+          <Typography variant={isSmallScreen ? "body3" : "h6"}>
+            {name}
+          </Typography>
+          <Typography variant={isSmallScreen ? "body4" : "body2"}>
+            {description}
+          </Typography>
         </Stack>
         <Stack direction={"row"} alignItems={"baseline"} gap={1}>
-          <Typography variant="h6">6</Typography>
-          <Typography variant="body1">Items</Typography>
+          <Typography variant={isSmallScreen ? "body3" : "h6"}>6</Typography>
+          <Typography variant={isSmallScreen ? "body3" : "body1"}>
+            Items
+          </Typography>
         </Stack>
       </Stack>
       <Divider />
@@ -134,6 +144,7 @@ const ListBox = ({ name, description }) => {
               description={
                 "This action will delete your whole list, including all the items and details."
               }
+              onClose={() => setOpenModal(false)}
             />
           )}
         </Box>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { CreateList, ListBox } from "../../components/to buy list";
 import { tokens } from "../../theme";
 import { BackBtn, SpeedDial } from "../../components/utils";
@@ -47,6 +47,10 @@ const ToBuyList = () => {
     },
   ];
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+
   return (
     // Container
     <Box
@@ -66,9 +70,12 @@ const ToBuyList = () => {
 
       {/* Title  */}
       <Typography
-        variant="h4"
+        variant={"h4"}
         gutterBottom
-        sx={{ borderBottom: `3px solid ${colors.purple[600]}` }}
+        sx={{
+          borderBottom: `3px solid ${colors.purple[600]}`,
+          mt: isSmallScreen ? 10 : undefined,
+        }}
       >
         Your Lists
       </Typography>
@@ -76,7 +83,7 @@ const ToBuyList = () => {
       {/* Contents */}
       <Box
         sx={{
-          width: "56%",
+          width: isMediumScreen ? "90%" : isLargeScreen ? "100%" : "56%",
           height: "781px",
           display: "flex",
           alignItems: "center",

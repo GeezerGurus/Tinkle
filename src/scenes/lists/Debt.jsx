@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { tokens } from "../../theme";
 import {
   Box,
@@ -55,9 +55,9 @@ const Debt = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
-  const handlePage = (event) => {
+  const handlePage = useCallback((event) => {
     setPage(event.target.value);
-  };
+  }, []);
 
   const renderPage = () => {
     if (page === "active") {

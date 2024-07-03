@@ -19,7 +19,7 @@ const Support = () => {
         alignItems: "center",
         flexDirection: "column",
         width: "100%",
-        gap: 4
+        gap: 4,
       }}
     >
       {/*header*/}
@@ -59,7 +59,7 @@ const Support = () => {
             </Typography>
           </Box>
           <Box sx={{ width: "819px" }}>
-            <SupportAccordion/>
+            <SupportAccordion />
           </Box>
         </Stack>
       </Box>

@@ -1,4 +1,5 @@
-import { Paper } from "@mui/material";
+import { Paper, useMediaQuery, useTheme } from "@mui/material";
+import { tokens } from "../../theme";
 import { PieActiveArc } from "../statistics";
 
 const pieData = [
@@ -9,11 +10,17 @@ const pieData = [
 ];
 
 export const Chart = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Paper
       sx={{
         display: "flex",
-        width: "436px",
+        width: isMediumScreen ? "100%" : "32%",
         height: "216px",
         flexDirection: "column",
         justifyContent: "space-between",

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { tokens } from "../../theme";
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, useMediaQuery } from "@mui/material";
 import {
   Chart,
   Toolbar,
@@ -14,25 +14,37 @@ const Records = () => {
 
   const [tableState, setTableState] = useState("");
 
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
+        width: isMediumScreen ? "100%" : isLargeScreen ? "92vw" : "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        p: 2,
       }}
     >
       <Box
         sx={{
           marginTop: theme.spacing(3),
-          width: "72%",
-          height: "899px",
+          width: isSmallScreen ? "100%" : isLargeScreen ? "95%" : "72%",
+          height: "auto",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: isMediumScreen ? "column" : "row",
+          }}
+        >
           <Total type={"income"} />
           <Total type={"expense"} />
           <Chart />

@@ -7,6 +7,7 @@ import {
   useTheme,
   Box,
   MenuItem,
+  useMediaQuery
 } from "@mui/material";
 import React, { useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
@@ -71,16 +72,19 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
     onClose();
   };
 
+  
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  
   return (
     <Paper
       sx={{
-        width: "686px",
-        height: "343px",
+        width:isSmallScreen?"90vw": "686px",
+        gap: theme.spacing(3),
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
-        padding: "16px 116px",
+        padding: isSmallScreen?"33px 28px":"32px 112px"
       }}
     >
       {/* Title  */}
@@ -144,8 +148,8 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
         </Stack>
       </Box>
 
-      {/* Delete button  */}
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      {/* button  */}
+      <Stack gap={1} direction={isSmallScreen?"column":"row"}  justifyContent={"space-between"}>
         <Button
           onClick={handleDelete}
           sx={{

@@ -8,6 +8,7 @@ import {
   TextField,
   Grid,
   useTheme,
+  useMediaQuery
 } from "@mui/material";
 import React, { useState } from "react";
 import Category from "../../components/settings/Category";
@@ -68,6 +69,12 @@ const CategorySettings = () => {
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
 
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <Box
       sx={{
@@ -75,25 +82,26 @@ const CategorySettings = () => {
         justifyContent: "center",
         width: "100%",
         height: "100%",
+        
       }}
     >
       <Paper
         sx={{
-          mt: "48px",
-          width: "64%",
+          mt: "20px",
+          width: isSmallScreen?"80vw":"70%",
           borderRadius: "12px",
-          padding: "24px",
-          height: "833px",
+          padding: "34px",
+          height: isSmallScreen?"1000px":"100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-around",
+          justifyContent: "space-",
           alignItems: "center",
           backgroundColor: colors.purple[50],
         }}
       >
         <Stack
           width={"100%"}
-          gap={2}
+          gap={1}
           pb={6}
           sx={{
             borderBottom: `2px solid black`,
@@ -109,8 +117,9 @@ const CategorySettings = () => {
           >
             Create a Category
           </Typography>
-          <Box sx={{ display: "flex", gap: "40px", alignItems: "flex-end" }}>
-            <Stack gap={1} width={"10%"}>
+          <Box sx={{ display: "flex", gap: "40px", alignItems: "flex-end", flexWrap:isLargeScreen? "wrap":undefined }}>
+            <Stack gap={2} direction="row" alignItems="flex-end" sx={{ width:isLargeScreen?"100%": "60%" }}>
+            <Stack gap={1} width={"30%"}>
               <Typography variant="body2">Icon</Typography>
               <TextField
                 select
@@ -127,7 +136,7 @@ const CategorySettings = () => {
               </TextField>
             </Stack>
 
-            <Stack gap={1} width={"30%"}>
+            <Stack gap={1} width={"70%"}>
               <Typography variant="body2">Color</Typography>
               <TextField
                 select
@@ -148,31 +157,35 @@ const CategorySettings = () => {
                 ))}
               </TextField>
             </Stack>
-
-            <Stack gap={1} width={"50%"}>
-              <Typography variant="body2">Name</Typography>
-              <TextField
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="New category name"
-              />
             </Stack>
 
-            <Button
-              variant="contained"
-              sx={{
-                width: "10%",
-                height: "46px",
-                textTransform: "none",
-                backgroundColor: colors.purple[600],
-                mt: 2,
-              }}
-            >
-              Add
-            </Button>
+            <Stack gap={2} direction="row" alignItems="flex-end" sx={{ width:isLargeScreen?"100%": "40%" }}>
+              <Stack gap={1} width={"100%"}>
+                <Typography variant="body2">Name</Typography>
+                <TextField
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="New category name"
+                />
+              </Stack>
+
+              <Button
+                variant="contained"
+                sx={{
+                  width: "30%",
+                  height: "46px",
+                  textTransform: "none",
+                  backgroundColor: colors.purple[600],
+                }}
+              >
+                Add
+              </Button>
+            </Stack>
           </Box>
+
         </Stack>
         <Typography
+          marginTop={"20px"}
           variant="h4"
           gutterBottom
           sx={{
@@ -183,12 +196,15 @@ const CategorySettings = () => {
           Your Categories
         </Typography>
 
-        <Box sx={{ width: "100%", height: "470px", overflowY: "auto" }}>
+        <Box sx={{ width: "100%", height: "auto", marginTop: "30px", overflowY: "auto" }}>
           <Grid
             container
-            // columnGap={2}
             rowGap={2}
-            sx={{ display: "flex", justifyContent: "space-around" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              flexDirection: isSmallScreen ? "column" : "row"
+            }}
           >
             {categories.map((category, index) => (
               <Category
@@ -200,6 +216,7 @@ const CategorySettings = () => {
             ))}
           </Grid>
         </Box>
+
       </Paper>
     </Box>
   );

@@ -1,19 +1,33 @@
-import { Box, Grid, IconButton, Modal, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DeleteCategory from "./DeleteCategory";
 import EditCategory from "./EditCategory";
+import { tokens } from "../../theme";
 
 const Category = ({ icon: Icon, backgroundColor, name }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Grid
       item
       sx={{
-        width: "45%",
+        width: isSmallScreen ? "100%" : "45%",
         height: "64px",
         borderBottom: "1px solid grey",
         display: "flex",

@@ -7,6 +7,7 @@ import {
   useTheme,
   TextField,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { tokens } from "../../theme";
@@ -29,13 +30,16 @@ const EditList = ({ onClose, name, description }) => {
     console.log("List deleted");
   };
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     // Container
     <Paper
       sx={{
-        padding: "32px 116px",
-        width: "710px",
-        height: "426px",
+        padding: isSmallScreen ? "16px 26px" : "32px 116px",
+        width: isSmallScreen ? "359px" : "710px",
+        height: isSmallScreen ? "416px" : "426px",
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -58,6 +62,9 @@ const EditList = ({ onClose, name, description }) => {
         InputLabelProps={{
           shrink: true,
         }}
+        InputProps={{
+          sx: { height: isSmallScreen ? "42px" : undefined },
+        }}
       />
       <TextField
         placeholder="Enter a description (optional)"
@@ -73,7 +80,11 @@ const EditList = ({ onClose, name, description }) => {
       />
 
       {/* Buttons  */}
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           onClick={handleSave}
           sx={{

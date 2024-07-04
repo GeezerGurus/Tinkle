@@ -6,6 +6,7 @@ import {
   TextField,
   Stack,
   Button,
+  useMediaQuery,
 } from "@mui/material";
 import { postItemsToBuy } from "../../api/itemsToBuy";
 import { tokens } from "../../theme";
@@ -46,12 +47,14 @@ const AddItem = ({ onClose, refresh }) => {
     };
   }, [handleSaveItem, onClose]);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       sx={{
-        padding: "32px 116px",
-        width: "710px",
-        height: "426px",
+        padding: isSmallScreen ? "16px 26px" : "32px 116px",
+        width: isSmallScreen ? "359px" : "710px",
+        height: isSmallScreen ? "416px" : "426px",
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -74,6 +77,9 @@ const AddItem = ({ onClose, refresh }) => {
         InputLabelProps={{
           shrink: true,
         }}
+        InputProps={{
+          sx: { height: isSmallScreen ? "42px" : undefined },
+        }}
       />
 
       <TextField
@@ -90,7 +96,11 @@ const AddItem = ({ onClose, refresh }) => {
       />
 
       {/* Buttons  */}
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           onClick={handleSaveItem}
           sx={{

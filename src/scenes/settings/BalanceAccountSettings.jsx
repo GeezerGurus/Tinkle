@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Stack, Typography, useTheme, useMediaQuery } from "@mui/material";
 import React from "react";
 import { Account, AddAccount } from "../../components/settings";
 import { Home, AccountBalance, CreditCard } from "@mui/icons-material";
@@ -29,6 +29,11 @@ const BalanceAccountSettings = () => {
     },
   ];
 
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
   return (
     // Container
     <Box
@@ -43,7 +48,7 @@ const BalanceAccountSettings = () => {
       <Box
         sx={{
           mt: 3,
-          width: "80%",
+          width: "90%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -52,11 +57,12 @@ const BalanceAccountSettings = () => {
       >
         {/* Title  */}
         <Typography
-          variant="h4"
+          variant={isSmallScreen ? "h6" : "h4"}
           gutterBottom
           sx={{
             borderBottom: `2px solid ${colors.purple[600]}`,
-            alignSelf: "flex-start",
+            alignSelf: isSmallScreen ? undefined:"flex-start",
+            alignContent: isSmallScreen ? "center" : undefined,
           }}
         >
           Your Balance Accounts

@@ -7,6 +7,7 @@ import {
   Box,
   IconButton,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import EditItem from "./EditItem";
 import EditIcon from "@mui/icons-material/Edit";
@@ -44,13 +45,16 @@ const ItemBox = ({
     refresh();
   };
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     // Container
     <Paper
       sx={{
         backgroundColor:
           isPurchased === true ? colors.extra.grey : colors.purple[100],
-        padding: "12px 16px",
+        padding: isSmallScreen ? "8px" : "12px 16px",
         borderRadius: "16px",
         width: "100%",
         minHeight: "88px",
@@ -108,7 +112,7 @@ const ItemBox = ({
                   }}
                 >
                   <EditIcon
-                    fontSize="large"
+                    fontSize={isSmallScreen ? "26px" : "large"}
                     sx={{
                       color: colors.vibrant.light_blue,
                     }}
@@ -123,7 +127,7 @@ const ItemBox = ({
                 }}
               >
                 <DeleteIcon
-                  fontSize="large"
+                  fontSize={isSmallScreen ? "26px" : "large"}
                   sx={{
                     color: colors.extra.red_accent,
                   }}

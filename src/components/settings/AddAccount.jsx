@@ -6,6 +6,7 @@ import {
   Modal,
   Box,
   useTheme,
+  useMediaQuery
 } from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,7 +18,7 @@ const AddAccount = () => {
   const colors = tokens(theme.palette.mode);
 
   const [open, setOpen] = useState(false);
-
+  
   return (
     <Paper
       sx={{

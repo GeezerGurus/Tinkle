@@ -6,6 +6,7 @@ import {
   Modal,
   useTheme,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import EditAccount from "./EditAccount";
@@ -20,6 +21,12 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
 
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
+
+  
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <Paper
       sx={{
@@ -30,33 +37,57 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
         justifyContent: "space-between",
         alignItems: "center",
         padding: 2,
+        overflow: "hidden",
       }}
     >
-      {/* Main  */}
-      <Stack direction="row" alignItems="center" spacing={2} width={"600px"}>
+      {/* Main Stack (Icon and Name) */}
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={2}
+        sx={{ width: isSmallScreen ? "30%" : isMediumScreen? "200px":"300px" }}
+      >
         <Icon
           sx={{
-            width: "64px",
-            height: "64px",
+            fontSize: isSmallScreen? "30px": "45px",
+            
             color: "white",
             backgroundColor: backgroundColor,
             borderRadius: "50%",
             padding: "4px",
           }}
         />
-        <Typography variant="h6">{name}</Typography>
+        <Typography variant={isSmallScreen ? "body3" : "h6"}>{name}</Typography>
       </Stack>
-      {/* Text  */}
-      <Stack direction={"row"} gap={1} sx={{ flexGrow: 1 }}>
-        <Typography variant="body2">Balance -</Typography>
-        <Typography variant="body3">{balance}</Typography>
-        <Typography variant="body2" sx={{ color: colors.purple[900] }}>
+
+      {/* Balance Stack */}
+      <Stack
+        direction={isSmallest? "column" :"row"}
+        gap={1}
+        sx={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          
+        }}
+      >
+        <Typography variant={isSmallScreen ? "body4" : "body2"}>
+          Balance -
+        </Typography>
+        <Typography variant={isSmallScreen ? "body4" : "body2"}>
+          {balance}
+        </Typography>
+        <Typography
+          variant={isSmallScreen ? "body4" : "body2"}
+          sx={{ color: colors.purple[900] }}
+        >
           MMK
         </Typography>
       </Stack>
 
-      {/* Buttons  */}
-      <Stack direction={"row"} alignItems="center">
+      {/* Buttons Stack */}
+      <Stack direction="row" alignItems="center">
         <IconButton
           onClick={() => {
             setModal("edit-debtrecord");
@@ -64,7 +95,7 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
           }}
         >
           <EditIcon
-            fontSize="large"
+            fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
               color: colors.vibrant.light_blue,
             }}
@@ -77,14 +108,15 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
           }}
         >
           <DeleteIcon
-            fontSize="large"
+            fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
               color: colors.extra.red_accent,
             }}
           />
         </IconButton>
       </Stack>
-      {/* Edit Account Modal*/}
+
+      {/* Edit Account Modal */}
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box
           sx={{

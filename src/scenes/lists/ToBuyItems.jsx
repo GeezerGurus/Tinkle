@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, ButtonGroup, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useParams } from "react-router-dom";
@@ -36,17 +43,77 @@ const ToBuyItems = () => {
     fetchItems();
   }, []);
 
-  const filteredItems =
-    items && items.length > 0
-      ? page === "active"
-        ? items.filter((item) => !item.isPurchased)
-        : items.filter((item) => item.isPurchased)
-      : [];
+  const filteredItems = [
+    {
+      name: "Slave",
+      quantity: 45,
+      description: "niggas",
+      price: 45,
+      isPurchased: false,
+      _id: 2,
+    },
+    {
+      name: "Slave",
+      quantity: 45,
+      description: "niggas",
+      price: 45,
+      isPurchased: false,
+      _id: 2,
+    },
+    {
+      name: "Slave",
+      quantity: 45,
+      description: "niggas",
+      price: 45,
+      isPurchased: false,
+      _id: 2,
+    },
+    {
+      name: "Slave",
+      quantity: 45,
+      description: "niggas",
+      price: 45,
+      isPurchased: false,
+      _id: 2,
+    },
+    {
+      name: "Slave",
+      quantity: 45,
+      description: "niggas",
+      price: 45,
+      isPurchased: false,
+      _id: 2,
+    },
+    {
+      name: "Slave",
+      quantity: 45,
+      description: "niggas",
+      price: 45,
+      isPurchased: false,
+      _id: 2,
+    },
+    {
+      name: "Slave",
+      quantity: 45,
+      description: "niggas",
+      price: 45,
+      isPurchased: false,
+      _id: 2,
+    },
+  ];
+  // items && items.length > 0
+  //   ? page === "active"
+  //     ? items.filter((item) => !item.isPurchased)
+  //     : items.filter((item) => item.isPurchased)
+  //   : [];
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Box
       sx={{
-        width: "100%",
+        width: isSmallScreen ? "100%" : isMediumScreen ? "90vw" : "100%",
         height: "90%",
         display: "flex",
         flexDirection: "column",
@@ -73,8 +140,13 @@ const ToBuyItems = () => {
       <BackBtn />
 
       <ButtonGroup
+        fullWidth={isSmallScreen ? "90%" : isMediumScreen ? "80%" : undefined}
         variant="contained"
-        sx={{ borderRadius: "16px", border: `1px solid ${colors.purple[600]}` }}
+        sx={{
+          borderRadius: "16px",
+          border: `1px solid ${colors.purple[600]}`,
+          mt: isMediumScreen ? 10 : undefined,
+        }}
       >
         <Button
           value="active"
@@ -124,8 +196,8 @@ const ToBuyItems = () => {
 
       <Box
         sx={{
-          width: "900px",
-          height: "781px",
+          width: isSmallScreen ? "90%" : "74%",
+          height: isMediumScreen ? "auto" : "781px",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",

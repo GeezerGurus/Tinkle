@@ -8,6 +8,7 @@ import {
   useTheme,
   TextField,
   Stack,
+  useMediaQuery
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -26,6 +27,10 @@ const EditAccount = ({ onClose, name, balance, type }) => {
   const [accountName, setAccountName] = useState(name || "");
   const [currentBalance, setCurrentBalance] = useState(Number(balance) || 0);
   const [selectedOption, setSelectedOption] = useState(type || "");
+
+  
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  
 
   const menuProps = {
     PaperProps: {
@@ -76,14 +81,15 @@ const EditAccount = ({ onClose, name, balance, type }) => {
   return (
     <Paper
       sx={{
-        padding: "32px 112px",
-        width: "686px",
-        height: "418px",
+        padding: isSmallScreen?"33px 28px":"32px 112px",
+        width:isSmallScreen?"97vw": "686px",
+        
         position: "relative",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
+        gap: theme.spacing(3)
       }}
     >
       {/* Close button */}
@@ -162,7 +168,7 @@ const EditAccount = ({ onClose, name, balance, type }) => {
         ))}
       </TextField>
       {/* Buttons  */}
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack gap={1} direction={isSmallScreen?"column":"row"} justifyContent={"space-between"}>
         <Button
           onClick={handleSave}
           sx={{

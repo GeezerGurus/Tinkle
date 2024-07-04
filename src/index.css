@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+@import "~@flaticon/flaticon-uicons/css/all/all";
 
 html,
 body,
@@ -7,7 +8,7 @@ body,
 .content {
   height: 100%;
   width: 100%;
-  font-family: "Roboto", "Source Sans Pro", sans-serif;
+  font-family: "Roboto", "Oswald", "Source Sans Pro", sans-serif;
 }
 
 .app {

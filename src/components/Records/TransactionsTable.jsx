@@ -9,7 +9,7 @@ import {
   GridToolbarQuickFilter,
   GridActionsCellItem,
 } from "@mui/x-data-grid";
-import { Box, Modal, Paper, useTheme } from "@mui/material";
+import { Box, Modal, Paper, useMediaQuery, useTheme } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { ConfirmModal } from "../utils";
@@ -102,6 +102,8 @@ const TransactionsTable = ({ action }) => {
       amount: Math.floor(Math.random() * 200) + 20, // Random amount between 20 and 219
     });
   }
+
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
 
   return (
     <>

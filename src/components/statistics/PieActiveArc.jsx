@@ -2,7 +2,7 @@ import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 
-const PieActiveArc = ({ data }) => {
+const PieActiveArc = ({ data, dashboard }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));

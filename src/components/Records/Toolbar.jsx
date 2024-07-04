@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import {
   FilterList as FilterListIcon,
   DoneAll as DoneAllIcon,
@@ -22,13 +28,16 @@ const Toolbar = ({ tableState, setTableState }) => {
     }
   };
 
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       sx={{
-        width: "1296px",
+        width: "100%",
         height: "48px",
         color: "black",
         display: "flex",
+        flexDirection: isMediumScreen ? "column" : "row",
         justifyContent: "space-between",
       }}
     >

@@ -19,8 +19,9 @@ const BalanceTrend = () => {
   return (
     <Paper
       sx={{
+        width: isSmallScreen ? "90vw" : undefined,
         border: `1px solid ${colors.purple[600]}`,
-        height: isSmallScreen ? "252px" :"100%",
+        height: "100%",
         borderRadius: "16px",
         padding: "24px",
         display: "flex",

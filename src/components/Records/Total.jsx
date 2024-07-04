@@ -1,10 +1,19 @@
-import { Paper, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Paper,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 
 const Total = ({ type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Paper
@@ -14,7 +23,8 @@ const Total = ({ type }) => {
         padding: "24px",
         flexDirection: "column",
         gap: "16px",
-        width: "400px",
+        // width: "400px",
+        width: isMediumScreen ? "100%" : "32%",
         height: "216px",
         backgroundColor: "white",
       }}

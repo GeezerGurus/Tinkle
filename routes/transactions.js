@@ -95,6 +95,13 @@ const {
   patchOwe,
   deleteOwe
 } = require("../controllers/owesController");
+const {
+  addGoal,
+  getGoals,
+  getaGoal,
+  patchGoal,
+  deleteGoal
+} = require("../controllers/goalsController");
 
 const router = require("express").Router();
 
@@ -194,5 +201,12 @@ router
   .get("/owe/:oweId", requireAuth, getaOwe)
   .patch("/owe/:oweId", requireAuth, patchOwe)
   .delete("/owe/:oweId", requireAuth, deleteOwe)
+
+  //Goals
+  .post("/goal", requireAuth, addGoal)
+  .get("/goal", requireAuth, getGoals)
+  .get("/goal/:goalId", requireAuth, getaGoal)
+  .patch("/goal/:goalId", requireAuth, patchGoal)
+  .delete("/goal/:goalId", requireAuth, deleteGoal)
 
 module.exports = router;

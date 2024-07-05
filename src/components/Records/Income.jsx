@@ -5,6 +5,7 @@ import {
   MenuItem,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
@@ -46,11 +47,20 @@ const Income = () => {
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [note, setNote] = useState("");
 
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
         width: "100%",
-        padding: "16px 112px",
+        padding: isSmallScreen
+          ? "16px 26px"
+          : isLargest
+          ? "16px 68px"
+          : "16px 112px",
         flexGrow: 1,
         display: "flex",
         flexDirection: "column",
@@ -67,6 +77,11 @@ const Income = () => {
         select
         value={acc}
         onChange={(event) => setAcc(event.target.value)}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
       >
         <MenuItem value="wallet">
           <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
@@ -89,6 +104,9 @@ const Income = () => {
         placeholder="Enter amount"
         inputProps={{ min: "0" }}
         InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
           startAdornment: (
             <InputAdornment position="start" sx={{ color: "green" }}>
               <Typography
@@ -110,6 +128,11 @@ const Income = () => {
         select
         InputLabelProps={{
           shrink: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
         }}
         label="Catgory"
         value={selectedOption}
@@ -175,6 +198,11 @@ const Income = () => {
         InputLabelProps={{
           shrink: true,
         }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
         value={time}
         onChange={(event) => setTime(event.target.value)}
       />
@@ -187,6 +215,9 @@ const Income = () => {
         value={date}
         onChange={(event) => setDate(event.target.value)}
         InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
           inputProps: {
             min: "2022-01-01", // Set min and max dates if needed
             max: "2025-12-31",
@@ -204,6 +235,11 @@ const Income = () => {
         InputLabelProps={{
           shrink: true,
         }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
       />
 
       <TextField
@@ -211,6 +247,11 @@ const Income = () => {
         select
         InputLabelProps={{
           shrink: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
         }}
         label="Budget"
         value={budget}
@@ -278,6 +319,11 @@ const Income = () => {
         onChange={(event) => setNote(event.target.value)}
         InputLabelProps={{
           shrink: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
         }}
       />
     </Box>

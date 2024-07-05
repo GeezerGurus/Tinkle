@@ -17,11 +17,18 @@ const Records = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   return (
     <Box
       sx={{
-        width: isMediumScreen ? "100%" : isLargeScreen ? "92vw" : "100%",
+        width: isSmallScreen
+          ? "100%"
+          : isMediumScreen
+          ? `90vw`
+          : isLaptop
+          ? `92vw`
+          : "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -43,6 +50,7 @@ const Records = () => {
             display: "flex",
             justifyContent: "space-between",
             flexDirection: isMediumScreen ? "column" : "row",
+            gap: isMediumScreen ? 2 : undefined,
           }}
         >
           <Total type={"income"} />

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Box, Typography, Paper, useTheme } from "@mui/material";
+import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import { Owe } from "./Owe";
 import { Lend } from "./Lend";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 
-const Debt = ({ isSmallScreen }) => {
+const Debt = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -15,10 +15,14 @@ const Debt = ({ isSmallScreen }) => {
     setPage(page === "Owe" ? "Lend" : "Owe");
   };
 
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Paper
       sx={{
-        width: isSmallScreen ? "100%" : "369px",
+        width: isLargest ? "100%" : "369px",
         height: "302px",
         padding: "16px 24px",
         display: "flex",

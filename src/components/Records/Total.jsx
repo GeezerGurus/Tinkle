@@ -14,6 +14,7 @@ const Total = ({ type }) => {
 
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper
@@ -27,6 +28,11 @@ const Total = ({ type }) => {
         width: isMediumScreen ? "100%" : "32%",
         height: "216px",
         backgroundColor: "white",
+        alignItems: isSmallScreen
+          ? undefined
+          : isMediumScreen
+          ? "center"
+          : undefined,
       }}
     >
       {/* Header  */}

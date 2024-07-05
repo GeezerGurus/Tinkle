@@ -1,0 +1,10 @@
+export { default as BackgroundImage } from "./background.png";
+export { default as DashboardImage } from "./dashboard.png";
+export { default as LeftArrowImage } from "./left_arrow.png";
+export { default as RightArrowImage } from "./right_arrow.png";
+export { default as StraightLineImage } from "./straight_line.png";
+export { default as TreeLineImage } from "./tree_line.png";
+export { default as TwoStarsImage } from "./2stars.png";
+export { default as ThreeStarsImage } from "./3stars.png";
+export { default as RightArrowImage2 } from "./right_arrow2.png";
+export { default as LeftArrowImage2 } from "./left_arrow2.png";

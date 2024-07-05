@@ -1,12 +1,22 @@
-import { Box, Button, Modal, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Modal,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import React, { useState } from "react";
 import CreateAccount from "./CreateAccount";
 import { tokens } from "../../theme";
-const NewAccount = ({ BgColor, isSmallScreen }) => {
+const NewAccount = ({ BgColor, isMediumScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [openModal, setOpenModal] = useState(false);
+
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
 
   return (
     <>
@@ -15,8 +25,8 @@ const NewAccount = ({ BgColor, isSmallScreen }) => {
           setOpenModal(true);
         }}
         sx={{
-          width: isSmallScreen ? "45%" : "210px",
-          height: isSmallScreen ? "73px" : "211px",
+          width: isMediumScreen ? "45%" : isLargest ? "24%" : "210px",
+          height: isMediumScreen ? "73px" : "211px",
           borderRadius: "16px",
           border: `2px dashed ${BgColor}`,
           textTransform: "none",
@@ -32,13 +42,13 @@ const NewAccount = ({ BgColor, isSmallScreen }) => {
         >
           <AddCircleRoundedIcon
             sx={{
-              width: isSmallScreen ? "34px" : "64px",
-              height: isSmallScreen ? "34px" : "64px",
+              width: isMediumScreen ? "34px" : "64px",
+              height: isMediumScreen ? "34px" : "64px",
               color: BgColor,
             }}
           />
           <Typography
-            variant={isSmallScreen ? "body2" : "body1"}
+            variant={isMediumScreen ? "body2" : "body1"}
             color={theme.palette.mode === "dark" ? "white" : "black"}
           >
             Add Account
@@ -56,7 +66,7 @@ const NewAccount = ({ BgColor, isSmallScreen }) => {
         >
           <CreateAccount
             onClose={() => setOpenModal(false)}
-            isSmallScreen={isSmallScreen}
+            isMediumScreen={isMediumScreen}
           />
         </Box>
       </Modal>

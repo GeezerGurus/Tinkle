@@ -9,7 +9,8 @@ const Video = () => {
   return (
     <Paper
       sx={{
-        width: "1358px",
+        width: "100%",
+        height:"fit-cotent",
         padding: "16px, 16px, 0px, 16px",
         margin: "0 auto",
         gap: "8px",

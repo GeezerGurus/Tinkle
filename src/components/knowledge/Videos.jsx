@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Box, Button, Typography, Grid, useTheme } from "@mui/material";
+import { Box, Button, Typography, Grid, useTheme, useMediaQuery } from "@mui/material";
 import ArrowIcon from "@mui/icons-material/KeyboardArrowRight";
 import VideoContents from "../utils/VideoContents";
 import { Link } from "react-router-dom";
@@ -105,6 +105,11 @@ const Videos = ({ header }) => {
     return videoData[header.toLowerCase()];
   }, [header]);
 
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <Box sx={{ width: "100%" }}>
       {/* Video genre header */}
@@ -118,7 +123,7 @@ const Videos = ({ header }) => {
           marginTop: "50px",
         }}
       >
-        <Typography variant="h3">{header}</Typography>
+        <Typography variant={isSmallScreen?"h4":"h3"}>{header}</Typography>
         <Button
           component={Link}
           to={`/videos/${path}`}
@@ -127,6 +132,7 @@ const Videos = ({ header }) => {
             width: "150px",
             height: "27px",
             alignSelf: "center",
+            justifyContent:"flex-end",
             color: colors.purple[600],
           }}
           endIcon={<ArrowIcon />}
@@ -142,12 +148,16 @@ const Videos = ({ header }) => {
         </Button>
       </Box>
       {/* Video content box */}
-      <Grid container rowSpacing={5} columnSpacing={1}>
+      <Grid container rowSpacing={5} columnSpacing={1}
+        direction={isSmallScreen?"column": "row"}
+        justifyContent="flex-start"
+        alignItems="center"
+      >
         {videos.length > 0 ? (
           videos.map((item, index) => (
-            <Grid item>
+            <Grid item key={index} sm={6} md ={6} lg={4} xl={3}
+            >
               <VideoContents
-                key={index}
                 title={item.title}
                 author={item.author}
                 pathImage={item.img}

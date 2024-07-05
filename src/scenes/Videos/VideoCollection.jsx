@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Box, Typography, useTheme, Paper, Grid } from "@mui/material";
+import React, { useEffect, useRef, useState, } from "react";
+import { Box, Typography, useTheme, Paper, Grid,useMediaQuery  } from "@mui/material";
 import { tokens } from "../../theme";
 import { useParams } from "react-router-dom";
 import { BackBtn, VideoContents } from "../../components/utils";
@@ -24,62 +24,49 @@ const VideoCollection = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const gridRef = useRef(null);
+  
   const { videoCollection } = useParams();
 
-  useEffect(() => {
-    const checkOverflow = () => {
-      if (gridRef.current) {
-        const hasOverflow =
-          gridRef.current.scrollHeight > gridRef.current.clientHeight;
-        setIsOverflowing(hasOverflow);
-      }
-    };
-
-    checkOverflow();
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, []);
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
+  
 
   return (
     // Main Container
     <Paper
       sx={{
         width: "100%",
-        height: "940px",
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "space-around",
+        
+        justifyContent: "flex-start",
         position: "relative",
       }}
     >
       {/* Call Back Button */}
-      <BackBtn />
+      <BackBtn g/>
       {/* Gradient title */}
       <Box
         sx={{
-          margin: "0 auto",
-          width: isOverflowing ? "1350px" : "1326px",
+          textAlign:"center",
+          marginTop:isMediumScreen?"50px":undefined,
+          width: "100%",
           height: "134px",
           borderRadius: "16px",
           alignContent: "center",
           backgroundImage: "linear-gradient(to right, #50B87E, #8884DC)",
           display: "flex",
           alignItems: "center",
+          padding: "32px",
           justifyContent: "center",
         }}
       >
         <Typography
-          sx={{
-            fontFamily: "Rhodium Libre",
-            fontWeight: "400",
-            fontSize: "35px",
-            lineHeight: "49px",
-            color: "#fff",
-            textAlign: "center",
-          }}
+          variant={isSmallScreen?"body3":"h6"}
         >
           Expand your knowledge on finance and life with our selected videos
         </Typography>
@@ -87,13 +74,12 @@ const VideoCollection = () => {
       {/* Header */}
       <Box
         sx={{
-          width: isOverflowing ? "1350px" : "1326px",
+          width:"100%",
           height: "56px",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          
           position: "relative",
-          mt: 2,
+          padding:"50px"
         }}
       >
         {/* Title */}
@@ -109,21 +95,24 @@ const VideoCollection = () => {
       {/* Contents */}
       <Grid
         container
-        ref={gridRef}
-        rowSpacing={2}
+        
+        rowSpacing={3}
         columnSpacing={1}
+        
+        direction={isSmallScreen?"column": "row"}
+        justifyContent="flex-start"
+        alignItems="center"
         sx={{
-          width: isOverflowing ? "1400px" : "1326px",
-          height: "769px",
-          gap: "49px",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          p: 1,
-          overflowY: "auto",
+          width: "100%",
+          height: "auto",
+          
+          
+        
+          
         }}
       >
         {favourites.map((item, index) => (
-          <Grid item key={index} sx={{ width: "calc((100% / 3) - 33px)" }}>
+          <Grid item key={index} sm={6} md ={6} lg={4} xl={3}>
             <VideoContents
               title={item.title}
               author={item.author}

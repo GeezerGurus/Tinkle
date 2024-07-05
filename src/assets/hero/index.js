@@ -8,3 +8,7 @@ export { default as TwoStarsImage } from "./2stars.png";
 export { default as ThreeStarsImage } from "./3stars.png";
 export { default as RightArrowImage2 } from "./right_arrow2.png";
 export { default as LeftArrowImage2 } from "./left_arrow2.png";
+export { default as ListItem1Image } from "./list_item1.png";
+export { default as ListItem2Image } from "./list_item2.png";
+export { default as ListItem3Image } from "./list_item3.png";
+export { default as KnowledgeImage } from "./knowledge.png";

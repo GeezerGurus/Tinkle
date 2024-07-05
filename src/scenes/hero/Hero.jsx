@@ -11,6 +11,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Grid,
+  Link,
 } from "@mui/material";
 import {
   DashboardImage,
@@ -23,14 +25,15 @@ import {
   RightArrowImage2,
   LeftArrowImage2,
   ThreeStarsImage,
+  ListItem1Image,
+  ListItem2Image,
+  ListItem3Image,
+  KnowledgeImage,
 } from "../../assets/hero";
 import { tokens } from "../../theme";
 import CircleIcon from "@mui/icons-material/Circle";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
-import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
-import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import FlagIcon from "@mui/icons-material/Flag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -47,7 +50,7 @@ const Hero = () => {
     const interval = setInterval(() => {
       index = (index + 1) % sections.length;
       setCurrentSection(sections[index]);
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -72,14 +75,13 @@ const Hero = () => {
         maxWidth="lg"
         sx={{
           gap: 7,
-          border: "1px solid",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
         {/* Navigation Bar */}
-        <Box width={"100%"} sx={{ backgroundColor: "rgba(0,0,0,0)" }}>
+        <Box width={"100%"} sx={{ backgroundColor: "rgba(0,0,0,0)" }} id="home">
           <Stack
             direction={"row"}
             justifyContent={"space-around"}
@@ -88,6 +90,8 @@ const Hero = () => {
             <Typography variant="h6">Tinkle</Typography>
             <Stack direction={"row"} gap={1}>
               <Button
+                component="a"
+                href="#home"
                 sx={{
                   textTransform: "none",
                   borderRadius: "0",
@@ -98,6 +102,8 @@ const Hero = () => {
                 <Typography variant="body2">Home</Typography>
               </Button>
               <Button
+                component="a"
+                href="#features"
                 sx={{
                   textTransform: "none",
                   borderRadius: "0",
@@ -108,6 +114,8 @@ const Hero = () => {
                 <Typography variant="body2">Features</Typography>
               </Button>
               <Button
+                component="a"
+                href="#about"
                 sx={{
                   textTransform: "none",
                   borderRadius: "0",
@@ -118,6 +126,8 @@ const Hero = () => {
                 <Typography variant="body2">About</Typography>
               </Button>
               <Button
+                component="a"
+                href="#support"
                 sx={{
                   textTransform: "none",
                   borderRadius: "0",
@@ -220,226 +230,366 @@ const Hero = () => {
 
         {/* Header 2 */}
         <Box
+          id="features"
           sx={{
-            width: "88%",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
             alignItems: "center",
+            gap: 16,
           }}
         >
-          <Typography variant="title4" gutterBottom textAlign={"center"}>
-            <Typography
-              component="span"
-              variant="title4"
-              sx={{ color: colors.purple[600] }}
-            >
-              Tinkle{" "}
+          <Stack width={"72%"}>
+            <Typography variant="title4" gutterBottom textAlign={"center"}>
+              <Typography
+                component="span"
+                variant="title4"
+                sx={{ color: colors.purple[600] }}
+              >
+                Tinkle{" "}
+              </Typography>
+              will track your whole timeline of your Finance!{" "}
             </Typography>
-            will track your whole timeline of your Finance!{" "}
-          </Typography>
-        </Box>
-
-        {/* Timeline  */}
-        <Stack direction={"row"} width={"100%"} height={"64vh"}>
-          {/* Past Section */}
-          <Stack alignItems={"center"} position={"relative"} width={"25%"}>
-            <Typography variant="title2" gutterBottom>
-              Past
-              <img
-                src={TwoStarsImage}
-                alt="2 stars"
-                style={{
-                  height: "auto",
-                  position: "absolute",
-                  width: "21px",
-                  objectFit: "contain",
-                  top: -1,
-                }}
-              />
-            </Typography>
-            <CircleIcon sx={{ color: getColor("past") }} />
-            <img
-              src={StraightLineImage}
-              alt="dotted line"
-              style={{ height: "10%", objectFit: "contain" }}
-            />
-            <Box
-              sx={{
-                border: `3px solid ${getColor("past")}`,
-                padding: "36px 37px 38px",
-                borderRadius: "16px",
-                mb: 2,
-              }}
-            >
-              <DriveFileRenameOutlineRoundedIcon
-                sx={{
-                  width: "56px",
-                  height: "56px",
-                  color: getColor("past"),
-                }}
-              />
-            </Box>
-            {currentSection === "past" && (
-              <>
-                <Typography variant="title1" gutterBottom>
-                  Records
-                </Typography>
-                <Typography variant="Hbody2" textAlign={"center"}>
-                  We keep records so that you can check back at any time you
-                  want.
-                </Typography>
-              </>
-            )}
           </Stack>
-          {/* Present Section */}
-          <Stack alignItems={"center"} position={"relative"} width={"50%"}>
-            <Typography variant="title2" gutterBottom>
-              Present
+
+          {/* Timeline  */}
+          <Stack direction={"row"} width={"100%"} height={"64vh"}>
+            {/* Past Section */}
+            <Stack alignItems={"center"} position={"relative"} width={"25%"}>
+              <Typography variant="title2" gutterBottom>
+                Past
+                <img
+                  src={TwoStarsImage}
+                  alt="2 stars"
+                  style={{
+                    height: "auto",
+                    position: "absolute",
+                    width: "21px",
+                    objectFit: "contain",
+                    top: -1,
+                  }}
+                />
+              </Typography>
+              <CircleIcon sx={{ color: getColor("past") }} />
               <img
-                src={TwoStarsImage}
-                alt="2 stars"
-                style={{
-                  height: "auto",
-                  position: "absolute",
-                  width: "21px",
-                  objectFit: "contain",
-                  top: -1,
-                }}
+                src={StraightLineImage}
+                alt="dotted line"
+                style={{ height: "10%", objectFit: "contain" }}
               />
-            </Typography>
-            <CircleIcon sx={{ color: getColor("present") }} />
-            <img
-              src={TreeLineImage}
-              alt=" "
-              style={{ height: "16%", objectFit: "contain" }}
-            />
-            <Stack
-              width={"100%"}
-              direction={"row"}
-              justifyContent={"space-between"}
-            >
-              <Stack alignItems={"center"} width={"50%"}>
-                <Box
+              <Box
+                sx={{
+                  border: `3px solid ${getColor("past")}`,
+                  padding: "36px 37px 38px",
+                  borderRadius: "16px",
+                  mb: 2,
+                }}
+              >
+                <DriveFileRenameOutlineRoundedIcon
                   sx={{
-                    border: `3px solid ${getColor("present")}`,
-                    padding: "36px 37px 38px",
-                    borderRadius: "16px",
-                    mb: "16px",
+                    width: "56px",
+                    height: "56px",
+                    color: getColor("past"),
                   }}
-                >
-                  <AutoAwesomeRoundedIcon
-                    sx={{
-                      width: "56px",
-                      height: "56px",
-                      color: getColor("present"),
-                    }}
-                  />
-                </Box>
-                {currentSection === "present" && (
-                  <>
-                    <Typography variant="title1" gutterBottom>
-                      Budgeting
-                    </Typography>
-                    <Typography
-                      variant="Hbody2"
-                      textAlign={"center"}
-                      width={"50%"}
-                    >
-                      Be mindful of what you are spending and be organize of
-                      your finance wit Budgeting.
-                    </Typography>
-                  </>
-                )}
-              </Stack>
-              <Stack alignItems={"center"} width={"50%"}>
-                <Box
-                  sx={{
-                    border: `3px solid ${getColor("present")}`,
-                    padding: "36px 37px 38px",
-                    borderRadius: "16px",
-                    mb: "16px",
+                />
+              </Box>
+              {currentSection === "past" && (
+                <>
+                  <Typography variant="title1" gutterBottom>
+                    Records
+                  </Typography>
+                  <Typography variant="Hbody2" textAlign={"center"}>
+                    We keep records so that you can check back at any time you
+                    want.
+                  </Typography>
+                </>
+              )}
+            </Stack>
+            {/* Present Section */}
+            <Stack alignItems={"center"} position={"relative"} width={"50%"}>
+              <Typography variant="title2" gutterBottom>
+                Present
+                <img
+                  src={TwoStarsImage}
+                  alt="2 stars"
+                  style={{
+                    height: "auto",
+                    position: "absolute",
+                    width: "21px",
+                    objectFit: "contain",
+                    top: -1,
                   }}
-                >
-                  <EqualizerIcon
+                />
+              </Typography>
+              <CircleIcon sx={{ color: getColor("present") }} />
+              <img
+                src={TreeLineImage}
+                alt=" "
+                style={{ height: "16%", objectFit: "contain" }}
+              />
+              <Stack
+                width={"100%"}
+                direction={"row"}
+                justifyContent={"space-between"}
+              >
+                <Stack alignItems={"center"} width={"50%"}>
+                  <Box
                     sx={{
-                      width: "56px",
-                      height: "56px",
-                      color: getColor("present"),
+                      border: `3px solid ${getColor("present")}`,
+                      padding: "36px 37px 38px",
+                      borderRadius: "16px",
+                      mb: "16px",
                     }}
-                  />
-                </Box>
-                {currentSection === "present" && (
-                  <>
-                    <Typography variant="title1" gutterBottom>
-                      Statistics
-                    </Typography>
-                    <Typography
-                      variant="Hbody2"
-                      textAlign={"center"}
-                      width={"50%"}
-                    >
-                      See your progress and current trends of Incomes and
-                      Expenses
-                    </Typography>
-                  </>
-                )}
+                  >
+                    <AutoAwesomeRoundedIcon
+                      sx={{
+                        width: "56px",
+                        height: "56px",
+                        color: getColor("present"),
+                      }}
+                    />
+                  </Box>
+                  {currentSection === "present" && (
+                    <>
+                      <Typography variant="title1" gutterBottom>
+                        Budgeting
+                      </Typography>
+                      <Typography
+                        variant="Hbody2"
+                        textAlign={"center"}
+                        width={"50%"}
+                      >
+                        Be mindful of what you are spending and be organize of
+                        your finance wit Budgeting.
+                      </Typography>
+                    </>
+                  )}
+                </Stack>
+                <Stack alignItems={"center"} width={"50%"}>
+                  <Box
+                    sx={{
+                      border: `3px solid ${getColor("present")}`,
+                      padding: "36px 37px 38px",
+                      borderRadius: "16px",
+                      mb: "16px",
+                    }}
+                  >
+                    <EqualizerIcon
+                      sx={{
+                        width: "56px",
+                        height: "56px",
+                        color: getColor("present"),
+                      }}
+                    />
+                  </Box>
+                  {currentSection === "present" && (
+                    <>
+                      <Typography variant="title1" gutterBottom>
+                        Statistics
+                      </Typography>
+                      <Typography
+                        variant="Hbody2"
+                        textAlign={"center"}
+                        width={"50%"}
+                      >
+                        See your progress and current trends of Incomes and
+                        Expenses
+                      </Typography>
+                    </>
+                  )}
+                </Stack>
               </Stack>
             </Stack>
-          </Stack>
-          {/* Future Section */}
-          <Stack alignItems={"center"} position={"relative"} width={"25%"}>
-            <Typography variant="title2" gutterBottom>
-              Future
+            {/* Future Section */}
+            <Stack alignItems={"center"} position={"relative"} width={"25%"}>
+              <Typography variant="title2" gutterBottom>
+                Future
+                <img
+                  src={TwoStarsImage}
+                  alt="2 stars"
+                  style={{
+                    height: "auto",
+                    position: "absolute",
+                    width: "21px",
+                    objectFit: "contain",
+                    top: -1,
+                  }}
+                />
+              </Typography>
+              <CircleIcon sx={{ color: getColor("future") }} />
               <img
-                src={TwoStarsImage}
-                alt="2 stars"
-                style={{
-                  height: "auto",
-                  position: "absolute",
-                  width: "21px",
-                  objectFit: "contain",
-                  top: -1,
-                }}
+                src={StraightLineImage}
+                alt="dotted line"
+                style={{ height: "10%", objectFit: "contain" }}
               />
-            </Typography>
-            <CircleIcon sx={{ color: getColor("future") }} />
-            <img
-              src={StraightLineImage}
-              alt="dotted line"
-              style={{ height: "10%", objectFit: "contain" }}
-            />
-            <Box
-              sx={{
-                border: `3px solid ${getColor("future")}`,
-                padding: "36px 37px 38px",
-                borderRadius: "16px",
-                mb: "16px",
-              }}
-            >
-              <FlagIcon
+              <Box
                 sx={{
-                  width: "56px",
-                  height: "56px",
-                  color: getColor("future"),
+                  border: `3px solid ${getColor("future")}`,
+                  padding: "36px 37px 38px",
+                  borderRadius: "16px",
+                  mb: "16px",
                 }}
-              />
-            </Box>
-            {currentSection === "future" && (
-              <>
-                <Typography variant="title1" gutterBottom>
-                  Goals
-                </Typography>
-                <Typography variant="Hbody2" textAlign={"center"}>
-                  Set Goals so that you have a secure and safe Future.
-                </Typography>
-              </>
-            )}
+              >
+                <FlagIcon
+                  sx={{
+                    width: "56px",
+                    height: "56px",
+                    color: getColor("future"),
+                  }}
+                />
+              </Box>
+              {currentSection === "future" && (
+                <>
+                  <Typography variant="title1" gutterBottom>
+                    Goals
+                  </Typography>
+                  <Typography variant="Hbody2" textAlign={"center"}>
+                    Set Goals so that you have a secure and safe Future.
+                  </Typography>
+                </>
+              )}
+            </Stack>
+          </Stack>
+        </Box>
+
+        {/* Lists section  */}
+        <Grid
+          container
+          padding={5}
+          rowGap={10}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          {/* 1st  */}
+          <Grid item xs={5}>
+            <Stack>
+              <Typography variant="title1">Tired of Forgetting:</Typography>
+              <Typography
+                variant="title3"
+                sx={{ color: colors.purple[600] }}
+                gutterBottom
+              >
+                The Person You Lent Your Money to?
+              </Typography>
+              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+                It's hard to keep track of people who you lent your money to.
+                So, let us help you with that with our Debt list taking feature.
+                Where you can add sub records of the money they pay you back.
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={6}>
+            <img
+              src={ListItem1Image}
+              alt=""
+              style={{
+                width: "108%",
+                objectFit: "contain",
+              }}
+            />
+          </Grid>
+          {/* 2nd  */}
+          <Grid item xs={6}>
+            <img
+              src={ListItem2Image}
+              alt=""
+              style={{
+                width: "108%",
+                objectFit: "contain",
+              }}
+            />
+          </Grid>
+          <Grid item xs={5}>
+            <Stack>
+              <Typography variant="title1">Tired of Forgetting:</Typography>
+              <Typography
+                variant="title3"
+                sx={{ color: colors.purple[600] }}
+                gutterBottom
+              >
+                The Things To Buy?{" "}
+              </Typography>
+              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+                Sometimes, we love to list out all the things that we want to
+                buy or that we need to buy. And it can be a hassle to list it on
+                a paper where it can get lost easily. Try our list taking
+                feature and take unlimited lists and items as you desire to stay
+                organized.
+              </Typography>
+            </Stack>
+          </Grid>
+          {/* 3 rd  */}
+          <Grid item xs={5}>
+            <Stack>
+              <Typography variant="title1">Want To List:</Typography>
+              <Typography
+                variant="title3"
+                sx={{ color: colors.purple[600] }}
+                gutterBottom
+              >
+                The Person You Owe Money to?{" "}
+              </Typography>
+              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+                Not only, you can take the debt list you lent, you can also set
+                up lists for the people you owe money to. Keep it in our app so
+                that you won’t miss the due date to pay it back.
+              </Typography>
+            </Stack>
+          </Grid>{" "}
+          <Grid item xs={6}>
+            <img
+              src={ListItem3Image}
+              alt=""
+              style={{
+                width: "108%",
+                objectFit: "contain",
+              }}
+            />
+          </Grid>
+        </Grid>
+
+        {/* Knowledge page  */}
+        <Stack direction={"row"} alignItems={"center"} mb={8}>
+          <img
+            src={KnowledgeImage}
+            alt=""
+            style={{
+              width: "100%",
+              objectFit: "contain",
+            }}
+          />
+          <Stack width={"80%"}>
+            <Typography variant="title3">Need Advice on</Typography>
+            <Stack direction={"row"} gap={1}>
+              <Typography
+                variant="title3"
+                sx={{ color: colors.purple[600] }}
+                gutterBottom
+              >
+                Business?
+              </Typography>
+              <Typography
+                variant="title3"
+                sx={{ color: colors.purple[800] }}
+                gutterBottom
+              >
+                Finance?
+              </Typography>
+            </Stack>
+            <Typography variant="title1">
+              Get Advice and Suggestions, Gain
+              <br /> Knowledge and See Business Ideas from our Handpicked Videos
+              and Books
+            </Typography>
           </Stack>
         </Stack>
 
         {/* our team pages  */}
-        <Stack width={"100%"} height={"96vh"} alignItems={"center"} mb={2}>
+        <Stack
+          width={"100%"}
+          height={"96vh"}
+          alignItems={"center"}
+          mb={2}
+          id="about"
+        >
           <Typography variant="title3">Meet Our Team</Typography>
           <Typography
             variant="title4"
@@ -457,7 +607,6 @@ const Hero = () => {
               padding={"40px 160px"}
               position={"relative"}
             >
-              {" "}
               <img
                 src={RightArrowImage2}
                 alt=""
@@ -526,7 +675,6 @@ const Hero = () => {
               padding={"40px 60px"}
               position={"relative"}
             >
-              {" "}
               <img
                 src={LeftArrowImage2}
                 alt=""
@@ -607,7 +755,13 @@ const Hero = () => {
         </Stack>
 
         {/* Support  */}
-        <Stack width={"100%"} height={"120vh"} alignItems={"center"} gap={5}>
+        <Stack
+          width={"100%"}
+          height={"120vh"}
+          alignItems={"center"}
+          gap={5}
+          id="support"
+        >
           <Stack>
             <Box
               display="flex"
@@ -646,9 +800,12 @@ const Hero = () => {
             justifyContent={"space-around"}
             mb={3}
           >
-            <Stack alignItems={"center"} gap={2}>
-              <LocalPhoneOutlinedIcon sx={{ fontSize: "72px" }} />
-
+            <Stack alignItems={"center"} gap={2} width={"25%"}>
+              <lord-icon
+                src="https://cdn.lordicon.com/rsvfayfn.json"
+                trigger="hover"
+                style={{ width: "72px", height: "72px" }}
+              ></lord-icon>
               <Typography
                 gutterBottom
                 variant="title1"
@@ -666,43 +823,43 @@ const Hero = () => {
                 </a>
               </Typography>
             </Stack>
-            <Stack alignItems={"center"} gap={2}>
-              <CampaignOutlinedIcon sx={{ fontSize: "72px" }} />
-
+            <Stack alignItems={"center"} gap={2} width={"25%"}>
+              <lord-icon
+                src="https://cdn.lordicon.com/axteoudt.json"
+                trigger="hover"
+                style={{ width: "72px", height: "72px" }}
+              ></lord-icon>
               <Typography
                 gutterBottom
                 variant="title1"
                 sx={{ color: colors.purple[900] }}
               >
-                Reach Out Directly
+                Tell Us Your Experience
               </Typography>
               <Typography variant="Hbody2" textAlign={"center"}>
-                Prefer to send us and <br />
-                email or give us a call?
-                <br />
-                Email:{" "}
-                <a href="" style={{ textDecoration: "none" }}>
-                  geezersco@gmail.com
-                </a>
+                We are incredibly excited to
+                <br /> hear your stories and feedback.
               </Typography>
             </Stack>{" "}
-            <Stack alignItems={"center"} gap={2}>
-              <QuestionAnswerOutlinedIcon sx={{ fontSize: "72px" }} />
-
+            <Stack alignItems={"center"} gap={2} width={"25%"}>
+              <lord-icon
+                src="https://cdn.lordicon.com/fdxqrdfe.json"
+                trigger="hover"
+                style={{ width: "72px", height: "72px" }}
+              ></lord-icon>
               <Typography
                 gutterBottom
                 variant="title1"
                 sx={{ color: colors.purple[900] }}
               >
-                Reach Out Directly
+                Immediate Assistance?
               </Typography>
               <Typography variant="Hbody2" textAlign={"center"}>
-                Prefer to send us and <br />
-                email or give us a call?
+                Come chat with us any time on
+                <br /> our official Face Book Page.
                 <br />
-                Email:{" "}
                 <a href="" style={{ textDecoration: "none" }}>
-                  geezersco@gmail.com
+                  Geezers Co.
                 </a>
               </Typography>
             </Stack>
@@ -874,6 +1031,8 @@ const Hero = () => {
           </Typography>
           <Stack direction={"row"} gap={2}>
             <Button
+              component="a"
+              href="#home"
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
@@ -886,6 +1045,8 @@ const Hero = () => {
               </Typography>
             </Button>
             <Button
+              component="a"
+              href="#features"
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
@@ -898,6 +1059,8 @@ const Hero = () => {
               </Typography>
             </Button>
             <Button
+              component="a"
+              href="#about"
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
@@ -910,6 +1073,8 @@ const Hero = () => {
               </Typography>
             </Button>
             <Button
+              component="a"
+              href="#support"
               sx={{
                 textTransform: "none",
                 borderRadius: "0",

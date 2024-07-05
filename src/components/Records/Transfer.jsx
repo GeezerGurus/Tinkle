@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
@@ -57,11 +58,20 @@ const Transfer = () => {
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [note, setNote] = useState("");
 
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
         width: "100%",
-        padding: "16px 112px",
+        padding: isSmallScreen
+          ? "16px 26px"
+          : isLargest
+          ? "16px 68px"
+          : "16px 112px",
         flexGrow: 1,
         display: "flex",
         flexDirection: "column",
@@ -82,6 +92,11 @@ const Transfer = () => {
           fullWidth
           onChange={(event) => setAcc(event.target.value)}
           MenuProps={menuProps}
+          InputProps={{
+            sx: {
+              height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+            },
+          }}
         >
           <MenuItem value="wallet">
             <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
@@ -104,6 +119,11 @@ const Transfer = () => {
           onChange={(event) => setToAcc(event.target.value)}
           MenuProps={menuProps}
           fullWidth
+          InputProps={{
+            sx: {
+              height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+            },
+          }}
         >
           <MenuItem value="outofwallet">
             <Item icon={<WalletIcon />} text="Out of Wallet" bgColor="green" />
@@ -127,6 +147,9 @@ const Transfer = () => {
         placeholder="Enter amount"
         inputProps={{ min: "0" }}
         InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
           endAdornment: <InputAdornment position="end">MMK</InputAdornment>,
         }}
         InputLabelProps={{
@@ -144,6 +167,11 @@ const Transfer = () => {
         value={selectedOption}
         onChange={(event) => setSelectedOption(event.target.value)}
         displayEmpty
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
       >
         <MenuItem value="food">
           <Item
@@ -206,6 +234,11 @@ const Transfer = () => {
         }}
         value={time}
         onChange={(event) => setTime(event.target.value)}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
       />
 
       <TextField
@@ -216,6 +249,9 @@ const Transfer = () => {
         value={date}
         onChange={(event) => setDate(event.target.value)}
         InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
           inputProps: {
             min: "2022-01-01", // Set min and max dates if needed
             max: "2025-12-31",
@@ -233,6 +269,11 @@ const Transfer = () => {
         InputLabelProps={{
           shrink: true,
         }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
       />
 
       <TextField
@@ -245,6 +286,11 @@ const Transfer = () => {
         onChange={(event) => setNote(event.target.value)}
         InputLabelProps={{
           shrink: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
         }}
       />
     </Box>

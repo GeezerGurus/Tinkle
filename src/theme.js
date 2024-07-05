@@ -406,6 +406,7 @@ export const themeSettings = (mode) => {
     },
     breakpoints: {
       values: {
+        xxs: 0,
         xs: 400,     // Extra small devices (phones)
         sm: 660,   // Small devices (tablets)
         md: 960,   // Medium devices (small laptops)

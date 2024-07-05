@@ -24,7 +24,11 @@ export const Chart = () => {
         height: "216px",
         flexDirection: "column",
         justifyContent: "space-between",
-        padding: "16px 24px",
+        padding: isMediumScreen
+          ? "8px 8px"
+          : isLargeScreen
+          ? "8px 8px"
+          : "16px 24px",
         borderRadius: "16px",
       }}
     >

@@ -7,6 +7,7 @@ import {
   Paper,
   IconButton,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -30,7 +31,7 @@ const exchangeRates = {
   Euro: { USD: 1.18, MMK: 3740, Yen: 130, Euro: 1 },
 };
 
-const Exchange = ({ isSmallScreen }) => {
+const Exchange = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -39,6 +40,10 @@ const Exchange = ({ isSmallScreen }) => {
 
   const [inputCurrency, setInputCurrency] = useState("USD");
   const [outputCurrency, setOutputCurrency] = useState("MMK");
+
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleInputCurrencyChange = (event) => {
     const selectedCurrency = event.target.value;
@@ -83,7 +88,7 @@ const Exchange = ({ isSmallScreen }) => {
         flexDirection: "column",
         gap: theme.spacing(1),
         padding: "16px 24px",
-        width: isSmallScreen ? "100%" : "369px",
+        width: isLargest ? "100%" : "369px",
         height: "275px",
         borderRadius: "16px",
       }}

@@ -1,5 +1,12 @@
 import React, { useMemo } from "react";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  Grid,
+} from "@mui/material";
 import { ArrowForwardIos as ArrowForwardIosIcon } from "@mui/icons-material";
 import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
@@ -178,11 +185,16 @@ const BookHeaderItem = ({ header }) => {
     return bookData[header.toLowerCase()];
   }, [header]);
 
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
-        width: "1290px",
-        height: "454px",
+        width: isLargest ? "100%" : "1290px",
+        height: isMediumScreen ? "100%" : "454px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -191,6 +203,7 @@ const BookHeaderItem = ({ header }) => {
       {/* Header */}
       <Box
         sx={{
+          width: "100%",
           height: "46px",
           display: "flex",
           alignItems: "center",
@@ -216,33 +229,35 @@ const BookHeaderItem = ({ header }) => {
       {/* Contents */}
       <Box
         sx={{
-          height: "398px",
+          height: isMediumScreen ? "100%" : "398px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         {/* Inner Container for Contents */}
-        <Box
+        <Grid
+          container
           sx={{
-            width: "90%",
+            width: isSmallScreen ? "80%" : "100%",
             height: "100%",
-            display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
           {/* Items */}
           {books.map((item, index) => (
-            <BookContents
-              key={index}
-              title={item.title}
-              author={item.author}
-              favorite={item.favorite}
-              pathImage={item.image}
-            />
+            <Grid item xxs={5} sm={5} md={3}>
+              <BookContents
+                key={index}
+                title={item.title}
+                author={item.author}
+                favorite={item.favorite}
+                pathImage={item.image}
+              />
+            </Grid>
           ))}
-        </Box>
+        </Grid>
       </Box>
     </Box>
   );

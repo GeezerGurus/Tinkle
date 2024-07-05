@@ -50,6 +50,10 @@ const TransactionsTable = ({ action }) => {
   const [modal, setModal] = React.useState("");
   const [openModal, setOpenModal] = useState(false);
 
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   const columns = [
     { field: "date", headerName: "Date", flex: 1 },
     { field: "category", headerName: "Category", flex: 1 },
@@ -61,7 +65,7 @@ const TransactionsTable = ({ action }) => {
       type: "actions",
       hideable: false,
       headerName: "Actions",
-      width: 100,
+      width: isSmallScreen ? 90 : 100,
       cellClassName: "actions",
       sortable: false,
       getActions: ({ id }) => {
@@ -103,7 +107,23 @@ const TransactionsTable = ({ action }) => {
     });
   }
 
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
+  const columnVisibilityModel = isMediumScreen
+    ? {
+        date: true,
+        category: true,
+        amount: true,
+        account: false,
+        note: false,
+        actions: action === "edit",
+      }
+    : {
+        date: true,
+        category: true,
+        account: true,
+        note: true,
+        amount: true,
+        actions: action === "edit",
+      };
 
   return (
     <>
@@ -117,9 +137,7 @@ const TransactionsTable = ({ action }) => {
               paginationModel: { page: 0, pageSize: 5 },
             },
           }}
-          columnVisibilityModel={{
-            actions: action === "edit" ? true : false,
-          }}
+          columnVisibilityModel={columnVisibilityModel}
           pageSizeOptions={[5, 10, 20, 30]}
           checkboxSelection={action === "edit"}
           slots={{

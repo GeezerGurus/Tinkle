@@ -10,6 +10,7 @@ import {
   TableRow,
   Paper,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import { ShowMoreBtn } from "../utils";
@@ -122,16 +123,19 @@ const BasicTable = ({ colors }) => {
   );
 };
 
-const Transactions = ({ isSmallScreen }) => {
+const Transactions = ({ isMediumScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <Paper
       sx={{
-        display: isSmallScreen ? "none" : "",
-        height: "354px",
+        display: isMediumScreen ? "none" : "",
+        height: isLargeScreen ? "auto" : "354px",
         borderRadius: "16px",
+        // overflowY: "auto",
       }}
     >
       <Box

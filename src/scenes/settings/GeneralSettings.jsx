@@ -12,6 +12,7 @@ import {
   Button,
   Modal,
   TextField,
+  useMediaQuery
 } from "@mui/material";
 import { ConfirmModal } from "../../components/utils";
 import ShieldIcon from "@mui/icons-material/Shield";
@@ -23,6 +24,12 @@ const GeneralSettings = () => {
   const [open, setOpen] = useState(false);
 
   const [interval, setInterval] = useState("monthly");
+
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+
   return (
     // Container
     <Box
@@ -38,8 +45,8 @@ const GeneralSettings = () => {
       <Paper
         sx={{
           borderRadius: "12px",
-          width: "56%",
-          height: "791px",
+          width: isSmallest?"100%": isSmallScreen? "80%":isMediumScreen?"80%": "56%",
+          height: "fit-content",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -58,7 +65,7 @@ const GeneralSettings = () => {
         >
           {/* Title  */}
           <Typography
-            variant="h4"
+            variant={isSmallScreen?"h6":"h4"}
             gutterBottom
             sx={{ borderBottom: `2px solid ${colors.purple[600]}` }}
           >
@@ -68,46 +75,57 @@ const GeneralSettings = () => {
           <Box
             sx={{
               display: "flex",
-              gap: "130px",
+              gap: isSmallScreen?"25px":isLargeScreen?"3vw":"130px",
               justifyContent: "space-around",
+              flexDirection: isSmallScreen?"column":isMediumScreen?"column":"row"
             }}
           >
             {/* Left  */}
             <Stack gap={1}>
-              <Typography variant="body2">
+              <Typography variant= {isSmallScreen?"body4":"body2"}>
                 Default interval on Dashboard
               </Typography>
-              <TextField
-                select
-                value={interval}
+              <TextField select value={interval}
                 onChange={(e) => setInterval(e.target.value)}
                 sx={{ width: "220px", height: "56px" }}
               >
-                <MenuItem value="monthly">This month</MenuItem>
-                <MenuItem value="yearly">This year</MenuItem>
+                <MenuItem value="monthly">
+                  <Typography variant={isSmallScreen ? 'body4' : 'body2'}>
+                    This month
+                  </Typography>
+                </MenuItem>
+                <MenuItem value="yearly">
+                  <Typography variant={isSmallScreen ? 'body4' : 'body2'}>
+                    This year
+                  </Typography>
+                </MenuItem>
               </TextField>
             </Stack>
             {/* Right  */}
             <Stack gap={1}>
-              <Typography variant="body2">Number format</Typography>
+              <Typography variant={isSmallScreen?"body4":"body2"}>Number format</Typography>
               <FormControlLabel
                 control={<Switch defaultChecked />}
-                label="Hide decimal within amount"
+                label={
+                  <Typography variant={isSmallScreen ? 'body2' : 'body1'}>
+                    Hide decimal within amount
+                  </Typography>
+                }
               />
             </Stack>
           </Box>
           {/* Title 2  */}
           <Typography
-            variant="h4"
+            variant={isSmallScreen?"h6":"h4"}
             gutterBottom
             sx={{ borderBottom: `2px solid ${colors.purple[600]}` }}
           >
             Personal data & Privacy
           </Typography>
           {/* Contents 2 */}
-          <Stack gap={2}>
+          <Stack gap={2} >
             <Typography variant="body2">Documents to review</Typography>
-            <Stack direction={"row"} justifyContent={"space-around"} gap={5}>
+            <Stack direction={isSmallScreen?"column":"row"} justifyContent={"space-around"} gap={5}>
               <Button
                 variant="outlined"
                 startIcon={<ShieldIcon sx={{ color: colors.purple[600] }} />}
@@ -142,11 +160,12 @@ const GeneralSettings = () => {
           <Stack
             gap={2}
             borderBottom={`2px solid ${colors.purple[600]}`}
+            
             pb={2}
             width={"100%"}
           >
             <Typography variant="body2">Data portability</Typography>
-            <Typography variant="body2">
+            <Typography variant={isSmallScreen?"body4":"body2"}>
               You have right to change your personal data by editing your
               profile information, change your transaction data for cash
               accounts by editing them. You can delete your transactions from

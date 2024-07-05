@@ -361,47 +361,77 @@ export const themeSettings = (mode) => {
         fontWeight: 500,
         lineHeight: "140%",
       },
-      placeholder: {
-        opacity: "0.6",
-        fontSize: "0.875rem",
-        lineHeight: 1.6,
-        fontWeight: "400",
+      title6: {
+        fontFamily: ["Oswald", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "7.563rem", // 121px
+        fontWeight: 500,
+        lineHeight: "120%",
       },
-      title: {
-        fontSize: "20px",
-        fontWeight: "600",
-        color: "#000000",
+      title5: {
+        fontFamily: ["Oswald", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "5.75rem", // 92px
+        fontWeight: 500,
+        lineHeight: "120%",
       },
-      title2: {
-        fontSize: "24px",
-        fontWeight: "600",
-        letterSpacing: "1%",
-        lineHeight: "auto",
-        color: "black",
+      title4: {
+        fontFamily: ["Oswald", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "4.375rem", // 70px
+        fontWeight: 500,
+        lineHeight: "120%",
       },
       title3: {
-        fontSize: "32px",
-        fontWeight: "800",
-        letterSpacing: "1%",
-        lineHeight: "auto",
-        color: "black",
+        fontFamily: ["Oswald", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "3.375rem", // 54px
+        fontWeight: 500,
+        lineHeight: "120%",
       },
-      text: {
-        fontSize: "12px",
-        fontWeight: "200",
-        lineHeight: "14.52px",
-        letterSpacing: "1%",
-        color: "black",
+      title2: {
+        fontFamily: ["Oswald", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "2.563rem", // 41px
+        fontWeight: 500,
+        lineHeight: "120%",
       },
-      text2: {
-        fontSize: "15px",
-        color: "black",
-        fontWeight: "600",
+      title1: {
+        fontFamily: ["Oswald", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "1.938rem", // 31px
+        fontWeight: 500,
+        lineHeight: "120%",
       },
-      text3: {
-        fontSize: "16px",
-        color: "black",
-        fontWeight: "400",
+      Hbody1: {
+        fontFamily: ["Open Sans", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "1.5rem", // 24px
+        fontWeight: 400,
+        lineHeight: "120%",
+      },
+      Hbody2: {
+        fontFamily: ["Open Sans", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "1.125rem", // 18px
+        fontWeight: 400,
+        lineHeight: "120%",
+      },
+      Hbody3: {
+        fontFamily: ["Open Sans", "Roboto, Source Sans Pro", "sans-serif"].join(
+          ","
+        ),
+        fontSize: "0.875rem", // 14px
+        fontWeight: 400,
+        lineHeight: "120%",
       },
     },
     breakpoints: {
@@ -413,7 +443,7 @@ export const themeSettings = (mode) => {
         lg: 1280,  // Large devices (desktops)
         xl: 1920,  // Extra large devices (large desktops)
         laptop: 1420, // Thuta's Laptop Break Point
-        tablet: 768,  // Custom breakpoint for tablets
+        tablet: 768, // Custom breakpoint for tablets
       },
     },
   };
@@ -444,6 +474,5 @@ export const useMode = () => {
   return [theme, colorMode, mode];
 };
 export const theme = createTheme({
-
   // Add other theme customizations here
 });

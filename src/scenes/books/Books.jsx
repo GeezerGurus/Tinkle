@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Paper, Box, useTheme, IconButton } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Paper, Box, useTheme, IconButton, useMediaQuery } from "@mui/material";
 
 import {
   ArrowBackIos as ArrowBackIosIcon,
@@ -76,6 +76,12 @@ const Books = () => {
   const [currentIndex, setIndex] = useState(0);
   const [direction, setDirection] = useState("right");
   const [intervalId, setIntervalId] = useState(null);
+  const sliderRef = useRef(null);
+
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handlePrev = () => {
     setDirection("left");
@@ -89,31 +95,29 @@ const Books = () => {
       prevIndex === bookInfo.length - 1 ? 0 : prevIndex + 1
     );
   };
-  // Auto slide functionality
+
   useEffect(() => {
-    const id = setInterval(() => {
-      handleNext();
-    }, 4000);
+    const slider = sliderRef.current;
+    slider.style.transition = "transform 0.5s ease-in-out";
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }, [currentIndex]);
 
-    setIntervalId(id);
-
-    return () => clearInterval(id);
+  useEffect(() => {
+    const intervalId = setInterval(handleNext, 4000); // Auto-slide every 4 seconds
+    return () => clearInterval(intervalId); // Clear interval on unmount
   }, []);
-
-  // Clear interval and restart on user interaction
-  const handleInteraction = () => {
-    clearInterval(intervalId);
-    const newIntervalId = setInterval(() => {
-      handleNext();
-    }, 4000);
-    setIntervalId(newIntervalId);
-  };
 
   return (
     // Main Container
     <Paper
       sx={{
-        width: "100%",
+        width: isSmallScreen
+          ? "100%"
+          : isMediumScreen
+          ? "90vw"
+          : isLargest
+          ? "92vw"
+          : "100%",
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center",
@@ -122,8 +126,9 @@ const Books = () => {
       {/* Inner Container */}
       <Box
         sx={{
-          width: "1321px",
-          height: "908px",
+          p: isLargest ? 2 : undefined,
+          width: "100%",
+          height: "auto",
           mt: 2,
           display: "flex",
           flexDirection: "column",
@@ -133,55 +138,107 @@ const Books = () => {
         }}
       >
         {/* Recommendation Box */}
+
         <Box
           sx={{
-            width: "1276px",
+            width: "100%",
+            overflow: "hidden",
             minHeight: "432px",
-            border: "1px solid #BDBDBD",
-            borderRadius: "22px",
-            boxShadow: "0 4px 4px 0 #00000040",
-            position: "relative",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-around",
-            overflow: "hidden",
-            mb: 3,
+            justifyContent: "center",
+            position: "relative",
           }}
         >
-          {/* Back Arrow */}
-          <IconButton onClick={handlePrev}>
-            <ArrowBackIosIcon
-              sx={{ width: "77px", height: "85px", color: colors.purple[600] }}
-            />
-          </IconButton>
-          {/* Book Recommendations */}
-
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: direction === "right" ? 1000 : -1000 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction === "right" ? -1000 : 1000 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            style={{ width: "973px", height: "400px" }}
-            onClick={handleInteraction}
+          {isSmallScreen && (
+            <IconButton onClick={handlePrev}>
+              <ArrowBackIosIcon
+                sx={{
+                  position: "absolute",
+                  zIndex: 1,
+                  left: 30,
+                  width: "77px",
+                  height: "85px",
+                  color: colors.purple[600],
+                }}
+              />
+            </IconButton>
+          )}
+          <Box
+            ref={sliderRef}
+            sx={{
+              display: "flex",
+              width: "100%",
+            }}
           >
-            <BookSliderItem
-              title={bookInfo[currentIndex].title}
-              author={bookInfo[currentIndex].author}
-              description={bookInfo[currentIndex].description}
-              favorite={bookInfo[currentIndex].favorite}
-              path={bookInfo[currentIndex].pathImage}
-              link={bookInfo[currentIndex].link}
-            />
-          </motion.div>
-
-          {/* Forward Arrow */}
-          <IconButton onClick={handleNext}>
-            <ArrowForwardIosIcon
-              sx={{ width: "77px", height: "85px", color: colors.purple[600] }}
-            />
-          </IconButton>
+            {bookInfo.map((book, index) => (
+              <Box
+                key={index}
+                sx={{
+                  width: "100%",
+                  flex: "0 0 100%",
+                  minHeight: isSmallScreen
+                    ? "40%"
+                    : isMediumScreen
+                    ? "400px"
+                    : "432px",
+                  border: "1px solid #BDBDBD",
+                  borderRadius: "22px",
+                  boxShadow: "0 4px 4px 0 #00000040",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-around",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Back Arrow */}
+                <IconButton onClick={handlePrev}>
+                  <ArrowBackIosIcon
+                    sx={{
+                      display: isSmallScreen ? "none" : undefined,
+                      width: "77px",
+                      height: "85px",
+                      color: colors.purple[600],
+                    }}
+                  />
+                </IconButton>
+                <BookSliderItem
+                  title={book.title}
+                  author={book.author}
+                  description={book.description}
+                  favorite={book.favorite}
+                  path={book.pathImage}
+                  link={book.link}
+                />
+                <IconButton onClick={handleNext}>
+                  <ArrowForwardIosIcon
+                    sx={{
+                      display: isSmallScreen ? "none" : undefined,
+                      width: "77px",
+                      height: "85px",
+                      color: colors.purple[600],
+                    }}
+                  />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+          {isSmallScreen && (
+            <IconButton onClick={handleNext}>
+              <ArrowForwardIosIcon
+                sx={{
+                  position: "absolute",
+                  zIndex: 1,
+                  right: 5,
+                  width: "77px",
+                  height: "85px",
+                  color: colors.purple[600],
+                }}
+              />
+            </IconButton>
+          )}
         </Box>
+        {/* </motion.div> */}
 
         {/* Collections */}
         {subHeaders.map((header, index) => (

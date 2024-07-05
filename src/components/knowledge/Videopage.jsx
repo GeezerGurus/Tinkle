@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography,useTheme,useMediaQuery } from "@mui/material";
 import Videos from "./Videos";
+import { tokens } from "../../theme";
 
 const subHeaders = [
   { header: "Favourites" },
@@ -12,38 +13,41 @@ const subHeaders = [
 ];
 
 const Videopage = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+
   return (
     <Box sx={{ margin: "0 auto", textAlign: "center" }}>
       {/* Gradient title */}
       <Box
         sx={{
           margin: "0 auto",
-          width: "1294px",
+          width: "auto",
           height: "134px",
           borderRadius: "16px",
           alignContent: "center",
           backgroundImage: "linear-gradient(to right, #50B87E, #8884DC)",
           display: "flex",
           alignItems: "center",
+          padding: "32px",
           justifyContent: "center",
         }}
       >
         <Typography
-          sx={{
-            fontFamily: "Rhodium Libre",
-            fontWeight: "400",
-            fontSize: "35px",
-            lineHeight: "49px",
-            color: "#fff",
-            textAlign: "center",
-          }}
+          variant={isSmallScreen?"body3":"h6"}
         >
           Expand your knowledge on finance and life with our selected videos
         </Typography>
       </Box>
  
       {/* Video item box */}
-      <Box sx={{ width: "1326px", margin: "0 auto", padding: "8px" }}>
+      <Box sx={{ width: "97%", margin: "0 auto", padding: "8px" }}>
         {subHeaders.map((header, index) => (
           <Videos key={index} header={header.header} />
         ))}

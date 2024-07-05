@@ -6,6 +6,7 @@ import {
   Paper,
   useTheme,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
@@ -59,15 +60,19 @@ const Progress = ({ content, dollar, percent }) => {
   );
 };
 
-const Budget = ({ isSmallScreen }) => {
+const Budget = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Paper
       sx={{
-        width: isSmallScreen ? "100%" : "369px",
-        height: isSmallScreen ? "278px" : "267px",
+        width: isLargest ? "100%" : "369px",
+        height: isMediumScreen ? "278px" : "267px",
         padding: "16px 24px",
         display: "flex",
         alignItems: "center",

@@ -6,6 +6,7 @@ import {
   Button,
   ButtonGroup,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import Expense from "./Expense";
@@ -28,13 +29,18 @@ const EditRecord = ({ onClose }) => {
     textTransform: "none",
   };
 
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       sx={{
         position: "relative",
-        padding: "24px 0",
-        width: "686px",
-        height: "805px",
+        padding: isLargest ? "8px 0" : "24px 0",
+        width: isMediumScreen ? "95vw" : "686px",
+        height: isLargest ? "95vh" : "805px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -83,7 +89,11 @@ const EditRecord = ({ onClose }) => {
         <Transfer />
       )}
 
-      <Stack gap={1} direction="row" justifyContent="space-between">
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent="space-between"
+      >
         <Button
           sx={{
             width: "208px",

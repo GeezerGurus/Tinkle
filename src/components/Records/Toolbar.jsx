@@ -12,6 +12,7 @@ import {
   Description as DescriptionIcon,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
+import { RecordBtn } from "../utils";
 
 const Toolbar = ({ tableState, setTableState }) => {
   const theme = useTheme();
@@ -29,6 +30,7 @@ const Toolbar = ({ tableState, setTableState }) => {
   };
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box
@@ -38,23 +40,28 @@ const Toolbar = ({ tableState, setTableState }) => {
         color: "black",
         display: "flex",
         flexDirection: isMediumScreen ? "column" : "row",
+        mb: isMediumScreen ? 5 : undefined,
         justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
       <Typography
-        variant="h4"
+        variant={isSmallScreen ? "h6" : "h4"}
         sx={{ borderBottom: `3px solid ${colors.purple[600]}`, height: "100%" }}
       >
         Transactions
       </Typography>
       <Box
         sx={{
+          width: isMediumScreen ? "70%" : undefined,
           gap: "8px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          mt: isSmallScreen ? 1 : isMediumScreen ? 0.3 : undefined,
         }}
       >
+        {isSmallScreen && <RecordBtn color={colors.purple[600]} />}
         <IconButton
           size="large"
           onClick={() => handleButtonClick("filter")}

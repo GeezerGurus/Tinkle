@@ -9,15 +9,19 @@ import {
   useTheme,
   Modal,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { tokens } from "../../theme";
 import EditAccount from "./EditAccount";
 import { ConfirmModal } from "../utils";
 
-export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
+export const Account = ({ Icon, Title, Amount, BgColor, isMediumScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modal, setModal] = useState("");
@@ -41,15 +45,15 @@ export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
         justifyContent: "space-between",
         padding: "24px 0 0 24px",
         backgroundColor: BgColor,
-        width: isSmallScreen ? "45%" : "210px",
-        height: isSmallScreen ? "73px" : "211px",
+        width: isMediumScreen ? "45%" : isLargest ? "24%" : "210px",
+        height: isMediumScreen ? "73px" : "211px",
         borderRadius: "16px",
       }}
     >
       {/* Icon  */}
       <Box
         sx={{
-          display: isSmallScreen ? "none" : "flex",
+          display: isMediumScreen ? "none" : "flex",
           width: "64px",
           height: "64px",
           justifyContent: "center",
@@ -76,7 +80,7 @@ export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
         >
           <MoreVertIcon
             sx={{
-              fontSize: isSmallScreen ? "24px" : "32px",
+              fontSize: isMediumScreen ? "24px" : "32px",
             }}
           />
         </IconButton>
@@ -94,7 +98,7 @@ export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
               setModal("edit");
               setOpenModal(true);
             }}
-            sx={isSmallScreen ? { fontSize: "12px" } : { fontSize: "16px" }}
+            sx={isMediumScreen ? { fontSize: "12px" } : { fontSize: "16px" }}
           >
             Edit
           </MenuItem>
@@ -104,24 +108,27 @@ export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
               setModal("delete");
               setOpenModal(true);
             }}
-            sx={isSmallScreen ? { fontSize: "12px" } : { fontSize: "16px" }}
+            sx={isMediumScreen ? { fontSize: "12px" } : { fontSize: "16px" }}
           >
             Delete
           </MenuItem>
         </Menu>
       </Box>
 
-      <Box sx={{ mt: isSmallScreen ? -1 : 0 }}>
+      <Box sx={{ mt: isMediumScreen ? -1 : 0 }}>
         {/* Title  */}
-        <Typography variant={isSmallScreen ? "body3" : "h6"} gutterBottom>
+        <Typography variant={isMediumScreen ? "body3" : "h6"} gutterBottom>
           {Title}
         </Typography>
         {/* Amount  */}
         <Stack direction={"row"} alignItems="center" gap={1}>
-          <Typography variant={isSmallScreen ? "body2" : "h4"} gutterBottom>
-            {Amount} {isSmallScreen ? "MMK" : ""}
+          <Typography
+            variant={isMediumScreen ? "body2" : isLargeScreen ? "body3" : "h4"}
+            gutterBottom
+          >
+            {Amount} {isMediumScreen ? "MMK" : ""}
           </Typography>
-          <Typography variant="body1" display={isSmallScreen ? "none" : ""}>
+          <Typography variant="body1" display={isMediumScreen ? "none" : ""}>
             MMK
           </Typography>
         </Stack>
@@ -142,7 +149,7 @@ export const Account = ({ Icon, Title, Amount, BgColor, isSmallScreen }) => {
               balance={Amount}
               Type={<Icon />}
               onClose={() => setOpenModal(false)}
-              isSmallScreen={isSmallScreen}
+              isMediumScreen={isMediumScreen}
             />
           ) : (
             <ConfirmModal

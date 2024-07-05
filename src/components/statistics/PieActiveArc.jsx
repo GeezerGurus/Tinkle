@@ -7,6 +7,7 @@ const PieActiveArc = ({ data, dashboard }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   return (
     <Box
       sx={{
@@ -24,12 +25,22 @@ const PieActiveArc = ({ data, dashboard }) => {
             data,
             highlightScope: { faded: "global", highlighted: "item" },
             faded: {
-              innerRadius: 30,
-              additionalRadius: -30,
+              innerRadius: dashboard ? (isLargest ? 50 : 30) : 30,
+              additionalRadius: dashboard ? (isLargest ? -50 : -30) : -30,
             },
             cx: isSmallScreen ? "65%" : "30%",
             cy: isSmallScreen ? "60%" : "50%",
-            outerRadius: isSmallScreen ? 70 : 75,
+            outerRadius: dashboard
+              ? isSmallScreen
+                ? 65
+                : isLargeScreen
+                ? 47
+                : isLargest
+                ? 60
+                : 75
+              : isSmallScreen
+              ? 70
+              : 75,
           },
         ]}
         // height={isSmallScreen ? 250 : 300}
@@ -58,11 +69,31 @@ const PieActiveArc = ({ data, dashboard }) => {
                 : "right",
             },
             labelStyle: {
-              fontSize: isSmallScreen ? "12px" : "12px",
+              fontSize: dashboard
+                ? isSmallScreen
+                  ? "8px"
+                  : isLargeScreen
+                  ? "10px"
+                  : "12px"
+                : isSmallScreen
+                ? "12px"
+                : "10px",
             },
             itemMarkWidth: isSmallScreen ? 10 : 20,
             itemMarkHeight: isSmallScreen ? 10 : 20,
-            padding: isMediumScreen ? (isSmallScreen ? -1 : 10) : -10,
+            padding: dashboard
+              ? isLargeScreen
+                ? isMediumScreen
+                  ? isSmallScreen
+                    ? -1
+                    : 10
+                  : -10
+                : -10
+              : isMediumScreen
+              ? isSmallScreen
+                ? -1
+                : 10
+              : -10,
           },
         }}
       />

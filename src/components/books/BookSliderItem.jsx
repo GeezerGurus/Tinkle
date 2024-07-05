@@ -6,6 +6,8 @@ import {
   useTheme,
   IconButton,
   Avatar,
+  useMediaQuery,
+  Stack,
 } from "@mui/material";
 
 import {
@@ -28,19 +30,32 @@ const BookSliderItem = ({
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [favorited, setFavorited] = useState(favorite || false);
+
+  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box
       sx={{
-        width: "973px",
-        height: "400px",
+        width: isSmallScreen ? "90%" : isLargest ? "100%" : "973px",
+        height: isSmallScreen ? "300px" : isMediumScreen ? "90%" : "400px",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        position: "relative",
       }}
     >
       {/* Image Cover for the Book */}
-      <Box sx={{ width: "247px", height: "391px", border: "1px solid orange" }}>
+      <Box
+        sx={{
+          width: isLargest ? "40%" : "247px",
+          height: isLargest ? "95%" : "391px",
+          border: "1px solid orange",
+          mr: 2,
+        }}
+      >
         <Avatar
           variant="square"
           src={path} // Replace with your image variable or URL
@@ -51,18 +66,22 @@ const BookSliderItem = ({
       {/* Book Title, Author, Description, and Read Now Button */}
       <Box
         sx={{
-          width: "674px",
-          height: "400px",
+          width: isLargest ? "100%" : "674px",
+          height: isLargest ? "100%" : "400px",
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "space-around",
-          position: "relative",
+          position: isSmallScreen ? undefined : "relative",
         }}
       >
         {/* Book Mark Icons */}
         <IconButton
-          sx={{ position: "absolute", top: "10px", right: 0 }}
+          sx={{
+            position: "absolute",
+            top: "10px",
+            right: isSmallScreen ? -20 : -80,
+          }}
           onClick={() => {
             favorited ? setFavorited(false) : setFavorited(true);
           }}
@@ -85,16 +104,30 @@ const BookSliderItem = ({
             />
           )}
         </IconButton>
+
         {/* Title */}
-        <Typography variant="h4" sx={{ height: "46px" }}>
+        <Typography
+          variant={isMediumScreen ? "h6" : "h4"}
+          sx={{ height: isSmallScreen ? "50px" : "46px" }}
+        >
           {title}
         </Typography>
         {/* Author */}
-        <Typography variant="body2" sx={{ height: "27px" }}>
+        <Typography
+          variant={isMediumScreen ? "body4" : "body2"}
+          sx={{ height: "27px" }}
+        >
           By {author}
         </Typography>
         {/* Description */}
-        <Typography variant="body3" sx={{ height: "156px" }}>
+        <Typography
+          variant={isSmallScreen ? "body4" : "body3"}
+          sx={{
+            height: "156px",
+            overflow: "hidden",
+            display: isSmallScreen ? "none" : undefined,
+          }}
+        >
           {description}
         </Typography>
         {/* Read More Button */}

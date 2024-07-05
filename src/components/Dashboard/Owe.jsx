@@ -37,21 +37,23 @@ export const Owe = ({ handleChange, color }) => {
         </IconButton>
       </Stack>
       {/* Map over transactions */}
-      {transactions.map((transaction, index) => (
-        <Stack
-          key={index}
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          width={"100%"}
-          sx={{ borderBottom: "1px solid", height: "24px", gap: "8px" }}
-        >
-          <Typography variant="body4">
-            {transaction.amount} to {transaction.payer}
-          </Typography>
-          <Typography variant="body4">Due - {transaction.dueDate}</Typography>
-        </Stack>
-      ))}
+      <Box sx={{ overflowY: "auto", height: "auto", width: "100%" }}>
+        {transactions.map((transaction, index) => (
+          <Stack
+            key={index}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            width={"100%"}
+            sx={{ borderBottom: "1px solid", height: "auto", gap: "8px" }}
+          >
+            <Typography variant="body4">
+              {transaction.amount} to {transaction.payer}
+            </Typography>
+            <Typography variant="body4">Due - {transaction.dueDate}</Typography>
+          </Stack>
+        ))}
+      </Box>
     </Box>
   );
 };

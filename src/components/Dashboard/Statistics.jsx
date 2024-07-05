@@ -10,7 +10,7 @@ const data = {
 
 const labels = Array.from({ length: 31 }, (_, i) => i + 1);
 
-export const Statistics = ({ isSmallScreen }) => {
+export const Statistics = ({ isMediumScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -18,9 +18,9 @@ export const Statistics = ({ isSmallScreen }) => {
     <Paper
       sx={{
         display: "flex",
-        width: isSmallScreen ? "100%" : "60%",
-        height: isSmallScreen ? "252px" : "100%",
-        marginRight: isSmallScreen ? 0 : "24px",
+        width: isMediumScreen ? "100%" : "60%",
+        height: isMediumScreen ? "252px" : "100%",
+        marginRight: isMediumScreen ? 0 : "24px",
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "16px 24px",

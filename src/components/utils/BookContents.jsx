@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Typography, IconButton, useTheme, Avatar } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  useTheme,
+  Avatar,
+  useMediaQuery,
+} from "@mui/material";
 import {
   BookmarkBorderOutlined as BookmarkBorderOutlinedIcon,
   BookmarkOutlined as BookmarkOutlinedIcon,
@@ -12,10 +19,14 @@ const BookContents = ({ title, author, favorite, pathImage }) => {
   const colors = tokens(theme.palette.mode);
   const [favorited, setFavorited] = useState(favorite || false);
 
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       sx={{
-        width: "244px",
+        width: isSmallScreen ? "100%" : "244px",
         height: "388px",
         display: "flex",
         flexDirection: "column",
@@ -26,8 +37,8 @@ const BookContents = ({ title, author, favorite, pathImage }) => {
       {/* Image for Book Cover */}
       <Box
         sx={{
-          width: "222px",
-          height: "286px",
+          width: isSmallScreen ? "150px" : "222px",
+          height: isSmallScreen ? "204px" : "286px",
           borderRadius: "16px",
           mt: "12px",
         }}
@@ -48,14 +59,14 @@ const BookContents = ({ title, author, favorite, pathImage }) => {
       {/* Details for the Book */}
       <Box
         sx={{
-          width: "222px",
+          width: isSmallScreen ? "141px" : "222px",
           height: "42px",
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "space-between",
           position: "relative",
-          mb: 5,
+          mb: isSmallScreen ? 10 : 5,
         }}
       >
         <IconButton

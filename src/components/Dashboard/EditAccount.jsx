@@ -33,7 +33,7 @@ import {
 } from "@mui/icons-material";
 import { Item } from "../utils";
 
-const EditAccount = ({ onClose, name, balance, Type, isSmallScreen }) => {
+const EditAccount = ({ onClose, name, balance, Type, isMediumScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -46,9 +46,9 @@ const EditAccount = ({ onClose, name, balance, Type, isSmallScreen }) => {
   return (
     <Paper
       sx={{
-        width: isSmallScreen ? "359px" : "686px",
-        height: isSmallScreen ? "461px" : "418px",
-        padding: isSmallScreen ? "19px" : "32px 112px",
+        width: isMediumScreen ? "359px" : "686px",
+        height: isMediumScreen ? "461px" : "418px",
+        padding: isMediumScreen ? "19px" : "32px 112px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
@@ -200,7 +200,7 @@ const EditAccount = ({ onClose, name, balance, Type, isSmallScreen }) => {
 
       <Stack
         gap={1}
-        direction={isSmallScreen ? "column" : "row"}
+        direction={isMediumScreen ? "column" : "row"}
         justifyContent="space-between"
       >
         <Button

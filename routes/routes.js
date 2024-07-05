@@ -57,6 +57,7 @@ const {
 const {
   addVideo,
   getVideos,
+  getaVideo,
   getFavouriteVideos,
   patchVideo,
   deleteVideo
@@ -71,6 +72,7 @@ const {
 const {
   addCategory,
   getCategory,
+  getaCategory,
   patchCategory,
   deleteCategory
 } = require("../controllers/categoryController");
@@ -120,91 +122,93 @@ router
 
   //Accounts
   .post("/account", requireAuth, addAccount)
-  .get("/account", requireAuth, getAccounts)
+  .get("/accounts", requireAuth, getAccounts)
   .get("/account/:accountId", requireAuth, getaAccount)
   .patch("/account/:accountId", requireAuth, patchAccount)
   .delete("/account/:accountId", requireAuth, deleteAccount)
 
   //Debts
   .post("/debt", requireAuth, addDebt)
-  .get("/debt", requireAuth, getDebts)
+  .get("/debts", requireAuth, getDebts)
   .get("/debt/:debtId", requireAuth, getaDebt)
   .patch("/debt/:debtId", requireAuth, patchDebt)
   .delete("/debt/:debtId", requireAuth, deleteDebt)
 
   //Budgets
   .post("/budget", requireAuth, addBudget)
-  .get("/budget", requireAuth, getBudgets)
+  .get("/budgets", requireAuth, getBudgets)
   .get("/budget/:budgetId", requireAuth, getaBudget)
   .patch("/budget/:budgetId", requireAuth, patchBudget)
   .delete("/budget/:budgetId", requireAuth, deleteBudget)
 
   //To Buy Lists
-  .post("/tobuylists", requireAuth, addToBuyList)
+  .post("/tobuylist", requireAuth, addToBuyList)
   .get("/tobuylists", requireAuth, getToBuyLists)
-  .get("/tobuylists/:tobuylistId", requireAuth, getaToBuyList)
-  .patch("/tobuylists/:tobuylistId", requireAuth, patchToBuyList)
-  .delete("/tobuylists/:tobuylistId", requireAuth, deleteToBuyList)
+  .get("/tobuylist/:tobuylistId", requireAuth, getaToBuyList)
+  .patch("/tobuylist/:tobuylistId", requireAuth, patchToBuyList)
+  .delete("/tobuylist/:tobuylistId", requireAuth, deleteToBuyList)
 
   //Items to Buy
-  .post("/itemstobuy", requireAuth, addItemToBuy)
+  .post("/itemtobuy", requireAuth, addItemToBuy)
   .get("/itemstobuy", requireAuth, getItemsToBuy)
-  .get("/itemstobuy/:itemtobuyId", requireAuth, getaItemToBuy)
-  .patch("/itemstobuy/:itemtobuyId", requireAuth, patchItemToBuy)
-  .delete("/itemstobuy/:itemtobuyId", requireAuth, deleteItemToBuy)
+  .get("/itemtobuy/:itemtobuyId", requireAuth, getaItemToBuy)
+  .patch("/itemtobuy/:itemtobuyId", requireAuth, patchItemToBuy)
+  .delete("/itemtobuy/:itemtobuyId", requireAuth, deleteItemToBuy)
 
   //Book
   .post("/book", requireAuth,addBook)
-  .get("/book", requireAuth, getBooks)
-  .get("/book/:bookid", requireAuth, getaBook)
-  .get("/book/favourite", requireAuth, getFavouriteBooks)
-  .put("/book/:bookid", requireAuth, patchBook)
-  .delete("/book/:bookid", requireAuth, deleteBook)
+  .get("/books", requireAuth, getBooks)
+  .get("/book/:bookId", requireAuth, getaBook)
+  .get("/books/favourite", requireAuth, getFavouriteBooks)
+  .patch("/book/:bookId", requireAuth, patchBook)
+  .delete("/book/:bookId", requireAuth, deleteBook)
 
   //Video
   .post("/video", requireAuth, addVideo)
   .get("/videos", requireAuth, getVideos)
-  .get("/video", requireAuth, getFavouriteVideos)
-  .put("/video/:id", requireAuth, patchVideo)
-  .delete("/video/:id", requireAuth, deleteVideo)
+  .get("/video/:videoId", requireAuth, getaVideo)
+  .get("/videos/favourite", requireAuth, getFavouriteVideos)
+  .patch("/video/:videoId", requireAuth, patchVideo)
+  .delete("/video/:videoId", requireAuth, deleteVideo)
 
   //Record
   .post("/record", requireAuth, addRecord)
-  .get("/record", requireAuth, getRecords)
+  .get("/records", requireAuth, getRecords)
   .get("/record/:recordId", requireAuth, getaRecord)
   .patch("/record/:recordId", requireAuth, patchRecord)
   .delete("/record/:recordId", requireAuth, deleteRecord)
 
   //Categories
-  .post("/categories", requireAuth, addCategory)
+  .post("/category", requireAuth, addCategory)
   .get("/categories", requireAuth, getCategory)
-  .patch("/categories/:categoryId", requireAuth, patchCategory)
-  .delete("/categories/:categoryId", requireAuth, deleteCategory)
+  .get("/category/:categoryId", requireAuth, getaCategory)
+  .patch("/category/:categoryId", requireAuth, patchCategory)
+  .delete("/category/:categoryId", requireAuth, deleteCategory)
 
   //Setting
   .post("/setting", requireAuth, addSetting)
-  .get("/setting", requireAuth, getSettings)
-  .get("/setting/:settingId", requireAuth, getSettings)
+  .get("/settings", requireAuth, getSettings)
+  .get("/setting/:settingId", requireAuth, getaSetting)
   .patch("/setting/:settingId", requireAuth, patchSetting)
   .delete("/setting/:settingId", requireAuth, deleteSetting)
 
   //Lends
   .post("/lend", requireAuth, addLend)
-  .get("/lend", requireAuth, getLends)
+  .get("/lends", requireAuth, getLends)
   .get("/lend/:lendId", requireAuth, getaLend)
   .patch("/lend/:lendId", requireAuth, patchLend)
   .delete("/lend/:lendId", requireAuth, deleteLend)
 
   //Owes
   .post("/owe", requireAuth, addOwe)
-  .get("/owe", requireAuth, getOwes)
+  .get("/owes", requireAuth, getOwes)
   .get("/owe/:oweId", requireAuth, getaOwe)
   .patch("/owe/:oweId", requireAuth, patchOwe)
   .delete("/owe/:oweId", requireAuth, deleteOwe)
 
   //Goals
   .post("/goal", requireAuth, addGoal)
-  .get("/goal", requireAuth, getGoals)
+  .get("/goals", requireAuth, getGoals)
   .get("/goal/:goalId", requireAuth, getaGoal)
   .patch("/goal/:goalId", requireAuth, patchGoal)
   .delete("/goal/:goalId", requireAuth, deleteGoal)

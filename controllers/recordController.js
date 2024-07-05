@@ -7,10 +7,19 @@ exports.addRecord = async (req, res) => {
   const { accountId, fromaccountId, toaccountId, budgetId, type, amount, category, date, transactor, notes } = req.body;
 
   try {
-    if ( (accountId && budgetId) || (!accountId && !budgetId) ) {
-      return res.status(400).json({ message: "Choose either account or budget!" })
+    if (type === "transfer") {
+      if (!fromaccountId || !toaccountId) {
+        return res.status(400).json({ message: "From account and to account are required for transfers!" });
+      }
+      if (fromaccountId === toaccountId) {
+        return res.status(400).json({ message: "Two accounts cannot share the same account." });
+      }
+    } else {
+      if ((accountId && budgetId) || (!accountId && !budgetId)) {
+        return res.status(400).json({ message: "Choose either account or budget!" });
+      }
     }
-    if ( !amount || !date || (!accountId && !budgetId) || !type ) {
+    if (!amount || !date || (!accountId && !budgetId && type !== "transfer") || !type) {
       return res.status(400).json({ message: "All fields are required!" });
     }
     if (isNaN(amount) || amount <= 0) {
@@ -131,365 +140,141 @@ exports.patchRecord = async (req, res) => {
     if (isNaN(amount) || amount <= 0) {
       return res.status(400).json({ message: "Number must be a positive number!" });
     }
-
-    if ( type && record.type !== "transfer" ) {
-
-      if ( record.type !== type && type === "expense" ) {
-        if (!accountId) {
-          const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
-          if (!amount) {
-            account.balance -= ( 2 * record.amount );
-            await account.save();
-          }
-          else {
-            account.balance -= record.amount;
-            record.amount = amount;
-            account.balance -= record.amount;
-            await account.save();
-          }
-        }
-        else {
-          const newaccount = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
-          if (!newaccount) {
-            return res.status(404).json({ message: "Account not found!" });
-          }
-          if (!amount) {
-            const account = await AccountSchema.findOne({ userId: req.userId, _id: record.accountId });
-            account.balance -= record.amount;
-            newaccount.balance -= record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-          else {
-            const account = await AccountSchema.findOne({ userId: req.userId, _id: record.accountId });
-            account.balance -= record.amount;
-            record.amount = amount;
-            newaccount.balance -= record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-          record.accountId = accountId;
-        }
-        if (!budgetId) {
-          const budget = await BudgetSchema.findOne({ userId: req.userId, _id: budgetId });
-          if (!amount) {
-            budget.amount -= (2 * record.amount);
-            await budget.save();
-          }
-          if (amount) {
-            budget.amount -= record.amount;
-            record.amount = amount;
-            budget.amount -= record.amount;
-            await budget.save();
-          }
-        }
-        else {
-          const newbudget = await BudgetSchema.findOne({ userId: req.userId, _id: budgetId });
-          if (!newbudget) {
-            return res.status(404).json({ message: "Budget not found!" });
-          }
-          if (!amount) {
-            const budget = await BudgetSchema.findOne({ userId: req.userId, _id: record.budgetId });
-            budget.amount -= record.amount;
-            newbudget.amount -= record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-          else {
-            const budget = await BudgetSchema.findOne({ userId: req.userId, _id: record.accountId });
-            budget.amount -= record.amount;
-            record.amount = amount;
-            newbudget.amount -= record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-          record.budgetId = budgetId;
+    const updateBalance = async (accountId, delta) => {
+      console.log("after")
+      const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
+      if (!account) {
+        throw new Error("Account not found!");
+      }
+      account.balance += delta;
+      await account.save();
+      console.log(account.balance);
+    };
+    
+    const updateBudget = async (budgetId, delta) => {
+      const budget = await BudgetSchema.findOne({ userId: req.userId, _id: budgetId });
+      if (!budget) {
+        throw new Error("Budget not found!");
+      }
+      budget.amount += delta;
+      await budget.save();
+    };
+    
+    const revertOldBalances = async () => {
+      if (record.type === "income") {
+        if (record.accountId) await updateBalance(record.accountId, -record.amount);
+        if (record.budgetId) await updateBudget(record.budgetId, -record.amount);
+      } else if (record.type === "expense") {
+        if (record.accountId) await updateBalance(record.accountId, record.amount);
+        if (record.budgetId) await updateBudget(record.budgetId, record.amount);
+      }
+    };
+    
+    const adjustBalancesForTypeChange = async () => {
+      if (record.type !== type) {
+        await revertOldBalances();
+        if (type === "income") {
+          if (record.accountId) await updateBalance(record.accountId, record.amount);
+          if (record.budgetId) await updateBudget(record.budgetId, record.amount);
+        } else if (type === "expense") {
+          if (record.accountId) await updateBalance(record.accountId, -record.amount);
+          if (record.budgetId) await updateBudget(record.budgetId, -record.amount);
         }
         record.type = type;
       }
-      
-      if ( record.type !== type && type === "income" ) {
-        if (!accountId) {
-          const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
-          if (!amount) {
-            account.balance += (2 * record.amount);
-            await account.save();
-          }
-          if (amount) {
-            account.balance += record.amount;
-            record.amount = amount;
-            account.balance += record.amount;
-            await account.save();
-          }
-        }
-        else {
-          const newaccount = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
-          if (!newaccount) {
-            return res.status(404).json({ message: "Account not found!" });
-          }
-          if (!amount) {
-            const account = await AccountSchema.findOne({ userId: req.userId, _id: record.accountId });
-            account.balance += record.amount;
-            newaccount.balance += record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-          else {
-            const account = await AccountSchema.findOne({ userId: req.userId, _id: record.accountId });
-            account.balance += record.amount;
-            record.amount = amount;
-            newaccount.balance += record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-          record.accountId = accountId;
-        }
-        if (!budgetId) {
-          const budget = await BudgetSchema.findOne({ userId: req.userId, _id: budgetId });
-          if (!amount) {
-            budget.amount += (2 * record.amount);
-            await budget.save();
-          }
-          if (amount) {
-            budget.amount += record.amount;
-            record.amount = amount;
-            budget.amount += record.amount;
-            await budget.save();
-          }
-        }
-        else {
-          const newbudget = await BudgetSchema.findOne({ userId: req.userId, _id: budgetId });
-          if (!newbudget) {
-            return res.status(404).json({ message: "Budget not found!" });
-          }
-          if (!amount) {
-            const budget = await BudgetSchema.findOne({ userId: req.userId, _id: record.budgetId });
-            budget.amount += record.amount;
-            newbudget.amount += record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-          else {
-            const budget = await BudgetSchema.findOne({ userId: req.userId, _id: record.accountId });
-            budget.amount += record.amount;
-            record.amount = amount;
-            newbudget.amount += record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-          record.budgetId = budgetId;
-        }
-        record.type = type;
-      }
-
-      if (accountId) {
-        if ( record.type === "income" ){
-          if (amount) {
-            const account = await AccountSchema.findOne({ userId:req.userId, _id: record.accountId });
-            const newaccount = await AccountSchema.findOne({ userId:req.userId, _id: accountId });
-            account.balance -= record.amount;
-            record.amount = amount;
-            newaccount.balance += record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-          else {
-            const account = await AccountSchema.findOne({ userId:req.userId, _id: record.accountId });
-            const newaccount = await AccountSchema.findOne({ userId:req.userId, _id: accountId });
-            account.balance -= record.amount;
-            newaccount.balance += record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-        }
-        else if ( record.type === "expense") {
-          if (amount) {
-            const account = await AccountSchema.findOne({ userId:req.userId, _id: record.accountId });
-            const newaccount = await AccountSchema.findOne({ userId:req.userId, _id: accountId });
-            account.balance += record.amount;
-            record.amount = amount;
-            newaccount.balance -= record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-          else {
-            const account = await AccountSchema.findOne({ userId:req.userId, _id: record.accountId });
-            const newaccount = await AccountSchema.findOne({ userId:req.userId, _id: accountId });
-            account.balance += record.amount;
-            newaccount.balance -= record.amount;
-            await account.save();
-            await newaccount.save();
-          }
-        }
+    };
+    
+    const adjustBalancesForAccountChange = async () => {
+      if (accountId && record.accountId !== accountId) {
+        await revertOldBalances();
+        await updateBalance(accountId, record.amount * (record.type === "income" ? 1 : -1));
         record.accountId = accountId;
       }
-      if (budgetId) {
-        if ( record.type === "income" ){
-          if (amount) {
-            const budget = await BudgetSchema.findOne({ userId:req.userId, _id: record.budgetId });
-            const newbudget = await BudgetSchema.findOne({ userId:req.userId, _id: budgetId });
-            budget.amount -= record.amount;
-            record.amount = amount;
-            newbudget.amount += record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-          else {
-            const budget = await BudgetSchema.findOne({ userId:req.userId, _id: record.budgetId });
-            const newbudget = await BudgetSchema.findOne({ userId:req.userId, _id: budgetId });
-            budget.amount -= record.amount;
-            newbudget.amount += record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-        }
-        else if ( record.type === "expense") {
-          if (amount) {
-            const budget = await BudgetSchema.findOne({ userId:req.userId, _id: record.budgetId });
-            const newbudget = await BudgetSchema.findOne({ userId:req.userId, _id: budgetId });
-            budget.amount += record.amount;
-            record.amount = amount;
-            newbudget.amount -= record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-          else {
-            const budget = await BudgetSchema.findOne({ userId:req.userId, _id: record.budgetId });
-            const newbudget = await BudgetSchema.findOne({ userId:req.userId, _id: budgetId });
-            budget.amount -= record.amount;
-            record.amount = amount;
-            newbudget.amount += record.amount;
-            await budget.save();
-            await newbudget.save();
-          }
-        }
+    };
+    
+    const adjustBalancesForBudgetChange = async () => {
+      if (budgetId && record.budgetId !== budgetId) {
+        await revertOldBalances();
+        await updateBudget(budgetId, record.amount * (record.type === "income" ? 1 : -1));
         record.budgetId = budgetId;
       }
-      if (amount) {
+    };
+    
+    const adjustAmount = async () => {
         if (record.type === "income") {
           if (record.accountId) {
-            const account = await AccountSchema.findOne({ userId: req.userId, _id: record.accountId });
-            account.balance -= record.amount;
-            record.amount = amount;
-            account.balance += record.amount;
-            await account.save();
+            await updateBalance(record.accountId, amount);
           }
-          else if (record.budgetId) {
-            const budget = await BudgetSchema.findOne({ userId: req.userId, _id: record.budgetId });
-            budget.amount -= record.amount;
-            record.amount = amount;
-            budget.amount += record.amount;
-            await budget.save();
+          if (record.budgetId) {
+            await updateBudget(record.budgetId, amount);
           }
-        }
-        else if (record.type === "expense") {
+        } else if (record.type === "expense") {
           if (record.accountId) {
-            const account = await AccountSchema.findOne({ userId: req.userId, _id: record.accountId });
-            account.balance += record.amount;
-            record.amount = amount;
-            account.balance -= record.amount;
-            await account.save();
+            await updateBalance(record.accountId, -amount);
           }
-          else if (record.budgetId) {
-            const budget = await BudgetSchema.findOne({ userId: req.userId, _id: record.budgetId });
-            budget.amount += record.amount;
-            record.amount = amount;
-            budget.amount -= record.amount;
-            await budget.save();
+          if (record.budgetId) {
+            await updateBudget(record.budgetId, -amount);
           }
         }
-      } 
+        record.amount = amount;
+    };
 
+    const adjustTransferAccounts = async () => {
+        // Reverting accounts balance back to its original amount
+        await updateBalance(record.fromaccountId, record.amount);
+        await updateBalance(record.toaccountId, -record.amount);
+        
+        // Update the record with new values if provided
+        if (amount && record.amount !== amount) { 
+            record.amount = amount;
+        }
+        if (fromaccountId && record.fromaccountId !== fromaccountId) {
+            record.fromaccountId = fromaccountId;
+        }
+        if (toaccountId && record.toaccountId !== toaccountId) {
+            record.toaccountId = toaccountId;
+        }
+
+        // Update the new balances with the updated record amount
+        
+        await updateBalance(record.fromaccountId, -record.amount);
+        await updateBalance(record.toaccountId, record.amount);
+    };
+    
+    if ( (type && record.type !== "transfer") && (amount || budgetId || accountId) ) {
+      await revertOldBalances();
+      if (amount) {
+        await adjustAmount();
+      }
+      if (type) {
+        await adjustBalancesForTypeChange();
+      }
+      if (accountId) {
+        await adjustBalancesForAccountChange();
+      }
+      if (budgetId) {
+        await adjustBalancesForBudgetChange();
+      }
+       // Update other fields
       if (category) record.category = category;
       if (date) record.date = date;
       if (transactor) record.transactor = transactor;
       if (notes) record.notes = notes;
-    }
-    
-    else if (type === "transfer") {
-      if (fromaccountId && toaccountId) {
-        if (amount) {
-          const newfromaccount = await AccountSchema.findOne({ userId: req.userId, _id: fromaccountId });
-          const fromaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.fromaccountId });
-          const newtoaccount = await AccountSchema.findOne({ userId: req.userId, _id: toaccountId });
-          const toaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.toaccountId });
-          fromaccount.balance += record.amount;
-          toaccount.balance -= record.amount;
-          record.amount = amount;
-          newfromaccount.balance -= record.amount;
-          newtoaccount.balance += record.amount;
-          await fromaccount.save();
-          await toaccount.save();
-          await newfromaccount.save();
-          await newtoaccount.save();
-        }
-        else {
-          const newfromaccount = await AccountSchema.findOne({ userId: req.userId, _id: fromaccountId });
-          const fromaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.fromaccountId });
-          const newtoaccount = await AccountSchema.findOne({ userId: req.userId, _id: toaccountId });
-          const toaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.toaccountId });
-          fromaccount.balance += record.amount;
-          toaccount.balance -= record.amount;
-          newfromaccount.balance -= record.amount;
-          newtoaccount.balance += record.amount;
-          await fromaccount.save();
-          await toaccount.save();
-          await newfromaccount.save();
-          await newtoaccount.save();
-        }
+      await record.save();
+      
+    } else if (record.type === "transfer"){
+      console.log("Outside")
+      if (amount || fromaccountId || toaccountId) {
+        console.log("Inside")
+        await adjustTransferAccounts();
       }
-      else if (fromaccountId && !toaccountId) {
-        if (amount) {
-          const newfromaccount = await AccountSchema.findOne({ userId: req.userId, _id: fromaccountId });
-          const fromaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.fromaccountId });
-          const toaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.toaccountId });
-          fromaccount.balance += record.amount;
-          toaccount.balance -= record.amount;
-          record.amount = amount;
-          newfromaccount.balance -= record.amount;
-          toaccount.balance += record.amount;
-          await fromaccount.save();
-          await toaccount.save();
-          await newfromaccount.save();
-        }
-        else {
-          const newfromaccount = await AccountSchema.findOne({ userId: req.userId, _id: fromaccountId });
-          const fromaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.fromaccountId });
-          fromaccount.balance += record.amount;
-          newfromaccount.balance -= record.amount;
-          await fromaccount.save();
-          await newfromaccount.save();
-        }
-      }
-      else if (!fromaccountId && toaccountId) {
-        if (amount) {
-          const fromaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.fromaccountId });
-          const newtoaccount = await AccountSchema.findOne({ userId: req.userId, _id: toaccountId });
-          const toaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.toaccountId });
-          fromaccount.balance += record.amount;
-          toaccount.balance -= record.amount;
-          record.amount = amount;
-          fromaccount.balance -= record.amount;
-          newtoaccount.balance += record.amount;
-          await fromaccount.save();
-          await toaccount.save();
-          await newtoaccount.save();
-        }
-        else {
-          const newtoaccount = await AccountSchema.findOne({ userId: req.userId, _id: toaccountId });
-          const toaccount = await AccountSchema.findOne({ userId: req.userId, _id: record.toaccountId });
-          toaccount.balance -= record.amount;
-          newtoaccount.balance += record.amount;
-          await toaccount.save();
-          await newtoaccount.save();
-        }
-      }
+       // Update other fields
+      if (category) record.category = category;
       if (date) record.date = date;
       if (transactor) record.transactor = transactor;
       if (notes) record.notes = notes;
+      await record.save();
     }
-
-    await record.save();
 
     res.status(200).json({ message: "Record updated successfully", record });
   } catch (error) {
@@ -501,11 +286,48 @@ exports.deleteRecord = async (req, res) => {
   const { recordId } = req.params;
   
   try {
-    const record = await RecordSchema.findOneAndDelete({ userId: req.userId, _id: recordId });
+
+    const revertOldBalances = async () => {
+      if (record.type === "income") {
+        if (record.accountId) await updateBalance(record.accountId, -record.amount);
+        if (record.budgetId) await updateBudget(record.budgetId, -record.amount);
+      } else if (record.type === "expense") {
+        if (record.accountId) await updateBalance(record.accountId, record.amount);
+        if (record.budgetId) await updateBudget(record.budgetId, record.amount);
+      }
+    };
+    
+    const updateBalance = async (accountId, delta) => {
+      console.log("after")
+      const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
+      if (!account) {
+        throw new Error("Account not found!");
+      }
+      account.balance += delta;
+      await account.save();
+      console.log(account.balance);
+    };
+    
+    const updateBudget = async (budgetId, delta) => {
+      const budget = await BudgetSchema.findOne({ userId: req.userId, _id: budgetId });
+      if (!budget) {
+        throw new Error("Budget not found!");
+      }
+      budget.amount += delta;
+      await budget.save();
+    };
+
+    const record = await RecordSchema.findOne({ userId: req.userId, _id: recordId });
     if (!record) {
       return res.status(404).json({ message: "Record not found!" });
     }
-
+    if (record.type !== "transfer") {
+      await revertOldBalances();
+    } else {
+      await updateBalance(record.fromaccountId, record.amount);
+      await updateBalance(record.toaccountId, -record.amount);
+    }
+    await RecordSchema.findOneAndDelete({ userId: req.userId, _id: recordId });
     res.status(200).json({ message: "Record Deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });

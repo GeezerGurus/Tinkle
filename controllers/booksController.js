@@ -41,7 +41,7 @@ exports.getBooks = async (req, res) => {
 exports.getaBook = async (req, res) => {
   const { bookId } = req.params;
   try {
-    const book = await AccountSchema.findById({ userId: req.userId, _id: bookId});
+    const book = await BookSchema.findOne({ userId: req.userId, _id: bookId});
     if (!book) {
       return res.status(404).json({ message: "Book not found!" });
     }
@@ -64,7 +64,7 @@ exports.patchBook = async (req, res) => {
   const { bookId } = req.params;
   const { title, author, category, description, rating, link, coverImage, favourite } = req.body;
   try {
-        const Book = await BookSchema.findById({ userId: req.userId, _id: bookId });
+        const Book = await BookSchema.findOne({ userId: req.userId, _id: bookId });
         if (!Book) {
             return res.status(404).json({ message: "Book not found!" });
         }

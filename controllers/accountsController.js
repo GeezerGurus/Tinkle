@@ -39,7 +39,7 @@ exports.getAccounts = async (req, res) => {
 exports.getaAccount = async (req, res) => {
   const { accountId } = req.params;
   try {
-    const account = await AccountSchema.findById({ userId: req.userId, _id: accountId});
+    const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId});
     if (!account) {
       return res.status(404).json({ message: "Account not found!" });
     }

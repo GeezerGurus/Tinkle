@@ -44,7 +44,7 @@ exports.getBudgets = async (req, res) => {
 exports.getaBudget = async (req, res) => {
   const { budgetId } = req.params;
   try {
-    const budget = await BudgetSchema.findById({ userId: req.userId, _id: budgetId});
+    const budget = await BudgetSchema.findOne({ userId: req.userId, _id: budgetId});
     if (!budget) {
       return res.status(404).json({ message: "Budget not found!" });
     }

@@ -25,7 +25,7 @@ exports.addOwe = async (req, res) => {
       if ( debt.amount === 0 ) {
         return res.status(400).json({ message: "The debt is already paid!" });
       }
-    const debt = await DebtSchema.findById({_id: debtId});
+    const debt = await DebtSchema.findOne({_id: debtId});
     debt.amount = debt.amount - amount;
     await debt.save();
     await owe.save();
@@ -49,7 +49,7 @@ exports.getOwes = async (req, res) => {
 exports.getaOwe = async (req, res) => {
   const { oweId } = req.params;
   try {
-    const owe = await OweSchema.findById({ userId: req.userId, _id: oweId});
+    const owe = await OweSchema.findOne({ userId: req.userId, _id: oweId});
     if (!owe) {
       return res.status(404).json({ message: "Owe not found!" });
     }
@@ -65,19 +65,19 @@ exports.patchOwe = async (req, res) => {
   try {
         const owe = await OweSchema.findOne({ userId: req.userId, _id: oweId });
         if (!owe) {
-            return res.status(404).json({ message: "owe not found!" });
+            return res.status(404).json({ message: "Owe not found!" });
         }
         if (isNaN(amount) || amount <= 0) {
           return res.status(400).json({ message: "Amount must be a positive number!" });
         }
 
         const debt = await DebtSchema.findOne({ userId: req.userId, _id: owe.debtId });
-        debt.amount = debt.amount + owe.amount;
+        debt.amount += owe.amount;
         owe.amount = amount;
-        debt.amount = debt.amount - owe.amount;
+        debt.amount -= owe.amount;
         await debt.save();
         await owe.save();
-        res.status(200).json({ message: "owe record updated successfully", debt });
+        res.status(200).json({ message: "Owe record updated successfully", debt });
     } catch (error) {
         res.status(500).json({ message: error });
     }
@@ -87,14 +87,14 @@ exports.deleteOwe = async (req, res) => {
   const { oweId } = req.params;
   const owe = await OweSchema.findOne({ userId: req.userId, _id: oweId })
   if (!owe) {
-    return res.status(404).json({ message: "owe record not found!" });
+    return res.status(404).json({ message: "Owe record not found!" });
   }
   const debt = await DebtSchema.findOne({ userId: req.userId, _id: owe.debtId });
-  debt.amount = debt.amount + owe.amount;
+  debt.amount += owe.amount;
   await debt.save();
   await OweSchema.findOneAndDelete({ userId: req.userId, _id: oweId})
     .then(() => {
-      res.status(200).json({ message: "A owe record is deleted" });
+      res.status(200).json({ message: "Owe record is deleted" });
     })
     .catch((error) => {
       res.status(500).json({ message: error });

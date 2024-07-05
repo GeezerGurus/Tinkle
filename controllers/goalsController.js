@@ -37,7 +37,7 @@ exports.getGoals = async (req, res) => {
 exports.getaGoal = async (req, res) => {
   const { goalId } = req.params;
   try {
-    const goal = await AccountSchema.findById({ userId: req.userId, _id: goalId});
+    const goal = await GoalSchema.findOne({ userId: req.userId, _id: goalId});
     if (!goal) {
       return res.status(404).json({ message: "Goal not found!" });
     }
@@ -51,7 +51,7 @@ exports.patchGoal = async (req, res) => {
   const { goalId } = req.params;
   const { name, amount, saveamount, description } = req.body;
   try {
-        const goal = await GoalSchema.findById({ userId: req.userId, _id: goalId });
+        const goal = await GoalSchema.findOne({ userId: req.userId, _id: goalId });
         if (!goal) {
             return res.status(404).json({ message: "Goal not found!" });
         }

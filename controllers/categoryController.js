@@ -35,6 +35,19 @@ exports.getCategory = async (req, res) => {
   }
 };
 
+exports.getaCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  try {
+    const category = await CategorySchema.findOne({ userId: req.userId, _id: categoryId});
+    if (!category) {
+      return res.status(404).json({ message: "Category not found!" });
+    }
+    res.status(200).json(category)
+  } catch {
+    res.status(500).json({ message: error });
+  }
+};
+
 exports.patchCategory = async (req, res) => {
   const { categoryId } = req.params;
   const { name, icon } = req.body;

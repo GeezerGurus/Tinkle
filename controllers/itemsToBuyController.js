@@ -42,7 +42,7 @@ exports.getaItemToBuy = async (req, res) => {
   const { itemtobuyId } = req.params;
   const { tobuylistId } = req.body;
   try {
-    const itemtobuy = await ItemToBuy.findById({ userId: req.userId, tobuylistId: tobuylistId, _id: itemtobuyId});
+    const itemtobuy = await ItemToBuy.findOne({ userId: req.userId, tobuylistId: tobuylistId, _id: itemtobuyId});
     if (!itemtobuy) {
       return res.status(404).json({ message: "Item To Buy not found!" });
     }

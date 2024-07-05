@@ -1,4 +1,4 @@
-const ToBuyListSchema = require("../models/ItemToBuy");
+const ToBuyListSchema = require("../models/ToBuyList");
 
 exports.addToBuyList = (req, res) => {
   const userId = req.userId;
@@ -38,7 +38,7 @@ exports.getToBuyLists = async (req, res) => {
 exports.getaToBuyList = async (req, res) => {
   const { tobuylistId } = req.params;
   try {
-    const tobuylist = await ToBuyListSchema.findById({ userId: req.userId, _id: tobuylistId });
+    const tobuylist = await ToBuyListSchema.findOne({ userId: req.userId, _id: tobuylistId });
     if (!tobuylist) {
       return res.status(404).json({ message: "List not found!" });
     }

@@ -36,6 +36,19 @@ exports.getVideos = async (req, res) => {
   }
 };
 
+exports.getaVideo = async (req, res) => {
+  const { videoId } = req.params;
+  try {
+    const video = await VideoSchema.findOne({ userId: req.userId, _id: videoId});
+    if (!video) {
+      return res.status(404).json({ message: "Video not found!" });
+    }
+    res.status(200).json(video)
+  } catch {
+    res.status(500).json({ message: error });
+  }
+};
+
 exports.getFavouriteVideos = async (req, res) => {
   try { 
     const video = await VideoSchema.find({ userId: req.userId, favourite: true }).sort({ createdAt: -1 })
@@ -49,7 +62,7 @@ exports.patchVideo = async (req, res) => {
   const { videoId } = req.params;
   const { title, creator, description, link, thumbnail, favourite } = req.body;
   try {
-        const video = await VideoSchema.findById({ userId: req.userId, _id: videoId });
+        const video = await VideoSchema.findOne({ userId: req.userId, _id: videoId });
         if (!video) {
             return res.status(404).json({ message: "Video not found!" });
         }

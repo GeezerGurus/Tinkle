@@ -19,7 +19,7 @@ exports.addLend = async (req, res) => {
       debtId
     });
 
-    const debt = await DebtSchema.findById({_id: debtId});
+    const debt = await DebtSchema.findOne({_id: debtId});
     if ( debt.amount < amount) {
       return res.status(400).json({ message: "The amount of lend money exceeds the debt record!" });
     }
@@ -49,7 +49,7 @@ exports.getLends = async (req, res) => {
 exports.getaLend = async (req, res) => {
   const { lendId } = req.params;
   try {
-    const lend = await LendSchema.findById({ userId: req.userId, _id: lendId});
+    const lend = await LendSchema.findOne({ userId: req.userId, _id: lendId});
     if (!lend) {
       return res.status(404).json({ message: "Lend not found!" });
     }
@@ -72,9 +72,9 @@ exports.patchLend = async (req, res) => {
         }
 
         const debt = await DebtSchema.findOne({ userId: req.userId, _id: lend.debtId });
-        debt.amount = debt.amount + lend.amount;
+        debt.amount += lend.amount;
         lend.amount = amount;
-        debt.amount = debt.amount - lend.amount;
+        debt.amount -= lend.amount;
         await debt.save();
         await lend.save();
         res.status(200).json({ message: "Lend record updated successfully", debt });
@@ -90,7 +90,7 @@ exports.deleteLend = async (req, res) => {
     return res.status(404).json({ message: "Lend record not found!" });
   }
   const debt = await DebtSchema.findOne({ userId: req.userId, _id: lend.debtId });
-  debt.amount = debt.amount + lend.amount;
+  debt.amount += lend.amount;
   await debt.save();
   await LendSchema.findOneAndDelete({ userId: req.userId, _id: lendId})
     .then(() => {

@@ -17,7 +17,7 @@ const oweSchema = new Schema(
       type: Number,
       required: true,
       trim: true,
-      min: 0,
+      min: [0, "Balance already hits zero!"]
     },
   },
   { timestamps: true }

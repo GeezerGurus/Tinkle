@@ -12,7 +12,7 @@ exports.addDebt = async (req, res) => {
     if (isNaN(amount) || amount <= 0) {
       return res.status(400).json({ message: "Amount must be a positive number!" });
     }
-    const account = await AccountSchema.findById({ userId: req.userId, _id: accountId });
+    const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
     if( !account ) {
       return res.status(400).json({ message: "Account not found!" });
     }
@@ -59,7 +59,7 @@ exports.getDebts = async (req, res) => {
 exports.getaDebt = async (req, res) => {
   const { debtId } = req.params;
   try {
-    const debt = await DebtSchema.findById({ userId: req.userId, _id: debtId});
+    const debt = await DebtSchema.findOne({ userId: req.userId, _id: debtId});
     if (!debt) {
       return res.status(404).json({ message: "Debt not found!" });
     }

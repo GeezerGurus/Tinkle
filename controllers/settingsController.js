@@ -37,7 +37,7 @@ exports.getSettings = async (req, res) => {
 exports.getaSetting = async (req, res) => {
     const { settingId } = req.params;
     try {
-      const setting = await SettingSchema.findById({ userId: req.userId, _id: settingId});
+      const setting = await SettingSchema.findOne({ userId: req.userId, _id: settingId});
       if (!setting) {
         return res.status(404).json({ message: "Setting not found!" });
       }

@@ -32,7 +32,7 @@ const itemToBuySchema = new Schema(
     price: {
       type: Number,
       require: true,
-      min: 0,
+      min: [0, "Balance already hits zero!"]
     },
     isPurchased: {
       type: Boolean,

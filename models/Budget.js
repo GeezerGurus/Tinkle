@@ -17,13 +17,19 @@ const budgetSchema = new Schema(
       type: Number,
       required: true,
       trim: true,
-      min: 0,
+      min: [0, "Balance already hits zero!"]
     },
     spent: {
       type: Number,
       required: true,
       trim: true,
-      min: 0,
+      min: [0, "Balance already hits zero!"],
+      validate: {
+        validator: function(value) {
+          return value <= this.amount;
+        },
+        message: "Spent cannot exceed the amount of budget!"
+      }
     },
     remain: {
       type: Number,

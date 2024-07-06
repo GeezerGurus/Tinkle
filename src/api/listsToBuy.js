@@ -3,7 +3,15 @@ import api from "./api";
 export const getListsToBuy = async () => {
   try {
     const response = await api.get("/tobuylists");
-    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching lists:", error);
+  }
+};
+
+export const getListToBuy = async (tobuylistId) => {
+  try {
+    const response = await api.get(`/tobuylist/${tobuylistId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching lists:", error);

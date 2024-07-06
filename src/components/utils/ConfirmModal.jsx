@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import { tokens } from "../../theme";
 import React from "react";
+import { enqueueSnackbar } from "notistack";
 
 const ConfirmModal = ({
   refresh,
+  snackbarText,
   onClose,
   onClick,
   color,
@@ -67,6 +69,7 @@ const ConfirmModal = ({
           onClick={async () => {
             await onClick();
             refresh();
+            enqueueSnackbar(snackbarText, { variant: "error" });
             onClose();
           }}
           sx={{

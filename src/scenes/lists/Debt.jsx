@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { tokens } from "../../theme";
 import {
   Box,
@@ -15,6 +15,7 @@ import {
 import { ActivePage, AddDebt, ClosedPage } from "../../components/debt list";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import { getDebtRecord } from "../../api/debtRecord";
 
 const StyledButton = styled(Button)(({ theme, isMediumScreen }) => ({
   width: isMediumScreen ? "60%" : "433px",
@@ -49,6 +50,8 @@ const Debt = () => {
   const [page, setPage] = useState("active");
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -59,9 +62,20 @@ const Debt = () => {
     setPage(event.target.value);
   }, []);
 
+  const fetchRecords = async () => {
+    setIsLoading(true);
+    const res = await getDebtRecord();
+    setItems(res.data || []);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
+
   const renderPage = () => {
     if (page === "active") {
-      return <ActivePage />;
+      return <ActivePage items={items} />;
     } else if (page === "closed") {
       return <ClosedPage />;
     }
@@ -169,9 +183,17 @@ const Debt = () => {
         >
           {/* Render different components based on selected action */}
           {modal === "Lend" ? (
-            <AddDebt action={"lent"} onClose={handleCloseModal} />
+            <AddDebt
+              action={"lend"}
+              onClose={handleCloseModal}
+              refresh={fetchRecords}
+            />
           ) : (
-            <AddDebt action={"owe"} onClose={handleCloseModal} />
+            <AddDebt
+              action={"owe"}
+              onClose={handleCloseModal}
+              refresh={fetchRecords}
+            />
           )}
         </Box>
       </Modal>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -10,6 +10,7 @@ import {
 import { tokens } from "../../theme";
 import Debt from "./Debt";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { getDebtRecord } from "../../api/debtRecord";
 
 const debts = [
   {
@@ -35,9 +36,11 @@ const debts = [
   },
 ];
 
-const ActivePage = () => {
+const ActivePage = ({ items }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const records = items;
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -52,9 +55,9 @@ const ActivePage = () => {
         padding: theme.spacing(2),
       }}
     >
-      {/* Lent part  */}
+      {/* lend part  */}
       <Box>
-        {/* I lent  */}
+        {/* I lend  */}
         <Stack alignItems={"center"}>
           <Box
             sx={{
@@ -64,22 +67,23 @@ const ActivePage = () => {
             }}
           />
           <Typography variant="h6" gutterBottom>
-            I Lent
+            I lend
           </Typography>
         </Stack>
         {/* Active Debt list  */}
         <Stack width={"100%"} gap={2}>
-          {debts.map((debt, index) => (
-            <Debt
-              key={index}
-              name={debt.name}
-              purpose={debt.purpose}
-              amount={debt.amount}
-              dueDate={debt.dueDate}
-              isActive={debt.isActive}
-              action={"lent"}
-            />
-          ))}
+          {records &&
+            records.map((debt, index) => (
+              <Debt
+                key={index}
+                name={debt.name}
+                purpose={debt.purpose}
+                amount={debt.amount}
+                dueDate={debt.dueDate}
+                isActive={true}
+                action={"lend"}
+              />
+            ))}
         </Stack>
       </Box>
       {/* Owe Part  */}
@@ -99,17 +103,18 @@ const ActivePage = () => {
         </Stack>
         {/* Closed Debt list  */}
         <Stack width={"100%"} gap={2}>
-          {debts.map((debt, index) => (
-            <Debt
-              key={index}
-              name={debt.name}
-              purpose={debt.purpose}
-              amount={debt.amount}
-              dueDate={debt.dueDate}
-              isActive={debt.isActive}
-              action={"owe"}
-            />
-          ))}
+          {records &&
+            records.map((debt, index) => (
+              <Debt
+                key={index}
+                name={debt.name}
+                purpose={debt.purpose}
+                amount={debt.amount}
+                dueDate={debt.dueDate}
+                isActive={true}
+                action={"owe"}
+              />
+            ))}
         </Stack>
       </Box>
     </Box>

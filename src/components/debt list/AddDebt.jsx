@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
 import {
@@ -26,14 +26,19 @@ import {
   PriceCheck as PriceCheckIcon,
   List as ListIcon,
 } from "@mui/icons-material";
+import { postDebtRecord } from "../../api/debtRecord";
+import { enqueueSnackbar } from "notistack";
 
-const AddDebt = ({ onClose, amount, account, date, action }) => {
+const AddDebt = ({ onClose, amount, account, date, action, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [selectedAmount, setSelectedAmount] = useState(amount);
-  const [selectedAccount, setSelectedAccount] = useState(account);
-  const [selectedDate, setSelectedDate] = useState(date);
+  const [Name, setName] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [selectedAmount, setSelectedAmount] = useState(0);
+  const [selectedAccount, setSelectedAccount] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDueDate, setSelectedDueDate] = useState("");
 
   const handleAmountChange = (event) => {
     setSelectedAmount(event.target.value);
@@ -47,9 +52,32 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
     setSelectedDate(event.target.value);
   };
 
+  const handleCreate = async () => {
+    try {
+      const newDebt = {
+        type: action,
+        accountId: "6688e3b6daa920f8c89aa3db",
+        name: Name,
+        purpose: purpose,
+        amount: parseInt(selectedAmount, 10),
+        Date: selectedDate.toString().split("T")[0],
+        DueDate: selectedDueDate.toString().split("T")[0],
+      };
+      console.log("Request payload:", newDebt);
+      const createdList = await postDebtRecord(newDebt);
+      console.log("New list created:", createdList);
+      refresh();
+      enqueueSnackbar("List created!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error creating new list:", error);
+    }
+  };
+
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Paper
       sx={{
@@ -71,7 +99,7 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
       <Typography variant="h4" sx={{ color: colors.purple[900] }}>
         Edit Debt
       </Typography>
-      {action === "lent" ? (
+      {action === "lend" ? (
         <Stack alignItems={"center"} gap={1}>
           <Box
             sx={{
@@ -81,7 +109,7 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
             }}
           />
           <Typography variant="h6" gutterBottom>
-            I Lent
+            I lend
           </Typography>
         </Stack>
       ) : (
@@ -101,8 +129,10 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
 
       <TextField
         label="Name"
+        value={Name}
+        onChange={(e) => setName(e.target.value)}
         placeholder={
-          action === "lent" ? "To whom have I lent?" : "From whom did I borrow?"
+          action === "lend" ? "To whom have I lend?" : "From whom did I borrow?"
         }
         fullWidth
         InputLabelProps={{
@@ -116,6 +146,8 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
       <TextField
         label="Purpose"
         placeholder="What was it for?"
+        value={purpose}
+        onChange={(e) => setPurpose(e.target.value)}
         fullWidth
         InputLabelProps={{
           shrink: true,
@@ -136,7 +168,7 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
           sx: { height: isLaptop ? "42px" : undefined },
           startAdornment: (
             <InputAdornment position="start" sx={{ color: "green" }}>
-              {action === "lent" ? (
+              {action === "lend" ? (
                 <Typography
                   sx={{ color: "red", fontWeight: "400", fontSize: "24px" }}
                 >
@@ -244,8 +276,8 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         label="Due Date"
         type="date"
         fullWidth
-        value={selectedDate}
-        onChange={handleDateChange}
+        value={selectedDueDate}
+        onChange={(e) => setSelectedDueDate(e.target.value)}
         InputLabelProps={{
           shrink: true,
         }}
@@ -264,6 +296,7 @@ const AddDebt = ({ onClose, amount, account, date, action }) => {
         justifyContent={"space-between"}
       >
         <Button
+          onClick={handleCreate}
           sx={{
             width: isSmallScreen ? "208px" : isMediumScreen ? "190px" : "208px",
             height: isMediumScreen ? "35px" : "40px",

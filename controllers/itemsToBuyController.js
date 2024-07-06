@@ -2,20 +2,17 @@ const ItemToBuy = require("../models/ItemToBuy");
 
 exports.addItemToBuy = (req, res) => {
   const userId = req.userId;
-  const { tobuylistId, name, quantity, description, price, isPurchased } = req.body;
+  const { tobuylistId, name, description } = req.body;
 
   if ( !tobuylistId || name || !quantity || !price ) {
-    return res.status(400).json({ message: "User ID, tobuylistId, name, and quantity are required!" });
+    return res.status(400).json({ message: " TobuylistId, and name are required!" });
   }
 
   const itemToBuy = new ItemToBuy({
     userId,
     tobuylistId,
     name,
-    quantity,
     description,
-    price,
-    isPurchased,
   });
 
   itemToBuy.save()
@@ -54,7 +51,7 @@ exports.getaItemToBuy = async (req, res) => {
 
 exports.patchItemToBuy = async (req, res) => {
   const { itemtobuyId } = req.params;
-  const { tobuylistId, name, price, isPurchased, description, quantity } = req.body;
+  const { tobuylistId, name, description } = req.body;
   try {
     const itemstobuy = await ItemToBuy.findOne({ userId: req.userId, tobuylistId: tobuylistId, _id: itemtobuyId });
     if (!itemstobuy) {
@@ -62,9 +59,6 @@ exports.patchItemToBuy = async (req, res) => {
     }
 
     if (name !== undefined) itemstobuy.name = name;
-    if (price !== undefined) itemstobuy.price = price;
-    if (quantity !== undefined) itemstobuy.quantity = quantity;
-    if (isPurchased !== undefined) itemstobuy.isPurchased = isPurchased;
     if (description !== undefined) itemstobuy.description = description;
 
     await itemstobuy.save();

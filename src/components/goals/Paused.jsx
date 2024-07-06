@@ -5,7 +5,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import SavingItem from "./SavingItem";
 
-export const Paused = () => {
+export const Paused = ({isSmallScreen}) => {
   const PausedItems = [
     {
       name: "New Home",
@@ -44,7 +44,7 @@ export const Paused = () => {
     // Container
     <Box
       sx={{
-        width: "65%",
+        width: isSmallScreen?"90%":"65%",
         height: "779px",
         gap: "24px",
         display: "flex",

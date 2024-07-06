@@ -8,6 +8,7 @@ import {
   Modal,
   Stack,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
@@ -20,6 +21,8 @@ function CircularProgressBar(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Box
       sx={{
@@ -27,15 +30,15 @@ function CircularProgressBar(props) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "346px",
-        height: "346px",
+        width: isSmallScreen ? "246px" : "346px",
+        height: isSmallScreen ? "246px" : "346px",
       }}
     >
       {/* Background CircularProgress */}
       <CircularProgress
         variant="determinate"
         value={100}
-        size={335}
+        size={isSmallScreen ? 235 : 335}
         thickness={1.5}
         sx={{
           color: colors.extra.light_grey, // Background color
@@ -47,7 +50,7 @@ function CircularProgressBar(props) {
         variant="determinate"
         {...props}
         thickness={2.5}
-        size={"346px"}
+        size={isSmallScreen ? "246px" : "346px"}
         sx={{
           color: colors.purple[600],
           "& .MuiCircularProgress-circle": {
@@ -60,13 +63,16 @@ function CircularProgressBar(props) {
       {/* Inner text */}
       <Stack
         alignItems={"center"}
-        gap={3}
+        gap={isSmallScreen ? 0 : 3}
         sx={{
           position: "absolute",
         }}
       >
         {/* Percentage */}
-        <Typography variant="h1" color={colors.purple[600]}>
+        <Typography
+          variant={isSmallScreen ? "h2" : "h1"}
+          color={colors.purple[600]}
+        >
           {`${Math.round(props.value)}%`}
         </Typography>
         {/* Ratio */}
@@ -96,11 +102,13 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
   const [openModal, setOpenModal] = useState(false);
   const percentage = goal > 0 ? (saved / goal) * 100 : 0;
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Paper
       sx={{
-        width: "766px",
-        height: "785px",
+        width: isSmallerScreen ? "350px" : isSmallScreen ? "400px" : "766px",
+        height: "auto",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -133,20 +141,29 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
       <CircularProgressBar value={percentage} saved={saved} goal={goal} />
       {/* Last Week Added Amount and Estimation */}
       <Stack alignItems={"center"}>
-        <Typography variant="h6">Last week added amount</Typography>
+        <Typography variant={isSmallScreen ? "body1" : "h6"}>
+          Last week added amount
+        </Typography>
         <Stack direction={"row"} alignItems={"center"} gap={1}>
           <Typography variant="h5">2000</Typography>
           <Typography variant="body1">MMK</Typography>
         </Stack>
 
-        <Typography variant="h6">Estimated time to reach goal</Typography>
+        <Typography variant={isSmallScreen ? "body1" : "h6"}>
+          Estimated time to reach goal
+        </Typography>
         <Stack direction={"row"} alignItems={"center"} gap={1}>
           <Typography variant="h5">20</Typography>
           <Typography variant="body1">weeks</Typography>
         </Stack>
       </Stack>
       {/* Buttons */}
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={isSmallScreen ? 2 : 1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+        sx={{ marginTop: isSmallScreen ? "10px" : "0px" }}
+      >
         <Button
           onClick={() => {
             setModal("add");

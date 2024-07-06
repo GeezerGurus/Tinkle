@@ -4,7 +4,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import SavingItem from "./SavingItem";
-export const Reached = () => {
+export const Reached = ({isSmallScreen}) => {
   const ActiveItems = [
     {
       name: "New Home",
@@ -43,7 +43,7 @@ export const Reached = () => {
     // Container
     <Box
       sx={{
-        width: "65%",
+        width: isSmallScreen?"90%":"65%",
         height: "779px",
         gap: "24px",
         display: "flex",

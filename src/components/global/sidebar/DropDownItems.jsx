@@ -6,6 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
+  Stack,
 } from "@mui/material";
 
 import { FiberManualRecord as FiberManualRecordIcon } from "@mui/icons-material";
@@ -24,10 +25,9 @@ export const DropDownItems = ({ content, Navigation, onClick, setOpen }) => {
         justifyContent: "flex-start",
       }}
     >
-      {content.map(({ text, path }) => (
-        <ListItem
-          key={text}
-          disablePadding
+      {content.map(({ text, path }, index) => (
+        <Stack
+          key={index}
           sx={{
             width: "190px",
             borderRadius: "8px",
@@ -64,7 +64,7 @@ export const DropDownItems = ({ content, Navigation, onClick, setOpen }) => {
               }}
             />
           </ListItemButton>
-        </ListItem>
+        </Stack>
       ))}
     </Box>
   );

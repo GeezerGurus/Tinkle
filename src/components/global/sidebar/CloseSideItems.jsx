@@ -10,41 +10,21 @@ export const CloseSideItems = ({ title, icon, dropdown, onClick }) => {
   const colors = tokens(theme.palette.mode);
   return (
     <Tooltip title={title} placement="right" arrow>
-      {!dropdown && (
-        <IconButton
-          onClick={() => {
-            onClick();
-          }}
-          sx={{
-            height: "46.4px",
-            width: "46.4px",
-            ml: 11 + "6px",
-            "&:hover": {
-              backgroundColor: colors.purple[100],
-            },
-          }}
-        >
-          {icon}
-        </IconButton>
-      )}
-      {dropdown && (
-        <IconButton
-          onClick={() => {
-            onClick();
-          }}
-          sx={{
-            height: "46.4px",
-            width: "46.4px",
-
-            ml: 11 + "6px",
-            "&:hover": {
-              backgroundColor: colors.purple[100],
-            },
-          }}
-        >
-          {icon}
-        </IconButton>
-      )}
+      <IconButton
+        onClick={() => {
+          onClick();
+        }}
+        sx={{
+          height: "46.4px",
+          width: "46.4px",
+          ml: 11 + "6px",
+          "&:hover": {
+            backgroundColor: colors.purple[100],
+          },
+        }}
+      >
+        {icon}
+      </IconButton>
     </Tooltip>
   );
 };

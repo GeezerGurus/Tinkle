@@ -207,7 +207,8 @@ const Sidebar = ({ mode }) => {
         p={2}
         sx={{
           width: open ? "320px" : "84px",
-          height: "1024px",
+          height: open ? "1024px" : "auto",
+          // height: "100vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -312,88 +313,89 @@ const Sidebar = ({ mode }) => {
 
             {/* Menu Items for when Opened and Closed Sidebar*/}
             <List>
-              {MenuOpen.map(({ text, icon, path, dropdown, page, content }) => (
-                <>
-                  {!dropdown && (
-                    <ListItem
-                      key={text}
-                      disablePadding
-                      sx={{
-                        width: open ? "86%" : "61px",
-                        borderRadius: "8px",
-                        "&:hover": {
-                          backgroundColor: colors.purple[100],
-                        },
-                      }}
-                    >
-                      {open ? (
-                        <OpenSideItems
-                          path={path}
-                          open={open}
-                          icon={icon}
-                          text={text}
-                          theme={theme}
-                          Navigation={navigate}
-                          setOpen={setOpen}
-                        />
-                      ) : (
-                        <CloseSideItems
-                          title={text}
-                          icon={icon}
-                          path={path}
-                          dropdown={dropdown}
-                          onClick={
-                            dropdown
-                              ? handleDropdownClick(page)
-                              : handleNavigation(path)
-                          }
-                        />
-                      )}
-                    </ListItem>
-                  )}
+              {MenuOpen.map(
+                ({ text, icon, path, dropdown, page, content }, index) => (
+                  <Box key={index}>
+                    {!dropdown && (
+                      <ListItem
+                        disablePadding
+                        sx={{
+                          width: open ? "86%" : "61px",
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: colors.purple[100],
+                          },
+                        }}
+                      >
+                        {open ? (
+                          <OpenSideItems
+                            path={path}
+                            open={open}
+                            icon={icon}
+                            text={text}
+                            theme={theme}
+                            Navigation={navigate}
+                            setOpen={setOpen}
+                          />
+                        ) : (
+                          <CloseSideItems
+                            title={text}
+                            icon={icon}
+                            path={path}
+                            dropdown={dropdown}
+                            onClick={
+                              dropdown
+                                ? handleDropdownClick(page)
+                                : handleNavigation(path)
+                            }
+                          />
+                        )}
+                      </ListItem>
+                    )}
 
-                  {dropdown && (
-                    <ListItem
-                      key={text}
-                      disablePadding
-                      sx={{
-                        width: "85%",
-                        borderRadius: "8px",
-                        "&:hover": {
-                          backgroundColor: "white",
-                        },
-                      }}
-                    >
-                      {open ? (
-                        <DropDownMenu
-                          page={page}
-                          text={text}
-                          open={open}
-                          icon={icon}
-                          navigate={navigate}
-                          DropdownClick={handleDropdownClick}
-                          ChangePage={handleChange}
-                          expanded={expanded}
-                          content={content}
-                          setOpen={setOpen}
-                        />
-                      ) : (
-                        <CloseSideItems
-                          title={text}
-                          icon={icon}
-                          path={path}
-                          dropdown={dropdown}
-                          onClick={
-                            dropdown
-                              ? handleDropdownClick(page)
-                              : handleNavigation(path)
-                          }
-                        />
-                      )}
-                    </ListItem>
-                  )}
-                </>
-              ))}
+                    {dropdown && (
+                      <ListItem
+                        key={text}
+                        disablePadding
+                        sx={{
+                          width: "85%",
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: "white",
+                          },
+                        }}
+                      >
+                        {open ? (
+                          <DropDownMenu
+                            page={page}
+                            text={text}
+                            open={open}
+                            icon={icon}
+                            navigate={navigate}
+                            DropdownClick={handleDropdownClick}
+                            ChangePage={handleChange}
+                            expanded={expanded}
+                            content={content}
+                            setOpen={setOpen}
+                          />
+                        ) : (
+                          <CloseSideItems
+                            title={text}
+                            icon={icon}
+                            path={path}
+                            dropdown={dropdown}
+                            onClick={
+                              dropdown
+                                ? handleDropdownClick(page)
+                                : handleNavigation(path)
+                            }
+                          />
+                        )}
+                      </ListItem>
+                    )}
+                  </Box>
+                )
+              )}
               <Divider sx={{ width: "90%", display: open ? "auto" : "none" }} />
             </List>
 
@@ -416,71 +418,72 @@ const Sidebar = ({ mode }) => {
               {/* General Items for when Opened and Closed Sidebar */}
               <List>
                 {General.map(
-                  ({ text, icon, path, dropdown, page, content }) => (
-                    <ListItem
-                      key={text}
-                      disablePadding
-                      sx={{
-                        width: open ? "85%" : "61px",
-                        borderRadius: "8px",
-                        "&:hover": {
-                          backgroundColor: colors.purple[100],
-                        },
-                      }}
-                    >
-                      {!dropdown && (
-                        <>
-                          {open ? (
-                            <OpenSideItems
-                              path={path}
-                              open={open}
-                              icon={icon}
-                              text={text}
-                              theme={theme}
-                              Navigation={navigate}
-                              setOpen={setOpen}
-                            />
-                          ) : (
-                            <CloseSideItems
-                              title={text}
-                              icon={icon}
-                              path={path}
-                              onClick={
-                                dropdown
-                                  ? handleDropdownClick(page)
-                                  : handleNavigation(path)
-                              }
-                            />
-                          )}
-                        </>
-                      )}
-                      {dropdown && (
-                        <>
-                          {open ? (
-                            <DropDownMenu
-                              page={page}
-                              text={text}
-                              open={open}
-                              icon={icon}
-                              navigate={navigate}
-                              DropdownClick={handleDropdownClick}
-                              ChangePage={handleChange}
-                              expanded={expanded}
-                              content={content}
-                              setOpen={setOpen}
-                            />
-                          ) : (
-                            <CloseSideItems
-                              title={text}
-                              icon={icon}
-                              path={path}
-                              dropdown={dropdown}
-                              onClick={handleDropdownClick(page)}
-                            />
-                          )}
-                        </>
-                      )}
-                    </ListItem>
+                  ({ text, icon, path, dropdown, page, content }, index) => (
+                    <Box key={index}>
+                      <ListItem
+                        disablePadding
+                        sx={{
+                          width: open ? "85%" : "61px",
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: colors.purple[100],
+                          },
+                        }}
+                      >
+                        {!dropdown && (
+                          <>
+                            {open ? (
+                              <OpenSideItems
+                                path={path}
+                                open={open}
+                                icon={icon}
+                                text={text}
+                                theme={theme}
+                                Navigation={navigate}
+                                setOpen={setOpen}
+                              />
+                            ) : (
+                              <CloseSideItems
+                                title={text}
+                                icon={icon}
+                                path={path}
+                                onClick={
+                                  dropdown
+                                    ? handleDropdownClick(page)
+                                    : handleNavigation(path)
+                                }
+                              />
+                            )}
+                          </>
+                        )}
+                        {dropdown && (
+                          <>
+                            {open ? (
+                              <DropDownMenu
+                                page={page}
+                                text={text}
+                                open={open}
+                                icon={icon}
+                                navigate={navigate}
+                                DropdownClick={handleDropdownClick}
+                                ChangePage={handleChange}
+                                expanded={expanded}
+                                content={content}
+                                setOpen={setOpen}
+                              />
+                            ) : (
+                              <CloseSideItems
+                                title={text}
+                                icon={icon}
+                                path={path}
+                                dropdown={dropdown}
+                                onClick={handleDropdownClick(page)}
+                              />
+                            )}
+                          </>
+                        )}
+                      </ListItem>
+                    </Box>
                   )
                 )}
               </List>
@@ -613,7 +616,7 @@ const Sidebar = ({ mode }) => {
                   height: "10%",
                   alignItems: "center",
                   justifyContent: "center",
-                  mt: 26,
+                  mt: "auto",
                 }}
               >
                 {/* Avatar and Name for Closed Sidebar */}

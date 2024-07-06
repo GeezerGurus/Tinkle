@@ -25,7 +25,7 @@ const Statistics = () => {
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmallLaptop = useMediaQuery(theme.breakpoints.up("md"));
+  const isSmallLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   // const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
@@ -64,12 +64,12 @@ const Statistics = () => {
             ? "100%"
             : `calc(98vw - ${sidebarWidth}px)`
           : isSmallLaptop
-          ? `calc(98vw - ${sidebarWidth}px)`
+          ? `92vw`
           : "100%",
         height: "92%",
         display: "flex",
         pt: 2,
-        justifyContent: "",
+        justifyContent: "center",
       }}
     >
       <Box

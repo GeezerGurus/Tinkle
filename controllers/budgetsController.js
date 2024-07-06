@@ -2,13 +2,13 @@ const BudgetSchema = require("../models/Budget");
 
 exports.addBudget = async (req, res) => {
   const userId = req.userId;
-  const { name, remain, period, spent, amount, endDate, startDate, description } = req.body;
+  const { name, period, amount, endDate, startDate, description } = req.body;
 
   try {
-    if ( !spent || !name || !remain || !endDate || !startDate || !amount || !period) {
+    if ( !name || !amount || !period) {
       return res.status(400).json({ message: "All fields are required!" });
     }
-    if (amount <= 0 || !amount === "number") {
+    if (isNaN(amount) || amount <= 0) {
       return res.status(400).json({ message: "Amount must be a positive number!" });
     }
 
@@ -17,8 +17,6 @@ exports.addBudget = async (req, res) => {
       name,
       period,
       amount,
-      spent,
-      remain,
       endDate,
       startDate,
       description
@@ -56,7 +54,7 @@ exports.getaBudget = async (req, res) => {
 
 exports.patchBudget = async (req, res) => {
   const { budgetId } = req.params;
-  const { name, remain, period, spent, amount, endDate, startDate, description } = req.body;
+  const { name, period, amount, endDate, startDate, description } = req.body;
   try {
         const budget = await BudgetSchema.findOne({ userId: req.userId ,_id: budgetId });
         if (!budget) {
@@ -66,11 +64,8 @@ exports.patchBudget = async (req, res) => {
           return res.status(400).json({ message: "Amount must be a positive number!" });
         }
 
-        if (userId) budget.userId = userId;
         if (period) budget.period = period;
-        if (spent) budget.name = spent;
         if (amount) budget.amount = amount;
-        if (remain) budget.remain = remain;
         if (name) budget.name = name;
         if (endDate) budget.endDate = endDate;
         if (startDate) budget.startDate = startDate;

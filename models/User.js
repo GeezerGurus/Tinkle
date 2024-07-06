@@ -22,11 +22,9 @@ const userSchema = new Schema(
     },
     job: {
       type: String,
-      required: [true, "Please enter your job"]
     },
     phoneNo: {
       type: String,
-      required: [true, "Please enter a phone number"],
       unique: true,
     },
   },

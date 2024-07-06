@@ -8,7 +8,10 @@ exports.addGoal = async (req, res) => {
     if (!name || !amount) {
       return res.status(400).json({ message: "Name and Amount fields are required!" });
     }
-
+    if (amount <= 0 || !amount === "number") {
+      return res.status(400).json({ message: "Amount must be a positive number!" });
+    }
+    
     const goal = GoalSchema({
       userId,
       name,

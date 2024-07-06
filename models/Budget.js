@@ -19,31 +19,17 @@ const budgetSchema = new Schema(
       trim: true,
       min: [0, "Balance already hits zero!"]
     },
-    spent: {
-      type: Number,
-      required: true,
-      trim: true,
-      min: [0, "Balance already hits zero!"],
-      validate: {
-        validator: function(value) {
-          return value <= this.amount;
-        },
-        message: "Spent cannot exceed the amount of budget!"
-      }
-    },
-    remain: {
-      type: Number,
-      required: true,
-      trim: true,
-      min: 0,
-    },
     startDate: {
       type: Date,
-      required: true,
+      required: function() {
+        return this.period === "One Time";
+    }
     },
     endDate: {
       type: Date,
-      required: true,
+      required: function() {
+        return this.period === "One Time";
+    }
     },
     period: {
       type: String,

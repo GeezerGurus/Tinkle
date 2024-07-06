@@ -8,7 +8,7 @@ exports.addAccount = async (req, res) => {
     if (!userId || !balance || !name) {
       return res.status(400).json({ message: "All fields are required!" });
     }
-    if (balance <= 0 || !balance === "number") {
+    if (isNaN(balance) || balance <= 0) {
       return res.status(400).json({ message: "Balance amount must be a positive number!" });
     }
 

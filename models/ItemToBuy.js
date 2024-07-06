@@ -19,25 +19,11 @@ const itemToBuySchema = new Schema(
       trim: true,
       maxlength: 100,
     },
-    quantity: {
-      type: Number,
-      require: true,
-      min: 1,
-    },
     description: {
       type: String,
       trim: true,
       maxlength: 200,
-    },
-    price: {
-      type: Number,
-      require: true,
-      min: [0, "Balance already hits zero!"]
-    },
-    isPurchased: {
-      type: Boolean,
-      default: false,
-    },
+    }
   },
   { timestamps: true }
 );

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, Modal, useTheme, Stack } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Modal,
+  useTheme,
+  Stack,
+  useMediaQuery,
+} from "@mui/material";
 import GoalDetails from "./GoalDetails";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -31,6 +39,8 @@ export const SavingItem = ({
     setOpenModal(false);
   };
 
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
       {/* Main Box */}
@@ -46,7 +56,7 @@ export const SavingItem = ({
               : state === "paused"
               ? colors.extra.grey
               : "",
-          padding: "24px 128px",
+          padding: isMediumScreen ? "20px" : "24px 128px",
         }}
       >
         {/* Inner Box */}
@@ -73,8 +83,8 @@ export const SavingItem = ({
               {icon &&
                 React.cloneElement(icon, {
                   sx: {
-                    width: "48px",
-                    height: "48px",
+                    width: isMediumScreen ? "37.99px" : "48px",
+                    height: isMediumScreen ? "37.99px" : "48px",
                     backgroundColor: bgColor,
                     borderRadius: "50%",
                     color: "white",
@@ -83,7 +93,9 @@ export const SavingItem = ({
 
               {/* Texts */}
               <Stack>
-                <Typography variant="body1">{name}</Typography>
+                <Typography variant={isMediumScreen ? "body2" : "body1"}>
+                  {name}
+                </Typography>
                 <Typography variant="body4">{date}</Typography>
               </Stack>
             </Stack>
@@ -99,7 +111,10 @@ export const SavingItem = ({
                   }}
                 >
                   <PauseCircleOutlineIcon
-                    sx={{ width: "28px", height: "28px" }}
+                    sx={{
+                      width: isMediumScreen ? "20px" : "28px",
+                      height: isMediumScreen ? "20px" : "28px",
+                    }}
                   />
                 </IconButton>
               ) : state === "paused" ? (
@@ -110,7 +125,10 @@ export const SavingItem = ({
                   }}
                 >
                   <PlayCircleOutlineIcon
-                    sx={{ width: "28px", height: "28px" }}
+                    sx={{
+                      width: isMediumScreen ? "20px" : "28px",
+                      height: isMediumScreen ? "20px" : "28px",
+                    }}
                   />
                 </IconButton>
               ) : (
@@ -124,7 +142,12 @@ export const SavingItem = ({
                   setOpenModal(true);
                 }}
               >
-                <BorderColorIcon sx={{ width: "28px", height: "28px" }} />
+                <BorderColorIcon
+                  sx={{
+                    width: isMediumScreen ? "20px" : "28px",
+                    height: isMediumScreen ? "20px" : "28px",
+                  }}
+                />
               </IconButton>
 
               {/* Delete Button */}
@@ -134,7 +157,12 @@ export const SavingItem = ({
                   setOpenModal(true);
                 }}
               >
-                <DeleteIcon sx={{ width: "28px", height: "28px" }} />
+                <DeleteIcon
+                  sx={{
+                    width: isMediumScreen ? "20px" : "28px",
+                    height: isMediumScreen ? "20px" : "28px",
+                  }}
+                />
               </IconButton>
             </Stack>
           </Box>
@@ -159,8 +187,12 @@ export const SavingItem = ({
           >
             {/* Saved */}
             <Stack direction={"row"} gap={1}>
-              <Typography variant="body2">Saved: </Typography>
-              <Typography variant="body3">{saved} MMK</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                Saved:{" "}
+              </Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body3"}>
+                {saved} MMK
+              </Typography>
             </Stack>
 
             {/* Tap to see details */}
@@ -172,7 +204,9 @@ export const SavingItem = ({
                 "&:hover": { backgroundColor: colors.purple[300] },
               }}
             >
-              <Typography variant="body2">See Detail</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                See Detail
+              </Typography>
             </Button>
             <Modal open={open} onClose={() => setOpen(false)}>
               <Box
@@ -193,8 +227,12 @@ export const SavingItem = ({
 
             {/* Goal */}
             <Stack direction={"row"} gap={1}>
-              <Typography variant="body2">Goal: </Typography>
-              <Typography variant="body3">{goal} MMK</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                Goal:{" "}
+              </Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body3"}>
+                {goal} MMK
+              </Typography>
             </Stack>
           </Box>
         </Box>

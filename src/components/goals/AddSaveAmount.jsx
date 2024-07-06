@@ -7,6 +7,7 @@ import {
   Stack,
   TextField,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 
@@ -24,23 +25,25 @@ const AddSaveAmount = ({ onClose }) => {
       amount: amount,
     });
   };
-
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   //   Container
   return (
     <Paper
       sx={{
-        width: "686px",
+        width: isSmallScreen ? "356px" : "686px",
         height: "260px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "32px 112px",
+        padding: isSmallScreen ? "32px 50px" : "32px 112px",
         borderRadius: "8px",
       }}
     >
       {/* Header Section */}
-      <Typography variant="h4">Add Saving Amount</Typography>
+      <Typography variant={isSmallScreen ? "h5" : "h4"}>
+        Add Saving Amount
+      </Typography>
 
       {/* Middle Section */}
       <TextField
@@ -63,7 +66,7 @@ const AddSaveAmount = ({ onClose }) => {
         <Button
           onClick={handleSave}
           sx={{
-            width: "208px",
+            width: isSmallScreen ? "134px" : "208px",
             height: "40px",
             backgroundColor: colors.purple[600],
             textTransform: "none",
@@ -76,7 +79,7 @@ const AddSaveAmount = ({ onClose }) => {
         <Button
           onClick={onClose}
           sx={{
-            width: "208px",
+            width: isSmallScreen ? "134px" : "208px",
             height: "40px",
             backgroundColor: colors.purple[200],
             textTransform: "none",

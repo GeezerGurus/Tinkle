@@ -25,7 +25,7 @@ exports.addToBuyList = (req, res) => {
 
 exports.getToBuyLists = async (req, res) => {
   try{
-    const list = await ItemToBuy.find({ userId: req.userId }).sort({ createdAt: -1 })
+    const list = await ToBuyListSchema.find({ userId: req.userId }).sort({ createdAt: -1 })
     if (!list){
         return res.status(404).json({ message: "Lists not found!" });
     }

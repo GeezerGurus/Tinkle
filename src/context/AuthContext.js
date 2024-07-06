@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import api from "../api/api"; // Ensure this is the correct path to your api module
 import Cookies from "js-cookie";
 
@@ -55,10 +55,10 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await api.post("/logout");
     Cookies.remove("token");
     setAuth({ token: null, user: null });
-    api.post("/logout"); // Uncomment and ensure the correct endpoint
   };
 
   return (

@@ -17,8 +17,9 @@ import { tokens } from "../../theme";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ConfirmModal } from "../utils";
+import { deleteListToBuy } from "../../api/listsToBuy";
 
-const ListBox = ({ name, description }) => {
+const ListBox = ({ id, name, description, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -133,11 +134,17 @@ const ListBox = ({ name, description }) => {
           {modal === "edit" ? (
             <EditList
               onClose={() => setOpenModal(false)}
+              id={id}
               name={name}
               description={description}
+              refresh={refresh}
             />
           ) : (
             <ConfirmModal
+              onClick={() => {
+                deleteListToBuy(id);
+              }}
+              refresh={refresh}
               highlight={"Delete"}
               color={colors.extra.red_accent}
               promptText={"Do you really want to Delete?"}

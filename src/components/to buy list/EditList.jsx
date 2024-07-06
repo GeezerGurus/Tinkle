@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Paper,
-  IconButton,
   Typography,
   Button,
   useTheme,
@@ -9,29 +8,32 @@ import {
   Stack,
   useMediaQuery,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { tokens } from "../../theme";
+import { patchListToBuy } from "../../api/listsToBuy";
 
-const EditList = ({ onClose, name, description }) => {
+const EditList = ({ onClose, id, name, description, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [listName, setListName] = useState(name || "");
   const [listDescription, setListDescription] = useState(description || "");
 
-  const handleSave = () => {
-    console.log({
-      name: listName,
-      description: listDescription,
-    });
-  };
-
-  const handleDelete = () => {
-    console.log("List deleted");
+  const handleSave = async () => {
+    try {
+      const EditedList = {
+        name: listName,
+        description: listDescription,
+      };
+      const createdList = await patchListToBuy(id, EditedList);
+      console.log("List Edited:", createdList);
+      refresh();
+      onClose();
+    } catch (error) {
+      console.error("Error editing list:", error);
+    }
   };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     // Container

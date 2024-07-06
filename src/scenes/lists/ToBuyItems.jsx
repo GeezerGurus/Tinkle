@@ -158,7 +158,6 @@ const ToBuyItems = () => {
             price={item.price}
             isPurchased={item.isPurchased}
             itemId={item._id}
-            refresh={fetchItems}
           />
         ))}
       </Box>

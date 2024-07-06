@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme,
   Stack,
+  useMediaQuery
 } from "@mui/material";
 import { Active, Paused, Reached } from "../../components/goals";
 import { SpeedDial } from "../../components/utils";
@@ -17,17 +18,19 @@ export const Goals = () => {
   const colors = tokens(theme.palette.mode);
 
   const [page, setPage] = useState("active");
+  //for responsive
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   // Sub Title Change Handle
 
   // Rendering the Pages
   const renderPage = () => {
     if (page === "active") {
-      return <Active />;
+      return <Active isSmallScreen = {isMediumScreen} />;
     } else if (page === "paused") {
-      return <Paused />;
+      return <Paused isSmallScreen = {isMediumScreen} />;
     } else {
-      return <Reached />;
+      return <Reached isSmallScreen = {isMediumScreen} />;
     }
   };
   return (
@@ -58,7 +61,7 @@ export const Goals = () => {
           onClick={() => setPage("active")}
           sx={{
             borderRadius: "16px",
-            width: "245.67px",
+            width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
             backgroundColor: page === "active" ? colors.purple[600] : "white",
             color: page === "active" ? "white" : "black",
@@ -74,7 +77,7 @@ export const Goals = () => {
           value="paused"
           onClick={() => setPage("paused")}
           sx={{
-            width: "245.67px",
+            width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
             backgroundColor: page === "paused" ? colors.purple[600] : "white",
             color: page === "paused" ? "white" : "black",
@@ -91,7 +94,7 @@ export const Goals = () => {
           onClick={() => setPage("reached")}
           sx={{
             borderRadius: "16px",
-            width: "245.67px",
+            width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
             backgroundColor: page === "reached" ? colors.purple[600] : "white",
             color: page === "reached" ? "white" : "black",

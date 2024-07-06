@@ -12,6 +12,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  useMediaQuery,
 } from "@mui/material";
 import { Item } from "../utils";
 import {
@@ -92,11 +93,13 @@ export const EditGoal = ({
       note: note,
     });
   };
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Paper
       sx={{
-        width: "686px",
-        height: "709px",
+        width: isSmallScreen ? "350px" : "686px",
+        height: "auto",
         display: "flex",
         gap: "20px",
         padding: "32px",
@@ -119,7 +122,8 @@ export const EditGoal = ({
           flexDirection: "column",
           justifyContent: "space-around",
           alignItems: "center",
-          padding: "0 80px",
+          padding: isSmallScreen ? "0px" : "0 80px",
+          gap: "10px",
         }}
       >
         {/* Goal Name */}
@@ -186,7 +190,7 @@ export const EditGoal = ({
         <Stack direction={"row"} width={"100%"} gap={2}>
           <FormControl sx={{ width: "80%" }}>
             <InputLabel id="from-account-label" sx={{ color: "black" }}>
-              From Account
+              Color
             </InputLabel>
             <Select
               id="from-account-label"
@@ -278,7 +282,11 @@ export const EditGoal = ({
       </Box>
 
       {/* Bottom Section */}
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={isSmallerScreen ? 1 : 2}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           onClick={handleSave}
           sx={{

@@ -1,76 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { CreateList, ListBox } from "../../components/to buy list";
 import { tokens } from "../../theme";
-import { BackBtn, SpeedDial } from "../../components/utils";
+import { BackBtn, Loader, SpeedDial } from "../../components/utils";
+import { getListsToBuy } from "../../api/listsToBuy";
+import { ToBuyListImage } from "../../assets/empty";
 
 const ToBuyList = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const lists = [
-    {
-      name: "Grocery List",
-      description: "Essential items for the week's meals",
-    },
-    {
-      name: "Shopping List",
-      description: "Items needed for household supplies",
-    },
-    {
-      name: "Birthday Party Supplies",
-      description: "Decorations and party essentials",
-    },
-    {
-      name: "Travel Packing List",
-      description: "Items to pack for an upcoming trip",
-    },
-    {
-      name: "School Supplies",
-      description: "Books, stationery, and accessories",
-    },
-    {
-      name: "Home Improvement List",
-      description: "Tools and materials for DIY projects",
-    },
-    {
-      name: "Fitness Equipment",
-      description: "Gear for home workouts",
-    },
-    {
-      name: "Tech Gadgets List",
-      description: "Latest gadgets and accessories",
-    },
-    {
-      name: "Christmas Shopping List",
-      description: "Gifts and decorations for the holiday season",
-    },
-  ];
+  const [lists, setLists] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchLists = async () => {
+    setIsLoading(true);
+    const res = await getListsToBuy();
+    setLists(res || []);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchLists();
+  }, []);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
-    // Container
     <Box
       sx={{
         width: "100%",
         height: "90%",
-        gap: 1,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage: lists.length === 0 ? `url(${ToBuyListImage})` : "none",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "40%",
+        backgroundPosition: "center",
         position: "relative",
+        gap: 1,
       }}
     >
-      {/* Back button  */}
+      <Loader isLoading={isLoading} />
       <BackBtn />
 
-      {/* Title  */}
       <Typography
-        variant={"h4"}
+        variant="h4"
         gutterBottom
         sx={{
           borderBottom: `3px solid ${colors.purple[600]}`,
@@ -80,7 +59,6 @@ const ToBuyList = () => {
         Your Lists
       </Typography>
 
-      {/* Contents */}
       <Box
         sx={{
           width: isMediumScreen ? "90%" : isLargeScreen ? "100%" : "56%",
@@ -92,18 +70,18 @@ const ToBuyList = () => {
           gap: "14px",
         }}
       >
-        {/* ListBox components */}
         {lists.map((list, index) => (
           <ListBox
             key={index}
+            id={list._id}
             name={list.name}
             description={list.description}
+            refresh={fetchLists}
           />
         ))}
       </Box>
 
-      {/* Speed Dial  */}
-      <SpeedDial modal={<CreateList />} />
+      <SpeedDial modal={<CreateList refresh={fetchLists} />} />
     </Box>
   );
 };

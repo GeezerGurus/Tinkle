@@ -1,3 +1,4 @@
+// App.js
 import React, { useContext, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import {
@@ -11,7 +12,6 @@ import {
   GeneralSettings,
   Profile,
   Home,
-  Auth,
   Support,
   CategorySettings,
   BalanceAccountSettings,
@@ -22,6 +22,7 @@ import {
   DebtItems,
   Video,
   VideoCollection,
+  PageNotFound,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
@@ -32,9 +33,8 @@ import Hero from "./scenes/hero/Hero";
 import { AuthContext } from "../src/context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
-  const { user } = useContext(AuthContext);
-  // return user ? children : <Navigate to="/" replace />;
-  return children;
+  const { auth } = useContext(AuthContext);
+  return auth.token ? children : <Navigate to="/" replace />;
 };
 
 function App() {
@@ -45,13 +45,13 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("token");
     if (token) {
       login(token);
     }
   }, [login]);
 
-  const hideTopbarAndSidebarRoutes = ["/"]; // Add routes where you want to hide Topbar and Sidebar
+  const hideTopbarAndSidebarRoutes = ["/", "/404"]; // Add routes where you want to hide Topbar and Sidebar
 
   const shouldShowTopbarAndSidebar = !hideTopbarAndSidebarRoutes.includes(
     location.pathname
@@ -248,6 +248,8 @@ function App() {
                   </PrivateRoute>
                 }
               />
+              <Route path="/404" element={<PageNotFound />} />
+              <Route path="*" element={<Navigate to="/404" />} />
             </Routes>
           </main>
         </div>

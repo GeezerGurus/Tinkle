@@ -8,6 +8,7 @@ import {
   useTheme,
   Modal,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { tokens } from "../../theme";
@@ -23,15 +24,16 @@ import CreateGoal from "./CreateGoal";
 
 const GridItem = ({ bg, icon, name }) => {
   const [open, setOpen] = useState(false);
-
+  const theme = useTheme();
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (
-    <Grid item>
+    <Grid item sm={6} md={3} lg={3}>
       <Stack
         alignItems={"center"}
         justifyContent={"center"}
         sx={{
-          width: "145px",
-          height: "124px",
+          width: isSmallerScreen? "110px": "145px",
+          height: isSmallerScreen? "90px":"124px",
           border: "1px solid black",
           borderRadius: "8px",
         }}
@@ -40,8 +42,8 @@ const GridItem = ({ bg, icon, name }) => {
           {icon &&
             React.cloneElement(icon, {
               sx: {
-                width: "56px",
-                height: "56px",
+                width: isSmallerScreen? "36px": "56px",
+                height: isSmallerScreen? "36px": "56px",
                 color: bg,
               },
             })}
@@ -63,7 +65,7 @@ const GridItem = ({ bg, icon, name }) => {
             />
           </Box>
         </Modal>
-        <Typography variant="body2">{name}</Typography>
+        <Typography variant={isSmallerScreen? "body4":"body2"}>{name}</Typography>
       </Stack>
     </Grid>
   );
@@ -78,11 +80,14 @@ export const SavingFor = ({ onClose }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Paper
       sx={{
-        width: "814px",
-        height: "556px",
+        width: isSmallerScreen? "390px": isMediumScreen ? "450px" : "814px",
+        height: isMediumScreen ? "auto" : "556px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -92,16 +97,19 @@ export const SavingFor = ({ onClose }) => {
       }}
     >
       {/* Upper Section */}
-      <Typography variant="h4">What are you Saving for?</Typography>
+      <Typography variant={isMediumScreen ? "h6" : "h4"}>
+        What are you Saving for?
+      </Typography>
 
       {/* Middle Section */}
       <Box
         sx={{
           width: "284px",
-          height: "116px",
+          height: "auto",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          marginTop: isSmallerScreen? "10px":isMediumScreen ? "20px" : "0px",
         }}
       >
         <TextField
@@ -122,6 +130,7 @@ export const SavingFor = ({ onClose }) => {
             height: "44px",
             display: "flex",
             justifyContent: "space-between",
+            marginTop: isSmallerScreen? "10px": isMediumScreen ? "20px" : "10px",
           }}
         >
           {/* Create Button */}
@@ -167,7 +176,12 @@ export const SavingFor = ({ onClose }) => {
         </Box>
       </Box>
       {/* Bottom Section */}
-      <Typography variant="h6">Some things people save for:</Typography>
+      <Typography
+        variant={isMediumScreen ? "body1" : "h6"}
+        sx={{ marginTop: isSmallerScreen? "10px": isMediumScreen ? "20px" : "0px" }}
+      >
+        Some things people save for:
+      </Typography>
 
       <Grid
         container
@@ -175,6 +189,7 @@ export const SavingFor = ({ onClose }) => {
         alignItems="center"
         rowSpacing={2}
         columnSpacing={3}
+        sx={{ marginTop: isSmallerScreen? "5px":isMediumScreen ? "20px" : "0px"}}
       >
         <GridItem name="New Home" bg="orange" icon={<HomeIcon />} />
         <GridItem

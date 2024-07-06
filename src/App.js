@@ -33,7 +33,7 @@ import { AuthContext } from "../src/context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
-  return children; // Update based on your actual authentication logic
+  return user ? children : <Navigate to="/" replace />;
 };
 
 function App() {

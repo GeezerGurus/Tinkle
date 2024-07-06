@@ -12,7 +12,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Grid,
-  Link,
+  Modal,
 } from "@mui/material";
 import {
   DashboardImage,
@@ -37,12 +37,14 @@ import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import FlagIcon from "@mui/icons-material/Flag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Form from "../../components/auth/Form";
 
 const Hero = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [currentSection, setCurrentSection] = useState("past");
   const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const sections = ["past", "present", "future"];
@@ -68,9 +70,95 @@ const Hero = () => {
         backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
-        paddingTop: "48px",
       }}
     >
+      {/* Navigation Bar */}
+      <Box
+        width={"100%"}
+        sx={{
+          backgroundColor: "rgba(0,0,0,0)",
+          position: "fixed",
+          zIndex: 1,
+          backgroundColor: "white",
+        }}
+      >
+        <Stack
+          direction={"row"}
+          justifyContent={"space-around"}
+          alignItems={"center"}
+          padding={1}
+        >
+          <Typography variant="h6">Tinkle</Typography>
+          <Stack direction={"row"} gap={1}>
+            <Button
+              component="a"
+              href="#home"
+              sx={{
+                textTransform: "none",
+                borderRadius: "0",
+                borderBottom: `2px solid ${colors.purple[600]}`,
+              }}
+              color="inherit"
+            >
+              <Typography variant="body2">Home</Typography>
+            </Button>
+            <Button
+              component="a"
+              href="#features"
+              sx={{
+                textTransform: "none",
+                borderRadius: "0",
+                borderBottom: `2px solid ${colors.purple[600]}`,
+              }}
+              color="inherit"
+            >
+              <Typography variant="body2">Features</Typography>
+            </Button>
+            <Button
+              component="a"
+              href="#about"
+              sx={{
+                textTransform: "none",
+                borderRadius: "0",
+                borderBottom: `2px solid ${colors.purple[600]}`,
+              }}
+              color="inherit"
+            >
+              <Typography variant="body2">About</Typography>
+            </Button>
+            <Button
+              component="a"
+              href="#support"
+              sx={{
+                textTransform: "none",
+                borderRadius: "0",
+                borderBottom: `2px solid ${colors.purple[600]}`,
+              }}
+              color="inherit"
+            >
+              <Typography variant="body2">Support</Typography>
+            </Button>
+          </Stack>
+          <Button
+            onClick={() => {
+              setOpen(true);
+            }}
+            sx={{
+              width: "104px",
+              height: "40px",
+              backgroundColor: colors.purple[600],
+              color: "white",
+              borderRadius: "48px",
+              "&:hover": {
+                backgroundColor: colors.purple[200],
+              },
+              textTransform: "none",
+            }}
+          >
+            <Typography variant="Hbody2">Sign Up</Typography>
+          </Button>
+        </Stack>
+      </Box>
       <Container
         maxWidth="lg"
         sx={{
@@ -78,85 +166,12 @@ const Hero = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          paddingTop: 10,
         }}
       >
-        {/* Navigation Bar */}
-        <Box width={"100%"} sx={{ backgroundColor: "rgba(0,0,0,0)" }} id="home">
-          <Stack
-            direction={"row"}
-            justifyContent={"space-around"}
-            alignItems={"center"}
-          >
-            <Typography variant="h6">Tinkle</Typography>
-            <Stack direction={"row"} gap={1}>
-              <Button
-                component="a"
-                href="#home"
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "0",
-                  borderBottom: `2px solid ${colors.purple[600]}`,
-                }}
-                color="inherit"
-              >
-                <Typography variant="body2">Home</Typography>
-              </Button>
-              <Button
-                component="a"
-                href="#features"
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "0",
-                  borderBottom: `2px solid ${colors.purple[600]}`,
-                }}
-                color="inherit"
-              >
-                <Typography variant="body2">Features</Typography>
-              </Button>
-              <Button
-                component="a"
-                href="#about"
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "0",
-                  borderBottom: `2px solid ${colors.purple[600]}`,
-                }}
-                color="inherit"
-              >
-                <Typography variant="body2">About</Typography>
-              </Button>
-              <Button
-                component="a"
-                href="#support"
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "0",
-                  borderBottom: `2px solid ${colors.purple[600]}`,
-                }}
-                color="inherit"
-              >
-                <Typography variant="body2">Support</Typography>
-              </Button>
-            </Stack>
-            <Button
-              sx={{
-                width: "104px",
-                height: "40px",
-                backgroundColor: colors.purple[600],
-                color: "white",
-                borderRadius: "48px",
-                "&:hover": {
-                  backgroundColor: colors.purple[200],
-                },
-                textTransform: "none",
-              }}
-            >
-              <Typography variant="Hbody2">Sign Up</Typography>
-            </Button>
-          </Stack>
-        </Box>
         {/* Hero Section - Header 1*/}
         <Box
+          id="home"
           sx={{
             width: "88%",
             display: "flex",
@@ -200,17 +215,13 @@ const Hero = () => {
         </Box>
 
         {/* Images - Dashboard, Arrows  */}
-        <Stack
-          alignItems={"center"}
-          position={"relative"}
-          width={"100%"}
-          height={"80vh"}
-        >
+        <Stack alignItems={"center"} width={"100%"} position={"relative"}>
           <Stack
             width={"90%"}
             height={"auto"}
             justifyContent={"space-between"}
             direction={"row"}
+            position={"absolute"}
           >
             <img
               src={LeftArrowImage}
@@ -224,11 +235,11 @@ const Hero = () => {
           <img
             src={DashboardImage}
             alt="Dashboard"
-            style={{ width: "72%", position: "absolute" }}
+            style={{ width: "72%", objectFit: "contain" }}
           />
         </Stack>
 
-        {/* Header 2 */}
+        {/* Features */}
         <Box
           id="features"
           sx={{
@@ -502,7 +513,7 @@ const Hero = () => {
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color: colors.purple[600] }}
+                sx={{ color: colors.purple[800] }}
                 gutterBottom
               >
                 The Things To Buy?{" "}
@@ -583,13 +594,7 @@ const Hero = () => {
         </Stack>
 
         {/* our team pages  */}
-        <Stack
-          width={"100%"}
-          height={"96vh"}
-          alignItems={"center"}
-          mb={2}
-          id="about"
-        >
+        <Stack width={"100%"} alignItems={"center"} mb={7} id="about">
           <Typography variant="title3">Meet Our Team</Typography>
           <Typography
             variant="title4"
@@ -755,13 +760,7 @@ const Hero = () => {
         </Stack>
 
         {/* Support  */}
-        <Stack
-          width={"100%"}
-          height={"120vh"}
-          alignItems={"center"}
-          gap={5}
-          id="support"
-        >
+        <Stack width={"100%"} alignItems={"center"} gap={5} id="support">
           <Stack>
             <Box
               display="flex"
@@ -866,7 +865,7 @@ const Hero = () => {
           </Stack>
 
           {/* Quick Answers  */}
-          <Stack alignItems={"center"} gap={2}>
+          <Stack alignItems={"center"} gap={2} height={"100vh"}>
             <Typography variant="title1" sx={{ color: colors.purple[900] }}>
               Quick Answers
             </Typography>
@@ -1144,6 +1143,18 @@ const Hero = () => {
           </Typography>
         </Box>
       </Box>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <Form />
+        </Box>
+      </Modal>
     </Box>
   );
 };

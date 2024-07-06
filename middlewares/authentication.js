@@ -1,29 +1,31 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 const requireAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token =
+    req.headers.authorization && req.headers.authorization.split(" ")[1];
 
   if (token) {
-    jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
+    jwt.verify(token, "net ninja secret", (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.redirect('/');//If error occurs, redirect back to login page. For now I leave it as home page
+        res.status(401).json({ error: "Unauthorized" });
       } else {
-        console.log(decodedToken);
         req.userId = decodedToken.id;
         next();
       }
     });
   } else {
-    res.redirect('/');//If error occurs, redirect back to login page. For now I leave it as home page
+    res.status(401).json({ error: "Unauthorized" });
   }
 };
 
 const checkUser = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token =
+    req.headers.authorization && req.headers.authorization.split(" ")[1];
+
   if (token) {
-    jwt.verify(token, 'net ninja secret', async (err, decodedToken) => {
+    jwt.verify(token, "net ninja secret", async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
         next();

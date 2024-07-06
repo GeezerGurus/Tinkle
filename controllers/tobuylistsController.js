@@ -4,7 +4,7 @@ exports.addToBuyList = (req, res) => {
   const userId = req.userId;
   const { name, description } = req.body;
 
-  if ( !name || !userId ) {
+  if (!name || !userId) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
@@ -14,7 +14,8 @@ exports.addToBuyList = (req, res) => {
     description,
   });
 
-  list.save()
+  list
+    .save()
     .then((list) => {
       res.status(200).json({ message: "To Buy List Added", list });
     })
@@ -24,25 +25,30 @@ exports.addToBuyList = (req, res) => {
 };
 
 exports.getToBuyLists = async (req, res) => {
-  try{
-    const list = await ToBuyListSchema.find({ userId: req.userId }).sort({ createdAt: -1 })
-    if (!list){
-        return res.status(404).json({ message: "Lists not found!" });
+  try {
+    const list = await ToBuyListSchema.find({ userId: req.userId }).sort({
+      createdAt: -1,
+    });
+    if (!list) {
+      return res.status(404).json({ message: "Lists not found!" });
     }
     res.status(200).json(list);
   } catch {
-      res.status(500).json({ message: error });
-    }
+    res.status(500).json({ message: error });
+  }
 };
 
 exports.getaToBuyList = async (req, res) => {
   const { tobuylistId } = req.params;
   try {
-    const tobuylist = await ToBuyListSchema.findOne({ userId: req.userId, _id: tobuylistId });
+    const tobuylist = await ToBuyListSchema.findOne({
+      userId: req.userId,
+      _id: tobuylistId,
+    });
     if (!tobuylist) {
       return res.status(404).json({ message: "List not found!" });
     }
-    res.status(200).json(tobuylist)
+    res.status(200).json(tobuylist);
   } catch {
     res.status(500).json({ message: error });
   }
@@ -52,7 +58,10 @@ exports.patchToBuyList = async (req, res) => {
   const { tobuylistId } = req.params;
   const { name, description } = req.body;
   try {
-    const tobuylist = await ToBuyListSchema.findOne({ userId: req.userId, _id: tobuylistId });
+    const tobuylist = await ToBuyListSchema.findOne({
+      userId: req.userId,
+      _id: tobuylistId,
+    });
     if (!tobuylist) {
       return res.status(404).json({ message: "List not found!" });
     }
@@ -71,7 +80,7 @@ exports.patchToBuyList = async (req, res) => {
 
 exports.deleteToBuyList = (req, res) => {
   const { tobuylistId } = req.params;
-  ItemToBuy.findOneAndDelete({ userId: req.userId, _id: tobuylistId })
+  ToBuyListSchema.findOneAndDelete({ userId: req.userId, _id: tobuylistId })
     .then((list) => {
       if (!list) {
         return res.status(404).json({ message: "List To Buy not found!" });

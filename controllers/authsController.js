@@ -45,11 +45,11 @@ exports.signup_post = async (req, res) => {
   try {
     const user = await User.create({ username, email, password, job, phoneNo });
     const token = createToken(user._id);
-    res.cookie("jwt", token, { 
+    res.cookie("jwt", token, {
       httpOnly: false,
       secure: true,
-      sameSite: 'Strict',
-      maxAge: maxAge * 1000 
+      sameSite: "Strict",
+      maxAge: maxAge * 1000,
     });
     res.status(201).json({ user: user._id, token: token });
     console.log(user);
@@ -68,7 +68,7 @@ exports.login_post = async (req, res) => {
     res.cookie("jwt", token, {
       httpOnly: false,
       secure: true,
-      sameSite: 'Strict',
+      sameSite: "Strict",
       maxAge: maxAge * 1000,
     });
     res.status(200).json({ user: user._id, token: token });
@@ -81,26 +81,24 @@ exports.login_post = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-      const user = await User.findById({ _id: req.userId })
-      if (!user) {
-          return res.status(404).json({ message: "User not found!" });
-      }
-      res.status(200).json(user);
+    const user = await User.findById({ _id: req.userId });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    res.status(200).json(user);
   } catch (error) {
-      res.status(500).json({ message: error });
+    res.status(500).json({ message: error });
   }
 };
 
-exports.logout = async(req, res) => {
+exports.logout = async (req, res) => {
   try {
-      const user = await User.findById({ _id: req.userId })
-      if (user) {
-        res.cookie("jwt", "", { maxAge: 1 });
-        res.redirect("/"); //If logout,this redirect to home page(possible the best to login page)
-      }
-      else {
-        return res.status(404).json({ message: "User not found!" });
-      }
+    const user = await User.findById({ _id: req.userId });
+    if (user) {
+      return res.status(200).json({ message: "Logged out!" });
+    } else {
+      return res.status(404).json({ message: "User not found!" });
+    }
   } catch (error) {
     res.status(500).json({ message: error });
   }

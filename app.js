@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const { readdirSync } = require("fs");
-const cookieParser = require('cookie-parser');
-const { checkUser } = require('./middlewares/authentication');
+const cookieParser = require("cookie-parser");
+const { checkUser } = require("./middlewares/authentication");
 
 const app = express();
 
@@ -17,6 +17,6 @@ app.use(cookieParser());
 readdirSync("./routes").map((route) =>
   app.use("/api/v1", require("./routes/" + route))
 );
-app.get('*', checkUser);
+app.get("*", checkUser);
 
 module.exports = app;

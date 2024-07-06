@@ -1,10 +1,10 @@
 const { requireAuth } = require("../middlewares/authentication"); //Apply this middleware to routes that should only be accessible to authenticated users. For example look at incomes route
-// const {
-//   addUser,
-//   getUser,
-//   patchUser,
-//   deleteUser,
-// } = require("../controllers/usersController");
+const {
+  addUser,
+  getUsers,
+  patchUser,
+  deleteUser,
+} = require("../controllers/usersController");
 const {
   addAccount,
   getAccounts,
@@ -12,19 +12,19 @@ const {
   deleteAccount,
   patchAccount,
 } = require("../controllers/accountsController");
-const{
+const {
   addToBuyList,
   getToBuyLists,
   getaToBuyList,
   patchToBuyList,
   deleteToBuyList,
 } = require("../controllers/tobuylistsController");
-const{
+const {
   addItemToBuy,
   getItemsToBuy,
   getaItemToBuy,
   patchItemToBuy,
-  deleteItemToBuy
+  deleteItemToBuy,
 } = require("../controllers/itemsToBuyController");
 const {
   addDebt,
@@ -46,7 +46,7 @@ const {
   getaBook,
   getFavouriteBooks,
   patchBook,
-  deleteBook
+  deleteBook,
 } = require("../controllers/booksController");
 const {
   signup_post,
@@ -60,49 +60,49 @@ const {
   getaVideo,
   getFavouriteVideos,
   patchVideo,
-  deleteVideo
+  deleteVideo,
 } = require("../controllers/videosController");
 const {
   addRecord,
   getRecords,
   getaRecord,
   patchRecord,
-  deleteRecord
+  deleteRecord,
 } = require("../controllers/recordController");
 const {
   addCategory,
   getCategory,
   getaCategory,
   patchCategory,
-  deleteCategory
+  deleteCategory,
 } = require("../controllers/categoryController");
 const {
   addSetting,
   getSettings,
   getaSetting,
   patchSetting,
-  deleteSetting
+  deleteSetting,
 } = require("../controllers/settingsController");
 const {
   addLend,
   getLends,
   getaLend,
   patchLend,
-  deleteLend
+  deleteLend,
 } = require("../controllers/lendsController");
 const {
   addOwe,
   getOwes,
   getaOwe,
   patchOwe,
-  deleteOwe
+  deleteOwe,
 } = require("../controllers/owesController");
 const {
   addGoal,
   getGoals,
   getaGoal,
   patchGoal,
-  deleteGoal
+  deleteGoal,
 } = require("../controllers/goalsController");
 
 const router = require("express").Router();
@@ -112,13 +112,13 @@ router
   .post("/signup", signup_post)
   .post("/login", login_post)
   .get("/getuser", requireAuth, getUser)
-  .get("/logout", requireAuth, logout)
+  .post("/logout", requireAuth, logout)
 
   // //User
-  // .post("/users", addUser)
-  // .get("/users", getUser)
-  // .patch("/users/:userId", patchUser)
-  // .delete("/users/:id", deleteUser)
+  .post("/users", addUser)
+  .get("/users", getUsers)
+  .patch("/users/:userId", patchUser)
+  .delete("/users/:id", deleteUser)
 
   //Accounts
   .post("/account", requireAuth, addAccount)
@@ -151,12 +151,24 @@ router
   //Items to Buy
   .post("/tobuylist/:tobuylistId/itemtobuy", requireAuth, addItemToBuy)
   .get("/tobuylist/:tobuylistId/itemstobuy", requireAuth, getItemsToBuy)
-  .get("/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId", requireAuth, getaItemToBuy)
-  .patch("/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId", requireAuth, patchItemToBuy)
-  .delete("/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId", requireAuth, deleteItemToBuy)
+  .get(
+    "/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId",
+    requireAuth,
+    getaItemToBuy
+  )
+  .patch(
+    "/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId",
+    requireAuth,
+    patchItemToBuy
+  )
+  .delete(
+    "/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId",
+    requireAuth,
+    deleteItemToBuy
+  )
 
   //Book
-  .post("/book", requireAuth,addBook)
+  .post("/book", requireAuth, addBook)
   .get("/books", requireAuth, getBooks)
   .get("/book/:bookId", requireAuth, getaBook)
   .get("/books/favourite", requireAuth, getFavouriteBooks)
@@ -211,6 +223,6 @@ router
   .get("/goals", requireAuth, getGoals)
   .get("/goal/:goalId", requireAuth, getaGoal)
   .patch("/goal/:goalId", requireAuth, patchGoal)
-  .delete("/goal/:goalId", requireAuth, deleteGoal)
+  .delete("/goal/:goalId", requireAuth, deleteGoal);
 
 module.exports = router;

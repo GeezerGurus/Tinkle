@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -81,13 +82,66 @@ exports.login_post = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById({ _id: req.userId });
+    const user = await User.findById( req.userId );
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error });
+  }
+};
+
+exports.updateEmail = async (req, res) => {
+  const { newEmail } = req.body;
+
+  try {
+    const user = await User.findById( req.userId );
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    if (user.email === newEmail) {
+      return res.status(400).json({ message: "New email cannot be the same as the old one!" });
+    }
+    user.email = newEmail;
+    await user.save();
+
+    res.status(200).json({ message: "Email updated successfully" });
+  } catch (error) {
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const userId = req.userId;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    // Validate old password
+    const auth = await bcrypt.compare(oldPassword, user.password);
+    if (!auth) {
+      return res.status(400).json({ message: "Old password is incorrect" });
+    }
+
+    if (oldPassword === newPassword) {
+      return res.status(400).json({ message: "New password cannot be the same as the old one!" });
+    }
+
+    // Hash and update new password
+    const salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(newPassword, salt);
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
   }
 };
 

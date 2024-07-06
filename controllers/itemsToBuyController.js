@@ -2,9 +2,10 @@ const ItemToBuy = require("../models/ItemToBuy");
 
 exports.addItemToBuy = (req, res) => {
   const userId = req.userId;
-  const { tobuylistId, name, description } = req.body;
+  const { tobuylistId } = req.params
+  const { name, description } = req.body;
 
-  if ( !tobuylistId || name || !quantity || !price ) {
+  if ( !tobuylistId || !name ) {
     return res.status(400).json({ message: " TobuylistId, and name are required!" });
   }
 
@@ -25,7 +26,7 @@ exports.addItemToBuy = (req, res) => {
 };
 
 exports.getItemsToBuy = (req, res) => {
-  const { tobuylistId } = req.body;
+  const { tobuylistId } = req.params;
   ItemToBuy.find({ userId: req.userId, tobuylistId: tobuylistId }).sort({ createdAt: -1 })
     .then((items) => {
       res.status(200).json(items);
@@ -36,8 +37,7 @@ exports.getItemsToBuy = (req, res) => {
 };
 
 exports.getaItemToBuy = async (req, res) => {
-  const { itemtobuyId } = req.params;
-  const { tobuylistId } = req.body;
+  const { itemtobuyId, tobuylistId } = req.params;
   try {
     const itemtobuy = await ItemToBuy.findOne({ userId: req.userId, tobuylistId: tobuylistId, _id: itemtobuyId});
     if (!itemtobuy) {
@@ -50,8 +50,8 @@ exports.getaItemToBuy = async (req, res) => {
 };
 
 exports.patchItemToBuy = async (req, res) => {
-  const { itemtobuyId } = req.params;
-  const { tobuylistId, name, description } = req.body;
+  const { itemtobuyId, tobuylistId, } = req.params;
+  const { name, description } = req.body;
   try {
     const itemstobuy = await ItemToBuy.findOne({ userId: req.userId, tobuylistId: tobuylistId, _id: itemtobuyId });
     if (!itemstobuy) {
@@ -71,8 +71,7 @@ exports.patchItemToBuy = async (req, res) => {
 };
 
 exports.deleteItemToBuy = (req, res) => {
-  const { itemtobuyId } = req.params;
-  const { tobuylistId } = req.body;
+  const { tobuylistId, itemtobuyId } = req.params;
   ItemToBuy.findOneAndDelete({ userId: req.userId, tobuylistId: tobuylistId, _id:itemtobuyId })
     .then((item) => {
       if (!item) {

@@ -3,7 +3,8 @@ const DebtSchema = require("../models/Debt");
 
 exports.addOwe = async (req, res) => {
   const userId = req.userId;
-  const { debtId, amount } = req.body;
+  const { debtId } = req.params
+  const { amount } = req.body;
 
   try {
     if ( !debtId || !amount ) {
@@ -38,7 +39,7 @@ exports.addOwe = async (req, res) => {
 
 exports.getOwes = async (req, res) => {
   try {
-    const { debtId } = req.body;
+    const { debtId } = req.params;
     const owes = await OweSchema.find({ userId: req.userId, debtId: debtId }).sort({ createdAt: -1 });
     res.status(200).json(owes);
   } catch (error) {
@@ -47,9 +48,9 @@ exports.getOwes = async (req, res) => {
 };
 
 exports.getaOwe = async (req, res) => {
-  const { oweId } = req.params;
+  const { debtId, oweId } = req.params;
   try {
-    const owe = await OweSchema.findOne({ userId: req.userId, _id: oweId});
+    const owe = await OweSchema.findOne({ userId: req.userId, debtId: debtId, _id: oweId });
     if (!owe) {
       return res.status(404).json({ message: "Owe not found!" });
     }
@@ -60,10 +61,10 @@ exports.getaOwe = async (req, res) => {
 };
 
 exports.patchOwe = async (req, res) => {
-  const { oweId } = req.params;
+  const { debtId, oweId } = req.params;
   const { amount } = req.body;
   try {
-        const owe = await OweSchema.findOne({ userId: req.userId, _id: oweId });
+        const owe = await OweSchema.findOne({ userId: req.userId, debtId: debtId, _id: oweId });
         if (!owe) {
             return res.status(404).json({ message: "Owe not found!" });
         }
@@ -84,15 +85,15 @@ exports.patchOwe = async (req, res) => {
 }
 
 exports.deleteOwe = async (req, res) => {
-  const { oweId } = req.params;
-  const owe = await OweSchema.findOne({ userId: req.userId, _id: oweId })
+  const { debtId, oweId } = req.params;
+  const owe = await OweSchema.findOne({ userId: req.userId, debtId: debtId, _id: oweId })
   if (!owe) {
     return res.status(404).json({ message: "Owe record not found!" });
   }
   const debt = await DebtSchema.findOne({ userId: req.userId, _id: owe.debtId });
   debt.amount += owe.amount;
   await debt.save();
-  await OweSchema.findOneAndDelete({ userId: req.userId, _id: oweId})
+  await OweSchema.findOneAndDelete({ userId: req.userId, debtId: debtId, _id: oweId })
     .then(() => {
       res.status(200).json({ message: "Owe record is deleted" });
     })

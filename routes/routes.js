@@ -149,11 +149,11 @@ router
   .delete("/tobuylist/:tobuylistId", requireAuth, deleteToBuyList)
 
   //Items to Buy
-  .post("/itemtobuy", requireAuth, addItemToBuy)
-  .get("/itemstobuy", requireAuth, getItemsToBuy)
-  .get("/itemtobuy/:itemtobuyId", requireAuth, getaItemToBuy)
-  .patch("/itemtobuy/:itemtobuyId", requireAuth, patchItemToBuy)
-  .delete("/itemtobuy/:itemtobuyId", requireAuth, deleteItemToBuy)
+  .post("/tobuylist/:tobuylistId/itemtobuy", requireAuth, addItemToBuy)
+  .get("/tobuylist/:tobuylistId/itemstobuy", requireAuth, getItemsToBuy)
+  .get("/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId", requireAuth, getaItemToBuy)
+  .patch("/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId", requireAuth, patchItemToBuy)
+  .delete("/tobuylist/:tobuylistId/itemtobuy/:itemtobuyId", requireAuth, deleteItemToBuy)
 
   //Book
   .post("/book", requireAuth,addBook)
@@ -193,18 +193,18 @@ router
   .delete("/setting/:settingId", requireAuth, deleteSetting)
 
   //Lends
-  .post("/lend", requireAuth, addLend)
-  .get("/lends", requireAuth, getLends)
-  .get("/lend/:lendId", requireAuth, getaLend)
-  .patch("/lend/:lendId", requireAuth, patchLend)
-  .delete("/lend/:lendId", requireAuth, deleteLend)
+  .post("/debt/:debtId/lend", requireAuth, addLend)
+  .get("/debt/:debtId/lends", requireAuth, getLends)
+  .get("/debt/:debtId/lend/:lendId", requireAuth, getaLend)
+  .patch("/debt/:debtId/lend/:lendId", requireAuth, patchLend)
+  .delete("/debt/:debtId/lend/:lendId", requireAuth, deleteLend)
 
   //Owes
-  .post("/owe", requireAuth, addOwe)
-  .get("/owes", requireAuth, getOwes)
-  .get("/owe/:oweId", requireAuth, getaOwe)
-  .patch("/owe/:oweId", requireAuth, patchOwe)
-  .delete("/owe/:oweId", requireAuth, deleteOwe)
+  .post("/debt/:debtId/owe", requireAuth, addOwe)
+  .get("/debt/:debtId/owes", requireAuth, getOwes)
+  .get("/debt/:debtId/owe/:oweId", requireAuth, getaOwe)
+  .patch("/debt/:debtId/owe/:oweId", requireAuth, patchOwe)
+  .delete("/debt/:debtId/owe/:oweId", requireAuth, deleteOwe)
 
   //Goals
   .post("/goal", requireAuth, addGoal)

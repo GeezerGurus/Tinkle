@@ -23,6 +23,10 @@ const itemToBuySchema = new Schema(
       type: String,
       trim: true,
       maxlength: 200,
+    },
+    ispurchased: {
+      type: Boolean,
+      default: false,
     }
   },
   { timestamps: true }

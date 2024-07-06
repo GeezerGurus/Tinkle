@@ -10,8 +10,9 @@ import {
 import React, { useState } from "react";
 import { tokens } from "../../theme";
 import { patchItemToBuy } from "../../api/itemsToBuy";
+import { enqueueSnackbar } from "notistack";
 
-const EditItem = ({ onClose, name, description, itemId, refresh }) => {
+const EditItem = ({ onClose, name, description, listId, itemId, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -19,11 +20,12 @@ const EditItem = ({ onClose, name, description, itemId, refresh }) => {
   const [itemDescription, setItemDescription] = useState(description || "");
 
   const handleSave = async () => {
-    await patchItemToBuy(itemId, {
+    await patchItemToBuy(listId, itemId, {
       name: itemName,
       description: itemDescription,
     });
     refresh();
+    enqueueSnackbar("Saved!", { variant: "info" });
     onClose();
   };
 

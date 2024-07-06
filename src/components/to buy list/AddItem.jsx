@@ -10,8 +10,9 @@ import {
 } from "@mui/material";
 import { postItemsToBuy } from "../../api/itemsToBuy";
 import { tokens } from "../../theme";
+import { enqueueSnackbar } from "notistack";
 
-const AddItem = ({ onClose, refresh }) => {
+const AddItem = ({ listId, onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -20,8 +21,9 @@ const AddItem = ({ onClose, refresh }) => {
 
   const handleSaveItem = useCallback(async () => {
     try {
-      await postItemsToBuy({ name, description });
+      await postItemsToBuy(listId, { name, description });
       refresh();
+      enqueueSnackbar("Item created!", { variant: "success" });
       onClose();
     } catch (error) {
       console.error("Error adding new item:", error);

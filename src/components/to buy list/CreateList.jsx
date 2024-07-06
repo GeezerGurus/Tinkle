@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { postListToBuy } from "../../api/listsToBuy";
+import { enqueueSnackbar } from "notistack";
 
 const CreateList = ({ onClose, refresh }) => {
   const theme = useTheme();
@@ -29,6 +30,7 @@ const CreateList = ({ onClose, refresh }) => {
       const createdList = await postListToBuy(newList);
       console.log("New list created:", createdList);
       refresh();
+      enqueueSnackbar("List created!", { variant: "success" });
       onClose();
     } catch (error) {
       console.error("Error creating new list:", error);

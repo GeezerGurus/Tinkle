@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Paper,
@@ -16,8 +16,9 @@ import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ConfirmModal } from "../utils";
+import { ConfirmModal, Loader } from "../utils";
 import { deleteListToBuy } from "../../api/listsToBuy";
+import { getItemsToBuy } from "../../api/itemsToBuy";
 
 const ListBox = ({ id, name, description, refresh }) => {
   const theme = useTheme();
@@ -25,9 +26,22 @@ const ListBox = ({ id, name, description, refresh }) => {
 
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [items, setItems] = useState([]);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const fetchItems = async () => {
+    setIsLoading(true);
+    const res = await getItemsToBuy(id);
+    setItems(res || []);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   return (
     // Container
@@ -43,6 +57,7 @@ const ListBox = ({ id, name, description, refresh }) => {
         borderRadius: "16px",
       }}
     >
+      <Loader isLoading={isLoading} />
       {/* Top  */}
       <Stack
         width={"100%"}
@@ -60,9 +75,11 @@ const ListBox = ({ id, name, description, refresh }) => {
           </Typography>
         </Stack>
         <Stack direction={"row"} alignItems={"baseline"} gap={1}>
-          <Typography variant={isSmallScreen ? "body3" : "h6"}>6</Typography>
+          <Typography variant={isSmallScreen ? "body3" : "h6"}>
+            {items.length}
+          </Typography>
           <Typography variant={isSmallScreen ? "body3" : "body1"}>
-            Items
+            {items.length > 1 ? "items" : "item"}
           </Typography>
         </Stack>
       </Stack>
@@ -77,7 +94,7 @@ const ListBox = ({ id, name, description, refresh }) => {
       >
         <Button
           component={Link}
-          to={`/lists/to-buy-lists/${name}`}
+          to={`/lists/to-buy-lists/${id}`}
           sx={{
             borderRadius: "8px",
             color: "white",
@@ -144,6 +161,7 @@ const ListBox = ({ id, name, description, refresh }) => {
               onClick={() => {
                 deleteListToBuy(id);
               }}
+              snackbarText={"List deleted!"}
               refresh={refresh}
               highlight={"Delete"}
               color={colors.extra.red_accent}

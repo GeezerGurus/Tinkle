@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { patchListToBuy } from "../../api/listsToBuy";
+import { enqueueSnackbar } from "notistack";
 
 const EditList = ({ onClose, id, name, description, refresh }) => {
   const theme = useTheme();
@@ -27,6 +28,7 @@ const EditList = ({ onClose, id, name, description, refresh }) => {
       const createdList = await patchListToBuy(id, EditedList);
       console.log("List Edited:", createdList);
       refresh();
+      enqueueSnackbar("Saved!", { variant: "info" });
       onClose();
     } catch (error) {
       console.error("Error editing list:", error);

@@ -8,7 +8,7 @@ import {
   useTheme,
   TextField,
   Stack,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,14 +19,16 @@ import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { Item } from "../utils";
 import { tokens } from "../../theme";
+import { postAccount } from "../../api/accountApi";
+import { enqueueSnackbar } from "notistack";
 
-const CreateAccount = ({ onClose }) => {
+const CreateAccount = ({ onClose, refresh}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [accountName, setAccountName] = useState("");
-  const [currentBalance, setCurrentBalance] = useState();
-  const [selectedOption, setSelectedOption] = useState("");
+  const [name, setAccountName] = useState("");
+  const [balance, setCurrentBalance] = useState();
+  const [type, setSelectedOption] = useState("");
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const menuProps = {
@@ -37,9 +39,20 @@ const CreateAccount = ({ onClose }) => {
       },
     },
   };
-
-  const handleSave = () => {
-    console.log("Saved");
+  const handleSaveAccount = async () => {
+    try {
+      await postAccount({
+        name,
+        balance,
+        type,
+      });
+      refresh();
+      enqueueSnackbar("Account created!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error adding new account:", error);
+      throw error;
+    }
   };
 
   const types = [
@@ -74,19 +87,18 @@ const CreateAccount = ({ onClose }) => {
       bgColor: "purple",
     },
   ];
-
   return (
     <Paper
       sx={{
-        padding: isSmallScreen?"33px 28px":"32px 112px",
-        width:isSmallScreen?"97vw": "686px",
+        padding: isSmallScreen ? "33px 28px" : "32px 112px",
+        width: isSmallScreen ? "97vw" : "686px",
         height: "",
         position: "relative",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        gap: theme.spacing(3)
+        gap: theme.spacing(3),
       }}
     >
       {/* Close button */}
@@ -110,7 +122,7 @@ const CreateAccount = ({ onClose }) => {
         onChange={(e) => {
           setAccountName(e.target.value);
         }}
-        value={accountName || ""}
+        value={name || ""}
         inputProps={{ min: "0" }}
         InputLabelProps={{
           shrink: true,
@@ -120,7 +132,7 @@ const CreateAccount = ({ onClose }) => {
       <TextField
         type="number"
         label="Current Balance"
-        value={currentBalance}
+        value={balance}
         onChange={(e) => {
           setCurrentBalance(Number(e.target.value));
         }}
@@ -147,7 +159,7 @@ const CreateAccount = ({ onClose }) => {
         select
         fullWidth
         label="Type"
-        value={selectedOption}
+        value={type}
         onChange={(event) => setSelectedOption(event.target.value)}
         displayEmpty
         InputLabelProps={{
@@ -165,9 +177,13 @@ const CreateAccount = ({ onClose }) => {
         ))}
       </TextField>
       {/* Buttons  */}
-      <Stack gap={1} direction={isSmallScreen?"column":"row"}  justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
-          onClick={handleSave}
+          onClick={handleSaveAccount}
           sx={{
             width: "208px",
             height: "40px",

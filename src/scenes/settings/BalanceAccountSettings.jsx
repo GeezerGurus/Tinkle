@@ -1,39 +1,33 @@
 import { Box, Stack, Typography, useTheme, useMediaQuery } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Account, AddAccount } from "../../components/settings";
 import { Home, AccountBalance, CreditCard } from "@mui/icons-material";
 import { tokens } from "../../theme";
+import { useParams } from "react-router-dom";
+import { getAccounts } from "../../api/accountApi";
+import { Loader } from "../../components/utils";
 
 const BalanceAccountSettings = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const accounts = [
-    {
-      icon: Home,
-      name: "Home Account",
-      balance: "1,234,567",
-      backgroundColor: "#1E90FF",
-    },
-    {
-      icon: AccountBalance,
-      name: "Savings Account",
-      balance: "9,876,543",
-      backgroundColor: "#32CD32",
-    },
-    {
-      icon: CreditCard,
-      name: "Credit Card",
-      balance: "123,456",
-      backgroundColor: "#FF4500",
-    },
-  ];
-
+  //responsive
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+  //datafetch
+  const [accounts, setAccounts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const fetchAccounts = async () => {
+    setIsLoading(true);
+    const res = await getAccounts();
+    setAccounts(res || []);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    fetchAccounts();
+  }, []);
   return (
     // Container
     <Box
@@ -44,6 +38,7 @@ const BalanceAccountSettings = () => {
         height: "100%",
       }}
     >
+      <Loader isLoading={isLoading} />
       {/* Main box  */}
       <Box
         sx={{
@@ -61,7 +56,7 @@ const BalanceAccountSettings = () => {
           gutterBottom
           sx={{
             borderBottom: `2px solid ${colors.purple[600]}`,
-            alignSelf: isSmallScreen ? undefined:"flex-start",
+            alignSelf: isSmallScreen ? undefined : "flex-start",
             alignContent: isSmallScreen ? "center" : undefined,
           }}
         >
@@ -72,13 +67,16 @@ const BalanceAccountSettings = () => {
           {accounts.map((account, index) => (
             <Account
               key={index}
-              icon={account.icon}
               name={account.name}
               balance={account.balance}
-              backgroundColor={account.backgroundColor}
+              id={account._id}
+              // icon={account.icon}
+              // backgroundColor={account.backgroundColor}
+              type={account.type}
+              refresh={fetchAccounts}
             />
           ))}
-          {accounts.length < 4 && <AddAccount />}
+          {accounts.length < 4 && <AddAccount refresh={fetchAccounts} />}
         </Stack>
       </Box>
     </Box>

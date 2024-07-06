@@ -19,14 +19,17 @@ import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { Item } from "../utils";
 import { tokens } from "../../theme";
+import { enqueueSnackbar } from "notistack";
+import { patchAccount } from "../../api/accountApi";
 
-const EditAccount = ({ onClose, name, balance, type }) => {
+const EditAccount = ({ onClose, name, balance, type,id,refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [accountName, setAccountName] = useState(name || "");
   const [currentBalance, setCurrentBalance] = useState(Number(balance) || 0);
   const [selectedOption, setSelectedOption] = useState(type || "");
+
 
   
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -41,8 +44,21 @@ const EditAccount = ({ onClose, name, balance, type }) => {
     },
   };
 
-  const handleSave = () => {
-    console.log("Saved");
+  const handleSave = async () => {
+    try {
+      const EditedAccount = {
+        name: accountName,
+        balance: currentBalance,
+        type: selectedOption
+      };
+      const createdAccount = await patchAccount(id, EditedAccount);
+      console.log("Account Edited:", createdAccount);
+      refresh();
+      enqueueSnackbar("Saved!", { variant: "info" });
+      onClose();
+    } catch (error) {
+      console.error("Error editing list:", error);
+    }
   };
 
   const types = [

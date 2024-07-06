@@ -24,6 +24,7 @@ const Dashboard = () => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
   const sidebarWidth = 84;
 
   const accounts = [
@@ -70,11 +71,7 @@ const Dashboard = () => {
         flexDirection: isMediumScreen ? "column" : "row",
         alignItems: "center",
         justifyContent: "center",
-        width: isSmallScreen
-          ? "80% "
-          : isLargest
-          ? "88vw"
-          : `calc(100% - ${sidebarWidth}px)`,
+        width: isSmallScreen ? "80% " : isLaptop ? "88vw" : `92vw`,
         height: isMediumScreen ? "auto" : "946px",
         marginTop: theme.spacing(3),
         ml: isSmallScreen ? 5 : isMediumScreen ? 1 : 3,
@@ -89,7 +86,7 @@ const Dashboard = () => {
           justifyContent: "space-between",
           width: isSmallScreen ? "100%" : isLargest ? "80%" : "912px",
           height: isLargest ? "auto" : "892px",
-          marginRight: isSmallScreen ? 0 : "24px",
+          marginRight: isMediumScreen ? 0 : "24px",
           overflowX: "hidden",
         }}
       >
@@ -149,11 +146,13 @@ const Dashboard = () => {
       {/* Right side */}
       <Box
         sx={{
-          width: isMediumScreen ? "100%" : "auto",
+          width: isSmallScreen ? "100%" : isMediumScreen ? "80%" : "auto",
           display: "flex",
+          alignItems: "center",
           flexDirection: "column",
           justifyContent: "space-between",
-          height: isMediumScreen ? "920px" : isLargeScreen ? "100%" : "892px",
+          gap: isLargeScreen ? "24px" : "",
+          height: isMediumScreen ? "920px" : isLargeScreen ? "auto" : "892px",
           borderRadius: "8px",
           overflowX: "hidden",
         }}

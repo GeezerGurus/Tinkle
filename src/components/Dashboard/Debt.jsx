@@ -18,11 +18,12 @@ const Debt = () => {
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   return (
     <Paper
       sx={{
-        width: isLargest ? "100%" : "369px",
+        width: isLaptop ? "100%" : "369px",
         height: "302px",
         padding: "16px 24px",
         display: "flex",

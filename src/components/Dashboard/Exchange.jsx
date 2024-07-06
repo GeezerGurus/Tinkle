@@ -44,6 +44,7 @@ const Exchange = () => {
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   const handleInputCurrencyChange = (event) => {
     const selectedCurrency = event.target.value;
@@ -88,7 +89,7 @@ const Exchange = () => {
         flexDirection: "column",
         gap: theme.spacing(1),
         padding: "16px 24px",
-        width: isLargest ? "100%" : "369px",
+        width: isLaptop ? "100%" : "369px",
         height: "275px",
         borderRadius: "16px",
       }}
@@ -107,7 +108,7 @@ const Exchange = () => {
         sx={{
           overflow: "hidden",
           alignSelf: "center",
-          width: "293px",
+          width: isLaptop ? "90%" : "293px",
           height: "156px",
           position: "relative",
           border: "#E0E0E0 1px solid",

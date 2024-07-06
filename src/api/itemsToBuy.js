@@ -5,6 +5,8 @@ import api from "./api";
 export const getItemsToBuy = async () => {
   try {
     const response = await api.get("/itemstobuy");
+    console.log(response);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -13,10 +15,7 @@ export const getItemsToBuy = async () => {
 
 export const postItemsToBuy = async (updatedData) => {
   try {
-    const response = await api.post(
-      "/users/5faabc3fe0baf627b85e6a2d/itemstobuy",
-      updatedData
-    );
+    const response = await api.post("/itemtobuy", updatedData);
     return response.data;
   } catch (error) {
     console.error("Error adding new item:", error);
@@ -26,10 +25,7 @@ export const postItemsToBuy = async (updatedData) => {
 
 export const patchItemToBuy = async (itemId, updatedData) => {
   try {
-    const response = await api.patch(
-      `/users/5faabc3fe0baf627b85e6a2d/itemstobuy/${itemId}`,
-      updatedData
-    );
+    const response = await api.patch(`/itemtobuy/${itemId}`, updatedData);
     return response.data;
   } catch (error) {
     console.error(`Error updating item ${itemId}:`, error);
@@ -39,7 +35,7 @@ export const patchItemToBuy = async (itemId, updatedData) => {
 
 export const deleteItemToBuy = async (itemId) => {
   try {
-    const response = await api.delete(`/itemstobuy/${itemId}`);
+    const response = await api.delete(`/itemtobuy/${itemId}`);
     return response.data;
   } catch (error) {
     console.error(`Error deleting item ${itemId}:`, error);

@@ -44,68 +44,12 @@ const ToBuyItems = () => {
   }, []);
 
   const filteredItems = [
-    {
-      name: "Slave",
-      quantity: 45,
-      description: "niggas",
-      price: 45,
-      isPurchased: false,
-      _id: 2,
-    },
-    {
-      name: "Slave",
-      quantity: 45,
-      description: "niggas",
-      price: 45,
-      isPurchased: false,
-      _id: 2,
-    },
-    {
-      name: "Slave",
-      quantity: 45,
-      description: "niggas",
-      price: 45,
-      isPurchased: false,
-      _id: 2,
-    },
-    {
-      name: "Slave",
-      quantity: 45,
-      description: "niggas",
-      price: 45,
-      isPurchased: false,
-      _id: 2,
-    },
-    {
-      name: "Slave",
-      quantity: 45,
-      description: "niggas",
-      price: 45,
-      isPurchased: false,
-      _id: 2,
-    },
-    {
-      name: "Slave",
-      quantity: 45,
-      description: "niggas",
-      price: 45,
-      isPurchased: false,
-      _id: 2,
-    },
-    {
-      name: "Slave",
-      quantity: 45,
-      description: "niggas",
-      price: 45,
-      isPurchased: false,
-      _id: 2,
-    },
+    items && items.length > 0
+      ? page === "active"
+        ? items.filter((item) => !item.isPurchased)
+        : items.filter((item) => item.isPurchased)
+      : [],
   ];
-  // items && items.length > 0
-  //   ? page === "active"
-  //     ? items.filter((item) => !item.isPurchased)
-  //     : items.filter((item) => item.isPurchased)
-  //   : [];
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -214,7 +158,6 @@ const ToBuyItems = () => {
             price={item.price}
             isPurchased={item.isPurchased}
             itemId={item._id}
-            refresh={fetchItems}
           />
         ))}
       </Box>

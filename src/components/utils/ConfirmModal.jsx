@@ -10,6 +10,7 @@ import { tokens } from "../../theme";
 import React from "react";
 
 const ConfirmModal = ({
+  refresh,
   onClose,
   onClick,
   color,
@@ -63,7 +64,11 @@ const ConfirmModal = ({
       </Typography>
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
-          onClick={onClick}
+          onClick={async () => {
+            await onClick();
+            refresh();
+            onClose();
+          }}
           sx={{
             width: isSmallScreen ? "134px" : "208px",
             height: isSmallScreen ? "44px" : "40px",

@@ -23,6 +23,16 @@ const tobuylistSchema = new Schema(
   { timestamps: true }
 );
 
+tobuylistSchema.pre('findOneAndDelete', async function(next) {
+  const tobuylistId = this.getFilter()['_id'];
+  try {
+    await mongoose.model('ItemToBuy').deleteMany({ tobuylistId }, { timeout: false });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 const Tobuylist = mongoose.model("Tobuylist", tobuylistSchema);
 
 module.exports = Tobuylist;

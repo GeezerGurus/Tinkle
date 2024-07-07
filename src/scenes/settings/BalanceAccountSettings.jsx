@@ -1,9 +1,7 @@
 import { Box, Stack, Typography, useTheme, useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Account, AddAccount } from "../../components/settings";
-import { Home, AccountBalance, CreditCard } from "@mui/icons-material";
 import { tokens } from "../../theme";
-import { useParams } from "react-router-dom";
 import { getAccounts } from "../../api/accountApi";
 import { Loader } from "../../components/utils";
 
@@ -11,10 +9,8 @@ const BalanceAccountSettings = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   //responsive
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
   //datafetch
   const [accounts, setAccounts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

@@ -16,6 +16,7 @@ import { ActivePage, AddDebt, ClosedPage } from "../../components/debt list";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import { getDebtRecord } from "../../api/debtRecord";
+import { Loader } from "../../components/utils";
 
 const StyledButton = styled(Button)(({ theme, isMediumScreen }) => ({
   width: isMediumScreen ? "60%" : "433px",
@@ -53,9 +54,7 @@ const Debt = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   const handlePage = useCallback((event) => {
@@ -95,6 +94,7 @@ const Debt = () => {
         justifyContent: "center",
       }}
     >
+      <Loader isLoading={isLoading} />
       {/* Main  */}
       <Box
         sx={{

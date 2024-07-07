@@ -35,7 +35,8 @@ const ListBox = ({ id, name, description, refresh }) => {
   const fetchItems = async () => {
     setIsLoading(true);
     const res = await getItemsToBuy(id);
-    setItems(res || []);
+    const purchasedItems = res.filter((item) => !item.ispurchased);
+    setItems(purchasedItems || []);
     setIsLoading(false);
   };
 
@@ -44,7 +45,6 @@ const ListBox = ({ id, name, description, refresh }) => {
   }, []);
 
   return (
-    // Container
     <Paper
       sx={{
         backgroundColor: colors.purple[100],

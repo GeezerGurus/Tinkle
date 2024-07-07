@@ -11,7 +11,7 @@ export const postAccount = async (data) => {
 };
 export const getAccounts = async () => {
   try {
-    const response = await api.get("/Accounts");
+    const response = await api.get("/accounts");
     return response.data;
   } catch (error) {
     console.error("Error fetching Accounts:", error);

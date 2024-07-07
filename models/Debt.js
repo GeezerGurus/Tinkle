@@ -60,8 +60,42 @@ const debtSchema = new Schema(
 debtSchema.pre('findOneAndDelete', async function(next) {
   const debtId = this.getFilter()['_id'];
   try {
-    await mongoose.model('Owe').deleteMany({ debtId }, { timeout: false });
-    await mongoose.model('Lend').deleteMany({ debtId }, { timeout: false });
+    const debt = await Debt.findById(debtId);
+    if (!debt) {
+      return res.status(404).json({ message: "Debt not found!" });
+    }
+    let TotalAmount = 0
+    if (debt.type === "owe") {
+      const owes = await OweSchema.find({ debtId });
+      if (owes.length > 0) {
+        TotalAmount = owes.reduce((total, owe) => total + owe.amount, 0);
+      }
+    }
+    
+     else if (debt.type === "lend") {
+      const lends = await LendSchema.find({ debtId });
+      if (lends.length > 0) {
+        TotalAmount = lends.reduce((total, lend) => total + lend.amount, 0);
+      }
+    }
+    debt.amount += TotalAmount;
+    await debt.save();
+
+    await mongoose.model('Owe').deleteMany({ debtId });
+    await mongoose.model('Lend').deleteMany({ debtId });
+    const account = await AccountSchema.findById( debt.accountId);
+    if (!account) {
+      return res.status(404).json({ message: "Account not found!" });
+    }
+    if (debt.type == "lend") {
+      account.balance += debt.amount;
+      await account.save();
+    }
+    if (debt.type == "owe") {
+      account.balance -= debt.amount;
+      await account.save();
+    }
+
     next();
   } catch (error) {
     next(error);

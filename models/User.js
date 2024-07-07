@@ -63,21 +63,19 @@ userSchema.statics.login = async function(username, email, password) {
 userSchema.pre('findOneAndDelete', async function(next) {
   const userId = this.getFilter()['_id'];
   try {
-    console.log(`Deleting related documents for userId: ${userId}`);
     await mongoose.model('Lend').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Owe').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Debt').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Record').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Account').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Budget').deleteMany({ userId }, { timeout: false });
+    await mongoose.model('Tobuylist').deleteMany({ userId }, { timeout: false });
     await mongoose.model('ItemToBuy').deleteMany({ userId }, { timeout: false });
-    await mongoose.model('ToBuyList').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Book').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Category').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Goal').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Setting').deleteMany({ userId }, { timeout: false });
     await mongoose.model('Video').deleteMany({ userId }, { timeout: false });
-    console.log(`Related documents deleted successfully for userId: ${userId}`);
     next();
   } catch (error) {
     next(error);

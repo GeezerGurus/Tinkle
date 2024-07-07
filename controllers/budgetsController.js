@@ -94,8 +94,8 @@ exports.patchBudget = async (req, res) => {
 }
 
 exports.deleteBudget = async (req, res) => {
-  const { id } = req.params;
-  BudgetSchema.findOneAndDelete({userId: req.userId, id})
+  const { budgetId } = req.params;
+  BudgetSchema.findOneAndDelete({userId: req.userId, _id: budgetId})
     .then((budget) => {
       res.status(200).json({ message: "Budget Deleted" });
     })

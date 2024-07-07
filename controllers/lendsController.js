@@ -98,7 +98,7 @@ exports.deleteLend = async (req, res) => {
   await debt.save();
   await LendSchema.findOneAndDelete({ userId: req.userId, debtId: debtId, _id: lendId })
     .then(() => {
-      res.status(200).json({ message: "A lend record is deleted" });
+      res.status(200).json({ message: "Lend record is deleted" });
     })
     .catch((error) => {
       res.status(500).json({ message: error });

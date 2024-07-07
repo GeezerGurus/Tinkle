@@ -4,7 +4,7 @@ const DebtSchema = require("../models/Debt");
 exports.addOwe = async (req, res) => {
   const userId = req.userId;
   const { debtId } = req.params
-  const { amount, Date  } = req.body;
+  const { amount, Date } = req.body;
 
   try {
     if ( !debtId || !amount ) {
@@ -21,17 +21,17 @@ exports.addOwe = async (req, res) => {
       Date 
     });
 
+    const debt = await DebtSchema.findOne({_id: debtId});
     if ( debt.amount < amount) {
         return res.status(400).json({ message: "The amount of owe money exceeds the debt record!" });
       }
       if ( debt.amount === 0 ) {
         return res.status(400).json({ message: "The debt is already paid!" });
       }
-    const debt = await DebtSchema.findOne({_id: debtId});
     debt.amount -= amount;
     await debt.save();
     await owe.save();
-    res.status(200).json({ message: "owe Added" });
+    res.status(200).json({ message: "Owe Added" });
     console.log(owe);
   } catch (error) {
     res.status(500).json({ message: error });

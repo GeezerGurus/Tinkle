@@ -52,6 +52,19 @@ exports.getaBudget = async (req, res) => {
   }
 };
 
+exports.getBudgetPeriodically = async (req, res) => {
+  const { period } = req.body;
+  try {
+    const budget = await BudgetSchema.find({ userId: req.userId, period: period});
+    if (!budget) {
+      return res.status(404).json({ message: "Budget not found!" });
+    }
+    res.status(200).json(budget)
+  } catch {
+    res.status(500).json({ message: error });
+  }
+};
+
 exports.patchBudget = async (req, res) => {
   const { budgetId } = req.params;
   const { name, period, amount, endDate, startDate, description } = req.body;
@@ -60,7 +73,7 @@ exports.patchBudget = async (req, res) => {
         if (!budget) {
             return res.status(404).json({ message: "Budget not found!" });
         }
-        if (amount <= 0 || !amount === "number") {
+        if (isNaN(amount) || amount <= 0) {
           return res.status(400).json({ message: "Amount must be a positive number!" });
         }
 

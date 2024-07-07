@@ -43,7 +43,6 @@ const AddRecord = ({ onClose }) => {
   })();
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 

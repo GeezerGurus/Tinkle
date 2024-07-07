@@ -10,7 +10,7 @@ export { default as Statistics } from "./statistics/Statistics";
 export { default as GeneralSettings } from "./settings/GeneralSettings";
 export { default as CategorySettings } from "./settings/CategorySettings";
 export { default as BalanceAccountSettings } from "./settings/BalanceAccountSettings";
-export { default as Home } from "./home/Home";
+export { default as AboutUs } from "./about us/AboutUs";
 export { default as Profile } from "./profile/Profile";
 export { default as Support } from "./support/Support";
 export { default as ToBuyList } from "./lists/ToBuyList";

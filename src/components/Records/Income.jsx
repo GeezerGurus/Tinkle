@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import {
   Box,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   InputAdornment,
   MenuItem,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
   useMediaQuery,
@@ -68,6 +73,27 @@ const Income = () => {
         alignItems: "center",
       }}
     >
+      <FormControl fullWidth>
+        <FormLabel id="demo-radio-buttons-group-label">Fund type:</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="female"
+          name="radio-buttons-group"
+        >
+          <FormControlLabel
+            value="Accounts"
+            control={<Radio />}
+            label="accounts"
+          />
+          <FormControlLabel
+            value="Budgets"
+            control={<Radio />}
+            label="budgets"
+          />
+        </RadioGroup>
+      </FormControl>
+
       <TextField
         label="Account"
         InputLabelProps={{
@@ -94,6 +120,73 @@ const Income = () => {
         </MenuItem>
         <MenuItem value="Kpay">
           <Item icon={<PhonelinkRingIcon />} text="Kpay" bgColor="blue" />
+        </MenuItem>
+      </TextField>
+
+      <TextField
+        fullWidth
+        select
+        InputLabelProps={{
+          shrink: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
+        label="Budget"
+        value={budget}
+        onChange={(event) => setBudget(event.target.value)}
+        displayEmpty
+      >
+        <MenuItem value="food">
+          <Item
+            icon={<RestaurantIcon />}
+            text="Food and Drinks"
+            bgColor="red"
+          />
+        </MenuItem>
+        <MenuItem value="shopping">
+          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
+        </MenuItem>
+        <MenuItem value="housing">
+          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
+        </MenuItem>
+        <MenuItem value="transportation">
+          <Item
+            icon={<DirectionsBusIcon />}
+            text="Transportation"
+            bgColor="grey"
+          />
+        </MenuItem>
+        <MenuItem value="vehicle">
+          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
+        </MenuItem>
+        <MenuItem value="life">
+          <Item
+            icon={<ManIcon />}
+            text="Life & Entertainment"
+            bgColor="lightgreen"
+          />
+        </MenuItem>
+        <MenuItem value="communication">
+          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
+        </MenuItem>
+        <MenuItem value="financialIncome">
+          <Item
+            icon={<PaymentsIcon />}
+            text="Financial Incomes"
+            bgColor="lightblue"
+          />
+        </MenuItem>
+        <MenuItem value="investment">
+          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
+        </MenuItem>
+        <MenuItem value="income">
+          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
+        </MenuItem>
+        <MenuItem value="others">
+          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
         </MenuItem>
       </TextField>
 
@@ -241,73 +334,6 @@ const Income = () => {
           },
         }}
       />
-
-      <TextField
-        fullWidth
-        select
-        InputLabelProps={{
-          shrink: true,
-        }}
-        InputProps={{
-          sx: {
-            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
-          },
-        }}
-        label="Budget"
-        value={budget}
-        onChange={(event) => setBudget(event.target.value)}
-        displayEmpty
-      >
-        <MenuItem value="food">
-          <Item
-            icon={<RestaurantIcon />}
-            text="Food and Drinks"
-            bgColor="red"
-          />
-        </MenuItem>
-        <MenuItem value="shopping">
-          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
-        </MenuItem>
-        <MenuItem value="housing">
-          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-        </MenuItem>
-        <MenuItem value="transportation">
-          <Item
-            icon={<DirectionsBusIcon />}
-            text="Transportation"
-            bgColor="grey"
-          />
-        </MenuItem>
-        <MenuItem value="vehicle">
-          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
-        </MenuItem>
-        <MenuItem value="life">
-          <Item
-            icon={<ManIcon />}
-            text="Life & Entertainment"
-            bgColor="lightgreen"
-          />
-        </MenuItem>
-        <MenuItem value="communication">
-          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
-        </MenuItem>
-        <MenuItem value="financialIncome">
-          <Item
-            icon={<PaymentsIcon />}
-            text="Financial Incomes"
-            bgColor="lightblue"
-          />
-        </MenuItem>
-        <MenuItem value="investment">
-          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
-        </MenuItem>
-        <MenuItem value="income">
-          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-        </MenuItem>
-        <MenuItem value="others">
-          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-        </MenuItem>
-      </TextField>
 
       <TextField
         label="Note"

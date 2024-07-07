@@ -11,8 +11,6 @@ import {
   Statistics,
   GeneralSettings,
   Profile,
-  Home,
-  Support,
   CategorySettings,
   BalanceAccountSettings,
   Goals,
@@ -23,6 +21,7 @@ import {
   Video,
   VideoCollection,
   PageNotFound,
+  AboutUs,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
 import { Box, CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
@@ -59,7 +58,6 @@ function App() {
   );
 
   return (
-
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -71,7 +69,6 @@ function App() {
             <Sidebar mode={mode} />
           )}
           <main className="content">
-
             {shouldShowTopbarAndSidebar && <Topbar />}
             <Routes>
               <Route path="/" element={<Hero />} />
@@ -195,19 +192,19 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              <Route
+              {/* <Route
                 path="/support"
                 element={
                   <PrivateRoute>
                     <Support />
                   </PrivateRoute>
                 }
-              />
+              /> */}
               <Route
-                path="/home"
+                path="/about-us"
                 element={
                   <PrivateRoute>
-                    <Home />
+                    <AboutUs />
                   </PrivateRoute>
                 }
               />

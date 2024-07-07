@@ -58,7 +58,7 @@ exports.patchSetting = async (req, res) => {
   
           if (theme) setting.theme = theme;
           if (default_interval) setting.default_interval = default_interval;
-          if (hide_dec) setting.hide_dec = hide_dec;
+          if (hide_dec !== setting.hide_dec) setting.hide_dec = hide_dec;
           
           await setting.save();
   

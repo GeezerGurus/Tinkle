@@ -123,7 +123,7 @@ router
   .post("/users", addUser)
   .get("/users", getUsers)
   .patch("/users/:userId", patchUser)
-  .delete("/users/:id", deleteUser)
+  .delete("/user", requireAuth, deleteUser)
 
   //Accounts
   .post("/account", requireAuth, addAccount)

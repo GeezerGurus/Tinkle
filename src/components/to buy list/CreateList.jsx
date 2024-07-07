@@ -9,22 +9,32 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
+import { postListToBuy } from "../../api/listsToBuy";
+import { enqueueSnackbar } from "notistack";
 
-const CreateList = ({ onClose, name, description }) => {
+const CreateList = ({ onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [listName, setListName] = useState(name || "");
-  const [listDescription, setListDescription] = useState(description || "");
+  const [listName, setListName] = useState("");
+  const [listDescription, setListDescription] = useState("");
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleCreate = () => {
-    console.log({
-      name: listName,
-      description: listDescription,
-    });
+  const handleCreate = async () => {
+    try {
+      const newList = {
+        name: listName,
+        description: listDescription,
+      };
+      const createdList = await postListToBuy(newList);
+      console.log("New list created:", createdList);
+      refresh();
+      enqueueSnackbar("List created!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error creating new list:", error);
+    }
   };
 
   return (
@@ -51,7 +61,7 @@ const CreateList = ({ onClose, name, description }) => {
         placeholder="Enter name"
         label="Name"
         fullWidth
-        value={listName || ""}
+        value={listName}
         onChange={(e) => setListName(e.target.value)}
         InputLabelProps={{
           shrink: true,
@@ -66,7 +76,7 @@ const CreateList = ({ onClose, name, description }) => {
         label="Description"
         multiline
         maxRows={2}
-        value={listDescription || ""}
+        value={listDescription}
         onChange={(e) => setListDescription(e.target.value)}
         InputLabelProps={{
           shrink: true,

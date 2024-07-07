@@ -7,14 +7,13 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useParams } from "react-router-dom";
 import { AddItem, ItemBox } from "../../components/to buy list";
 import { getItemsToBuy } from "../../api/itemsToBuy";
 import toDoListImage from "../../assets/to_do_list.png";
 import { tokens } from "../../theme";
-import { BackBtn, SpeedDial } from "../../components/utils";
+import { BackBtn, Loader, SpeedDial } from "../../components/utils";
+import { getListToBuy } from "../../api/listsToBuy";
 
 const ToBuyItems = () => {
   const theme = useTheme();
@@ -23,33 +22,30 @@ const ToBuyItems = () => {
   const [page, setPage] = useState("active");
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [listName, setListName] = useState("");
   const { listId } = useParams();
 
   const fetchItems = async () => {
     setIsLoading(true);
-    let timeoutId;
+    const res = await getItemsToBuy(listId);
+    setItems(res || []);
+    setIsLoading(false);
+  };
 
-    const res = await getItemsToBuy();
-
-    timeoutId = setTimeout(() => {
-      setItems(res);
-      setIsLoading(false);
-    }, 100);
-
-    return () => clearTimeout(timeoutId);
+  const fetchList = async () => {
+    const res = await getListToBuy(listId);
+    setListName(res.name);
   };
 
   useEffect(() => {
+    fetchList();
     fetchItems();
   }, []);
 
-  const filteredItems = [
-    items && items.length > 0
-      ? page === "active"
-        ? items.filter((item) => !item.isPurchased)
-        : items.filter((item) => item.isPurchased)
-      : [],
-  ];
+  const filteredItems =
+    page === "active"
+      ? items.filter((item) => !item.ispurchased)
+      : items.filter((item) => item.ispurchased);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -73,12 +69,7 @@ const ToBuyItems = () => {
       }}
     >
       {/* Loading  */}
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isLoading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loader isLoading={isLoading} />
 
       {/* Back button  */}
       <BackBtn />
@@ -135,7 +126,7 @@ const ToBuyItems = () => {
         gutterBottom
         sx={{ borderBottom: `3px solid ${colors.purple[600]}` }}
       >
-        {listId}
+        {listName}
       </Typography>
 
       <Box
@@ -152,19 +143,21 @@ const ToBuyItems = () => {
         {filteredItems.map((item, index) => (
           <ItemBox
             key={index}
-            name={item.name}
-            quantity={item.quantity}
-            description={item.description}
-            price={item.price}
-            isPurchased={item.isPurchased}
-            itemId={item._id}
             refresh={fetchItems}
+            listId={listId}
+            name={item.name}
+            description={item.description}
+            date={new Date(item.updatedAt).toISOString().split("T")[0]}
+            ispurchased={item.ispurchased}
+            itemId={item._id}
           />
         ))}
       </Box>
-
+        
       {/* Add item  */}
-      <SpeedDial modal={<AddItem items={items} refresh={fetchItems} />} />
+      <SpeedDial
+        modal={<AddItem listId={listId} items={items} refresh={fetchItems} />}
+      />
     </Box>
   );
 };

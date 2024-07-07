@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -6,28 +6,67 @@ import {
   Typography,
   useTheme,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import { Active, Paused, Reached } from "../../components/goals";
-import { SpeedDial } from "../../components/utils";
+import { Loader, SpeedDial } from "../../components/utils";
 import SavingFor from "../../components/goals/SavingFor";
 import { tokens } from "../../theme";
+import { getGoals } from "../../api/goals";
 
 export const Goals = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [lists, setLists] = useState([]);
   const [page, setPage] = useState("active");
+
+  const fetchGoals = async () => {
+    
+    setIsLoading(true);
+    const res = await getGoals();
+    setLists(res || []);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    fetchGoals();
+  }, []);
+
+  //for responsive
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   // Sub Title Change Handle
 
   // Rendering the Pages
   const renderPage = () => {
     if (page === "active") {
-      return <Active />;
+      return (
+        <Active
+          isSmallScreen={isMediumScreen}
+          refresh={fetchGoals}
+          list={lists}
+          state={page}
+        />
+      );
     } else if (page === "paused") {
-      return <Paused />;
+      return (
+        <Paused
+          isSmallScreen={isMediumScreen}
+          refresh={fetchGoals}
+          list={lists}
+          state={page}
+        />
+      );
     } else {
-      return <Reached />;
+      return (
+        <Reached
+          isSmallScreen={isMediumScreen}
+          refresh={fetchGoals}
+          list={lists}
+          state={page}
+        />
+      );
     }
   };
   return (
@@ -44,8 +83,9 @@ export const Goals = () => {
         gap: "24px",
       }}
     >
+      <Loader isLoading={isLoading} />
       {/* Speed Dial */}
-      <SpeedDial modal={<SavingFor />} />
+      <SpeedDial modal={<SavingFor refresh={fetchGoals} />} />
 
       {/* Nav Buttons */}
       <ButtonGroup
@@ -58,7 +98,7 @@ export const Goals = () => {
           onClick={() => setPage("active")}
           sx={{
             borderRadius: "16px",
-            width: "245.67px",
+            width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
             backgroundColor: page === "active" ? colors.purple[600] : "white",
             color: page === "active" ? "white" : "black",
@@ -74,7 +114,7 @@ export const Goals = () => {
           value="paused"
           onClick={() => setPage("paused")}
           sx={{
-            width: "245.67px",
+            width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
             backgroundColor: page === "paused" ? colors.purple[600] : "white",
             color: page === "paused" ? "white" : "black",
@@ -91,7 +131,7 @@ export const Goals = () => {
           onClick={() => setPage("reached")}
           sx={{
             borderRadius: "16px",
-            width: "245.67px",
+            width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
             backgroundColor: page === "reached" ? colors.purple[600] : "white",
             color: page === "reached" ? "white" : "black",

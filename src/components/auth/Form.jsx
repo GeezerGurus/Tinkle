@@ -12,7 +12,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { signup, signin } from "../../api/authApi";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FormImage from "../../assets/form.png";
@@ -26,7 +25,7 @@ const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
-  const { login } = useContext(AuthContext);
+  const { login, signup } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -42,11 +41,7 @@ const Form = () => {
     setIsLoading(true);
 
     try {
-      const res = await signup(userData);
-      const { user, token } = res;
-      localStorage.setItem("jwt", token);
-      login(user);
-      console.log("User signed up:", user);
+      await signup(userData);
       setIsLoading(false);
       navigate("/dashboard");
     } catch (error) {
@@ -59,11 +54,7 @@ const Form = () => {
     setIsLoading(true);
 
     try {
-      const res = await signin(userData);
-      const { user, token } = res;
-      localStorage.setItem("jwt", token);
-      login(user);
-      console.log("User logged in:", user);
+      await login(userData);
       setIsLoading(false);
       navigate("/dashboard");
     } catch (error) {

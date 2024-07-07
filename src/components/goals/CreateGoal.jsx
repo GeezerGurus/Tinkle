@@ -12,8 +12,10 @@ import {
   Select,
   InputLabel,
   FormControl,
+  useMediaQuery,
 } from "@mui/material";
 import { Item } from "../utils";
+import { enqueueSnackbar } from "notistack";
 import {
   Home as HomeIcon,
   DirectionsCar as DirectionsCarIcon,
@@ -30,6 +32,7 @@ import {
   Computer as ComputerIcon,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
+import { postGoal } from "../../api/goals";
 
 const icons = [
   <HomeIcon />,
@@ -70,7 +73,7 @@ export const CreateGoal = ({
   name,
   savedAlready,
   goal,
-  dateF,
+  dateF,refresh
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -82,21 +85,36 @@ export const CreateGoal = ({
   const [date, setDate] = useState(dateF || "no target date");
   const [amount, setAmount] = useState(goal || 0);
   const [saved, setSaved] = useState(savedAlready || 0);
-  const handleSave = () => {
-    console.log({
-      name: goalName,
-      icon: icon,
-      bgColor: color,
-      amount: amount,
-      saved: saved,
-      note: note,
-    });
+  
+  const handleSave =async () => {
+    try {
+      const newList={
+        name: goalName,
+        // icon: icon,
+        // bgColor: color,
+        amount: amount,
+        saveamount: saved,
+        description: note,
+        desireDate: date
+      };
+      const createdList = await postGoal(newList);
+      console.log("New Goal created:", createdList);
+      refresh();
+      enqueueSnackbar("Goal created!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error creating new Goal:", error);
+    }
   };
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
+  
   return (
     <Paper
       sx={{
-        width: "686px",
-        height: "709px",
+        width: isSmallScreen ? "350px" : "686px",
+        height: "auto",
         display: "flex",
         gap: "20px",
         padding: "32px",
@@ -119,7 +137,8 @@ export const CreateGoal = ({
           flexDirection: "column",
           justifyContent: "space-around",
           alignItems: "center",
-          padding: "0 80px",
+          padding: isSmallScreen ? "0px" : "0 80px",
+          gap: "10px",
         }}
       >
         {/* Goal Name */}
@@ -186,7 +205,7 @@ export const CreateGoal = ({
         <Stack direction={"row"} width={"100%"} gap={2}>
           <FormControl sx={{ width: "80%" }}>
             <InputLabel id="from-account-label" sx={{ color: "black" }}>
-              From Account
+              Color
             </InputLabel>
             <Select
               id="from-account-label"
@@ -278,9 +297,13 @@ export const CreateGoal = ({
       </Box>
 
       {/* Bottom Section */}
-      <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={isSmallerScreen ? 1 : 2}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
-          onClick={handleSave}
+          onClick={handleSave} refresh={refresh}
           sx={{
             width: "208px",
             height: "40px",

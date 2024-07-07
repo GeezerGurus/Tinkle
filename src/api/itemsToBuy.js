@@ -2,9 +2,9 @@ import api from "./api";
 
 // /users/5faabc3fe0baf627b85e6a2d/itemstobuy
 
-export const getItemsToBuy = async () => {
+export const getItemsToBuy = async (tobuylistId) => {
   try {
-    const response = await api.get("/itemstobuy");
+    const response = await api.get(`/tobuylist/${tobuylistId}/itemstobuy`);
     console.log(response);
     console.log(response.data);
     return response.data;
@@ -13,11 +13,11 @@ export const getItemsToBuy = async () => {
   }
 };
 
-export const postItemsToBuy = async (updatedData) => {
+export const postItemsToBuy = async (tobuylistId, Data) => {
   try {
     const response = await api.post(
-      "/users/5faabc3fe0baf627b85e6a2d/itemstobuy",
-      updatedData
+      `/tobuylist/${tobuylistId}/itemtobuy`,
+      Data
     );
     return response.data;
   } catch (error) {
@@ -26,25 +26,27 @@ export const postItemsToBuy = async (updatedData) => {
   }
 };
 
-export const patchItemToBuy = async (itemId, updatedData) => {
+export const patchItemToBuy = async (tobuylistId, itemtobuyId, updatedData) => {
   try {
     const response = await api.patch(
-      `/users/5faabc3fe0baf627b85e6a2d/itemstobuy/${itemId}`,
+      `/tobuylist/${tobuylistId}/itemtobuy/${itemtobuyId}`,
       updatedData
     );
     return response.data;
   } catch (error) {
-    console.error(`Error updating item ${itemId}:`, error);
+    console.error(`Error updating item ${itemtobuyId}:`, error);
     throw error;
   }
 };
 
-export const deleteItemToBuy = async (itemId) => {
+export const deleteItemToBuy = async (tobuylistId, itemtobuyId) => {
   try {
-    const response = await api.delete(`/itemstobuy/${itemId}`);
+    const response = await api.delete(
+      `/tobuylist/${tobuylistId}/itemtobuy/${itemtobuyId}`
+    );
     return response.data;
   } catch (error) {
-    console.error(`Error deleting item ${itemId}:`, error);
+    console.error(`Error deleting item ${itemtobuyId}:`, error);
     throw error;
   }
 };

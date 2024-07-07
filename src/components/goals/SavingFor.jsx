@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Paper,
   Button,
@@ -8,6 +8,7 @@ import {
   useTheme,
   Modal,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { tokens } from "../../theme";
@@ -20,18 +21,21 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import WineBarIcon from "@mui/icons-material/WineBar";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import CreateGoal from "./CreateGoal";
+import { postGoal } from "../../api/goals";
+import { enqueueSnackbar } from "notistack";
 
-const GridItem = ({ bg, icon, name }) => {
+const GridItem = ({ bg, icon, name, refresh }) => {
   const [open, setOpen] = useState(false);
-
+  const theme = useTheme();
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (
-    <Grid item>
+    <Grid item sm={6} md={3} lg={3}>
       <Stack
         alignItems={"center"}
         justifyContent={"center"}
         sx={{
-          width: "145px",
-          height: "124px",
+          width: isSmallerScreen? "110px": "145px",
+          height: isSmallerScreen? "90px":"124px",
           border: "1px solid black",
           borderRadius: "8px",
         }}
@@ -40,8 +44,8 @@ const GridItem = ({ bg, icon, name }) => {
           {icon &&
             React.cloneElement(icon, {
               sx: {
-                width: "56px",
-                height: "56px",
+                width: isSmallerScreen? "36px": "56px",
+                height: isSmallerScreen? "36px": "56px",
                 color: bg,
               },
             })}
@@ -59,30 +63,37 @@ const GridItem = ({ bg, icon, name }) => {
               iconF={icon}
               bgColor={bg}
               name={name}
+              refresh={refresh}
               onClose={() => setOpen(false)}
             />
           </Box>
         </Modal>
-        <Typography variant="body2">{name}</Typography>
+        <Typography variant={isSmallerScreen? "body4":"body2"}>{name}</Typography>
       </Stack>
     </Grid>
   );
 };
-export const SavingFor = ({ onClose }) => {
+export const SavingFor = ({ onClose,refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
 
+  
+
   const handleClose = () => {
     setOpen(false);
+    refresh();
   };
+
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Paper
       sx={{
-        width: "814px",
-        height: "556px",
+        width: isSmallerScreen? "390px": isMediumScreen ? "450px" : "814px",
+        height: isMediumScreen ? "auto" : "556px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -92,16 +103,19 @@ export const SavingFor = ({ onClose }) => {
       }}
     >
       {/* Upper Section */}
-      <Typography variant="h4">What are you Saving for?</Typography>
+      <Typography variant={isMediumScreen ? "h6" : "h4"}>
+        What are you Saving for?
+      </Typography>
 
       {/* Middle Section */}
       <Box
         sx={{
           width: "284px",
-          height: "116px",
+          height: "auto",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          marginTop: isSmallerScreen? "10px":isMediumScreen ? "20px" : "0px",
         }}
       >
         <TextField
@@ -122,6 +136,7 @@ export const SavingFor = ({ onClose }) => {
             height: "44px",
             display: "flex",
             justifyContent: "space-between",
+            marginTop: isSmallerScreen? "10px": isMediumScreen ? "20px" : "10px",
           }}
         >
           {/* Create Button */}
@@ -149,7 +164,7 @@ export const SavingFor = ({ onClose }) => {
                 transform: "translate(-50%,-50%)",
               }}
             >
-              <CreateGoal onClose={handleClose} name={name} />
+              <CreateGoal refresh={refresh} onClose={handleClose} name={name} />
             </Box>
           </Modal>
           {/* Cancel Button */}
@@ -167,7 +182,12 @@ export const SavingFor = ({ onClose }) => {
         </Box>
       </Box>
       {/* Bottom Section */}
-      <Typography variant="h6">Some things people save for:</Typography>
+      <Typography
+        variant={isMediumScreen ? "body1" : "h6"}
+        sx={{ marginTop: isSmallerScreen? "10px": isMediumScreen ? "20px" : "0px" }}
+      >
+        Some things people save for:
+      </Typography>
 
       <Grid
         container
@@ -175,23 +195,24 @@ export const SavingFor = ({ onClose }) => {
         alignItems="center"
         rowSpacing={2}
         columnSpacing={3}
+        sx={{ marginTop: isSmallerScreen? "5px":isMediumScreen ? "20px" : "0px"}}
       >
-        <GridItem name="New Home" bg="orange" icon={<HomeIcon />} />
-        <GridItem
+        <GridItem refresh={refresh} name="New Home" bg="orange" icon={<HomeIcon />} />
+        <GridItem refresh={refresh}
           name="New Vehicle"
           bg="lightblue"
           icon={<DirectionsCarIcon />}
         />
-        <GridItem
+        <GridItem refresh={refresh}
           name="Holiday Trip"
           bg="lightgreen"
           icon={<ConnectingAirportsIcon />}
         />
-        <GridItem name="Education" bg="blue" icon={<SchoolIcon />} />
-        <GridItem name="Emergency Fund" bg="magenta" icon={<PaymentsIcon />} />
-        <GridItem name="Health Care" bg="red" icon={<HealthAndSafetyIcon />} />
-        <GridItem name="Fine Dining" bg="yellow" icon={<WineBarIcon />} />
-        <GridItem name="Charity" bg="lightblue" icon={<CardGiftcardIcon />} />
+        <GridItem refresh={refresh} name="Education" bg="blue" icon={<SchoolIcon />} />
+        <GridItem refresh={refresh} name="Emergency Fund" bg="magenta" icon={<PaymentsIcon />} />
+        <GridItem refresh={refresh} name="Health Care" bg="red" icon={<HealthAndSafetyIcon />} />
+        <GridItem refresh={refresh} name="Fine Dining" bg="yellow" icon={<WineBarIcon />} />
+        <GridItem refresh={refresh} name="Charity" bg="lightblue" icon={<CardGiftcardIcon />} />
       </Grid>
     </Paper>
   );

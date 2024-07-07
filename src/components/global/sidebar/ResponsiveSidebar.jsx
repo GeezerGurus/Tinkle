@@ -144,7 +144,7 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
         anchor="left"
         open={isOpen}
         onClose={toggleSlider}
-        variant="primary"
+        variant="temporary"
       >
         {/* Main Container When Opened */}
         <Box
@@ -239,11 +239,10 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
               {/* Menu Items for when Opened and Closed Sidebar*/}
               <List>
                 {MenuOpen.map(
-                  ({ text, icon, path, dropdown, page, content }) => (
-                    <>
+                  ({ text, icon, path, dropdown, page, content }, index) => (
+                    <Box key={index}>
                       {!dropdown && (
                         <ListItem
-                          key={text}
                           disablePadding
                           sx={{
                             width: "86%",
@@ -291,7 +290,7 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
                           />
                         </ListItem>
                       )}
-                    </>
+                    </Box>
                   )
                 )}
                 <Divider sx={{ width: "90%" }} />
@@ -306,48 +305,50 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
                 {/* General Items for when Opened and Closed Sidebar */}
                 <List>
                   {General.map(
-                    ({ text, icon, path, dropdown, page, content }) => (
-                      <ListItem
-                        key={text}
-                        disablePadding
-                        sx={{
-                          width: "80%",
-                          borderRadius: "8px",
-                          "&:hover": {
-                            backgroundColor: colors.purple[100],
-                          },
-                        }}
-                      >
-                        {!dropdown && (
-                          <>
-                            <OpenSideItems
-                              path={path}
-                              open={true}
-                              icon={icon}
-                              text={text}
-                              theme={theme}
-                              Navigation={navigate}
-                              setOpen={setSlider}
-                            />
-                          </>
-                        )}
-                        {dropdown && (
-                          <>
-                            <DropDownMenu
-                              page={page}
-                              text={text}
-                              open={true}
-                              icon={icon}
-                              navigate={navigate}
-                              DropdownClick={handleDropdownClick}
-                              ChangePage={handleChange}
-                              expanded={expanded}
-                              content={content}
-                              setOpen={setSlider}
-                            />
-                          </>
-                        )}
-                      </ListItem>
+                    ({ text, icon, path, dropdown, page, content }, index) => (
+                      <Box key={index}>
+                        <ListItem
+                          key={text}
+                          disablePadding
+                          sx={{
+                            width: "80%",
+                            borderRadius: "8px",
+                            "&:hover": {
+                              backgroundColor: colors.purple[100],
+                            },
+                          }}
+                        >
+                          {!dropdown && (
+                            <>
+                              <OpenSideItems
+                                path={path}
+                                open={true}
+                                icon={icon}
+                                text={text}
+                                theme={theme}
+                                Navigation={navigate}
+                                setOpen={setSlider}
+                              />
+                            </>
+                          )}
+                          {dropdown && (
+                            <>
+                              <DropDownMenu
+                                page={page}
+                                text={text}
+                                open={true}
+                                icon={icon}
+                                navigate={navigate}
+                                DropdownClick={handleDropdownClick}
+                                ChangePage={handleChange}
+                                expanded={expanded}
+                                content={content}
+                                setOpen={setSlider}
+                              />
+                            </>
+                          )}
+                        </ListItem>
+                      </Box>
                     )
                   )}
                 </List>

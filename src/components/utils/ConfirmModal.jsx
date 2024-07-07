@@ -8,8 +8,12 @@ import {
 } from "@mui/material";
 import { tokens } from "../../theme";
 import React from "react";
+import { enqueueSnackbar } from "notistack";
 
 const ConfirmModal = ({
+  refresh,
+  snackbarText,
+  snackbarColor,
   onClose,
   onClick,
   color,
@@ -26,6 +30,7 @@ const ConfirmModal = ({
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+
   return (
     <Paper
       sx={{
@@ -39,6 +44,8 @@ const ConfirmModal = ({
         alignItems: "center",
       }}
     >
+      
+      
       <Typography variant={isSmallScreen ? "h6" : "h4"} textAlign={"center"}>
         {parts.map((part, index) =>
           part.toLowerCase() === highlight.toLowerCase() ? (
@@ -63,7 +70,12 @@ const ConfirmModal = ({
       </Typography>
       <Stack gap={1} direction={"row"} justifyContent={"space-between"}>
         <Button
-          onClick={onClick}
+          onClick={async () => {
+            await onClick();
+            refresh();
+            enqueueSnackbar(snackbarText, { variant: snackbarColor });
+            onClose();
+          }}
           sx={{
             width: isSmallScreen ? "134px" : "208px",
             height: isSmallScreen ? "44px" : "40px",

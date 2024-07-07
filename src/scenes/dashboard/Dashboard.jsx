@@ -71,7 +71,13 @@ const Dashboard = () => {
         flexDirection: isMediumScreen ? "column" : "row",
         alignItems: "center",
         justifyContent: "center",
-        width: isSmallScreen ? "80% " : isLaptop ? "88vw" : `92vw`,
+        width: isSmallScreen
+          ? "80%"
+          : isLaptop
+          ? "88vw"
+          : isLargest
+          ? `92vw`
+          : "100%",
         height: isMediumScreen ? "auto" : "946px",
         marginTop: theme.spacing(3),
         ml: isSmallScreen ? 5 : isMediumScreen ? 1 : 3,

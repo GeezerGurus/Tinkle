@@ -22,7 +22,7 @@ export const patchAccount = async (accountId, updatedData) => {
     const response = await api.patch(`/account/${accountId}`, updatedData);
     return response.data;
   } catch (error) {
-    console.error(`Error updating list ${accountId}:`, error);
+    console.error(`Error updating Accounts ${accountId}:`, error);
     throw error;
   }
 };
@@ -32,7 +32,7 @@ export const deleteAccount = async (accountId) => {
     const response = await api.delete(`/account/${accountId}`);
     return response.data;
   } catch (error) {
-    console.error(`Error deleting list ${accountId}:`, error);
+    console.error(`Error deleting Account ${accountId}:`, error);
     throw error;
   }
 };

@@ -16,6 +16,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FormImage from "../../assets/form.png";
 import { tokens } from "../../theme";
+import { postSetting } from "../../api/generalSettings";
 
 const Form = () => {
   const theme = useTheme();
@@ -44,6 +45,7 @@ const Form = () => {
       await signup(userData);
       setIsLoading(false);
       navigate("/dashboard");
+      postSetting();
     } catch (error) {
       console.error(error);
       setIsLoading(false);

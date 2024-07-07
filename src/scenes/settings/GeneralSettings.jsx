@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { tokens } from "../../theme";
 import {
   Typography,
@@ -12,26 +12,98 @@ import {
   Button,
   Modal,
   TextField,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { ConfirmModal } from "../../components/utils";
 import ShieldIcon from "@mui/icons-material/Shield";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import {
+  getSettings,
+  patchSettings,
+  deleteUser,
+} from "../../api/generalSettings";
+import { enqueueSnackbar } from "notistack";
+import { AuthContext } from "../../context/AuthContext";
 
 const GeneralSettings = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
-
-  const [interval, setInterval] = useState("monthly");
-
+  const [interval, setInterval] = useState("");
+  const [hideDec, setHideDec] = useState(false);
+  const [settingId, setSettingId] = useState(null);
+  const { logout } = useContext(AuthContext);
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
+  // Fetch settings data
+  const fetchSettings = async () => {
+    try {
+      console.log(hideDec);
+      const res = await getSettings();
+      if (res && res.length > 0) {
+        const firstSetting = res[0];
+        setInterval(firstSetting.default_interval);
+        setSettingId(firstSetting._id);
+        setHideDec(firstSetting.hide_dec);
+        console.log(firstSetting.hide_dec);
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const handleSaveHideDec = async (targetDec) => {
+    try {
+      if (settingId) {
+        const EditedSettings = { hide_dec: targetDec };
+        const createdSettings = await patchSettings(settingId, EditedSettings);
+        console.log("created setting:",createdSettings);
+        enqueueSnackbar("Saved!", { variant: "info" });
+      } else {
+        console.error("Setting ID not found");
+      }
+    } catch (error) {
+      console.error("Error editing setting:", error);
+    }
+  };
+
+  const handleChangeDec = () => {
+    const newHideDec = hideDec ? false : true;
+    setHideDec(newHideDec);
+    handleSaveHideDec(newHideDec);
+  };
+
+  const handleSaveInterval = async (targetInterval) => {
+    try {
+      if (settingId) {
+        const EditedSettings = { default_interval: targetInterval };
+        const createdSettings = await patchSettings(settingId, EditedSettings);
+        enqueueSnackbar("Saved!", { variant: "info" });
+      } else {
+        console.error("Setting ID not found");
+      }
+    } catch (error) {
+      console.error("Error editing setting:", error);
+    }
+  };
+
+  const handleChangeInterval = (e) => {
+    const newInterval = e.target.value;
+    setInterval(newInterval);
+    handleSaveInterval(newInterval);
+  };
+  const handleDelete = () => {
+    deleteUser()
+    logout()
+  };
   return (
-    // Container
     <Box
       sx={{
         display: "flex",
@@ -41,11 +113,16 @@ const GeneralSettings = () => {
         height: "100%",
       }}
     >
-      {/* Main Box  */}
       <Paper
         sx={{
           borderRadius: "12px",
-          width: isSmallest?"100%": isSmallScreen? "80%":isMediumScreen?"80%": "56%",
+          width: isSmallest
+            ? "100%"
+            : isSmallScreen
+            ? "80%"
+            : isMediumScreen
+            ? "80%"
+            : "56%",
           height: "fit-content",
           display: "flex",
           justifyContent: "center",
@@ -63,69 +140,82 @@ const GeneralSettings = () => {
             gap: theme.spacing(4),
           }}
         >
-          {/* Title  */}
           <Typography
-            variant={isSmallScreen?"h6":"h4"}
+            variant={isSmallScreen ? "h6" : "h4"}
             gutterBottom
             sx={{ borderBottom: `2px solid ${colors.purple[600]}` }}
           >
             General
           </Typography>
-          {/* Contents  */}
           <Box
             sx={{
               display: "flex",
-              gap: isSmallScreen?"25px":isLargeScreen?"3vw":"130px",
+              gap: isSmallScreen ? "25px" : isLargeScreen ? "3vw" : "130px",
               justifyContent: "space-around",
-              flexDirection: isSmallScreen?"column":isMediumScreen?"column":"row"
+              flexDirection: isSmallScreen
+                ? "column"
+                : isMediumScreen
+                ? "column"
+                : "row",
             }}
           >
-            {/* Left  */}
             <Stack gap={1}>
-              <Typography variant= {isSmallScreen?"body4":"body2"}>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
                 Default interval on Dashboard
               </Typography>
-              <TextField select value={interval}
-                onChange={(e) => setInterval(e.target.value)}
+              <TextField
+                select
+                value={interval}
+                onChange={handleChangeInterval}
                 sx={{ width: "220px", height: "56px" }}
               >
+                <MenuItem value="daily">
+                  <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                    Today
+                  </Typography>
+                </MenuItem>
                 <MenuItem value="monthly">
-                  <Typography variant={isSmallScreen ? 'body4' : 'body2'}>
+                  <Typography variant={isSmallScreen ? "body4" : "body2"}>
                     This month
                   </Typography>
                 </MenuItem>
                 <MenuItem value="yearly">
-                  <Typography variant={isSmallScreen ? 'body4' : 'body2'}>
+                  <Typography variant={isSmallScreen ? "body4" : "body2"}>
                     This year
                   </Typography>
                 </MenuItem>
               </TextField>
             </Stack>
-            {/* Right  */}
             <Stack gap={1}>
-              <Typography variant={isSmallScreen?"body4":"body2"}>Number format</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                Number format
+              </Typography>
               <FormControlLabel
-                control={<Switch defaultChecked />}
+                control={
+                  <Switch checked={hideDec} onChange={handleChangeDec} />
+                }
                 label={
-                  <Typography variant={isSmallScreen ? 'body2' : 'body1'}>
+                  <Typography variant={isSmallScreen ? "body2" : "body1"}>
                     Hide decimal within amount
                   </Typography>
                 }
               />
             </Stack>
           </Box>
-          {/* Title 2  */}
           <Typography
-            variant={isSmallScreen?"h6":"h4"}
+            variant={isSmallScreen ? "h6" : "h4"}
             gutterBottom
             sx={{ borderBottom: `2px solid ${colors.purple[600]}` }}
           >
             Personal data & Privacy
           </Typography>
-          {/* Contents 2 */}
-          <Stack gap={2} >
+          <Stack gap={2}>
             <Typography variant="body2">Documents to review</Typography>
-            <Stack direction={isSmallScreen?"column":"row"} justifyContent={"space-around"} gap={5}>
+            <Stack
+              direction={isSmallScreen ? "column" : "row"}
+              justifyContent={"space-around"}
+              gap={5}
+            >
               <Button
                 variant="outlined"
                 startIcon={<ShieldIcon sx={{ color: colors.purple[600] }} />}
@@ -156,16 +246,14 @@ const GeneralSettings = () => {
               </Button>
             </Stack>
           </Stack>
-          {/* Data portability  */}
           <Stack
             gap={2}
             borderBottom={`2px solid ${colors.purple[600]}`}
-            
             pb={2}
             width={"100%"}
           >
             <Typography variant="body2">Data portability</Typography>
-            <Typography variant={isSmallScreen?"body4":"body2"}>
+            <Typography variant={isSmallScreen ? "body4" : "body2"}>
               You have right to change your personal data by editing your
               profile information, change your transaction data for cash
               accounts by editing them. You can delete your transactions from
@@ -183,7 +271,6 @@ const GeneralSettings = () => {
             variant="contained"
             sx={{
               backgroundColor: colors.extra.red_accent,
-              borderRadius: 2,
               borderRadius: "8px",
               width: "247px",
               alignSelf: "center",
@@ -196,7 +283,6 @@ const GeneralSettings = () => {
           </Button>
         </Box>
       </Paper>
-      {/* Delete Profile Modal*/}
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
@@ -207,7 +293,10 @@ const GeneralSettings = () => {
           }}
         >
           <ConfirmModal
+            onClick={handleDelete}
             onClose={() => setOpen(false)}
+            refresh={fetchSettings}
+            snackbarText={"User Account Deleted!"}
             color={colors.extra.red_accent}
             highlight={"DELETE"}
             promptText={"DELETE PROFILE AND ALL DATA?"}

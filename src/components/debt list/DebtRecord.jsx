@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IconButton,
   Paper,
@@ -14,8 +14,19 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditDebtRecord from "./EditDebtRecord";
 import { ConfirmModal } from "../utils";
+import { deleteLendDebtItem } from "../../api/lendDebtItem";
+import { deleteOweDebtItem } from "../../api/oweDebtItems";
 
-const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
+const DebtRecord = ({
+  id,
+  amount,
+  currency = "MMK",
+  dueDate,
+  Icon,
+  refresh,
+  debtId,
+  action,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -24,6 +35,20 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleDelete = async () => {
+    const res =
+      action === "lend"
+        ? await deleteLendDebtItem(debtId, id)
+        : await deleteOweDebtItem(debtId, id);
+    if (res.status === 200) {
+      refresh();
+    }
+  };
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString();
+  };
+
   return (
     <Paper
       sx={{
@@ -73,7 +98,7 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
               variant={isSmallScreen ? "body3" : "body2"}
               sx={{ color: colors.extra.faint_black }}
             >
-              {dueDate}
+              {formatDate(dueDate)}
             </Typography>
           </Stack>
         </Stack>
@@ -117,12 +142,19 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
         >
           {modal === "edit-debtrecord" ? (
             <EditDebtRecord
+              amount={amount}
+              date={new Date(dueDate).toISOString().split("T")[0]}
+              id={id}
+              debtId={debtId}
+              refresh={refresh}
+              action={action}
               onClose={() => {
                 setOpenModal(false);
               }}
             />
           ) : (
             <ConfirmModal
+              onClick={handleDelete}
               onClose={() => {
                 setOpenModal(false);
               }}
@@ -132,6 +164,10 @@ const DebtRecord = ({ amount, currency, dueDate, Icon }) => {
                 "This action will delete this Debt record and make changes to your debt."
               }
               promptText={"Do you really want to Delete?"}
+              refresh={refresh}
+              snackbarText={
+                action === "lend" ? "Lend Item Deleted" : "Owe Item Deleted"
+              }
             />
           )}
         </Box>

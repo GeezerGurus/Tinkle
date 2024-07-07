@@ -1,97 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  ButtonGroup,
-  Button,
   Stack,
   Typography,
   useTheme,
   Backdrop,
-  IconButton,
   useMediaQuery,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BudgetItem, CreateBudget } from "../../components/budget";
-import { BackBtn, SpeedDial } from "../../components/utils";
+import { BackBtn, Loader, SpeedDial } from "../../components/utils";
 import { tokens } from "../../theme";
-
-const sidebarWidth = 84;
-
-const budgetItems = [
-  {
-    title: "Marketing",
-    total: 1000000,
-    progressPercent: "30",
-    spent: 500000,
-    remains: 500000,
-  },
-  {
-    title: "Development",
-    total: 1500000,
-    progressPercent: "50",
-    spent: 800000,
-    remains: 700000,
-  },
-  {
-    title: "Operations",
-    total: 500000,
-    progressPercent: "80",
-    spent: 200000,
-    remains: 300000,
-  },
-  {
-    title: "Research",
-    total: 700000,
-    progressPercent: "10",
-    spent: 350000,
-    remains: 350000,
-  },
-  {
-    title: "Customer Support",
-    total: 400000,
-    progressPercent: "0",
-    spent: 150000,
-    remains: 250000,
-  },
-];
+import { getBudgetPeriodically } from "../../api/budgetsApi";
 
 const BudgetPeriod = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([]);
+  const [budgets, setBudgets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedBudget, setSelectedBudget] = useState(null);
   const { periodType } = useParams();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  // Mock function to simulate fetching data
-  // const fetchItems = async () => {
-  //   setIsLoading(true);
-  //   let timeoutId;
+  const fetchBudgets = async () => {
+    setIsLoading(true);
+    const res = await getBudgetPeriodically(periodType);
+    setBudgets(res || []);
+    setIsLoading(false);
+  };
 
-  //   // Simulate async call
-  //   timeoutId = setTimeout(() => {
-  //     setItems(budgetItems); // Using mock budgetItems for demonstration
-  //     setIsLoading(false);
-  //   }, 1000);
+  useEffect(() => {
+    fetchBudgets();
+  }, [periodType]);
 
-  //   return () => clearTimeout(timeoutId);
-  // };
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => {
+    setOpen(false);
+    navigate(-1);
+  };
 
-  // useEffect(() => {
-  //   fetchItems();
-  // }, []);
+  const filteredBudgets = selectedBudget
+    ? budgets.filter((budget) => budget.name === selectedBudget)
+    : budgets;
 
   return (
     <Box
       sx={{
-        // p: isSmallScreen ? 4 : "",
         width: "100%",
         height: isSmallScreen ? "auto" : "90%",
         display: "flex",
@@ -103,6 +66,8 @@ const BudgetPeriod = () => {
         overflowX: isSmallScreen ? "hidden" : "",
       }}
     >
+      <Loader isLoading={isLoading} />
+
       {/* Loading */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -124,52 +89,14 @@ const BudgetPeriod = () => {
             .join(" ")}
         </Typography>
 
-        {/* Navigate left and right */}
-        <ButtonGroup
-          variant="contained"
-          sx={{
-            width: isSmallScreen ? "80%" : "100%",
-            borderRadius: "16px",
-            border: `1px solid ${colors.purple[600]}`,
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            sx={{
-              width: isSmallScreen ? "25%" : "96px",
-              borderRadius: "16px",
-              backgroundColor: "white",
-              color: colors.purple[700],
-              "&:hover": {
-                backgroundColor: colors.purple[100],
-              },
-            }}
-          >
-            <NavigateBeforeIcon />
-          </Button>
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            width="344px"
-            height="40px"
-            sx={{ backgroundColor: colors.purple[600], color: "white" }}
-          >
-            <Typography variant="body1">23/6 - 30/6</Typography>
-          </Stack>
-          <Button
-            sx={{
-              width: isSmallScreen ? "25%" : "96px",
-              borderRadius: "16px",
-              backgroundColor: "white",
-              color: colors.purple[700],
-              "&:hover": {
-                backgroundColor: colors.purple[100],
-              },
-            }}
-          >
-            <NavigateNextIcon />
-          </Button>
-        </ButtonGroup>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={budgets.map((budget) => budget.name)}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Budgets" />}
+          onChange={(event, newValue) => setSelectedBudget(newValue)}
+        />
       </Stack>
 
       {/* Contents box */}
@@ -185,20 +112,29 @@ const BudgetPeriod = () => {
           padding: "0px 2%",
         }}
       >
-        {budgetItems.map((budgetItem, index) => (
+        {filteredBudgets.map((budget, index) => (
           <BudgetItem
-            title={budgetItem.title}
-            total={budgetItem.total}
-            spent={budgetItem.spent}
-            remains={budgetItem.remains}
-            progressPercent={budgetItem.progressPercent}
+            id={budget._id}
+            title={budget.name}
+            total={budget.amount}
+            spent={100}
+            remains={500}
+            progressPercent={10}
             key={index}
           />
         ))}
       </Box>
 
       {/* Create Budget  */}
-      <SpeedDial modal={<CreateBudget items={items} />} />
+      <SpeedDial
+        modal={
+          <CreateBudget
+            onClose={handleCloseModal}
+            periodProp={periodType}
+            refresh={fetchBudgets}
+          />
+        }
+      />
     </Box>
   );
 };

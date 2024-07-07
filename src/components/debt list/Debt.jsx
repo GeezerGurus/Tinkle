@@ -18,8 +18,20 @@ import CreateDebtRecord from "./CreateDebtRecord";
 import { ConfirmModal } from "../utils";
 import { Link, useLocation } from "react-router-dom";
 import EditDebtList from "./EditDebtList";
+import { deleteDebtRecord } from "../../api/debtRecord";
 
-const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
+const Debt = ({
+  name,
+  purpose,
+  amount,
+  date,
+  account,
+  dueDate,
+  isActive,
+  action,
+  id,
+  refresh,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -28,6 +40,13 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
   const [modal, setModal] = useState("");
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleDelete = async () => {
+    const res = await deleteDebtRecord(id);
+    if (res.status === 200) {
+      refresh();
+    }
+  };
 
   return (
     <Paper
@@ -121,7 +140,7 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
         </Button>
         <Button
           component={Link}
-          to={`${location.pathname}/${name.toLowerCase()}`}
+          to={`${location.pathname}/${id}`}
           sx={{
             borderRadius: "8px",
             textTransform: "none",
@@ -170,6 +189,9 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
         >
           {modal === "create-record" ? (
             <CreateDebtRecord
+              debtId={id}
+              action={action}
+              refresh={refresh}
               onClose={() => {
                 setOpenModal(false);
               }}
@@ -177,13 +199,24 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
             />
           ) : modal === "edit-debtlist" ? (
             <EditDebtList
+              name={name}
+              purpose={purpose}
+              amount={amount}
               action={action}
+              account={account}
+              date={date}
+              dueDate={dueDate}
+              refresh={refresh}
+              id={id}
               onClose={() => {
                 setOpenModal(false);
               }}
             />
           ) : (
             <ConfirmModal
+              onClick={() => {
+                handleDelete();
+              }}
               onClose={() => {
                 setOpenModal(false);
               }}
@@ -193,6 +226,8 @@ const Debt = ({ name, purpose, amount, dueDate, isActive, action }) => {
                 "This action will delete your whole Debt and its records."
               }
               promptText={"Do you really want to Delete?"}
+              refresh={refresh}
+              snackbarText={"Debt Record deleted!"}
             />
           )}
         </Box>

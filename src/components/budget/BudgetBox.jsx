@@ -1,40 +1,33 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
   LinearProgress,
   IconButton,
   Paper,
-  Stack,
-  useTheme,
   Button,
+  Modal,
+  useTheme,
   useMediaQuery,
 } from "@mui/material";
-import React from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import AddIcon from "@mui/icons-material/Add";
+import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import ShowMoreBtn from "../utils/ShowMoreBtn";
-import { Link } from "react-router-dom";
+import CreateBudget from "./CreateBudget";
+import { getBudgetPeriodically } from "../../api/budgetsApi";
+import { Loader } from "../utils";
 
-// Sample progress details
-const progressDetails = [
-  { content: "Home", dollar: "$60", percent: "90%" },
-  { content: "Outdoor", dollar: "$70", percent: "30%" },
-  { content: "Food", dollar: "-$300", percent: "-56%" },
-];
-
-const Progress = ({ content, dollar, percent, period }) => {
+const Progress = ({ content, dollar, percent, period, budgetId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const progressValue = parseInt(percent, 10); // Convert percent to integer
-  const isOverspent = progressValue < 0; // Check if overspent
+  const progressValue = parseInt(percent, 10);
+  const isOverspent = progressValue < 0;
 
   return (
-    <Box
-      sx={{ display: "flex", width: "100%", flexDirection: "column", mb: 1 }}
-    >
-      {/* Text  */}
+    <Box sx={{ display: "flex", flexDirection: "column", marginBottom: 1 }}>
       <Box
         sx={{
           display: "flex",
@@ -44,34 +37,26 @@ const Progress = ({ content, dollar, percent, period }) => {
         }}
       >
         <Typography variant="body1">{content}</Typography>
-        <Stack flexDirection={"row"} gap={2}>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
           <Typography variant="body3">{dollar}</Typography>
           <Typography variant="body2">{percent}</Typography>
-        </Stack>
+        </Box>
       </Box>
-
-      {/* Progress Bar */}
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
         <Box sx={{ flexGrow: 1 }}>
           <LinearProgress
             variant="determinate"
             value={isOverspent ? 100 : 100 - progressValue}
             sx={{
               height: 17,
-              bgcolor: " #D9D9D9B2",
-              direction: isOverspent ? "rtl" : "ltr", // Reverse direction for overspent values only
+              bgcolor: "#D9D9D9B2",
+              direction: isOverspent ? "rtl" : "ltr",
               "& .MuiLinearProgress-bar": {
                 bgcolor: isOverspent
-                  ? colors.category.red // overspent
+                  ? colors.category.red
                   : progressValue < 50
-                  ? colors.category.orange // normal spending or risk of overspent
-                  : colors.green[100], // in limit
+                  ? colors.category.orange
+                  : colors.green[100],
               },
             }}
           />
@@ -80,7 +65,7 @@ const Progress = ({ content, dollar, percent, period }) => {
           component={Link}
           to={`/budget/${period
             .toLowerCase()
-            .replace(" ", "-")}/${content.toLowerCase()}`}
+            .replace(/\s+/g, "-")}/${budgetId}`}
         >
           <ArrowForwardIosIcon sx={{ color: colors.purple[600] }} />
         </IconButton>
@@ -92,17 +77,45 @@ const Progress = ({ content, dollar, percent, period }) => {
 const BudgetBox = ({ period }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const periodString = period.trim().toLowerCase().replace(/\s+/g, "-");
+
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const boxWidth = isSmallScreen ? "100%" : "474px";
 
+  const [budgets, setBudgets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchBudgets = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getBudgetPeriodically(periodString);
+      setBudgets(res || []);
+    } catch (error) {
+      console.error("Error fetching budgets:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBudgets();
+  }, [periodString]);
+
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => {
+    setOpen(false);
+    navigate(-1);
+  };
+
   return (
-    // one Budget Box
     <Paper
       sx={{
         borderRadius: "8px",
         width: boxWidth,
-        height: isSmallScreen ? "100%" : "408px",
+        height: isSmallScreen ? "100%" : 408,
         display: "flex",
         padding: "16px 48px",
         flexDirection: "column",
@@ -110,12 +123,12 @@ const BudgetBox = ({ period }) => {
         alignItems: "center",
       }}
     >
-      {/* Header box of Budgetbox */}
+      <Loader isLoading={isLoading} />
       <Typography
         variant={isSmallScreen ? "h4" : "h3"}
         sx={{
           borderBottom: `${colors.purple[600]} 1px solid`,
-          height: "69px",
+          height: 69,
           alignSelf: "flex-start",
           width: "100%",
         }}
@@ -123,24 +136,26 @@ const BudgetBox = ({ period }) => {
         {period}
       </Typography>
 
-      {/* Progress here */}
-      {progressDetails.length > 0 && (
+      {budgets.length > 0 && (
         <Box sx={{ flexGrow: 1, width: "100%", padding: "24px 0" }}>
-          {progressDetails.map((progressDetail, index) => (
+          {budgets.slice(0, 3).map((budget, index) => (
             <Progress
               key={index}
-              content={progressDetail.content}
-              dollar={progressDetail.dollar}
-              percent={progressDetail.percent}
+              content={budget.name}
+              dollar={budget.amount}
+              percent={null}
               period={period}
+              budgetId={budget._id}
             />
           ))}
         </Box>
       )}
 
-      {/* Add budget  */}
-      {progressDetails.length < 3 && (
+      {budgets.length < 3 && (
         <Button
+          onClick={handleOpenModal}
+          component="a"
+          href="#create-budget"
           sx={{
             width: "100%",
             borderRadius: "16px",
@@ -149,9 +164,15 @@ const BudgetBox = ({ period }) => {
             display: "flex",
           }}
         >
-          <Stack alignItems={"center"}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <AddIcon
-              sx={{ width: "32px", height: "32px", color: colors.purple[600] }}
+              sx={{ width: 32, height: 32, color: colors.purple[600] }}
             />
             <Typography
               variant={isSmallScreen ? "body1" : "body2"}
@@ -159,18 +180,34 @@ const BudgetBox = ({ period }) => {
             >
               Tap to add budget
             </Typography>
-          </Stack>
+          </Box>
         </Button>
       )}
 
-      {progressDetails.length >= 3 && (
-        // Show more button
+      {budgets.length >= 3 && (
         <ShowMoreBtn
-          fontSize={"body1"}
+          fontSize="body1"
           width="133px"
-          to={`/budget/${period.toLowerCase().replace(" ", "-")}`}
+          to={`/budget/${period.toLowerCase().replace(/\s+/g, "-")}`}
         />
       )}
+
+      <Modal open={open} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CreateBudget
+            onClose={handleCloseModal}
+            periodProp={periodString}
+            refresh={fetchBudgets}
+          />
+        </Box>
+      </Modal>
     </Paper>
   );
 };

@@ -10,30 +10,65 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
-import {
-  Restaurant as RestaurantIcon,
-  LocalMall as LocalMallIcon,
-  House as HouseIcon,
-  DirectionsBus as DirectionsBusIcon,
-  DirectionsCar as DirectionsCarIcon,
-  Man as ManIcon,
-  Tv as TvIcon,
-  Payments as PaymentsIcon,
-  AutoGraph as AutoGraphIcon,
-  PriceCheck as PriceCheckIcon,
-  List as ListIcon,
-} from "@mui/icons-material";
+import { patchDebtRecord } from "../../api/debtRecord";
+import { getAccounts } from "../../api/accountApi";
+import { enqueueSnackbar } from "notistack";
 
-const EditDebtList = ({ onClose, action }) => {
+const EditDebtList = ({
+  onClose,
+  action,
+  name,
+  purpose,
+  amount,
+  date,
+  dueDate,
+  account,
+  isActive,
+  id,
+  refresh,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [selectedAmount, setSelectedAmount] = useState("");
-  const [selectedAccount, setSelectedAccount] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  // const [accounts, setAccounts] = useState([]);
+  const [chosenName, setchosenName] = useState(name);
+  const [chosenPurppose, setChosenPurppose] = useState(purpose);
+  const [selectedAmount, setSelectedAmount] = useState(amount);
+  const [selectedAccount, setSelectedAccount] = useState(account);
+  const [AccountsData, setAccountsData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(date);
+  const [DueDate, setDueDate] = useState(dueDate);
+
+  const handleSave = async () => {
+    try {
+      const newDebt = {
+        type: action,
+        accountId: selectedAccount,
+        name: chosenName,
+        purpose: chosenPurppose,
+        amount: parseInt(selectedAmount),
+        Date: selectedDate,
+        DueDate: DueDate,
+      };
+      await patchDebtRecord(id, newDebt);
+      refresh();
+      enqueueSnackbar("Debt list created!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error creating new list:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      const AccountsData = await getAccounts();
+      setAccountsData(AccountsData);
+    };
+    fetchAccounts();
+  }, []);
 
   const handleAmountChange = (event) => {
     setSelectedAmount(event.target.value);
@@ -102,6 +137,8 @@ const EditDebtList = ({ onClose, action }) => {
 
       <TextField
         label="Name"
+        value={chosenName}
+        onChange={(e) => setchosenName(e.target.value)}
         placeholder={
           action === "lent" ? "To whom have I lent?" : "From whom did I borrow?"
         }
@@ -116,6 +153,8 @@ const EditDebtList = ({ onClose, action }) => {
 
       <TextField
         label="Purpose"
+        value={chosenPurppose}
+        onChange={(e) => setChosenPurppose(e.target.value)}
         placeholder="What was it for?"
         fullWidth
         InputLabelProps={{
@@ -172,55 +211,15 @@ const EditDebtList = ({ onClose, action }) => {
           sx: { height: isLaptop ? "42px" : undefined },
         }}
       >
-        <MenuItem value="food">
-          <Item
-            icon={<RestaurantIcon />}
-            text="Food and Drinks"
-            bgColor="red"
-          />
-        </MenuItem>
-        <MenuItem value="shopping">
-          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
-        </MenuItem>
-        <MenuItem value="housing">
-          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-        </MenuItem>
-        <MenuItem value="transportation">
-          <Item
-            icon={<DirectionsBusIcon />}
-            text="Transportation"
-            bgColor="grey"
-          />
-        </MenuItem>
-        <MenuItem value="vehicle">
-          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
-        </MenuItem>
-        <MenuItem value="life">
-          <Item
-            icon={<ManIcon />}
-            text="Life & Entertainment"
-            bgColor="lightgreen"
-          />
-        </MenuItem>
-        <MenuItem value="communication">
-          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
-        </MenuItem>
-        <MenuItem value="financialIncome">
-          <Item
-            icon={<PaymentsIcon />}
-            text="Financial Incomes"
-            bgColor="lightblue"
-          />
-        </MenuItem>
-        <MenuItem value="investment">
-          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
-        </MenuItem>
-        <MenuItem value="income">
-          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-        </MenuItem>
-        <MenuItem value="others">
-          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-        </MenuItem>
+        {AccountsData.map((account) => (
+          <MenuItem key={account.id} value={account._id}>
+            <Item
+              // icon={<account.icon />}
+              text={account.name}
+              // bgColor={account.bgColor}
+            />
+          </MenuItem>
+        ))}
       </TextField>
 
       <TextField
@@ -245,8 +244,8 @@ const EditDebtList = ({ onClose, action }) => {
         label="Due Date"
         type="date"
         fullWidth
-        value={selectedDate}
-        onChange={handleDateChange}
+        value={DueDate}
+        onChange={(e) => setDueDate(e.target.value)}
         InputLabelProps={{
           shrink: true,
         }}
@@ -265,6 +264,7 @@ const EditDebtList = ({ onClose, action }) => {
         justifyContent={"space-between"}
       >
         <Button
+          onClick={handleSave}
           sx={{
             width: isSmallScreen ? "208px" : isMediumScreen ? "190px" : "208px",
             height: "40px",

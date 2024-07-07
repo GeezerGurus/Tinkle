@@ -9,42 +9,59 @@ import {
   Button,
   TextField,
   Stack,
-  Select,
-  FormControl,
-  InputLabel,
+  useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import {
-  Restaurant as RestaurantIcon,
-  LocalMall as LocalMallIcon,
-  House as HouseIcon,
-  DirectionsBus as DirectionsBusIcon,
-  DirectionsCar as DirectionsCarIcon,
-  Man as ManIcon,
-  Tv as TvIcon,
-  Payments as PaymentsIcon,
-  AutoGraph as AutoGraphIcon,
-  PriceCheck as PriceCheckIcon,
-  List as ListIcon,
-} from "@mui/icons-material";
-import { Item } from "../utils";
+import dayjs from "dayjs";
+import { postBudget } from "../../api/budgetsApi"; // Import the postBudget function
+import { enqueueSnackbar } from "notistack";
 
-const CreateAccount = ({ onClose }) => {
+const CreateBudget = ({ onClose, periodProp, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [selectedOption, setSelectedOption] = useState("");
+  const [period, setPeriod] = useState(periodProp);
+  const [descript, setDescript] = useState("");
+  const [startDate, setStartDate] = useState(dayjs().format("YYYY-MM-DD"));
+  const [endDate, setEndDate] = useState(dayjs().format("YYYY-MM-DD"));
+  const [amount, setAmount] = useState(0);
+  const [name, setName] = useState("");
 
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleSubmit = async () => {
+    const budgetData = {
+      amount,
+      name,
+      period,
+      startDate: period === "one-time" ? startDate : undefined,
+      endDate: period === "one-time" ? endDate : undefined,
+      description: descript,
+    };
+
+    try {
+      await postBudget(budgetData);
+      refresh();
+      enqueueSnackbar("Budget created!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error adding new budget:", error);
+    }
   };
 
   return (
     <Paper
       sx={{
-        width: "686px",
-        height: "418px",
-        padding: "32px 112px",
+        width: isSmallScreen ? "360px" : "686px",
+        height:
+          period === "one-time"
+            ? isSmallScreen
+              ? "650px"
+              : " 702px"
+            : isSmallScreen
+            ? "500px"
+            : "536px",
+        padding: isSmallScreen ? "19px 10px" : "32px 112px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
@@ -53,7 +70,9 @@ const CreateAccount = ({ onClose }) => {
       }}
     >
       {/* Title  */}
-      <Typography variant="h4">Create Account</Typography>
+      <Typography variant={isSmallScreen ? "h5" : "h4"}>
+        Create Budget
+      </Typography>
 
       <Box
         sx={{
@@ -67,18 +86,34 @@ const CreateAccount = ({ onClose }) => {
       >
         <TextField
           label="Name"
+          placeholder="Enter budget name"
           fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           InputLabelProps={{
             shrink: true,
           }}
+          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
         />
 
         <TextField
           type="number"
-          label="Currency Balance"
+          label="Amount"
           fullWidth
           inputProps={{ min: "0" }}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
           InputProps={{
+            sx: { height: isSmallScreen ? "75%" : "100%" },
+            startAdornment: (
+              <InputAdornment position="start" sx={{ color: "green" }}>
+                <Typography
+                  sx={{ color: "green", fontWeight: "400", fontSize: "24px" }}
+                >
+                  +
+                </Typography>
+              </InputAdornment>
+            ),
             endAdornment: <InputAdornment position="end">MMK</InputAdornment>,
           }}
           InputLabelProps={{
@@ -86,95 +121,98 @@ const CreateAccount = ({ onClose }) => {
           }}
         />
 
-        <FormControl fullWidth>
-          <InputLabel shrink>Category</InputLabel>
-          <Select
-            value={selectedOption}
-            onChange={handleChange}
-            displayEmpty
-            label="Category"
-          >
-            <MenuItem value="food">
-              <Item
-                icon={<RestaurantIcon />}
-                text="Food and Drinks"
-                bgColor="red"
-              />
-            </MenuItem>
-            <MenuItem value="shopping">
-              <Item
-                icon={<LocalMallIcon />}
-                text="Shopping"
-                bgColor="lightblue"
-              />
-            </MenuItem>
-            <MenuItem value="housing">
-              <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-            </MenuItem>
-            <MenuItem value="transportation">
-              <Item
-                icon={<DirectionsBusIcon />}
-                text="Transportation"
-                bgColor="grey"
-              />
-            </MenuItem>
-            <MenuItem value="vehicle">
-              <Item
-                icon={<DirectionsCarIcon />}
-                text="Vehicle"
-                bgColor="purple"
-              />
-            </MenuItem>
-            <MenuItem value="life">
-              <Item
-                icon={<ManIcon />}
-                text="Life & Entertainment"
-                bgColor="lightgreen"
-              />
-            </MenuItem>
-            <MenuItem value="communication">
-              <Item
-                icon={<TvIcon />}
-                text="Communication, PC"
-                bgColor="magenta"
-              />
-            </MenuItem>
-            <MenuItem value="financialIncome">
-              <Item
-                icon={<PaymentsIcon />}
-                text="Financial Incomes"
-                bgColor="lightblue"
-              />
-            </MenuItem>
-            <MenuItem value="investment">
-              <Item
-                icon={<AutoGraphIcon />}
-                text="Investments"
-                bgColor="#db2c55"
-              />
-            </MenuItem>
-            <MenuItem value="income">
-              <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-            </MenuItem>
-            <MenuItem value="others">
-              <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-            </MenuItem>
-          </Select>
-        </FormControl>
+        <TextField
+          value={period}
+          onChange={(e) => setPeriod(e.target.value)}
+          select
+          label="Period"
+          fullWidth
+          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
+        >
+          <MenuItem value="monthly">
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography sx={{ color: "black" }}>Monthly</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="weekly">
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography sx={{ color: "black" }}>Weekly</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="yearly">
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography sx={{ color: "black" }}>Yearly</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="one-time">
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography sx={{ color: "black" }}>One-Time</Typography>
+            </Box>
+          </MenuItem>
+        </TextField>
+
+        {/* Start-Date */}
+        {period === "one-time" && (
+          <TextField
+            type="date"
+            fullWidth
+            label="Start Date"
+            value={startDate}
+            onChange={(event) => setStartDate(event.target.value)}
+            InputProps={{
+              sx: { height: isSmallScreen ? "75%" : "100%" },
+              inputProps: {
+                min: "2022-01-01", // Set min and max dates if needed
+                max: "2025-12-31",
+              },
+            }}
+          />
+        )}
+        {/* End-Date */}
+        {period === "one-time" && (
+          <TextField
+            type="date"
+            value={endDate}
+            label="End Date"
+            fullWidth
+            onChange={(event) => setEndDate(event.target.value)}
+            InputProps={{
+              sx: { height: isSmallScreen ? "75%" : "100%" },
+              inputProps: {
+                min: "2022-01-01", // Set min and max dates if needed
+                max: "2025-12-31",
+              },
+            }}
+          />
+        )}
+
+        <TextField
+          InputLabelProps={{
+            shrink: true,
+          }}
+          fullWidth
+          label="Note"
+          multiline
+          maxRows={4}
+          placeholder="Enter a description (optional)"
+          value={descript}
+          onChange={(e) => setDescript(e.target.value)}
+        />
       </Box>
 
-      <Stack gap={1} direction="row" justifyContent="space-between">
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
+          onClick={handleSubmit}
           sx={{
             width: "208px",
             height: "40px",
             backgroundColor: colors.purple[600],
             textTransform: "none",
             color: "white",
-            borderRadius: "8px",
-            "&:hover": {
-              backgroundColor: colors.purple[200],
-            },
           }}
         >
           <Typography variant="body2">Create</Typography>
@@ -186,7 +224,6 @@ const CreateAccount = ({ onClose }) => {
             height: "40px",
             backgroundColor: colors.purple[200],
             textTransform: "none",
-            borderRadius: "8px",
           }}
         >
           <Typography variant="body2">Cancel</Typography>
@@ -196,4 +233,4 @@ const CreateAccount = ({ onClose }) => {
   );
 };
 
-export default CreateAccount;
+export default CreateBudget;

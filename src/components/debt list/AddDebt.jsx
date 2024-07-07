@@ -56,7 +56,7 @@ const AddDebt = ({ onClose, action, refresh }) => {
         accountId: selectedAccount,
         name: name,
         purpose: purpose,
-        amount: parseInt(selectedAmount, 10),
+        amount: parseInt(selectedAmount),
         Date: selectedDate,
         DueDate: selectedDueDate,
       };

@@ -4,7 +4,7 @@ const DebtSchema = require("../models/Debt");
 exports.addOwe = async (req, res) => {
   const userId = req.userId;
   const { debtId } = req.params
-  const { amount } = req.body;
+  const { amount, Date  } = req.body;
 
   try {
     if ( !debtId || !amount ) {
@@ -17,7 +17,8 @@ exports.addOwe = async (req, res) => {
     const owe = OweSchema({
       userId,
       amount,
-      debtId
+      debtId, 
+      Date 
     });
 
     if ( debt.amount < amount) {
@@ -62,21 +63,24 @@ exports.getaOwe = async (req, res) => {
 
 exports.patchOwe = async (req, res) => {
   const { debtId, oweId } = req.params;
-  const { amount } = req.body;
+  const { amount, Date  } = req.body;
   try {
         const owe = await OweSchema.findOne({ userId: req.userId, debtId: debtId, _id: oweId });
         if (!owe) {
             return res.status(404).json({ message: "Owe not found!" });
         }
-        if (isNaN(amount) || amount <= 0) {
-          return res.status(400).json({ message: "Amount must be a positive number!" });
+        if (amount) {
+          if (isNaN(amount) || amount <= 0) {
+            return res.status(400).json({ message: "Amount must be a positive number!" });
+          }
+          const debt = await DebtSchema.findOne({ userId: req.userId, _id: owe.debtId });
+          debt.amount += owe.amount;
+          owe.amount = amount;
+          debt.amount -= owe.amount;
+          await debt.save();
         }
-
-        const debt = await DebtSchema.findOne({ userId: req.userId, _id: owe.debtId });
-        debt.amount += owe.amount;
-        owe.amount = amount;
-        debt.amount -= owe.amount;
-        await debt.save();
+        if (Date) owe.Date = Date
+        
         await owe.save();
         res.status(200).json({ message: "Owe record updated successfully", debt });
     } catch (error) {

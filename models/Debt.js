@@ -49,8 +49,7 @@ const debtSchema = new Schema(
       type: Date,
       required: true,
     },
-    isActive:
-    {
+    isActive: {
       type: Boolean,
       default: true,
     }

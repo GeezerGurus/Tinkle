@@ -74,7 +74,7 @@ exports.getaDebt = async (req, res) => {
 
 exports.patchDebt = async (req, res) => {
   const { debtId } = req.params;
-  const { type, accountId, name, purpose, amount, Date, DueDate, isActive } = req.body;
+  const { accountId, name, purpose, amount, Date, DueDate, isActive } = req.body;
   try {
         const debt = await DebtSchema.findOne({ userId: req.userId, _id: debtId });
         if (!debt) {
@@ -83,10 +83,7 @@ exports.patchDebt = async (req, res) => {
         if (isNaN(amount) || amount <= 0) {
           return res.status(400).json({ message: "Number must be a positive number!" });
         }
-        if (debt.type !== type) {
-          return res.status(400).json({ message: "You cannot change the type of debt!" });
-        }
-        if (debt.accountId !== accountId) {
+        if (debt.accountId != accountId) {
           return res.status(400).json({ message: "You cannot change the financial account!" });
         }
         if (name) debt.name = name;
@@ -109,13 +106,13 @@ exports.patchDebt = async (req, res) => {
         if(purpose) debt.purpose = purpose;
         if (Date) debt.Date = Date;
         if (DueDate) debt.DueDate = DueDate;
-        if (isActive) debt.isActive = isActive;
+        if (isActive !== undefined) debt.isActive = isActive;
 
         await debt.save();
 
         res.status(200).json({ message: "Debt record updated successfully", debt });
     } catch (error) {
-        res.status(500).json({ message: error });
+      res.status(500).json({ message: error });
     }
 }
 

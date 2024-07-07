@@ -19,6 +19,9 @@ const lendSchema = new Schema(
       trim: true,
       min: [0, "Balance already hits zero!"]
     },
+    Date: {
+      type: Date
+    }
   },
   { timestamps: true }
 );

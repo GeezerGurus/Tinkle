@@ -1,7 +1,5 @@
 const DebtSchema = require("../models/Debt");
 const AccountSchema = require("../models/Account");
-const OweSchema = require("../models/Owe");
-const LendSchema = require("../models/Lend");
 
 exports.addDebt = async (req, res) => {
   const userId = req.userId;
@@ -106,7 +104,7 @@ exports.patchDebt = async (req, res) => {
         if(purpose) debt.purpose = purpose;
         if (Date) debt.Date = Date;
         if (DueDate) debt.DueDate = DueDate;
-        if (isActive !== undefined) debt.isActive = isActive;
+        if (isActive !== debt.isActive) debt.isActive = isActive;
 
         await debt.save();
 

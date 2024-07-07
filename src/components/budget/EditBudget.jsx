@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -12,42 +12,61 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import { Item } from "../utils";
-import {
-  Wallet as WalletIcon,
-  AccountBalance as AccountBalanceIcon,
-  Savings as SavingsIcon,
-  PhonelinkRing as PhonelinkRingIcon,
-  Restaurant as RestaurantIcon,
-  LocalMall as LocalMallIcon,
-  House as HouseIcon,
-  DirectionsBus as DirectionsBusIcon,
-  DirectionsCar as DirectionsCarIcon,
-  Man as ManIcon,
-  Tv as TvIcon,
-  Payments as PaymentsIcon,
-  AutoGraph as AutoGraphIcon,
-  PriceCheck as PriceCheckIcon,
-  List as ListIcon,
-} from "@mui/icons-material";
 import dayjs from "dayjs";
+import { patchBudget } from "../../api/budgetsApi";
+import { enqueueSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
-const EditBudget = ({ onClose }) => {
+const EditBudget = ({ onClose, budget, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [acc, setAcc] = useState("wallet");
-  const [period, setPeriod] = useState("monthly");
-  const [selectedOption, setSelectedOption] = useState([]);
-  const [descript, setDescript] = useState("");
-  const [startDate, setStartDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [endDate, setEndDate] = useState(dayjs().format("YYYY-MM-DD"));
+  const navigate = useNavigate(); // Hook for navigation
+
+  const [period, setPeriod] = useState(budget.period);
+  const [descript, setDescript] = useState(budget.description || "");
+  const [startDate, setStartDate] = useState(
+    budget.startDate || dayjs().format("YYYY-MM-DD")
+  );
+  const [endDate, setEndDate] = useState(
+    budget.endDate || dayjs().format("YYYY-MM-DD")
+  );
+  const [amount, setAmount] = useState(budget.amount || 0);
+  const [name, setName] = useState(budget.name || "");
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setSelectedOption(typeof value === "string" ? value.split(",") : value);
+  useEffect(() => {
+    // Reset form fields when budget prop changes
+    setPeriod(budget.period);
+    setDescript(budget.description || "");
+    setStartDate(budget.startDate || dayjs().format("YYYY-MM-DD"));
+    setEndDate(budget.endDate || dayjs().format("YYYY-MM-DD"));
+    setAmount(budget.amount || 0);
+    setName(budget.name || "");
+  }, [budget]);
+
+  const handleSubmit = async () => {
+    const budgetData = {
+      amount: amount,
+      name: name,
+      period: period,
+      startDate: period === "one-time" ? startDate : undefined,
+      endDate: period === "one-time" ? endDate : undefined,
+      description: descript,
+    };
+
+    try {
+      await patchBudget(budget._id, budgetData);
+      refresh();
+      enqueueSnackbar("Saved!", { variant: "success" });
+      onClose();
+      if (budget.period !== period) {
+        navigate("/budget"); // Navigate to '/budget' if period is changed
+      }
+    } catch (error) {
+      console.error("Error editing budget:", error);
+      enqueueSnackbar("Failed to save", { variant: "error" });
+    }
   };
 
   return (
@@ -57,11 +76,11 @@ const EditBudget = ({ onClose }) => {
         height:
           period === "one-time"
             ? isSmallScreen
-              ? "700px"
-              : " 870px"
+              ? "650px"
+              : "702px"
             : isSmallScreen
-            ? "630px"
-            : "704px",
+            ? "500px"
+            : "536px",
         padding: isSmallScreen ? "19px 10px" : "32px 112px",
         display: "flex",
         alignItems: "center",
@@ -84,10 +103,23 @@ const EditBudget = ({ onClose }) => {
         }}
       >
         <TextField
+          label="Name"
+          fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
+        />
+
+        <TextField
           type="number"
           label="Amount"
           fullWidth
           inputProps={{ min: "0" }}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
           InputProps={{
             sx: { height: isSmallScreen ? "75%" : "100%" },
             startAdornment: (
@@ -105,93 +137,6 @@ const EditBudget = ({ onClose }) => {
             shrink: true,
           }}
         />
-
-        <TextField
-          label="Name"
-          fullWidth
-          InputLabelProps={{
-            shrink: true,
-          }}
-          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
-        />
-
-        <TextField
-          value={selectedOption}
-          onChange={handleChange}
-          select
-          label="Category"
-          fullWidth
-          InputLabelProps={{
-            sx: { mt: isSmallScreen ? "-2%" : "" },
-          }}
-          InputProps={{ sx: { height: isSmallScreen ? "80%" : "100%" } }}
-        >
-          <MenuItem value="food">
-            <Item
-              icon={<RestaurantIcon />}
-              text="Food and Drinks"
-              bgColor="red"
-            />
-          </MenuItem>
-          <MenuItem value="shopping">
-            <Item
-              icon={<LocalMallIcon />}
-              text="Shopping"
-              bgColor="lightblue"
-            />
-          </MenuItem>
-          <MenuItem value="housing">
-            <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-          </MenuItem>
-          <MenuItem value="transportation">
-            <Item
-              icon={<DirectionsBusIcon />}
-              text="Transportation"
-              bgColor="grey"
-            />
-          </MenuItem>
-          <MenuItem value="vehicle">
-            <Item
-              icon={<DirectionsCarIcon />}
-              text="Vehicle"
-              bgColor="purple"
-            />
-          </MenuItem>
-          <MenuItem value="life">
-            <Item
-              icon={<ManIcon />}
-              text="Life & Entertainment"
-              bgColor="lightgreen"
-            />
-          </MenuItem>
-          <MenuItem value="communication">
-            <Item
-              icon={<TvIcon />}
-              text="Communication, PC"
-              bgColor="magenta"
-            />
-          </MenuItem>
-          <MenuItem value="financialIncome">
-            <Item
-              icon={<PaymentsIcon />}
-              text="Financial Incomes"
-              bgColor="lightblue"
-            />
-          </MenuItem>
-          <MenuItem value="investment">
-            <Item
-              icon={<AutoGraphIcon />}
-              text="Investments"
-              bgColor="#db2c55"
-            />
-          </MenuItem>
-          <MenuItem value="income">
-            <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-          </MenuItem>
-          <MenuItem value="others">
-            <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-          </MenuItem>
-        </TextField>
 
         <TextField
           value={period}
@@ -259,28 +204,6 @@ const EditBudget = ({ onClose }) => {
         )}
 
         <TextField
-          value={acc}
-          onChange={(e) => setAcc(e.target.value)}
-          select
-          label="Balance Account"
-          fullWidth
-          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
-        >
-          <MenuItem value="wallet">
-            <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
-          </MenuItem>
-          <MenuItem value="bank">
-            <Item icon={<AccountBalanceIcon />} text="Bank" bgColor="orange" />
-          </MenuItem>
-          <MenuItem value="savings">
-            <Item icon={<SavingsIcon />} text="Savings" bgColor="pink" />
-          </MenuItem>
-          <MenuItem value="Kpay">
-            <Item icon={<PhonelinkRingIcon />} text="Kpay" bgColor="blue" />
-          </MenuItem>
-        </TextField>
-
-        <TextField
           InputLabelProps={{
             shrink: true,
           }}
@@ -300,6 +223,7 @@ const EditBudget = ({ onClose }) => {
         justifyContent={"space-between"}
       >
         <Button
+          onClick={handleSubmit}
           sx={{
             width: "208px",
             height: "40px",

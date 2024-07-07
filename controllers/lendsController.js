@@ -64,24 +64,24 @@ exports.patchLend = async (req, res) => {
   const { debtId, lendId } = req.params;
   const { amount, Date } = req.body;
   try {
-        const lend = await LendSchema.findOne({ userId: req.userId, debtId: debtId, _id: lendId });
-        if (!lend) {
-            return res.status(404).json({ message: "Lend not found!" });
+      const lend = await LendSchema.findOne({ userId: req.userId, debtId: debtId, _id: lendId });
+      if (!lend) {
+          return res.status(404).json({ message: "Lend not found!" });
+      }
+      if (amount) {
+        if (isNaN(amount) || amount <= 0) {
+          return res.status(400).json({ message: "Amount must be a positive number!" });
         }
-        if (amount) {
-          if (isNaN(amount) || amount <= 0) {
-            return res.status(400).json({ message: "Amount must be a positive number!" });
-          }
-            const debt = await DebtSchema.findOne({ userId: req.userId, _id: lend.debtId });
-            debt.amount += lend.amount;
-            lend.amount = amount;
-            debt.amount -= lend.amount;
-            await debt.save();
-        }
-        if (Date) lend.Date = Date;
-        
-        await lend.save();
-        res.status(200).json({ message: "Lend record updated successfully", debt });
+          const debt = await DebtSchema.findOne({ userId: req.userId, _id: lend.debtId });
+          debt.amount += lend.amount;
+          lend.amount = amount;
+          debt.amount -= lend.amount;
+          await debt.save();
+      }
+      if (Date) lend.Date = Date;
+      
+      await lend.save();
+      res.status(200).json({ message: "Lend record updated successfully", lend });
     } catch (error) {
         res.status(500).json({ message: error });
     }

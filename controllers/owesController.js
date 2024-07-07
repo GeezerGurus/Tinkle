@@ -82,7 +82,7 @@ exports.patchOwe = async (req, res) => {
         if (Date) owe.Date = Date
         
         await owe.save();
-        res.status(200).json({ message: "Owe record updated successfully", debt });
+        res.status(200).json({ message: "Owe record updated successfully", owe });
     } catch (error) {
         res.status(500).json({ message: error });
     }

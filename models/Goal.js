@@ -33,7 +33,11 @@ const goalSchema = new Schema (
         },
         desireDate: {
             type: Date,
-        }    
+        },
+        state: {
+            type: String,
+            default: "active"
+        },
     },
     { timestamps: true }
 );

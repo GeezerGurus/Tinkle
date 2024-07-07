@@ -5,7 +5,7 @@ exports.addSetting = async (req, res) => {
     const { theme, default_interval, hide_dec } = req.body;
 
     try {
-        if (!userId || !default_interval) {
+        if (!userId) {
             return res.status(400).json({ message: "All field required !" });
         }
 

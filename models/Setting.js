@@ -17,7 +17,7 @@ const settingsSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      default: "Monthly"
+      default: "monthly"
     },
     hide_dec: {
       type: Boolean,

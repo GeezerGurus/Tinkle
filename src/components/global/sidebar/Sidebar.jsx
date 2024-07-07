@@ -139,8 +139,8 @@ const MenuOpen = [
 
 // General
 const General = [
-  { text: "About Us", icon: <AboutUsIcon />, path: "/home" },
-  { text: "Support", icon: <SupportIcon />, path: "/support" },
+  { text: "About Us", icon: <AboutUsIcon />, path: "/about-us" },
+  { text: "Support", icon: <SupportIcon />, path: "/" },
   {
     text: "Setting",
     icon: <SettingIcon />,

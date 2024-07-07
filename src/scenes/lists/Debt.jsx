@@ -72,11 +72,17 @@ const Debt = () => {
     fetchRecords();
   }, []);
 
+  const active = items?.filter((item) => item.amount !== 0) || [];
+  const closed = items?.filter((item) => item.amount === 0) || [];
+
+  // console.log(`Active : ${active}`);
+  // console.log(`Closed : ${closed.map((item) => item)}`);
+
   const renderPage = () => {
     if (page === "active") {
-      return <ActivePage items={items} />;
+      return <ActivePage items={active} refresh={fetchRecords} />;
     } else if (page === "closed") {
-      return <ClosedPage />;
+      return <ClosedPage items={closed} refresh={fetchRecords} />;
     }
   };
 

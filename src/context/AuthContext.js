@@ -56,7 +56,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await api.post("/logout");
+    // await api.post("/logout");
     Cookies.remove("token");
     setAuth({ token: null, user: null });
   };

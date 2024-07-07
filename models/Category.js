@@ -20,6 +20,7 @@ const categorySchema = new Schema(
             trim: true
         },
         color: {
+            type: String
         },
     },
     { timestamps: true }

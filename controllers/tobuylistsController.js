@@ -78,16 +78,15 @@ exports.patchToBuyList = async (req, res) => {
   }
 };
 
-exports.deleteToBuyList = (req, res) => {
+exports.deleteToBuyList = async (req, res) => {
   const { tobuylistId } = req.params;
-  ToBuyListSchema.findOneAndDelete({ userId: req.userId, _id: tobuylistId })
-    .then((list) => {
-      if (!list) {
-        return res.status(404).json({ message: "List To Buy not found!" });
-      }
-      res.status(200).json({ message: "List To Buy Deleted" });
-    })
-    .catch((error) => {
-      res.status(500).json({ message: error.message });
-    });
+  try {
+    const list = await ToBuyListSchema.findOneAndDelete({ userId: req.userId, _id: tobuylistId });
+    if (!list) {
+      return res.status(404).json({ message: "List To Buy not found!" });
+    }
+    res.status(200).json({ message: "List To Buy Deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

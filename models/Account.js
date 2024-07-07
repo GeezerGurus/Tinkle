@@ -29,6 +29,22 @@ const accountSchema = new Schema(
   { timestamps: true }
 );
 
+accountSchema.pre('findOneAndDelete', async function(next) {
+  const accountId = this.getFilter()['_id'];
+  try {
+    const debts = await mongoose.model('Debt').find({ accountId });
+    const debtIds = debts.map(debt => debt._id);
+
+    await mongoose.model('Lend').deleteMany({ debtId: { $in: debtIds } }, { timeout: false });
+    await mongoose.model('Owe').deleteMany({ debtId: { $in: debtIds } }, { timeout: false });
+    await mongoose.model('Debt').deleteMany({ accountId }, { timeout: false });
+    await mongoose.model('Record').deleteMany({ accountId }, { timeout: false });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 const Account = mongoose.model("Account", accountSchema);
 
 module.exports = Account;

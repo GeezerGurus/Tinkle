@@ -45,6 +45,16 @@ const budgetSchema = new Schema(
   { timestamps: true }
 );
 
+budgetSchema.pre('findOneAndDelete', async function(next) {
+  const budgetId = this.getFilter()['_id'];
+  try {
+    await mongoose.model('Record').deleteMany({ budgetId }, { timeout: false });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 const Budget = mongoose.model("Budget", budgetSchema);
 
 module.exports = Budget;

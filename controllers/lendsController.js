@@ -27,7 +27,7 @@ exports.addLend = async (req, res) => {
     if ( debt.amount === 0 ) {
       return res.status(400).json({ message: "The debt is already paid!" });
     }
-    debt.amount = debt.amount - amount;
+    debt.amount -= amount;
     await debt.save();
     await lend.save();
     res.status(200).json({ message: "Lend Added" });

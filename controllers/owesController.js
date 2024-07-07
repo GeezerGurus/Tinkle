@@ -27,7 +27,7 @@ exports.addOwe = async (req, res) => {
         return res.status(400).json({ message: "The debt is already paid!" });
       }
     const debt = await DebtSchema.findOne({_id: debtId});
-    debt.amount = debt.amount - amount;
+    debt.amount -= amount;
     await debt.save();
     await owe.save();
     res.status(200).json({ message: "owe Added" });

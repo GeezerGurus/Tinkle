@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const OweSchema = require("../models/Owe");
+const LendSchema = require("../models/Lend");
+const AccountSchema = require("../models/Account");
 
 const debtSchema = new Schema(
   {
@@ -46,9 +49,25 @@ const debtSchema = new Schema(
       type: Date,
       required: true,
     },
+    isActive:
+    {
+      type: Boolean,
+      default: true,
+    }
   },
   { timestamps: true }
 );
+
+debtSchema.pre('findOneAndDelete', async function(next) {
+  const debtId = this.getFilter()['_id'];
+  try {
+    await mongoose.model('Owe').deleteMany({ debtId }, { timeout: false });
+    await mongoose.model('Lend').deleteMany({ debtId }, { timeout: false });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 const Debt = mongoose.model("Debt", debtSchema);
 

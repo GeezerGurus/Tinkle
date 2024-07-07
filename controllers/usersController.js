@@ -72,11 +72,14 @@ exports.patchUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
-  User.findByIdAndDelete(id)
-    .then((user) => {
-      res.status(200).json({ message: "User Deleted" });
-    })
-    .catch((error) => {
-      res.status(500).json({ message: error });
-    });
+  try {
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User Deleted" });
+  } catch (error) {
+    console.error(`Error deleting user with id: ${id}`, error);
+    res.status(500).json({ message: error.message });
+  }
 };

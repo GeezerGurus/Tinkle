@@ -30,7 +30,10 @@ const goalSchema = new Schema (
             type: String,
             trim: true,
             maxlength: 200,
-        },        
+        },
+        desireDate: {
+            type: Date,
+        }    
     },
     { timestamps: true }
 );

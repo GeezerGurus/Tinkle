@@ -1,9 +1,11 @@
 const DebtSchema = require("../models/Debt");
 const AccountSchema = require("../models/Account");
+const OweSchema = require("../models/Owe");
+const LendSchema = require("../models/Lend");
 
 exports.addDebt = async (req, res) => {
   const userId = req.userId;
-  const { type, accountId, name, purpose, amount, Date, DueDate } = req.body;
+  const { type, accountId, name, purpose, amount, Date, DueDate, isActive } = req.body;
 
   try {
     if ( !type || !accountId || !name || !amount || !Date || !DueDate ) {
@@ -25,7 +27,8 @@ exports.addDebt = async (req, res) => {
       purpose,
       amount,
       Date,
-      DueDate
+      DueDate,
+      isActive
     });
 
     if ( debt.type === "lend" ) {
@@ -71,7 +74,7 @@ exports.getaDebt = async (req, res) => {
 
 exports.patchDebt = async (req, res) => {
   const { debtId } = req.params;
-  const { type, accountId, name, purpose, amount, Date, DueDate } = req.body;
+  const { type, accountId, name, purpose, amount, Date, DueDate, isActive } = req.body;
   try {
         const debt = await DebtSchema.findOne({ userId: req.userId, _id: debtId });
         if (!debt) {
@@ -106,6 +109,7 @@ exports.patchDebt = async (req, res) => {
         if(purpose) debt.purpose = purpose;
         if (Date) debt.Date = Date;
         if (DueDate) debt.DueDate = DueDate;
+        if (isActive) debt.isActive = isActive;
 
         await debt.save();
 
@@ -117,17 +121,17 @@ exports.patchDebt = async (req, res) => {
 
 exports.deleteDebt = async (req, res) => {
   const { debtId } = req.params;
-  const debt = await DebtSchema.findOne({ useId: req.userId, _id: debtId });
+  const debt = await DebtSchema.findOne({ userId: req.userId, _id: debtId});
   if (!debt) {
     return res.status(404).json({ message: "Debt not found!" });
   }
   const account = await AccountSchema.findOne({ userId: req.userId, _id: debt.accountId });
   if (debt.type == "lend") {
-    account.balance = account.balance + debt.amount;
+    account.balance += debt.amount;
     await account.save();
   }
   if (debt.type == "owe") {
-    account.balance = account.balance - debt.amount;
+    account.balance -= debt.amount;
     await account.save();
   }
   await DebtSchema.findOneAndDelete({ userId: req.userId, _id: debtId})

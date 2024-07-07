@@ -70,11 +70,13 @@ exports.patchSetting = async (req, res) => {
 
 exports.deleteSetting = async (req, res) => {
     const { settingId } = req.params;
-    SettingSchema.findOneAndDelete({ userId: req.userId, _id:settingId })
-      .then((setting) => {
-        res.status(200).json({ message: "setting Deleted" });
-      })
-      .catch((error) => {
-        res.status(500).json({ message: error });
-      });
+    try {
+      const setting = await SettingSchema.findOneAndDelete({ userId: req.userId, _id: settingId });
+      if (!setting) {
+        return res.status(404).json({ message: "Setting not found!" });
+      }
+      res.status(200).json({ message: "Setting Deleted" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   };

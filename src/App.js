@@ -25,7 +25,7 @@ import {
   PageNotFound,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
-import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import ToBuyList from "./scenes/lists/ToBuyList";
 import ToBuyItems from "./scenes/lists/ToBuyItems";
@@ -35,6 +35,7 @@ import { AuthContext } from "../src/context/AuthContext";
 const PrivateRoute = ({ children }) => {
   const { auth } = useContext(AuthContext);
   return auth.token ? children : <Navigate to="/" replace />;
+  // return children;
 };
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
   );
 
   return (
+
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -69,6 +71,7 @@ function App() {
             <Sidebar mode={mode} />
           )}
           <main className="content">
+
             {shouldShowTopbarAndSidebar && <Topbar />}
             <Routes>
               <Route path="/" element={<Hero />} />

@@ -6,18 +6,20 @@ import {
   Modal,
   Box,
   useTheme,
-  useMediaQuery
 } from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CreateAccount from "./CreateAccount";
 import { tokens } from "../../theme";
 
-const AddAccount = () => {
+
+const AddAccount = ({refresh}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [open, setOpen] = useState(false);
+
+ 
   
   return (
     <Paper
@@ -61,7 +63,7 @@ const AddAccount = () => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <CreateAccount onClose={() => setOpen(false)} />
+          <CreateAccount refresh={refresh} onClose={() => setOpen(false)} />
         </Box>
       </Modal>
     </Paper>

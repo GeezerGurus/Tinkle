@@ -8,25 +8,28 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import EditAccount from "./EditAccount";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { tokens } from "../../theme";
 import { ConfirmModal } from "../utils";
+import { deleteAccount } from "../../api/accountApi";
 
-const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
+const Account = ({ name, balance,type, refresh, id }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
 
-  
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
 
+  useEffect(() => {
+    refresh();
+  }, []);
   return (
     <Paper
       sx={{
@@ -45,31 +48,32 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
         direction="row"
         alignItems="center"
         spacing={2}
-        sx={{ width: isSmallScreen ? "30%" : isMediumScreen? "200px":"300px" }}
+        sx={{
+          width: isSmallScreen ? "30%" : isMediumScreen ? "200px" : "300px",
+        }}
       >
-        <Icon
+        {/* <Icon
           sx={{
             fontSize: isSmallScreen? "30px": "45px",
             
             color: "white",
-            backgroundColor: backgroundColor,
+            // backgroundColor: backgroundColor,
             borderRadius: "50%",
             padding: "4px",
           }}
-        />
+        /> */}
         <Typography variant={isSmallScreen ? "body3" : "h6"}>{name}</Typography>
       </Stack>
 
       {/* Balance Stack */}
       <Stack
-        direction={isSmallest? "column" :"row"}
+        direction={isSmallest ? "column" : "row"}
         gap={1}
         sx={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          
         }}
       >
         <Typography variant={isSmallScreen ? "body4" : "body2"}>
@@ -131,14 +135,19 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
               onClose={() => setOpenModal(false)}
               name={name}
               balance={balance}
-              icon={Icon}
-              bgColor={backgroundColor}
+              type={type}
+              refresh={refresh}
+              id = {id}
+              // icon={Icon}
+              // bgColor={backgroundColor}
             />
           ) : (
             <ConfirmModal
-              onClose={() => {
-                setOpenModal(false);
+              onClick={() => {
+                deleteAccount(id);
               }}
+              refresh={refresh}
+              snackbarText={"List deleted!"}
               color={colors.extra.red_accent}
               highlight={"Delete"}
               description={
@@ -150,6 +159,7 @@ const Account = ({ icon: Icon, name, balance, backgroundColor }) => {
                 </>
               }
               promptText={"Do you really want to Delete?"}
+              onClose={() => setOpenModal(false)}
             />
           )}
         </Box>

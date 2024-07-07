@@ -9,27 +9,22 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
-import {
-  Restaurant as RestaurantIcon,
-  LocalMall as LocalMallIcon,
-  House as HouseIcon,
-  DirectionsBus as DirectionsBusIcon,
-  DirectionsCar as DirectionsCarIcon,
-  Man as ManIcon,
-  Tv as TvIcon,
-  Payments as PaymentsIcon,
-  AutoGraph as AutoGraphIcon,
-  PriceCheck as PriceCheckIcon,
-  List as ListIcon,
-} from "@mui/icons-material";
+import { getAccounts } from "../../api/accountApi";
+import { postLendDebtItem } from "../../api/lendDebtItem";
+import { postOweDebtItem } from "../../api/oweDebtItems";
+import { enqueueSnackbar } from "notistack";
 
-const CreateDebtRecord = ({ onClose }) => {
+const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [amount, setAmount] = useState(0);
+  const [date, setDate] = useState("");
+  const [selectedAccount, setSelectedAccount] = useState("");
+  const [accountsData, setAccountsData] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
   const handleChange = (event) => {
     const { value } = event.target;
@@ -37,6 +32,37 @@ const CreateDebtRecord = ({ onClose }) => {
   };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      const AccountsData = await getAccounts();
+      setAccountsData(AccountsData);
+    };
+    fetchAccounts();
+  }, []);
+
+  const postItem = async () => {
+    try {
+      const data = {
+        debtId: debtId,
+        amount: parseInt(amount),
+        Date: date,
+      };
+
+      action === "lend"
+        ? await postLendDebtItem(debtId, data)
+        : await postOweDebtItem(debtId, data);
+
+      refresh();
+      enqueueSnackbar(
+        action === "lend" ? "Lend List Item created!" : "Owe List Item created",
+        { variant: "success" }
+      );
+      onClose();
+    } catch (error) {
+      console.error("Error creating new list:", error);
+    }
+  };
 
   return (
     <Paper
@@ -58,6 +84,8 @@ const CreateDebtRecord = ({ onClose }) => {
       <TextField
         type="number"
         label="Amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
         fullWidth
         inputProps={{ min: "0" }}
         InputProps={{
@@ -79,8 +107,8 @@ const CreateDebtRecord = ({ onClose }) => {
       />
 
       <TextField
-        value={selectedOption}
-        onChange={handleChange}
+        value={selectedAccount}
+        onChange={(e) => setSelectedAccount(e.target.value)}
         select
         label="Account"
         fullWidth
@@ -91,60 +119,22 @@ const CreateDebtRecord = ({ onClose }) => {
           sx: { height: isSmallScreen ? "45px" : undefined },
         }}
       >
-        <MenuItem value="food">
-          <Item
-            icon={<RestaurantIcon />}
-            text="Food and Drinks"
-            bgColor="red"
-          />
-        </MenuItem>
-        <MenuItem value="shopping">
-          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
-        </MenuItem>
-        <MenuItem value="housing">
-          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-        </MenuItem>
-        <MenuItem value="transportation">
-          <Item
-            icon={<DirectionsBusIcon />}
-            text="Transportation"
-            bgColor="grey"
-          />
-        </MenuItem>
-        <MenuItem value="vehicle">
-          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
-        </MenuItem>
-        <MenuItem value="life">
-          <Item
-            icon={<ManIcon />}
-            text="Life & Entertainment"
-            bgColor="lightgreen"
-          />
-        </MenuItem>
-        <MenuItem value="communication">
-          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
-        </MenuItem>
-        <MenuItem value="financialIncome">
-          <Item
-            icon={<PaymentsIcon />}
-            text="Financial Incomes"
-            bgColor="lightblue"
-          />
-        </MenuItem>
-        <MenuItem value="investment">
-          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
-        </MenuItem>
-        <MenuItem value="income">
-          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-        </MenuItem>
-        <MenuItem value="others">
-          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-        </MenuItem>
+        {accountsData.map((account) => (
+          <MenuItem key={account.id} value={account._id}>
+            <Item
+              // icon={<account.icon />}
+              text={account.name}
+              // bgColor={account.bgColor}
+            />
+          </MenuItem>
+        ))}
       </TextField>
 
       <TextField
         label="Date"
         type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
         fullWidth
         InputLabelProps={{
           shrink: true,
@@ -164,6 +154,9 @@ const CreateDebtRecord = ({ onClose }) => {
         justifyContent={"space-between"}
       >
         <Button
+          onClick={() => {
+            postItem();
+          }}
           sx={{
             width: "208px",
             height: "40px",

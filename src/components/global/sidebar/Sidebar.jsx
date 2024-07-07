@@ -50,6 +50,9 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  // position: "fixed",
+  // zIndex: 0,
+  // height: "100%",
 });
 
 const closedMixin = (theme) => ({
@@ -58,10 +61,14 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(11)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(11)} + 1px)`,
   },
+
+  // position: "fixed",
+  // zIndex: theme.zIndex.drawer + 1,
+  // height: "100%",
 });
 
 const Drawer = styled(MuiDrawer, {
@@ -132,8 +139,8 @@ const MenuOpen = [
 
 // General
 const General = [
-  { text: "About Us", icon: <AboutUsIcon />, path: "/home" },
-  { text: "Support", icon: <SupportIcon />, path: "/support" },
+  { text: "About Us", icon: <AboutUsIcon />, path: "/about-us" },
+  { text: "Support", icon: <SupportIcon />, path: "/" },
   {
     text: "Setting",
     icon: <SettingIcon />,
@@ -201,208 +208,106 @@ const Sidebar = ({ mode }) => {
 
   // Main Component
   return (
-    <Drawer anchor="left" open={open} variant="permanent">
-      {/* Main Container When Opened */}
-      <Box
-        p={2}
-        sx={{
-          width: open ? "320px" : "84px",
-          height: open ? "1024px" : "auto",
-          // height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-        role="presentation"
-      >
-        {/* Logo Header and Open Menu Icon */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: open ? "71.875%" : "61px",
-            height: "39px",
-          }}
-        >
-          {/* Logo and Header */}
-          {open && (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <WavesIcon
-                sx={{
-                  border: "1px solid black",
-                  borderRadius: "50%",
-                  width: "40.19px",
-                  height: "39px",
-                }}
-              />
-              <Button
-                variant="text"
-                onClick={toggleDrawer(false)}
-                sx={{ color: colors.grey[100], textTransform: "none" }}
-              >
-                <Typography variant="h6">Tinkle</Typography>
-              </Button>
-            </Box>
-          )}
-
-          {/* Menu Icon Button for when Opened and Closed */}
-          <Button
-            onClick={open ? toggleDrawer(false) : toggleDrawer(true)}
-            sx={{
-              width: "30px",
-              height: "30px",
-              "&:hover": {
-                backgroundColor: colors.purple[100],
-              },
-            }}
-          >
-            {open ? (
-              <MenuOpenIcon
-                sx={{
-                  color: theme.palette.mode === "dark" ? "white" : "black",
-                  fontWeight: "700",
-                  fontSize: "30px",
-                }}
-              />
-            ) : (
-              <MenuIcon
-                sx={{
-                  color: theme.palette.mode === "dark" ? "white" : "black",
-                  fontWeight: "700",
-                  fontSize: "30px",
-                }}
-              />
-            )}
-          </Button>
-        </Box>
-
-        {/* Navigation Icons and Avatar Box */}
+    <>
+      <Drawer anchor="left" open={open} variant="permanent">
+        {/* Main Container When Opened */}
         <Box
           p={2}
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          sx={{ height: "900px", marginTop: open ? "43px" : "48px" }}
+          sx={{
+            width: open ? "320px" : "84px",
+            height: open ? "1024px" : "auto",
+            // height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+          // role="presentation"
         >
-          {/* Menu Items Box */}
+          {/* Logo Header and Open Menu Icon */}
           <Box
             sx={{
-              width: "280px",
-              height: "528px",
-              padding: "0px, 26px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: open ? "71.875%" : "61px",
+              height: "39px",
             }}
           >
-            {open ? (
-              <Typography variant="h6">Menu</Typography>
-            ) : (
-              <CircleIcon
+            {/* Logo and Header */}
+            {open && (
+              <Box
                 sx={{
-                  color: theme.palette.mode === "dark" ? "white" : "black",
-                  width: "11px",
-                  height: "11px",
-                  ml: open ? "auto" : 13 + "3px",
+                  display: "flex",
+                  alignItems: "center",
                 }}
-              />
+              >
+                <WavesIcon
+                  sx={{
+                    border: "1px solid black",
+                    borderRadius: "50%",
+                    width: "40.19px",
+                    height: "39px",
+                  }}
+                />
+                <Button
+                  variant="text"
+                  onClick={toggleDrawer(false)}
+                  sx={{ color: colors.grey[100], textTransform: "none" }}
+                >
+                  <Typography variant="h6">Tinkle</Typography>
+                </Button>
+              </Box>
             )}
 
-            {/* Menu Items for when Opened and Closed Sidebar*/}
-            <List>
-              {MenuOpen.map(
-                ({ text, icon, path, dropdown, page, content }, index) => (
-                  <Box key={index}>
-                    {!dropdown && (
-                      <ListItem
-                        disablePadding
-                        sx={{
-                          width: open ? "86%" : "61px",
-                          borderRadius: "8px",
-                          "&:hover": {
-                            backgroundColor: colors.purple[100],
-                          },
-                        }}
-                      >
-                        {open ? (
-                          <OpenSideItems
-                            path={path}
-                            open={open}
-                            icon={icon}
-                            text={text}
-                            theme={theme}
-                            Navigation={navigate}
-                            setOpen={setOpen}
-                          />
-                        ) : (
-                          <CloseSideItems
-                            title={text}
-                            icon={icon}
-                            path={path}
-                            dropdown={dropdown}
-                            onClick={
-                              dropdown
-                                ? handleDropdownClick(page)
-                                : handleNavigation(path)
-                            }
-                          />
-                        )}
-                      </ListItem>
-                    )}
-
-                    {dropdown && (
-                      <ListItem
-                        key={text}
-                        disablePadding
-                        sx={{
-                          width: "85%",
-                          borderRadius: "8px",
-                          "&:hover": {
-                            backgroundColor: "white",
-                          },
-                        }}
-                      >
-                        {open ? (
-                          <DropDownMenu
-                            page={page}
-                            text={text}
-                            open={open}
-                            icon={icon}
-                            navigate={navigate}
-                            DropdownClick={handleDropdownClick}
-                            ChangePage={handleChange}
-                            expanded={expanded}
-                            content={content}
-                            setOpen={setOpen}
-                          />
-                        ) : (
-                          <CloseSideItems
-                            title={text}
-                            icon={icon}
-                            path={path}
-                            dropdown={dropdown}
-                            onClick={
-                              dropdown
-                                ? handleDropdownClick(page)
-                                : handleNavigation(path)
-                            }
-                          />
-                        )}
-                      </ListItem>
-                    )}
-                  </Box>
-                )
-              )}
-              <Divider sx={{ width: "90%", display: open ? "auto" : "none" }} />
-            </List>
-
-            {/* General Items Box */}
-            <Box>
+            {/* Menu Icon Button for when Opened and Closed */}
+            <Button
+              onClick={open ? toggleDrawer(false) : toggleDrawer(true)}
+              sx={{
+                width: "30px",
+                height: "30px",
+                "&:hover": {
+                  backgroundColor: colors.purple[100],
+                },
+              }}
+            >
               {open ? (
-                <Typography variant="h6">General</Typography>
+                <MenuOpenIcon
+                  sx={{
+                    color: theme.palette.mode === "dark" ? "white" : "black",
+                    fontWeight: "700",
+                    fontSize: "30px",
+                  }}
+                />
+              ) : (
+                <MenuIcon
+                  sx={{
+                    color: theme.palette.mode === "dark" ? "white" : "black",
+                    fontWeight: "700",
+                    fontSize: "30px",
+                  }}
+                />
+              )}
+            </Button>
+          </Box>
+
+          {/* Navigation Icons and Avatar Box */}
+          <Box
+            p={2}
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            sx={{ height: "900px", marginTop: open ? "43px" : "48px" }}
+          >
+            {/* Menu Items Box */}
+            <Box
+              sx={{
+                width: "280px",
+                height: "528px",
+                padding: "0px, 26px",
+              }}
+            >
+              {open ? (
+                <Typography variant="h6">Menu</Typography>
               ) : (
                 <CircleIcon
                   sx={{
@@ -410,265 +315,383 @@ const Sidebar = ({ mode }) => {
                     width: "11px",
                     height: "11px",
                     ml: open ? "auto" : 13 + "3px",
-                    mt: 2.3,
                   }}
                 />
               )}
 
-              {/* General Items for when Opened and Closed Sidebar */}
+              {/* Menu Items for when Opened and Closed Sidebar*/}
               <List>
-                {General.map(
+                {MenuOpen.map(
                   ({ text, icon, path, dropdown, page, content }, index) => (
                     <Box key={index}>
-                      <ListItem
-                        disablePadding
-                        sx={{
-                          width: open ? "85%" : "61px",
-                          borderRadius: "8px",
-                          "&:hover": {
-                            backgroundColor: colors.purple[100],
-                          },
-                        }}
-                      >
-                        {!dropdown && (
-                          <>
-                            {open ? (
-                              <OpenSideItems
-                                path={path}
-                                open={open}
-                                icon={icon}
-                                text={text}
-                                theme={theme}
-                                Navigation={navigate}
-                                setOpen={setOpen}
-                              />
-                            ) : (
-                              <CloseSideItems
-                                title={text}
-                                icon={icon}
-                                path={path}
-                                onClick={
-                                  dropdown
-                                    ? handleDropdownClick(page)
-                                    : handleNavigation(path)
-                                }
-                              />
-                            )}
-                          </>
-                        )}
-                        {dropdown && (
-                          <>
-                            {open ? (
-                              <DropDownMenu
-                                page={page}
-                                text={text}
-                                open={open}
-                                icon={icon}
-                                navigate={navigate}
-                                DropdownClick={handleDropdownClick}
-                                ChangePage={handleChange}
-                                expanded={expanded}
-                                content={content}
-                                setOpen={setOpen}
-                              />
-                            ) : (
-                              <CloseSideItems
-                                title={text}
-                                icon={icon}
-                                path={path}
-                                dropdown={dropdown}
-                                onClick={handleDropdownClick(page)}
-                              />
-                            )}
-                          </>
-                        )}
-                      </ListItem>
+                      {!dropdown && (
+                        <ListItem
+                          disablePadding
+                          sx={{
+                            width: open ? "86%" : "61px",
+                            borderRadius: "8px",
+                            "&:hover": {
+                              backgroundColor: colors.purple[100],
+                            },
+                          }}
+                        >
+                          {open ? (
+                            <OpenSideItems
+                              path={path}
+                              open={open}
+                              icon={icon}
+                              text={text}
+                              theme={theme}
+                              Navigation={navigate}
+                              setOpen={setOpen}
+                            />
+                          ) : (
+                            <CloseSideItems
+                              title={text}
+                              icon={icon}
+                              path={path}
+                              dropdown={dropdown}
+                              onClick={
+                                dropdown
+                                  ? handleDropdownClick(page)
+                                  : handleNavigation(path)
+                              }
+                            />
+                          )}
+                        </ListItem>
+                      )}
+
+                      {dropdown && (
+                        <ListItem
+                          key={text}
+                          disablePadding
+                          sx={{
+                            width: "85%",
+                            borderRadius: "8px",
+                            "&:hover": {
+                              backgroundColor: "white",
+                            },
+                          }}
+                        >
+                          {open ? (
+                            <DropDownMenu
+                              page={page}
+                              text={text}
+                              open={open}
+                              icon={icon}
+                              navigate={navigate}
+                              DropdownClick={handleDropdownClick}
+                              ChangePage={handleChange}
+                              expanded={expanded}
+                              content={content}
+                              setOpen={setOpen}
+                            />
+                          ) : (
+                            <CloseSideItems
+                              title={text}
+                              icon={icon}
+                              path={path}
+                              dropdown={dropdown}
+                              onClick={
+                                dropdown
+                                  ? handleDropdownClick(page)
+                                  : handleNavigation(path)
+                              }
+                            />
+                          )}
+                        </ListItem>
+                      )}
                     </Box>
                   )
                 )}
+                <Divider
+                  sx={{ width: "90%", display: open ? "auto" : "none" }}
+                />
               </List>
-            </Box>
-          </Box>
 
-          {/* Profile avatar , Profile Name, and light & dark Mode */}
-          <Box display="flex" flexDirection="column" gap="10px">
-            {/* avatar and name for Opened Sidebar*/}
-            <Button
-              component={Link}
-              to={"/profile"}
-              sx={{
-                width: open ? "240px" : "10%",
-                height: "45px",
-                padding: "8px",
-                border: open ? "1px solid #E0E0E0" : "none",
-                borderRadius: "8px",
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                textTransform: "none",
-              }}
-            >
-              <Avatar
-                src=""
-                alt="avatar"
-                sx={{ width: "32px", height: "32px" }}
-              />
-              <Box
+              {/* General Items Box */}
+              <Box>
+                {open ? (
+                  <Typography variant="h6">General</Typography>
+                ) : (
+                  <CircleIcon
+                    sx={{
+                      color: theme.palette.mode === "dark" ? "white" : "black",
+                      width: "11px",
+                      height: "11px",
+                      ml: open ? "auto" : 13 + "3px",
+                      mt: 2.3,
+                    }}
+                  />
+                )}
+
+                {/* General Items for when Opened and Closed Sidebar */}
+                <List>
+                  {General.map(
+                    ({ text, icon, path, dropdown, page, content }, index) => (
+                      <Box key={index}>
+                        <ListItem
+                          disablePadding
+                          sx={{
+                            width: open ? "85%" : "61px",
+                            borderRadius: "8px",
+                            "&:hover": {
+                              backgroundColor: colors.purple[100],
+                            },
+                          }}
+                        >
+                          {!dropdown && (
+                            <>
+                              {open ? (
+                                <OpenSideItems
+                                  path={path}
+                                  open={open}
+                                  icon={icon}
+                                  text={text}
+                                  theme={theme}
+                                  Navigation={navigate}
+                                  setOpen={setOpen}
+                                />
+                              ) : (
+                                <CloseSideItems
+                                  title={text}
+                                  icon={icon}
+                                  path={path}
+                                  onClick={
+                                    dropdown
+                                      ? handleDropdownClick(page)
+                                      : handleNavigation(path)
+                                  }
+                                />
+                              )}
+                            </>
+                          )}
+                          {dropdown && (
+                            <>
+                              {open ? (
+                                <DropDownMenu
+                                  page={page}
+                                  text={text}
+                                  open={open}
+                                  icon={icon}
+                                  navigate={navigate}
+                                  DropdownClick={handleDropdownClick}
+                                  ChangePage={handleChange}
+                                  expanded={expanded}
+                                  content={content}
+                                  setOpen={setOpen}
+                                />
+                              ) : (
+                                <CloseSideItems
+                                  title={text}
+                                  icon={icon}
+                                  path={path}
+                                  dropdown={dropdown}
+                                  onClick={handleDropdownClick(page)}
+                                />
+                              )}
+                            </>
+                          )}
+                        </ListItem>
+                      </Box>
+                    )
+                  )}
+                </List>
+              </Box>
+            </Box>
+
+            {/* Profile avatar , Profile Name, and light & dark Mode */}
+            <Box display="flex" flexDirection="column" gap="10px">
+              {/* avatar and name for Opened Sidebar*/}
+              <Button
+                component={Link}
+                to={"/profile"}
                 sx={{
-                  width: "156px",
-                  height: "35px",
+                  width: open ? "240px" : "10%",
+                  height: "45px",
+                  padding: "8px",
+                  border: open ? "1px solid #E0E0E0" : "none",
+                  borderRadius: "8px",
                   display: "flex",
+                  justifyContent: "space-around",
                   alignItems: "center",
+                  textTransform: "none",
                 }}
               >
+                <Avatar
+                  src=""
+                  alt="avatar"
+                  sx={{ width: "32px", height: "32px" }}
+                />
                 <Box
                   sx={{
-                    width: "137px",
-                    height: "38px",
-                    padding: "0px 2px",
-                    display: open ? "flex" : "none",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
+                    width: "156px",
+                    height: "35px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "137px",
+                      height: "38px",
+                      padding: "0px 2px",
+                      display: open ? "flex" : "none",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="body3">Yei Khant Lwin</Typography>
+                    <Typography variant="body4">Developer</Typography>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    width: "14.78px",
+                    height: "8.45px",
+                    display: "flex",
+                    alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
-                  <Typography variant="body3">Yei Khant Lwin</Typography>
-                  <Typography variant="body4">Developer</Typography>
+                  <ArrowIcon />
                 </Box>
-              </Box>
-              <Box
-                sx={{
-                  width: "14.78px",
-                  height: "8.45px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <ArrowIcon />
-              </Box>
-            </Button>
+              </Button>
 
-            {/* dark mode light mode for Opened and Closed Sidebar*/}
-            {open ? (
-              <Box
-                sx={{
-                  display: open ? "flex" : "none",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-
-                  border: "1px solid #E0E0E0",
-                  borderRadius: "8px",
-                  width: "240px",
-                  height: "45px",
-                }}
-              >
-                <Button
-                  onClick={() => {
-                    colorMode.LightMode();
-                    setLightMode(true);
-                  }}
-                  startIcon={
-                    <LightModeIcon
-                      sx={{
-                        color: mode === "light" ? "#FF9800" : "",
-                      }}
-                    />
-                  }
-                  variant="outline"
+              {/* dark mode light mode for Opened and Closed Sidebar*/}
+              {open ? (
+                <Box
                   sx={{
-                    border: "1px solid black",
-                    textTransform: "capitalize",
-                    width: "110px",
-                    height: "38px",
-                    padding: "14px, 24px",
+                    display: open ? "flex" : "none",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+
+                    border: "1px solid #E0E0E0",
                     borderRadius: "8px",
+                    width: "240px",
+                    height: "45px",
                   }}
                 >
-                  Light
-                </Button>
-                <Button
-                  onClick={() => {
-                    colorMode.DarkMode();
-                    setLightMode(false);
-                  }}
-                  startIcon={
-                    <DarkModeIcon
-                      sx={{ color: mode === "dark" ? "#50a0ff" : "" }}
-                    />
-                  }
-                  variant="outline"
-                  sx={{
-                    border: "1px solid black",
-                    textTransform: "capitalize",
-                    width: "110px",
-                    height: "38px",
-                    padding: "14px, 24px",
-                    borderRadius: "8px",
-                  }}
-                >
-                  Dark
-                </Button>
-              </Box>
-            ) : (
-              <Stack
-                sx={{
-                  height: "10%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  mt: "auto",
-                }}
-              >
-                {/* Avatar and Name for Closed Sidebar */}
-                <Tooltip title="Profile" placement="right">
-                  <Button component={Link} to={"/profile"}>
-                    <Avatar
-                      src=""
-                      alt="avatar"
-                      sx={{ width: "38px", height: "38px" }}
-                    />
-                  </Button>
-                </Tooltip>
-                {lightMode && (
-                  <Button
-                    onClick={() => {
-                      colorMode.DarkMode();
-                      setLightMode(false);
-                    }}
-                    variant="outline"
-                    sx={{ display: "flex", justifyContent: "center", mt: 2 }}
-                  >
-                    <LightModeIcon
-                      sx={{
-                        color: mode === "light" ? "#FF9800" : "",
-                      }}
-                    />
-                  </Button>
-                )}
-                {!lightMode && (
                   <Button
                     onClick={() => {
                       colorMode.LightMode();
                       setLightMode(true);
                     }}
+                    startIcon={
+                      <LightModeIcon
+                        sx={{
+                          color: mode === "light" ? "#FF9800" : "",
+                        }}
+                      />
+                    }
                     variant="outline"
-                    sx={{ display: "flex", justifyContent: "center", mt: 2 }}
+                    sx={{
+                      border: "1px solid black",
+                      textTransform: "capitalize",
+                      width: "110px",
+                      height: "38px",
+                      padding: "14px, 24px",
+                      borderRadius: "8px",
+                    }}
                   >
-                    <DarkModeIcon
-                      sx={{
-                        color: mode === "light" ? "#FF9800" : "",
-                      }}
-                    />
+                    Light
                   </Button>
-                )}
-              </Stack>
-            )}
+                  <Button
+                    onClick={() => {
+                      colorMode.DarkMode();
+                      setLightMode(false);
+                    }}
+                    startIcon={
+                      <DarkModeIcon
+                        sx={{ color: mode === "dark" ? "#50a0ff" : "" }}
+                      />
+                    }
+                    variant="outline"
+                    sx={{
+                      border: "1px solid black",
+                      textTransform: "capitalize",
+                      width: "110px",
+                      height: "38px",
+                      padding: "14px, 24px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Dark
+                  </Button>
+                </Box>
+              ) : (
+                <Stack
+                  sx={{
+                    height: "10%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mt: "auto",
+                  }}
+                >
+                  {/* Avatar and Name for Closed Sidebar */}
+                  <Tooltip title="Profile" placement="right">
+                    <Button component={Link} to={"/profile"}>
+                      <Avatar
+                        src=""
+                        alt="avatar"
+                        sx={{ width: "38px", height: "38px" }}
+                      />
+                    </Button>
+                  </Tooltip>
+                  {lightMode && (
+                    <Button
+                      onClick={() => {
+                        colorMode.DarkMode();
+                        setLightMode(false);
+                      }}
+                      variant="outline"
+                      sx={{ display: "flex", justifyContent: "center", mt: 2 }}
+                    >
+                      <LightModeIcon
+                        sx={{
+                          color: mode === "light" ? "#FF9800" : "",
+                        }}
+                      />
+                    </Button>
+                  )}
+                  {!lightMode && (
+                    <Button
+                      onClick={() => {
+                        colorMode.LightMode();
+                        setLightMode(true);
+                      }}
+                      variant="outline"
+                      sx={{ display: "flex", justifyContent: "center", mt: 2 }}
+                    >
+                      <DarkModeIcon
+                        sx={{
+                          color: mode === "light" ? "#FF9800" : "",
+                        }}
+                      />
+                    </Button>
+                  )}
+                </Stack>
+              )}
+            </Box>
           </Box>
-        </Box>
 
-        <Divider />
-      </Box>
-    </Drawer>
+          <Divider />
+        </Box>
+      </Drawer>
+      {/* <Box
+        p={2}
+        sx={{
+          width: "240px",
+          height: "1024px",
+          background: "brown",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        // role="presentation"
+      ></Box> */}
+    </>
   );
 };
 

@@ -143,7 +143,7 @@ router
   .post("/budget", requireAuth, addBudget)
   .get("/budgets", requireAuth, getBudgets)
   .get("/budget/:budgetId", requireAuth, getaBudget)
-  .get("/budgets/periodic", requireAuth, getBudgetPeriodically)
+  .get("/budgets/:period", requireAuth, getBudgetPeriodically)
   .patch("/budget/:budgetId", requireAuth, patchBudget)
   .delete("/budget/:budgetId", requireAuth, deleteBudget)
 

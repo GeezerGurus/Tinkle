@@ -53,7 +53,7 @@ exports.getaBudget = async (req, res) => {
 };
 
 exports.getBudgetPeriodically = async (req, res) => {
-  const { period } = req.body;
+  const { period } = req.params;
   try {
     const budget = await BudgetSchema.find({ userId: req.userId, period: period});
     if (!budget) {

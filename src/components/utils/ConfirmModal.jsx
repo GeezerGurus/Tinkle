@@ -13,6 +13,7 @@ import { enqueueSnackbar } from "notistack";
 const ConfirmModal = ({
   refresh,
   snackbarText,
+  snackbarColor,
   onClose,
   onClick,
   color,
@@ -29,6 +30,7 @@ const ConfirmModal = ({
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+
   return (
     <Paper
       sx={{
@@ -42,6 +44,8 @@ const ConfirmModal = ({
         alignItems: "center",
       }}
     >
+      
+      
       <Typography variant={isSmallScreen ? "h6" : "h4"} textAlign={"center"}>
         {parts.map((part, index) =>
           part.toLowerCase() === highlight.toLowerCase() ? (
@@ -69,7 +73,7 @@ const ConfirmModal = ({
           onClick={async () => {
             await onClick();
             refresh();
-            enqueueSnackbar(snackbarText, { variant: "error" });
+            enqueueSnackbar(snackbarText, { variant: snackbarColor });
             onClose();
           }}
           sx={{

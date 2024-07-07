@@ -9,9 +9,11 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { tokens } from "../../theme";
 
-const AddSaveAmount = ({ onClose }) => {
+import { tokens } from "../../theme";
+import { patchGoal } from "../../api/goals";
+
+const AddSaveAmount = ({ onClose,currentAmount,id,  refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -20,10 +22,14 @@ const AddSaveAmount = ({ onClose }) => {
   const handleAmount = (amount) => {
     setAmount(amount.target.value);
   };
-  const handleSave = () => {
-    console.log({
-      amount: amount,
-    });
+  const handleSave = async () => {
+    const newAmount = parseFloat(amount);
+    if (newAmount > 0) {
+      const updatedAmount = currentAmount + newAmount;
+      await patchGoal(id, { saveamount: updatedAmount });
+      refresh();
+      onClose();
+    }
   };
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   //   Container

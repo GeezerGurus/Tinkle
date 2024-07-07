@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -6,18 +6,33 @@ import {
   Typography,
   useTheme,
   Stack,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { Active, Paused, Reached } from "../../components/goals";
-import { SpeedDial } from "../../components/utils";
+import { Loader, SpeedDial } from "../../components/utils";
 import SavingFor from "../../components/goals/SavingFor";
 import { tokens } from "../../theme";
+import { getGoals } from "../../api/goals";
 
 export const Goals = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [lists, setLists] = useState([]);
   const [page, setPage] = useState("active");
+
+  const fetchGoals = async () => {
+    
+    setIsLoading(true);
+    const res = await getGoals();
+    setLists(res || []);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    fetchGoals();
+  }, []);
+
   //for responsive
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -26,11 +41,32 @@ export const Goals = () => {
   // Rendering the Pages
   const renderPage = () => {
     if (page === "active") {
-      return <Active isSmallScreen = {isMediumScreen} />;
+      return (
+        <Active
+          isSmallScreen={isMediumScreen}
+          refresh={fetchGoals}
+          list={lists}
+          state={page}
+        />
+      );
     } else if (page === "paused") {
-      return <Paused isSmallScreen = {isMediumScreen} />;
+      return (
+        <Paused
+          isSmallScreen={isMediumScreen}
+          refresh={fetchGoals}
+          list={lists}
+          state={page}
+        />
+      );
     } else {
-      return <Reached isSmallScreen = {isMediumScreen} />;
+      return (
+        <Reached
+          isSmallScreen={isMediumScreen}
+          refresh={fetchGoals}
+          list={lists}
+          state={page}
+        />
+      );
     }
   };
   return (
@@ -47,8 +83,9 @@ export const Goals = () => {
         gap: "24px",
       }}
     >
+      <Loader isLoading={isLoading} />
       {/* Speed Dial */}
-      <SpeedDial modal={<SavingFor />} />
+      <SpeedDial modal={<SavingFor refresh={fetchGoals} />} />
 
       {/* Nav Buttons */}
       <ButtonGroup

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { enqueueSnackbar } from "notistack";
 import {
   Paper,
   Box,
@@ -31,6 +32,7 @@ import {
   Computer as ComputerIcon,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
+import { patchGoal } from "../../api/goals";
 
 const icons = [
   <HomeIcon />,
@@ -66,33 +68,47 @@ const input_colors = [
 
 export const EditGoal = ({
   onClose,
-  bgColor,
-  iconF,
-  name,
+  id,
+  // bgColor,
+  // iconF,
   savedAlready,
   goal,
+  name,
   dateF,
+  description,refresh
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  console.log(description)
   const [goalName, setGoalName] = useState(name || "");
-  const [icon, setIcon] = useState(iconF || "");
-  const [color, setColor] = useState(bgColor || "");
-  const [note, setNote] = useState("");
+  const [icon, setIcon] = useState("");
+  const [color, setColor] = useState("");
+  const [note, setNote] = useState(description||"");
   const [date, setDate] = useState(dateF || "no target date");
   const [amount, setAmount] = useState(goal || 0);
   const [saved, setSaved] = useState(savedAlready || 0);
-  const handleSave = () => {
-    console.log({
-      name: goalName,
-      icon: icon,
-      bgColor: color,
-      amount: amount,
-      saved: saved,
-      note: note,
-    });
-  };
+
+  const handleSave =async () => {
+    try {
+      
+      const newList={
+        name: goalName,
+        // icon: icon,
+        // bgColor: color,
+        amount: amount,
+        saveamount: saved,
+        description: note,
+        desireDate: date
+      };
+      const createdList = await patchGoal(id,newList);
+      console.log("New Goal Saved:", createdList);
+      refresh();
+      enqueueSnackbar("Goal Saved!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error editing Goal:", error);
+    }
+  }
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (

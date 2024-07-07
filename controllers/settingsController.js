@@ -48,12 +48,12 @@ exports.getaSetting = async (req, res) => {
   };
 
 exports.patchSetting = async (req, res) => {
-    const { settingtId } = req.params;
+    const { settingId } = req.params;
     const { theme, default_interval, hide_dec } = req.body;
     try {
-          const setting = await SettingSchema.findOne({ userId: req.userId, _id: settingtId });
+          const setting = await SettingSchema.findOne({ userId: req.userId, _id: settingId });
           if (!setting) {
-              return res.status(404).json({ message: "Income not found!" });
+              return res.status(404).json({ message: "Setting not found!" });
           }
   
           if (theme) setting.theme = theme;

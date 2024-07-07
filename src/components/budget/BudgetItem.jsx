@@ -11,7 +11,7 @@ import { tokens } from "../../theme";
 import { Progress } from "../utils";
 import { Link, useLocation } from "react-router-dom";
 
-const BudgetItem = ({ title, total, progressPercent, spent, remains }) => {
+const BudgetItem = ({ title, total, progressPercent, spent, remains, id }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const location = useLocation();
@@ -30,7 +30,7 @@ const BudgetItem = ({ title, total, progressPercent, spent, remains }) => {
     >
       <Button
         component={Link}
-        to={`${location.pathname}/${title.toLowerCase()}`}
+        to={`${location.pathname}/${id}`}
         sx={{ width: "100%", height: "100%", padding: "16px 56px" }}
       >
         <Stack

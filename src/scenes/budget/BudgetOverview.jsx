@@ -23,10 +23,20 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { tokens } from "../../theme";
-import { Progress, ConfirmModal, BackBtn } from "../../components/utils";
+import {
+  Progress,
+  ConfirmModal,
+  BackBtn,
+  Loader,
+} from "../../components/utils";
 import { EditBudget } from "../../components/budget";
+import {
+  deleteBudget,
+  getBudget,
+  getBudgetPeriodically,
+} from "../../api/budgetsApi";
 
 const rows = [
   {
@@ -108,22 +118,54 @@ const rows = [
   },
 ];
 
-const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
+const BudgetOverview = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { periodType } = useParams();
+  const { periodType, budgetId } = useParams();
   const [modal, setModal] = useState("");
+  const [budget, setBudget] = useState("");
+  const [allBudgets, setAllBudgets] = useState([]);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const sidebarWidth = 84;
+  const getPeriodLabel = (createdAt, periodType) => {
+    const date = new Date(createdAt);
 
-  // Mock function to simulate fetching data
+    switch (periodType) {
+      case "monthly":
+        return date.toLocaleString("en-US", { year: "numeric", month: "long" });
+      case "yearly":
+        return date.toLocaleString("en-US", { year: "numeric" });
+      case "one-time":
+        const startDate = new Date(budget.startDate);
+        const endDate = new Date(budget.endDate);
+        return `${startDate.toLocaleDateString(
+          "en-US"
+        )} - ${endDate.toLocaleDateString("en-US")}`;
+      case "weekly":
+        const startOfWeek = new Date(date);
+        startOfWeek.setDate(date.getDate() - date.getDay()); // Get start of the week
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Get end of the week
+
+        const startMonth = startOfWeek.toLocaleString("en-US", {
+          month: "long",
+        });
+        const endMonth = endOfWeek.toLocaleString("en-US", { month: "long" });
+
+        return `${startOfWeek.getDate()} ${startMonth} - ${endOfWeek.getDate()} ${endMonth}`;
+      default:
+        return "";
+    }
+  };
+
   // const fetchItems = async () => {
   //   setIsLoading(true);
   //   let timeoutId;
@@ -137,9 +179,33 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
   //   return () => clearTimeout(timeoutId);
   // };
 
-  // useEffect(() => {
-  //   fetchItems();
-  // }, []);
+  const fetchBudget = async () => {
+    setIsLoading(true);
+    const budget = await getBudget(budgetId);
+    const allBudgets = await getBudgetPeriodically(periodType);
+    setBudget(budget);
+    setAllBudgets(allBudgets);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchBudget();
+  }, [periodType, budgetId]);
+
+  const handleNavigate = (direction) => {
+    const currentIndex = allBudgets.findIndex(
+      (Budget) => Budget._id === budget._id
+    );
+    let newIndex = direction === "left" ? currentIndex - 1 : currentIndex + 1;
+
+    if (newIndex < 0) {
+      newIndex = allBudgets.length - 1;
+    } else if (newIndex >= allBudgets.length) {
+      newIndex = 0;
+    }
+
+    navigate(`/budget/${periodType}/${allBudgets[newIndex]._id}`);
+  };
 
   return (
     <Box
@@ -156,6 +222,8 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
         overflowX: isSmallScreen ? "hidden" : "",
       }}
     >
+      <Loader isLoading={isLoading} />
+
       {/* Loading */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -165,7 +233,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
       </Backdrop>
 
       {/* Back button  */}
-      <BackBtn />
+      <BackBtn to={"/budget"} />
 
       {/* Header Stack */}
       <Stack alignItems={"center"}>
@@ -184,6 +252,9 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
           }}
         >
           <Button
+            onClick={() => {
+              handleNavigate("left");
+            }}
             sx={{
               width: isSmallScreen ? "25%" : "96px",
               borderRadius: "16px",
@@ -203,9 +274,14 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
             height="40px"
             sx={{ backgroundColor: colors.purple[600], color: "white" }}
           >
-            <Typography variant="body1">23/6 - 30/6</Typography>
+            <Typography variant="body1">
+              {getPeriodLabel(budget.createdAt, periodType)}
+            </Typography>
           </Stack>
           <Button
+            onClick={() => {
+              handleNavigate("right");
+            }}
             sx={{
               width: isSmallScreen ? "25%" : "96px",
               borderRadius: "16px",
@@ -241,7 +317,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
           >
             <Stack direction={"row"} alignItems={"center"}>
               <Typography variant={isSmallScreen ? "body1" : "h6"}>
-                Home
+                {budget.name}
               </Typography>
               <IconButton
                 onClick={() => {
@@ -262,7 +338,7 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
 
             <Stack direction={"row"} alignItems={"flex-end"} gap={"4px"}>
               <Typography variant={isSmallScreen ? "body3" : "h6"}>
-                500
+                {budget.amount}
               </Typography>
               <Typography variant={isSmallScreen ? "body4" : "body1"}>
                 MMK
@@ -313,6 +389,9 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
           gap: "14px",
         }}
       >
+        <Typography variant="body1" sx={{ border: "1px solid black" }}>
+          {budget.description}
+        </Typography>
         <TableContainer component={Paper}>
           <Table
             stickyHeader
@@ -395,12 +474,19 @@ const BudgetOverview = ({ title, total, progressPercent, spent, remains }) => {
               onClose={() => {
                 setOpen(false);
               }}
-              items={items}
-              // refresh={fetchItems}
+              budget={budget}
+              refresh={fetchBudget}
             />
           ) : (
             <ConfirmModal
               highlight={"Delete"}
+              onClick={() => {
+                deleteBudget(budget._id);
+              }}
+              refresh={() => {
+                navigate("/budget");
+              }}
+              snackbarText={"Budget deleted!"}
               color={colors.extra.red_accent}
               promptText={"Do you really want to Delete?"}
               description={"This action will delete your whole Budget plan."}

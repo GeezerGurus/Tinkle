@@ -2,7 +2,7 @@ const BookSchema = require("../models/Book");
 
 exports.addBook = async (req, res) => {
   const userId = req.userId;
-  const { title, author, category, description, rating, link, coverImage,favourite } = req.body;
+  const { title, author, category, description, link, coverImage,favourite } = req.body;
 
   try {
     if (!title || !author || !link) {
@@ -15,7 +15,6 @@ exports.addBook = async (req, res) => {
       author,
       category,
       description,
-      rating,
       link,
       coverImage,
       favourite
@@ -62,7 +61,7 @@ exports.getFavouriteBooks = async (req, res) => {
 
 exports.patchBook = async (req, res) => {
   const { bookId } = req.params;
-  const { title, author, category, description, rating, link, coverImage, favourite } = req.body;
+  const { title, author, category, description, link, coverImage, favourite } = req.body;
   try {
         const Book = await BookSchema.findOne({ userId: req.userId, _id: bookId });
         if (!Book) {
@@ -72,7 +71,6 @@ exports.patchBook = async (req, res) => {
         if (title) Book.title = title;
         if (author) Book.author = author;
         if (category) Book.category = category;
-        if (rating) Book.rating = rating;
         if (link) Book.link = link;
         if (description) Book.description = description;
         if (coverImage) Book.coverImage = coverImage;

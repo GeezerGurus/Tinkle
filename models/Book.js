@@ -30,11 +30,6 @@ const bookSchema = new Schema(
       trim: true,
       maxlength: 1000,
     },
-    rating: {
-      type: Number,
-      min: 0,
-      max: 5,
-    },
     link: {
       type: String,
       required: true,

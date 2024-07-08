@@ -29,6 +29,7 @@ const Videopage = () => {
         sx={{
           margin: "0 auto",
           width: "auto",
+          
           height: "134px",
           borderRadius: "16px",
           alignContent: "center",

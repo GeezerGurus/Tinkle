@@ -361,6 +361,12 @@ export const themeSettings = (mode) => {
         fontWeight: 500,
         lineHeight: "140%",
       },
+      body5:{
+        fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
+        fontSize: "0.625rem", // 10px
+        fontWeight: 500,
+        lineHeight: "140%",
+      },
       title6: {
         fontFamily: ["Oswald", "Roboto, Source Sans Pro", "sans-serif"].join(
           ","

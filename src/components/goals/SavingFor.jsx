@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Paper,
   Button,
@@ -21,8 +21,10 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import WineBarIcon from "@mui/icons-material/WineBar";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import CreateGoal from "./CreateGoal";
+import { postGoal } from "../../api/goals";
+import { enqueueSnackbar } from "notistack";
 
-const GridItem = ({ bg, icon, name }) => {
+const GridItem = ({ bg, icon, name, refresh }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -61,6 +63,7 @@ const GridItem = ({ bg, icon, name }) => {
               iconF={icon}
               bgColor={bg}
               name={name}
+              refresh={refresh}
               onClose={() => setOpen(false)}
             />
           </Box>
@@ -70,15 +73,18 @@ const GridItem = ({ bg, icon, name }) => {
     </Grid>
   );
 };
-export const SavingFor = ({ onClose }) => {
+export const SavingFor = ({ onClose,refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
 
+  
+
   const handleClose = () => {
     setOpen(false);
+    refresh();
   };
 
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -158,7 +164,7 @@ export const SavingFor = ({ onClose }) => {
                 transform: "translate(-50%,-50%)",
               }}
             >
-              <CreateGoal onClose={handleClose} name={name} />
+              <CreateGoal refresh={refresh} onClose={handleClose} name={name} />
             </Box>
           </Modal>
           {/* Cancel Button */}
@@ -191,22 +197,22 @@ export const SavingFor = ({ onClose }) => {
         columnSpacing={3}
         sx={{ marginTop: isSmallerScreen? "5px":isMediumScreen ? "20px" : "0px"}}
       >
-        <GridItem name="New Home" bg="orange" icon={<HomeIcon />} />
-        <GridItem
+        <GridItem refresh={refresh} name="New Home" bg="orange" icon={<HomeIcon />} />
+        <GridItem refresh={refresh}
           name="New Vehicle"
           bg="lightblue"
           icon={<DirectionsCarIcon />}
         />
-        <GridItem
+        <GridItem refresh={refresh}
           name="Holiday Trip"
           bg="lightgreen"
           icon={<ConnectingAirportsIcon />}
         />
-        <GridItem name="Education" bg="blue" icon={<SchoolIcon />} />
-        <GridItem name="Emergency Fund" bg="magenta" icon={<PaymentsIcon />} />
-        <GridItem name="Health Care" bg="red" icon={<HealthAndSafetyIcon />} />
-        <GridItem name="Fine Dining" bg="yellow" icon={<WineBarIcon />} />
-        <GridItem name="Charity" bg="lightblue" icon={<CardGiftcardIcon />} />
+        <GridItem refresh={refresh} name="Education" bg="blue" icon={<SchoolIcon />} />
+        <GridItem refresh={refresh} name="Emergency Fund" bg="magenta" icon={<PaymentsIcon />} />
+        <GridItem refresh={refresh} name="Health Care" bg="red" icon={<HealthAndSafetyIcon />} />
+        <GridItem refresh={refresh} name="Fine Dining" bg="yellow" icon={<WineBarIcon />} />
+        <GridItem refresh={refresh} name="Charity" bg="lightblue" icon={<CardGiftcardIcon />} />
       </Grid>
     </Paper>
   );

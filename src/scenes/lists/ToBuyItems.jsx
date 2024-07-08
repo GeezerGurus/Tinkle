@@ -153,7 +153,7 @@ const ToBuyItems = () => {
           />
         ))}
       </Box>
-
+        
       {/* Add item  */}
       <SpeedDial
         modal={<AddItem listId={listId} items={items} refresh={fetchItems} />}

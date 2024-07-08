@@ -16,6 +16,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import AddSaveAmount from "./AddSaveAmount";
 import { tokens } from "../../theme";
 import ConfirmModal from "../utils/ConfirmModal";
+import { patchGoal } from "../../api/goals";
+import { enqueueSnackbar } from "notistack";
 
 function CircularProgressBar(props) {
   const theme = useTheme();
@@ -94,13 +96,22 @@ function CircularProgressBar(props) {
   );
 }
 
-export const GoalDetails = ({ onClose, saved, goal }) => {
+export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [modal, setModal] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const percentage = goal > 0 ? (saved / goal) * 100 : 0;
+
+  const handleChange = async () => {
+    const newStatus = {
+      state: modal,
+    };
+    await patchGoal(id, newStatus);
+    refresh();
+    setOpenModal(false); // Close the modal after handling the change
+  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -110,6 +121,7 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
         width: isSmallerScreen ? "350px" : isSmallScreen ? "400px" : "766px",
         height: "auto",
         display: "flex",
+        
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "32px 40px",
@@ -124,7 +136,12 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
         width={"100%"}
         justifyContent={"space-between"}
       >
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            setModal("paused");
+            setOpenModal(true);
+          }}
+        >
           <PauseCircleOutlineIcon sx={{ width: "40px", height: "40px" }} />
         </IconButton>
         <Typography variant="h4">Goal</Typography>
@@ -211,18 +228,25 @@ export const GoalDetails = ({ onClose, saved, goal }) => {
             transform: "translate(-50%,-50%)",
           }}
         >
-          {modal === "reached" ? (
+          {modal === "reached" || modal === "paused" ? (
             <ConfirmModal
-              color={colors.extra.yellow_accent}
-              highlight="Reached"
-              promptText="Do you want to set goal as Reached?"
-              description="This action will set your Saving plan as reached."
+              
+              highlight={modal === "paused" ? "Paused" : "Reached"}
+              snackbarText={modal==="paused"? "Paused!":"Reached!"}
+              snackbarColor={"success"}
+              promptText={`Do you want to set goal as ${modal === "paused" ? "Paused" : "Reached"}?`}
+              description={`This action will set your Saving plan as ${modal === "paused" ? "paused" : "reached"}.`}
               onClose={() => {
                 setOpenModal(false);
               }}
+              onClick={handleChange}
+              refresh={refresh} // Pass handleChange for snackbar customization
             />
           ) : (
             <AddSaveAmount
+              id={id}
+              currentAmount={saved}
+              refresh={refresh}
               onClose={() => {
                 setOpenModal(false);
               }}

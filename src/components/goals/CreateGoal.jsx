@@ -15,6 +15,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Item } from "../utils";
+import { enqueueSnackbar } from "notistack";
 import {
   Home as HomeIcon,
   DirectionsCar as DirectionsCarIcon,
@@ -31,6 +32,7 @@ import {
   Computer as ComputerIcon,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
+import { postGoal } from "../../api/goals";
 
 const icons = [
   <HomeIcon />,
@@ -71,7 +73,7 @@ export const CreateGoal = ({
   name,
   savedAlready,
   goal,
-  dateF,
+  dateF,refresh
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -83,18 +85,31 @@ export const CreateGoal = ({
   const [date, setDate] = useState(dateF || "no target date");
   const [amount, setAmount] = useState(goal || 0);
   const [saved, setSaved] = useState(savedAlready || 0);
-  const handleSave = () => {
-    console.log({
-      name: goalName,
-      icon: icon,
-      bgColor: color,
-      amount: amount,
-      saved: saved,
-      note: note,
-    });
+  
+  const handleSave =async () => {
+    try {
+      const newList={
+        name: goalName,
+        // icon: icon,
+        // bgColor: color,
+        amount: amount,
+        saveamount: saved,
+        description: note,
+        desireDate: date
+      };
+      const createdList = await postGoal(newList);
+      console.log("New Goal created:", createdList);
+      refresh();
+      enqueueSnackbar("Goal created!", { variant: "success" });
+      onClose();
+    } catch (error) {
+      console.error("Error creating new Goal:", error);
+    }
   };
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
+  
   return (
     <Paper
       sx={{
@@ -288,7 +303,7 @@ export const CreateGoal = ({
         justifyContent={"space-between"}
       >
         <Button
-          onClick={handleSave}
+          onClick={handleSave} refresh={refresh}
           sx={{
             width: "208px",
             height: "40px",

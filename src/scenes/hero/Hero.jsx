@@ -227,6 +227,9 @@ const Hero = () => {
           </Typography>
           <Button
             variant="contained"
+            onClick={() => {
+              setOpen(true);
+            }}
             sx={{
               mt: 5,
               width: "293px",

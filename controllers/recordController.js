@@ -33,7 +33,7 @@ exports.addRecord = async (req, res) => {
         if (!account) {
           return res.status(400).json({ message: "Account not found!" });
         }
-        account.balance += amount;
+        account.balance += Number(amount);
         await account.save();
       }
       if (budgetId) {
@@ -41,7 +41,7 @@ exports.addRecord = async (req, res) => {
         if (!budget) {
           return res.status(400).json({ message: "Budget account not found!" });
         }
-        budget.amount += amount;
+        budget.amount += Number(amount);
         await budget.save();
       }
     }
@@ -76,7 +76,7 @@ exports.addRecord = async (req, res) => {
         return res.status(400).json({ message: "Account not found!" });
       }
       fromaccount.balance -= amount;
-      toaccount.balance += amount;
+      toaccount.balance += Number(amount);
       await fromaccount.save();
       await toaccount.save();
     }
@@ -146,7 +146,7 @@ exports.patchRecord = async (req, res) => {
       if (!account) {
         throw new Error("Account not found!");
       }
-      account.balance += delta;
+      account.balance += Number(delta);
       await account.save();
       console.log(account.balance);
     };
@@ -156,7 +156,7 @@ exports.patchRecord = async (req, res) => {
       if (!budget) {
         throw new Error("Budget not found!");
       }
-      budget.amount += delta;
+      budget.amount += Number(delta);
       await budget.save();
     };
     
@@ -303,7 +303,7 @@ exports.deleteRecord = async (req, res) => {
       if (!account) {
         throw new Error("Account not found!");
       }
-      account.balance += delta;
+      account.balance += Number(delta);
       await account.save();
       console.log(account.balance);
     };
@@ -313,7 +313,7 @@ exports.deleteRecord = async (req, res) => {
       if (!budget) {
         throw new Error("Budget not found!");
       }
-      budget.amount += delta;
+      budget.amount += Number(delta);
       await budget.save();
     };
 

@@ -122,7 +122,7 @@ exports.deleteDebt = async (req, res) => {
   }
   const account = await AccountSchema.findOne({ userId: req.userId, _id: debt.accountId });
   if (debt.type == "lend") {
-    account.balance += debt.amount;
+    account.balance += Number(debt.amount);
     await account.save();
   }
   if (debt.type == "owe") {

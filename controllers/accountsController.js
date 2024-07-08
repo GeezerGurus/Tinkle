@@ -51,7 +51,7 @@ exports.getaAccount = async (req, res) => {
 
 exports.patchAccount = async (req, res) => {
   const { accountId } = req.params;
-  const { name, balance, currency, description } = req.body;
+  const { name, balance, currency, description, type } = req.body;
   try {
         const account = await AccountSchema.findOne({ userId: req.userId, _id: accountId });
         if (!account) {
@@ -66,6 +66,7 @@ exports.patchAccount = async (req, res) => {
         if (balance) account.balance = balance;
         if (currency) account.currency = currency;
         if (description) account.description = description;
+        if (type) account.type = type;
 
         await account.save();
 

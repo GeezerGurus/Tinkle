@@ -73,7 +73,7 @@ exports.patchLend = async (req, res) => {
           return res.status(400).json({ message: "Amount must be a positive number!" });
         }
           const debt = await DebtSchema.findOne({ userId: req.userId, _id: lend.debtId });
-          debt.amount += lend.amount;
+          debt.amount += Number(lend.amount);
           lend.amount = amount;
           debt.amount -= lend.amount;
           await debt.save();
@@ -94,7 +94,7 @@ exports.deleteLend = async (req, res) => {
     return res.status(404).json({ message: "Lend record not found!" });
   }
   const debt = await DebtSchema.findOne({ userId: req.userId, _id: lend.debtId });
-  debt.amount += lend.amount;
+  debt.amount += Number(lend.amount);
   await debt.save();
   await LendSchema.findOneAndDelete({ userId: req.userId, debtId: debtId, _id: lendId })
     .then(() => {

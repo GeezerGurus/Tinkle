@@ -17,6 +17,16 @@ export const getAccounts = async () => {
     console.error("Error fetching Accounts:", error);
   }
 };
+
+export const getAccount = async (accountId) => {
+  try {
+    const response = await api.get(`/account/${accountId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Account:", error);
+  }
+};
+
 export const patchAccount = async (accountId, updatedData) => {
   try {
     const response = await api.patch(`/account/${accountId}`, updatedData);

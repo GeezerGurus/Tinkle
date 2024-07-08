@@ -27,7 +27,7 @@ const ListBox = ({ id, name, description, refresh }) => {
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const [items, setItems] = useState([]);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));

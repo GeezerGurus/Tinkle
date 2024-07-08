@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -8,13 +8,24 @@ import {
   GridToolbarDensitySelector,
   GridToolbarQuickFilter,
   GridActionsCellItem,
+  GridFooterContainer,
+  GridPagination,
 } from "@mui/x-data-grid";
-import { Box, Modal, Paper, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Modal,
+  Paper,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { ConfirmModal } from "../utils";
+import { ConfirmModal, Loader } from "../utils";
 import EditRecord from "./EditRecord";
 import { tokens } from "../../theme";
+import { getRecords, deleteRecord } from "../../api/recordsApi";
+import { getAccount } from "../../api/accountApi";
 
 const CustomToolbar = ({ action }) => {
   return (
@@ -24,7 +35,7 @@ const CustomToolbar = ({ action }) => {
       />
       {action === "filter" && (
         <GridToolbarFilterButton
-          slotProps={{ tooltip: { title: "Filter the datas" } }}
+          slotProps={{ tooltip: { title: "Filter the data" } }}
         />
       )}
       <GridToolbarDensitySelector
@@ -33,13 +44,39 @@ const CustomToolbar = ({ action }) => {
       <Box sx={{ flexGrow: 1 }} />
       {action === "filter" && <GridToolbarQuickFilter />}
       {action === "export" && (
-        <GridToolbarExport
-          slotProps={{
-            tooltip: { title: "Export data" },
-          }}
-        />
+        <GridToolbarExport slotProps={{ tooltip: { title: "Export data" } }} />
       )}
     </GridToolbarContainer>
+  );
+};
+
+const CustomFooter = ({ selectedRows, handleBulkDelete }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  return (
+    <GridFooterContainer>
+      {selectedRows.length > 0 ? (
+        <Button
+          onClick={handleBulkDelete}
+          sx={{
+            textTransform: "none",
+            color: "white",
+            margin: 1,
+            borderRadius: "8px",
+            backgroundColor: colors.purple[600],
+            "&:hover": {
+              backgroundColor: colors.purple[200],
+            },
+          }}
+        >
+          Delete Selected
+        </Button>
+      ) : (
+        <Box sx={{ flexGrow: 1 }} />
+      )}
+      <GridPagination />
+    </GridFooterContainer>
   );
 };
 
@@ -47,65 +84,143 @@ const TransactionsTable = ({ action }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [modal, setModal] = React.useState("");
+  const [modal, setModal] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [accountNames, setAccountNames] = useState({});
+  const [selectedRow, setSelectedRow] = useState();
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const columns = [
-    { field: "date", headerName: "Date", flex: 1 },
+    {
+      field: "date",
+      headerName: "Date",
+      flex: 1,
+      valueFormatter: (params) => {
+        return params.split("T")[0];
+      },
+    },
     { field: "category", headerName: "Category", flex: 1 },
-    { field: "account", headerName: "Account", flex: 1 },
-    { field: "note", headerName: "Note", flex: 1 },
-    { field: "amount", headerName: "Amount", type: "number", flex: 1 },
+    {
+      field: "account",
+      headerName: "Account",
+      flex: 1,
+      // do not delete params
+      valueGetter: (params, row) => {
+        const accountId = row.accountId;
+        return accountNames[accountId] || "";
+      },
+    },
+    { field: "notes", headerName: "Note", flex: 1 },
+    {
+      field: "amount",
+      headerName: "Amount",
+      type: "number",
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <Box
+            sx={{
+              color:
+                params.row.type === "expense"
+                  ? colors.extra.red_accent
+                  : colors.green[500],
+            }}
+          >
+            {params.row.type === "expense" ? "- MMK " : "+ MMK "}
+            {params.value}
+          </Box>
+        );
+      },
+    },
     {
       field: "actions",
       type: "actions",
-      hideable: false,
       headerName: "Actions",
       width: isSmallScreen ? 90 : 100,
       cellClassName: "actions",
       sortable: false,
-      getActions: ({ id }) => {
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={() => {
-              setModal("edit");
-              setOpenModal(true);
-            }}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={() => {
-              setModal("delete");
-              setOpenModal(true);
-            }}
-            color="inherit"
-          />,
-        ];
-      },
+      getActions: ({ id, row }) => [
+        <GridActionsCellItem
+          key="edit"
+          icon={<EditIcon />}
+          label="Edit"
+          className="textPrimary"
+          onClick={() => {
+            setSelectedRow(row);
+            setModal("edit");
+            setOpenModal(true);
+          }}
+          color="inherit"
+        />,
+        <GridActionsCellItem
+          key="delete"
+          icon={<DeleteIcon />}
+          label="Delete"
+          onClick={() => {
+            setSelectedRow(row);
+            setModal("delete");
+            setOpenModal(true);
+          }}
+          color="inherit"
+        />,
+      ],
     },
   ];
 
-  const rows = [];
+  const fetchRecords = async () => {
+    setIsLoading(true);
+    try {
+      const records = await getRecords();
+      setRows(records);
 
-  for (let i = 1; i <= 50; i++) {
-    rows.push({
-      id: i,
-      date: `2024-07-${i < 10 ? "0" + i : i}`,
-      category: `Category ${i}`,
-      account: i % 2 === 0 ? "Credit Card" : "Debit Card",
-      note: `Item ${i}`,
-      amount: Math.floor(Math.random() * 200) + 20, // Random amount between 20 and 219
-    });
-  }
+      // Fetch account names for each row
+      const accountIds = records.map((record) => record.accountId);
+      const uniqueAccountIds = [...new Set(accountIds)];
+      const namesMap = {};
+
+      // Fetch account details for each unique accountId
+      await Promise.all(
+        uniqueAccountIds.map(async (id) => {
+          const account = await getAccount(id);
+          namesMap[id] = account.name;
+        })
+      );
+
+      setAccountNames(namesMap);
+    } catch (error) {
+      console.error("Error fetching records:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteRecord(id);
+      fetchRecords();
+    } catch (error) {
+      console.error("Error deleting record:", error);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    try {
+      await Promise.all(selectedRows.map(async (id) => await deleteRecord(id)));
+      setSelectedRows([]);
+      fetchRecords();
+    } catch (error) {
+      console.error("Error deleting records:", error);
+    }
+  };
 
   const columnVisibilityModel = isMediumScreen
     ? {
@@ -113,23 +228,25 @@ const TransactionsTable = ({ action }) => {
         category: true,
         amount: true,
         account: false,
-        note: false,
+        notes: false,
         actions: action === "edit",
       }
     : {
         date: true,
         category: true,
         account: true,
-        note: true,
+        notes: true,
         amount: true,
         actions: action === "edit",
       };
 
   return (
     <>
+      <Loader isLoading={isLoading} />
       <Paper style={{ height: "603px", width: "100%" }}>
         <DataGrid
           rows={rows}
+          getRowId={(row) => row._id}
           columns={columns}
           disableColumnMenu={action !== "filter"}
           initialState={{
@@ -140,8 +257,17 @@ const TransactionsTable = ({ action }) => {
           columnVisibilityModel={columnVisibilityModel}
           pageSizeOptions={[5, 10, 20, 30]}
           checkboxSelection={action === "edit"}
+          onRowSelectionModelChange={(newSelection) => {
+            setSelectedRows(newSelection);
+          }}
           slots={{
             toolbar: () => <CustomToolbar action={action} />,
+            footer: () => (
+              <CustomFooter
+                selectedRows={selectedRows}
+                handleBulkDelete={handleBulkDelete}
+              />
+            ),
           }}
         />
       </Paper>
@@ -156,10 +282,9 @@ const TransactionsTable = ({ action }) => {
         >
           {modal === "edit" ? (
             <EditRecord
-              onClose={() => {
-                setOpenModal(false);
-              }}
-              // refresh={fetchItems}
+              onClose={() => setOpenModal(false)}
+              dataRow={selectedRow}
+              refresh={fetchRecords}
             />
           ) : (
             <ConfirmModal
@@ -173,9 +298,10 @@ const TransactionsTable = ({ action }) => {
                   <br /> balance accounts.
                 </>
               }
-              onClose={() => {
-                setOpenModal(false);
-              }}
+              snackbarText={"Record deleted!"}
+              refresh={fetchRecords}
+              onClick={() => handleDelete(selectedRow._id)}
+              onClose={() => setOpenModal(false)}
             />
           )}
         </Box>

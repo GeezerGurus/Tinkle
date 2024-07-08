@@ -16,30 +16,23 @@ import {
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
-import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
-import { postRecord } from "../../api/recordsApi";
+import { patchRecord } from "../../api/recordsApi";
+import { enqueueSnackbar } from "notistack";
 
-const getCurrentTimeString = () => {
-  const now = new Date();
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-  return `${hours}:${minutes}`;
-};
-
-const Expense = ({ onClose, accounts, budgets }) => {
+const EditExpense = ({ onClose, accounts, budgets, dataRow, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [acc, setAcc] = useState("");
+  const [acc, setAcc] = useState(dataRow.accountId);
   const [selectedOption, setSelectedOption] = useState("account");
-  const [budget, setBudget] = useState("");
+  const [budget, setBudget] = useState(dataRow.budgetId);
   const [category, setCategory] = useState("");
-  const [time, setTime] = useState(getCurrentTimeString());
-  const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [notes, setNotes] = useState("");
-  const [amount, setAmount] = useState("");
-  const [payee, setPayee] = useState("");
+  const [time, setTime] = useState(dataRow.time);
+  const [date, setDate] = useState(dataRow.date);
+  const [notes, setNotes] = useState(dataRow.notes);
+  const [amount, setAmount] = useState(dataRow.amount);
+  const [payee, setPayee] = useState(dataRow.transactor);
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -58,16 +51,12 @@ const Expense = ({ onClose, accounts, budgets }) => {
     };
 
     try {
-      await postRecord(recordData);
-      if (
-        window.location.pathname === "/records" ||
-        window.location.pathname === "/settings/balance-accounts"
-      ) {
-        window.location.reload();
-      }
+      await patchRecord(dataRow._id, recordData);
+      refresh();
+      enqueueSnackbar("Saved!", { variant: "success" });
       onClose();
     } catch (error) {
-      console.error("Error posting record:", error);
+      console.error("Error patching record:", error);
     }
   };
 
@@ -229,7 +218,7 @@ const Expense = ({ onClose, accounts, budgets }) => {
       />
 
       <TextField
-        label="Payee"
+        label="payee"
         placeholder="Enter payee name"
         fullWidth
         value={payee}
@@ -276,7 +265,7 @@ const Expense = ({ onClose, accounts, budgets }) => {
             color: "white",
           }}
         >
-          <Typography variant="body2">Add</Typography>
+          <Typography variant="body2">Save</Typography>
         </Button>
         <Button
           onClick={onClose}
@@ -294,4 +283,4 @@ const Expense = ({ onClose, accounts, budgets }) => {
   );
 };
 
-export default Expense;
+export default EditExpense;

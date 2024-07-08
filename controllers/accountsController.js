@@ -58,12 +58,16 @@ exports.patchAccount = async (req, res) => {
             return res.status(404).json({ message: "Account not found!" });
         }
 
-        if (!balance && (isNaN(balance) || balance <= 0)) {
-          return res.status(400).json({ message: "Balance amount must be a positive number!" });
-        }
-
         if (name) account.name = name;
-        if (balance) account.balance = balance;
+
+        if (balance !== undefined) {
+          if (isNaN(balance) || balance < 0) {
+            return res.status(400).json({ message: "Balance amount must be a positive number!" });
+          } else {
+            account.balance = balance;
+          }
+        }
+        
         if (currency) account.currency = currency;
         if (description) account.description = description;
         if (type) account.type = type;

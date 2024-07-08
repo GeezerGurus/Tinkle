@@ -8,15 +8,16 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import EditAccount from "./EditAccount";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { tokens } from "../../theme";
 import { ConfirmModal } from "../utils";
 import { deleteAccount } from "../../api/accountApi";
+import AccountIcons from "../utils/AccountIcons";
 
-const Account = ({ name, balance,type, refresh, id }) => {
+const Account = ({ name, balance, type, refresh, id }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -26,6 +27,20 @@ const Account = ({ name, balance,type, refresh, id }) => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const types = [
+    { value: "Cash", icon: AccountIcons[0], text: "Cash" },
+    { value: "Bank", icon: AccountIcons[1], text: "Bank" },
+    { value: "Saving", icon: AccountIcons[2], text: "Saving" },
+    { value: "General", icon: AccountIcons[3], text: "General" },
+    { value: "Investment", icon: AccountIcons[4], text: "Investment" },
+    { value: "Loan", icon: AccountIcons[5], text: "Loan" },
+    { value: "Card", icon: AccountIcons[6], text: "Card" },
+    { value: "Insurance", icon: AccountIcons[7], text: "Insurance" },
+    { value: "Bonus", icon: AccountIcons[8], text: "Bonus" },
+    { value: "EMoney", icon: AccountIcons[9], text: "EMoney" },
+  ];
+  const accountType = types.find((t) => t.value === type);
 
   useEffect(() => {
     refresh();
@@ -52,16 +67,18 @@ const Account = ({ name, balance,type, refresh, id }) => {
           width: isSmallScreen ? "30%" : isMediumScreen ? "200px" : "300px",
         }}
       >
-        {/* <Icon
-          sx={{
-            fontSize: isSmallScreen? "30px": "45px",
-            
-            color: "white",
-            // backgroundColor: backgroundColor,
-            borderRadius: "50%",
-            padding: "4px",
-          }}
-        /> */}
+         {accountType && (
+          <accountType.icon
+          
+            sx={{
+              fontSize: isSmallScreen? "30px": "45px",
+              color: "white",
+              backgroundColor: colors.purple[600] ,
+              borderRadius: "50%",
+              padding: "4px",
+            }}
+          />
+        )}
         <Typography variant={isSmallScreen ? "body3" : "h6"}>{name}</Typography>
       </Stack>
 
@@ -137,9 +154,7 @@ const Account = ({ name, balance,type, refresh, id }) => {
               balance={balance}
               type={type}
               refresh={refresh}
-              id = {id}
-              // icon={Icon}
-              // bgColor={backgroundColor}
+              id={id}
             />
           ) : (
             <ConfirmModal
@@ -147,7 +162,7 @@ const Account = ({ name, balance,type, refresh, id }) => {
                 deleteAccount(id);
               }}
               refresh={refresh}
-              snackbarText={"List deleted!"}
+              snackbarText={"Account deleted!"}
               color={colors.extra.red_accent}
               highlight={"Delete"}
               description={

@@ -12,3 +12,5 @@ export { default as ListItem1Image } from "./list_item1.png";
 export { default as ListItem2Image } from "./list_item2.png";
 export { default as ListItem3Image } from "./list_item3.png";
 export { default as KnowledgeImage } from "./knowledge.png";
+export { default as LogoImage } from "./logo.png";
+export { default as LogoDarkImage } from "./logo_dark.png";

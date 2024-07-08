@@ -2,6 +2,8 @@ import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
+import {GoalActiveImage} from "../../assets/empty/index"
+
 
 export const Active = ({ isSmallScreen, state }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,26 +45,30 @@ export const Active = ({ isSmallScreen, state }) => {
         overflowY: "auto",
         overflowX: "hidden",
         padding: "0px 2%",
+
+        backgroundImage:
+        filteredGoals.length === 0 ? `url(${GoalActiveImage})` : "none",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "70%",
+      backgroundPosition: "center",
       }}
     >
-      {isLoading ? (
-        <p>Loading...</p> // or any loading spinner
-      ) : (
-        filteredGoals.map((list, index) => (
-          <SavingItem
-            key={index}
-            id={list._id}
-            name={list.name}
-            goal={list.amount}
-            saved={list.saveamount}
-            createdAt={list.createdAt}
-            updatedAt={list.updatedAt}
-            date={list.desireDate}
-            state={list.state}
-            refresh={fetchGoals}
-          />
-        ))
-      )}
+      
+        {filteredGoals.map((list, index) => (
+            <SavingItem
+              key={index}
+              id={list._id}
+              name={list.name}
+              goal={list.amount}
+              saved={list.saveamount}
+              createdAt={list.createdAt}
+              updatedAt={list.updatedAt}
+              date={list.desireDate}
+              state={list.state}
+              refresh={fetchGoals}
+            />
+          ))}
+        
     </Box>
   );
 };

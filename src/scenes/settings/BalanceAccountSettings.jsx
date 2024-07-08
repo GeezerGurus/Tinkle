@@ -21,9 +21,12 @@ const BalanceAccountSettings = () => {
     setAccounts(res || []);
     setIsLoading(false);
   };
+
   useEffect(() => {
     fetchAccounts();
   }, []);
+
+  //for account
   return (
     // Container
     <Box
@@ -66,8 +69,6 @@ const BalanceAccountSettings = () => {
               name={account.name}
               balance={account.balance}
               id={account._id}
-              // icon={account.icon}
-              // backgroundColor={account.backgroundColor}
               type={account.type}
               refresh={fetchAccounts}
             />

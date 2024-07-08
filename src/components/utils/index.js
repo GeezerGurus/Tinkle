@@ -2,7 +2,7 @@
 export { default as ShowMoreBtn } from "./ShowMoreBtn";
 export { default as RecordBtn } from "./RecordBtn";
 export { default as Item } from "./Item";
-export { default as Icons } from "./Icons";
+export { default as CategoryIcons} from "./CategoryIcons";
 export { default as SpeedDial } from "./SpeedDial";
 export { default as Progress } from "./Progress";
 export { default as ConfirmModal } from "./ConfirmModal";

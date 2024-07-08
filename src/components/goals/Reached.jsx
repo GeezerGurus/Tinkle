@@ -5,6 +5,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
+import { GoalReachedImage } from "../../assets/empty";
 
 export const Reached = ({isSmallScreen,state}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +49,12 @@ export const Reached = ({isSmallScreen,state}) => {
         overflowY: "auto",
         overflowX: "hidden",
         padding: "0px 2%",
+        backgroundImage:
+        filteredGoals.length === 0 ? `url(${GoalReachedImage})` : "none",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "60%",
+      backgroundPosition: "center",
+        
       }}
     >{isLoading ? (
       <p>Loading...</p> // or any loading spinner

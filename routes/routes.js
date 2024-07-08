@@ -55,6 +55,7 @@ const {
   getUser,
   updateEmail,
   updatePassword,
+  updateProfile,
   logout,
 } = require("../controllers/authsController");
 const {
@@ -117,6 +118,7 @@ router
   .get("/getuser", requireAuth, getUser)
   .post("/logout", requireAuth, logout)
   .patch("/user/newemail", requireAuth, updateEmail)
+  .patch("/user/profile", requireAuth, updateProfile)
   .patch("/user/newpassword", requireAuth, updatePassword)
   
  //User

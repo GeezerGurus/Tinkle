@@ -145,6 +145,22 @@ exports.updatePassword = async (req, res) => {
   }
 };
 
+exports.updateProfile = async (req, res) => {
+  const { username, job, phoneNo} = req.body;
+  try {
+    const user =  await User.findById({ _id: req.userId });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    if (username) user.username = username;
+    if (job) user.job = job;
+    if (phoneNo) user.phoneNo = phoneNo;
+  } catch (error) {
+    const errors = handleErrors(error);
+    res.status(400).json({ errors }); 
+  }
+};
+
 exports.logout = async (req, res) => {
   try {
     const user = await User.findById({ _id: req.userId });

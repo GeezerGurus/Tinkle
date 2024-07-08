@@ -42,7 +42,7 @@ const recordSchema = new Schema(
         amount: {
             type: Number,
             required: [true, 'Amount is required'],
-            min: [0, 'Amount must be a positive number'],
+            //min: [0, 'Amount must be a positive number'],
             trim: true
         },
         category: {

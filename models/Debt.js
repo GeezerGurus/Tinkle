@@ -39,7 +39,7 @@ const debtSchema = new Schema(
       type: Number,
       required: true,
       trim: true,
-      min: [0, "Balance already hits zero!"],
+      //min: [0, "Balance already hits zero!"],
     },
     Date: {
       type: Date,

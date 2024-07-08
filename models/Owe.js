@@ -16,7 +16,7 @@ const oweSchema = new Schema(
     amount: {
       type: Number,
       required: true,
-      min: [0, "Balance already hits zero!"]
+      //min: [0, "Balance already hits zero!"]
     },
     Date: {
       type: Date

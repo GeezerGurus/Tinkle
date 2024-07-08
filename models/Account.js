@@ -18,7 +18,7 @@ const accountSchema = new Schema(
       type: Number,
       required: true,
       trim: true,
-      min: [0, "Balance already hits zero!"]
+      //min: [0, "Balance already hits zero!"]
     },
     type: {
       type : String,

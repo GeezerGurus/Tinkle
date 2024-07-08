@@ -17,7 +17,7 @@ const budgetSchema = new Schema(
       type: Number,
       required: true,
       trim: true,
-      min: [0, "Balance already hits zero!"]
+      //min: [0, "Balance already hits zero!"]
     },
     startDate: {
       type: Date,

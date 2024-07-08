@@ -28,7 +28,6 @@ const ConfirmModal = ({
   const parts = promptText.split(regex);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
   return (
     <Paper
       sx={{

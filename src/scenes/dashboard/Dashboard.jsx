@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -15,6 +15,8 @@ import {
   Statistics,
   NewAccount,
 } from "../../components/dashboard";
+import { getAccounts } from "../../api/accountApi";
+import { Loader } from "../../components/utils";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -27,29 +29,19 @@ const Dashboard = () => {
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
   const sidebarWidth = 84;
 
-  const accounts = [
-    {
-      icon: MonetizationOnIcon,
-      title: "Wallet",
-      amount: 219019,
-    },
-    {
-      icon: AccountBalanceIcon,
-      title: "Banking",
-      amount: 234567,
-    },
-    {
-      icon: GridViewIcon,
-      title: "Kpay",
-      amount: 345678,
-    },
-    {
-      icon: CreditScoreIcon,
-      title: "Saving",
-      amount: 456789,
-    },
-  ];
+  //for account data fetch
+  const [accounts, setAccounts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const fetchAccounts = async () => {
+    setIsLoading(true);
+    const res = await getAccounts();
+    setAccounts(res || []);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    fetchAccounts();
+  }, []);
   const colorOrder = [
     colors.purple[500],
     colors.mint[500],
@@ -110,20 +102,24 @@ const Dashboard = () => {
             rowGap: 5,
           }}
         >
+          <Loader isLoading={isLoading} />
           {filledAccounts.map((account, index) =>
             account.isPlaceholder ? (
               <NewAccount
                 key={index}
+                refresh={fetchAccounts}
                 BgColor={colorOrder[index]}
                 isMediumScreen={isMediumScreen}
               />
             ) : (
               <Account
                 key={index}
-                Icon={account.icon}
-                Title={account.title}
-                Amount={account.amount}
+                id={account._id}
+                type={account.type}
+                Title={account.name}
+                Amount={account.balance}
                 BgColor={colorOrder[index]}
+                refresh = {fetchAccounts}
                 isMediumScreen={isMediumScreen}
               />
             )

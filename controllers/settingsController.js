@@ -63,8 +63,8 @@ exports.patchSetting = async (req, res) => {
           await setting.save();
   
           res.status(200).json({ message: "setting updated successfully", setting });
-      } catch (err) {
-          res.status(500).json({ message: err });
+      } catch (error) {
+          res.status(500).json({ message: error });
       }
 }
 

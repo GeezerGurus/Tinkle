@@ -132,14 +132,12 @@ exports.updatePassword = async (req, res) => {
     if (oldPassword === newPassword) {
       return res.status(400).json({ message: "New password cannot be the same as the old one!" });
     }
-
-    // Hash and update new password
-    const salt = await bcrypt.genSalt();
-    user.password = await bcrypt.hash(newPassword, salt);
+    user.password = newPassword;
     await user.save();
 
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
+    console.error("Error updating password:", error); // Log the error for debugging
     const errors = handleErrors(error);
     res.status(400).json({ errors });
   }

@@ -2,7 +2,7 @@ const CategorySchema = require("../models/Category");
 
 exports.addCategory = async (req, res) => {
   const userId = req.userId;
-  const { name, icon } = req.body;
+  const { name, icon, color } = req.body;
 
   try {
     if ( !userId || !name || !icon ) {
@@ -15,7 +15,8 @@ exports.addCategory = async (req, res) => {
     const category = CategorySchema({
         userId,
         name,
-        icon
+        icon,
+        color
       });
 
     await category.save();
@@ -50,7 +51,7 @@ exports.getaCategory = async (req, res) => {
 
 exports.patchCategory = async (req, res) => {
   const { categoryId } = req.params;
-  const { name, icon } = req.body;
+  const { name, icon, color } = req.body;
   try {
         const category = await CategorySchema.findOne({ userId: req.userId, _id: categoryId });
         if (!category) {
@@ -59,6 +60,7 @@ exports.patchCategory = async (req, res) => {
 
         if (name) category.name = name;
         if (icon) category.icon = icon;
+        if (color) category.color= color;
 
         await category.save();
 

@@ -1,7 +1,6 @@
 const VideoSchema = require("../models/Video");
 
 exports.addVideo = async (req, res) => {
-  const userId = req.userId;
   const { title, creator, description, link, thumbnail, favourite } = req.body;
 
   try {
@@ -10,7 +9,6 @@ exports.addVideo = async (req, res) => {
     }
 
     const video = VideoSchema({
-        userId,
         title,
         creator,
         description,
@@ -29,7 +27,7 @@ exports.addVideo = async (req, res) => {
 
 exports.getVideos = async (req, res) => {
   try {
-    const video = await VideoSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
+    const video = await VideoSchema.find.sort({ createdAt: -1 });
     res.status(200).json(video);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -39,7 +37,7 @@ exports.getVideos = async (req, res) => {
 exports.getaVideo = async (req, res) => {
   const { videoId } = req.params;
   try {
-    const video = await VideoSchema.findOne({ userId: req.userId, _id: videoId});
+    const video = await VideoSchema.findById(videoId);
     if (!video) {
       return res.status(404).json({ message: "Video not found!" });
     }
@@ -62,11 +60,16 @@ exports.patchVideo = async (req, res) => {
   const { videoId } = req.params;
   const { title, creator, description, link, thumbnail, favourite } = req.body;
   try {
-        const video = await VideoSchema.findOne({ userId: req.userId, _id: videoId });
+        const video = await VideoSchema.findOne({ _id: videoId });
         if (!video) {
             return res.status(404).json({ message: "Video not found!" });
         }
 
+        if (req.userId) {
+          video.userId = req.userId;
+        } else {
+          return res.status(401).json({ error: "Unauthorized" });
+        }
         if (title) video.title = title;
         if (creator) video.creator = creator;
         if (link) video.link = link;
@@ -84,7 +87,7 @@ exports.patchVideo = async (req, res) => {
 
 exports.deleteVideo = async (req, res) => {
   const { videoId } = req.params;
-  VideoSchema.findOneAndDelete({ userId: req.userId, _id:videoId })
+  VideoSchema.findOneAndDelete({ _id:videoId })
     .then((video) => {
       res.status(200).json({ message: "Video Deleted" });
     })

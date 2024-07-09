@@ -9,14 +9,14 @@ const requireAuth = (req, res, next) => {
     jwt.verify(token, "net ninja secret", (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.status(401).json({ error: "Unauthorized" });
+        return res.status(401).json({ error: "Unauthorized" });
       } else {
         req.userId = decodedToken.id;
         next();
       }
     });
   } else {
-    res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: "Unauthorized" });
   }
 };
 

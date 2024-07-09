@@ -177,16 +177,16 @@ router
 
   //Book
   .post("/book", addBook)
-  .get("/books", requireAuth, getBooks)
-  .get("/book/:bookId", requireAuth, getaBook)
+  .get("/books", getBooks)
+  .get("/book/:bookId", getaBook)
   .get("/books/favourite", requireAuth, getFavouriteBooks)
   .patch("/book/:bookId", requireAuth, patchBook)
   .delete("/book/:bookId", deleteBook)
 
   //Video
   .post("/video", addVideo)
-  .get("/videos", requireAuth, getVideos)
-  .get("/video/:videoId", requireAuth, getaVideo)
+  .get("/videos", getVideos)
+  .get("/video/:videoId", getaVideo)
   .get("/videos/favourite", requireAuth, getFavouriteVideos)
   .patch("/video/:videoId", requireAuth, patchVideo)
   .delete("/video/:videoId", deleteVideo)

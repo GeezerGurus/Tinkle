@@ -1,7 +1,6 @@
 const BookSchema = require("../models/Book");
 
 exports.addBook = async (req, res) => {
-  const userId = req.userId;
   const { title, author, category, description, link, coverImage,favourite } = req.body;
 
   try {
@@ -10,7 +9,6 @@ exports.addBook = async (req, res) => {
     }
 
     const Book = BookSchema({
-      userId,
       title,
       author,
       category,
@@ -30,7 +28,7 @@ exports.addBook = async (req, res) => {
 
 exports.getBooks = async (req, res) => {
   try {
-    const Book = await BookSchema.find({ userId: req.userId }).sort({ createdAt: -1 });
+    const Book = await BookSchema.find().sort({ createdAt: -1 });
     res.status(200).json(Book);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -40,7 +38,7 @@ exports.getBooks = async (req, res) => {
 exports.getaBook = async (req, res) => {
   const { bookId } = req.params;
   try {
-    const book = await BookSchema.findOne({ userId: req.userId, _id: bookId});
+    const book = await BookSchema.findById(bookId);
     if (!book) {
       return res.status(404).json({ message: "Book not found!" });
     }
@@ -67,7 +65,11 @@ exports.patchBook = async (req, res) => {
         if (!Book) {
             return res.status(404).json({ message: "Book not found!" });
         }
-
+        if (req.userId) {
+          Book.userId = req.userId;
+        } else {
+          return res.status(401).json({ error: "Unauthorized" });
+        }
         if (title) Book.title = title;
         if (author) Book.author = author;
         if (category) Book.category = category;
@@ -85,8 +87,7 @@ exports.patchBook = async (req, res) => {
 }
 
 exports.deleteBook = async (req, res) => {
-  const { bookId } = req.params;
-  BookSchema.findOneAndDelete({ userId: req.userId, _id:bookId })
+  BookSchema.findOneAndDelete({ _id:bookId })
     .then((Book) => {
       res.status(200).json({ message: "Book Deleted" });
     })

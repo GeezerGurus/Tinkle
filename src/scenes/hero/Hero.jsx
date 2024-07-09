@@ -41,6 +41,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Form from "../../components/auth/Form";
 import { Heroavatarprofile } from "../../components/hero";
+import { Directions } from "@mui/icons-material";
 const Hero = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -536,7 +537,7 @@ const Hero = () => {
           alignItems={"center"}
         >
           {/* 1st  */}
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={12} md={5}>
             <Stack>
               <Typography variant={"title1"}>Tired of Forgetting:</Typography>
               <Typography
@@ -553,7 +554,7 @@ const Hero = () => {
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <img
               src={ListItem1Image}
               alt=""
@@ -564,7 +565,26 @@ const Hero = () => {
             />
           </Grid>
           {/* 2nd  */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={5} display={isMediumScreen ? "block" : "none"}>
+            <Stack>
+              <Typography variant="title1">Tired of Forgetting:</Typography>
+              <Typography
+                variant="title3"
+                sx={{ color: colors.purple[800] }}
+                gutterBottom
+              >
+                The Things To Buy?{" "}
+              </Typography>
+              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+                Sometimes, we love to list out all the things that we want to
+                buy or that we need to buy. And it can be a hassle to list it on
+                a paper where it can get lost easily. Try our list taking
+                feature and take unlimited lists and items as you desire to stay
+                organized.
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
             <img
               src={ListItem2Image}
               alt=""
@@ -574,7 +594,7 @@ const Hero = () => {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={12} md={5} display={isMediumScreen ? "none" : "block"}>
             <Stack>
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
@@ -594,7 +614,7 @@ const Hero = () => {
             </Stack>
           </Grid>
           {/* 3 rd  */}
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={12} md={5}>
             <Stack>
               <Typography variant="title1">Want To List:</Typography>
               <Typography
@@ -611,7 +631,7 @@ const Hero = () => {
               </Typography>
             </Stack>
           </Grid>{" "}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <img
               src={ListItem3Image}
               alt=""
@@ -764,7 +784,10 @@ const Hero = () => {
               <img
                 src={ThreeStarsImage}
                 alt=""
-                style={{ width: 70, height: 70 }}
+                style={{
+                  width: isSmallScreen ? "50px" : 70,
+                  height: isSmallScreen ? "50px" : 70,
+                }}
               />
               <Typography
                 variant="title4"
@@ -776,7 +799,11 @@ const Hero = () => {
               <img
                 src={ThreeStarsImage}
                 alt=""
-                style={{ width: 70, height: 70, transform: "scaleX(-1)" }}
+                style={{
+                  width: isSmallScreen ? "50px" : 70,
+                  height: isSmallScreen ? "50px" : 70,
+                  transform: "scaleX(-1)",
+                }}
               />
             </Box>
             <Typography
@@ -896,7 +923,13 @@ const Hero = () => {
           </Stack>
 
           {/* Quick Answers  */}
-          <Stack alignItems={"center"} gap={2} height={"100vh"}>
+          <Stack
+            alignItems={"center"}
+            gap={2}
+            marginBottom={"20px"}
+            height={"auto"}
+            g
+          >
             <Typography variant="title1" sx={{ color: colors.purple[900] }}>
               Quick Answers
             </Typography>
@@ -1022,7 +1055,7 @@ const Hero = () => {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel5bh-content"
                 id="panel5bh-header"
-              >
+            >
                 <Typography variant="Hbody2">
                   How can I contact support?
                 </Typography>

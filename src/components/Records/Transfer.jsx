@@ -156,6 +156,7 @@ const Transfer = ({ onClose, accounts }) => {
           onChange={(event) =>
             handleAccountChange(setFromAcc, event.target.value)
           }
+          disabled={accounts.length === 0}
           InputProps={{
             sx: {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
@@ -192,6 +193,7 @@ const Transfer = ({ onClose, accounts }) => {
           }}
           error={!!errors.toAcc}
           helperText={errors.toAcc}
+          disabled={accounts.length === 0}
         >
           {accounts.map((account) => (
             <MenuItem key={account._id} value={account._id}>

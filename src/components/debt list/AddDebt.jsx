@@ -124,7 +124,7 @@ const AddDebt = ({ onClose, action, refresh }) => {
     >
       {/* Title  */}
       <Typography variant="h4" sx={{ color: colors.purple[900] }}>
-        Edit Debt
+        Add Debt
       </Typography>
       {action === "lend" ? (
         <Stack alignItems={"center"} gap={1}>

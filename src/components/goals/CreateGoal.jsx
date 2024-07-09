@@ -84,9 +84,9 @@ export const CreateGoal = ({
   const [icon, setIcon] = useState(iconF || "");
   const [color, setColor] = useState(bgColor || "");
   const [note, setNote] = useState("");
-  const [date, setDate] = useState(dateF || "no target date");
+  const [date, setDate] = useState(dateF || "");
   const [amount, setAmount] = useState(goal || 0);
-  const [saved, setSaved] = useState(savedAlready || 0);
+  const [saved, setSaved] = useState(savedAlready || "");
 
   const validateForm = () => {
     const errors = {};
@@ -97,6 +97,12 @@ export const CreateGoal = ({
       errors.amount = "Amount is required";
     } else if (amount <= 0) {
       errors.amount = "Amount must be greater than 0";
+    }
+    if (!saved) {
+      errors.saved = "Saved Amount is required";
+    }
+    if (!date) {
+      errors.date = "Date is required";
     }
     setErrors(errors);
     return Object.keys(errors).length === 0;
@@ -199,6 +205,7 @@ export const CreateGoal = ({
         <TextField
           type="number"
           label="Saved Already"
+          required
           fullWidth
           value={saved}
           onChange={(e) => setSaved(e.target.value)}
@@ -208,13 +215,17 @@ export const CreateGoal = ({
           }}
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
+          error={!!errors.saved}
+          helperText={errors.saved}
         />
 
         {/* Desired Date */}
         <TextField
           type="date"
           label="Desired Date"
+          required
           placeholder="To whom have I lent?"
           fullWidth
           value={date}
@@ -225,6 +236,12 @@ export const CreateGoal = ({
               max: "2025-12-31",
             },
           }}
+          InputLabelProps={{
+            required: true,
+            shrink: true,
+          }}
+          error={!!errors.date}
+          helperText={errors.date}
         />
 
         {/* Color Type */}

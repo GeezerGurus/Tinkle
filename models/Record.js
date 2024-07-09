@@ -46,9 +46,8 @@ const recordSchema = new Schema(
             trim: true
         },
         category: {
-            type: String,
-            trim: true,
-            maxlength: [50, 'Category cannot exceed 50 characters'],
+            type: Schema.Types.ObjectId,
+            ref: "Category",
         },
         date: {
             type: Date,

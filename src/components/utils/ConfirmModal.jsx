@@ -30,7 +30,6 @@ const ConfirmModal = ({
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-
   return (
     <Paper
       sx={{
@@ -44,8 +43,6 @@ const ConfirmModal = ({
         alignItems: "center",
       }}
     >
-      
-      
       <Typography variant={isSmallScreen ? "h6" : "h4"} textAlign={"center"}>
         {parts.map((part, index) =>
           part.toLowerCase() === highlight.toLowerCase() ? (

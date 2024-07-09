@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Avatar,
@@ -15,6 +15,12 @@ import { tokens } from "../../theme";
 import { EditProfilePic, UpdatePassword } from "../../components/profile";
 import BannerImage from "../../assets/banner.png";
 import UserProfile from "../../assets/nigga.png";
+import { patchUserProfile } from "../../api/userAccounts";
+import { patchUserEmail } from "../../api/userAccounts";
+import { getUser } from "../../api/userAccounts";
+import { FlashlightOnTwoTone } from "@mui/icons-material";
+import { Loader } from "../../components/utils";
+import { enqueueSnackbar } from "notistack";
 
 const EditButton = ({ onClick }) => {
   const theme = useTheme();
@@ -41,6 +47,10 @@ const EditButton = ({ onClick }) => {
 const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [userData, setUserData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [openNameInput, setOpenNameInput] = useState(false);
   const [openJobInput, setOpenJobInput] = useState(false);
   const [openEmailInput, setOpenEmailInput] = useState(false);
@@ -48,17 +58,68 @@ const Profile = () => {
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
   const [openProfilePicModal, setOpenProfilePicModal] = useState(false);
 
+  const [selectedName, setSelectedName] = useState(userData.username);
+  const [selectedJob, setSelectedJob] = useState(userData.job);
+  const [selectedEmail, setSelectedEmail] = useState(userData.email);
+  const [selectedPhone, setSelectedPhone] = useState(userData.phoneNo);
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const renderInputField = (label, value, openInput, setOpenInput) => (
+  const updateProfile = async () => {
+    const data = {
+      username: selectedName,
+      job: selectedJob,
+      phoneNo: selectedPhone,
+    };
+
+    await patchUserProfile(data);
+    console.log(userData.email);
+    if (selectedEmail === undefined) {
+      setSelectedEmail(userData.email);
+    } else if (userData.email !== selectedEmail) {
+      const email = {
+        newEmail: selectedEmail,
+      };
+
+      await patchUserEmail(email);
+      enqueueSnackbar("Email Updated Successsful", { variant: "success" });
+    }
+    enqueueSnackbar("Profile Updated ", { variant: "success" });
+    fetchUser();
+  };
+
+  const fetchUser = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getUser();
+      setUserData(response || []);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error Getting Data");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const renderInputField = (
+    label,
+    value,
+    openInput,
+    setOpenInput,
+    setValue
+  ) => (
     <Stack
       direction="row"
       justifyContent="space-between"
       alignItems="center"
       sx={{ width: "100%" }}
     >
+      <Loader isLoading={isLoading} />
       {openInput ? (
         <>
           <Stack
@@ -77,10 +138,17 @@ const Profile = () => {
                 width: isSmallScreen ? "100%" : "100%",
               }}
               placeholder={value}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
             />
           </Stack>
           <Stack direction={isMediumScreen ? "column" : "row"} gap={1}>
             <Button
+              onClick={() => {
+                updateProfile();
+                setOpenInput(false);
+              }}
               sx={{
                 width: isMediumScreen
                   ? isSmallScreen
@@ -191,11 +259,9 @@ const Profile = () => {
                 sx={{ mt: isSmallScreen ? -5 : undefined }}
               >
                 <Typography variant={isMediumScreen ? "h6" : "h3"}>
-                  Yei Khant Lwin
+                  {userData.username}
                 </Typography>
-                <Typography variant="body1">
-                  Doctor, Lawyer, Astronaut, Plumber
-                </Typography>
+                <Typography variant="body1">{userData.job}</Typography>
               </Stack>
             </Stack>
             <Button
@@ -235,27 +301,31 @@ const Profile = () => {
             >
               {renderInputField(
                 "Display Name",
-                "Yei Khant Lwin",
+                userData.username,
                 openNameInput,
-                setOpenNameInput
+                setOpenNameInput,
+                setSelectedName
               )}
               {renderInputField(
                 "Job Description",
-                "Doctor, Lawyer, Astronaut",
+                userData.job,
                 openJobInput,
-                setOpenJobInput
+                setOpenJobInput,
+                setSelectedJob
               )}
               {renderInputField(
                 "Email",
-                "yeikhantlwin@gmail.com",
+                userData.email,
                 openEmailInput,
-                setOpenEmailInput
+                setOpenEmailInput,
+                setSelectedEmail
               )}
               {renderInputField(
                 "Phone Number",
-                "09-882673835",
+                userData.phoneNo,
                 openPhoneInput,
-                setOpenPhoneInput
+                setOpenPhoneInput,
+                setSelectedPhone
               )}
             </Box>
             <Button
@@ -285,7 +355,10 @@ const Profile = () => {
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <UpdatePassword onClose={() => setOpenPasswordModal(false)} />
+              <UpdatePassword
+                onClose={() => setOpenPasswordModal(false)}
+                refresh={fetchUser}
+              />
             </Box>
           </Modal>
           <Modal

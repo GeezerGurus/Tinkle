@@ -2,18 +2,11 @@ import * as React from "react";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import FormatOverlineIcon from "@mui/icons-material/FormatOverline";
 
-const transactions = [
-  { amount: "$120", payer: "Electricity Bill", dueDate: "2024-07-10" },
-  { amount: "$75", payer: "Only Fans", dueDate: "2024-07-05" },
-  { amount: "$200", payer: "Car Maintenance", dueDate: "2024-07-15" },
-  { amount: "$50", payer: "Gym Membership", dueDate: "2024-07-01" },
-  { amount: "$150", payer: "Home Cleaning Service", dueDate: "2024-07-08" },
-];
-
-export const Owe = ({ handleChange, color }) => {
+export const Owe = ({ handleChange, color, items }) => {
   return (
     <Box
       sx={{
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -37,8 +30,30 @@ export const Owe = ({ handleChange, color }) => {
         </IconButton>
       </Stack>
       {/* Map over transactions */}
-      <Box sx={{ overflowY: "auto", height: "auto", width: "100%" }}>
-        {transactions.map((transaction, index) => (
+      <Box
+        sx={{
+          overflowY: "auto",
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        {(!items || items.length === 0) && (
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="body4">The List is Empty Now</Typography>
+          </Box>
+        )}
+        {items.slice(0, 5).map((transaction, index) => (
           <Stack
             key={index}
             flexDirection={"row"}
@@ -48,9 +63,11 @@ export const Owe = ({ handleChange, color }) => {
             sx={{ borderBottom: "1px solid", height: "auto", gap: "8px" }}
           >
             <Typography variant="body4">
-              {transaction.amount} to {transaction.payer}
+              {transaction.amount} to {transaction.name}
             </Typography>
-            <Typography variant="body4">Due - {transaction.dueDate}</Typography>
+            <Typography variant="body4">
+              Due - {new Date(transaction.DueDate).toLocaleDateString()}
+            </Typography>
           </Stack>
         ))}
       </Box>

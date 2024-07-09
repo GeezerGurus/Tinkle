@@ -73,11 +73,13 @@ export const CreateGoal = ({
   name,
   savedAlready,
   goal,
-  dateF,refresh
+  dateF,
+  refresh,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [goalName, setGoalName] = useState(name || "");
   const [icon, setIcon] = useState(iconF || "");
   const [color, setColor] = useState(bgColor || "");
@@ -85,17 +87,34 @@ export const CreateGoal = ({
   const [date, setDate] = useState(dateF || "no target date");
   const [amount, setAmount] = useState(goal || 0);
   const [saved, setSaved] = useState(savedAlready || 0);
-  
-  const handleSave =async () => {
+
+  const validateForm = () => {
+    const errors = {};
+    if (!goalName) {
+      errors.goalName = "Goal Name is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
-      const newList={
+      const newList = {
         name: goalName,
         // icon: icon,
         // bgColor: color,
         amount: amount,
         saveamount: saved,
         description: note,
-        desireDate: date
+        desireDate: date,
       };
       const createdList = await postGoal(newList);
       console.log("New Goal created:", createdList);
@@ -109,7 +128,6 @@ export const CreateGoal = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  
   return (
     <Paper
       sx={{
@@ -146,11 +164,15 @@ export const CreateGoal = ({
           fullWidth
           label="Name"
           placeholder="What are you saving for?"
+          required
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           value={goalName || ""}
           onChange={(e) => setGoalName(e.target.value)}
+          error={!!errors.goalName}
+          helperText={errors.goalName}
         />
 
         {/* Target Amount */}
@@ -158,6 +180,7 @@ export const CreateGoal = ({
           fullWidth
           type="number"
           label="Target Amount"
+          required
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           inputProps={{ min: "0" }}
@@ -166,7 +189,10 @@ export const CreateGoal = ({
           }}
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
+          error={!!errors.amount}
+          helperText={errors.amount}
         />
 
         {/* Saved Already */}
@@ -303,7 +329,8 @@ export const CreateGoal = ({
         justifyContent={"space-between"}
       >
         <Button
-          onClick={handleSave} refresh={refresh}
+          onClick={handleSave}
+          refresh={refresh}
           sx={{
             width: "208px",
             height: "40px",

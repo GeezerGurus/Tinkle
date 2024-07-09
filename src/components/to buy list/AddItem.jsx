@@ -16,10 +16,23 @@ const AddItem = ({ listId, onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  const validateForm = () => {
+    const errors = {};
+    if (!name) {
+      errors.name = "Name is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSaveItem = useCallback(async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       await postItemsToBuy(listId, { name, description });
       refresh();
@@ -71,6 +84,7 @@ const AddItem = ({ listId, onClose, refresh }) => {
 
       {/* Form  */}
       <TextField
+        required
         fullWidth
         label="Name"
         placeholder="What is it?"
@@ -78,10 +92,13 @@ const AddItem = ({ listId, onClose, refresh }) => {
         onChange={(e) => setName(e.target.value)}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: { height: isSmallScreen ? "42px" : undefined },
         }}
+        error={!!errors.name}
+        helperText={errors.name}
       />
 
       <TextField

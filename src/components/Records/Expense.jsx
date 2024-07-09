@@ -31,6 +31,7 @@ const Expense = ({ onClose, accounts, budgets }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [acc, setAcc] = useState("");
   const [selectedOption, setSelectedOption] = useState("account");
   const [budget, setBudget] = useState("");
@@ -40,6 +41,33 @@ const Expense = ({ onClose, accounts, budgets }) => {
   const [notes, setNotes] = useState("");
   const [amount, setAmount] = useState("");
   const [payee, setPayee] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!acc) {
+      errors.acc = "Account is required";
+    }
+    if (!budget) {
+      errors.budget = "Budget is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    if (!time) {
+      errors.time = "Time is required";
+    }
+    if (!date) {
+      errors.date = "Date is required";
+    }
+    if (!payee) {
+      errors.payee = "Payee is required";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -56,6 +84,10 @@ const Expense = ({ onClose, accounts, budgets }) => {
       transactor: payee,
       notes,
     };
+
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       await postRecord(recordData);
@@ -108,8 +140,10 @@ const Expense = ({ onClose, accounts, budgets }) => {
       {selectedOption === "account" && (
         <TextField
           label="Account"
+          required
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           fullWidth
           select
@@ -120,6 +154,8 @@ const Expense = ({ onClose, accounts, budgets }) => {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
             },
           }}
+          error={!!errors.acc}
+          helperText={errors.acc}
         >
           {accounts.map((account) => (
             <MenuItem key={account._id} value={account._id}>
@@ -135,10 +171,12 @@ const Expense = ({ onClose, accounts, budgets }) => {
 
       {selectedOption === "budget" && (
         <TextField
+          required
           fullWidth
           select
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           InputProps={{
             sx: {
@@ -149,6 +187,8 @@ const Expense = ({ onClose, accounts, budgets }) => {
           value={budget}
           onChange={(event) => setBudget(event.target.value)}
           displayEmpty
+          error={!!errors.budget}
+          helperText={errors.budget}
         >
           {budgets.map((budget) => (
             <MenuItem key={budget._id} value={budget._id}>
@@ -165,6 +205,7 @@ const Expense = ({ onClose, accounts, budgets }) => {
       <TextField
         label="Amount"
         type="number"
+        required
         fullWidth
         placeholder="Enter amount"
         value={amount}
@@ -187,16 +228,21 @@ const Expense = ({ onClose, accounts, budgets }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
         type="time"
+        required
         fullWidth
         placeholder="Enter time"
         label="Time"
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: {
@@ -205,11 +251,14 @@ const Expense = ({ onClose, accounts, budgets }) => {
         }}
         value={time}
         onChange={(event) => setTime(event.target.value)}
+        error={!!errors.time}
+        helperText={errors.time}
       />
 
       <TextField
         type="date"
         label="Date"
+        required
         fullWidth
         placeholder="Enter date"
         value={date}
@@ -225,23 +274,30 @@ const Expense = ({ onClose, accounts, budgets }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.date}
+        helperText={errors.date}
       />
 
       <TextField
         label="Payee"
         placeholder="Enter payee name"
+        required
         fullWidth
         value={payee}
         onChange={(event) => setPayee(event.target.value)}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: {
             height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
           },
         }}
+        error={!!errors.payee}
+        helperText={errors.payee}
       />
 
       <TextField

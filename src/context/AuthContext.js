@@ -36,8 +36,10 @@ const AuthProvider = ({ children }) => {
       setAuth({ token, user });
 
       setTimeout(logout, 24 * 60 * 60 * 1000); // 1 day in milliseconds
+      return response.data
     } catch (error) {
       console.error("Login failed", error);
+      return error.response;
     }
   };
 

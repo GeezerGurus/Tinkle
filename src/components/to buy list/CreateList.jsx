@@ -16,12 +16,25 @@ const CreateList = ({ onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [listName, setListName] = useState("");
   const [listDescription, setListDescription] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!listName) {
+      errors.listName = "Name is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleCreate = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       const newList = {
         name: listName,
@@ -60,15 +73,19 @@ const CreateList = ({ onClose, refresh }) => {
       <TextField
         placeholder="Enter name"
         label="Name"
+        required
         fullWidth
         value={listName}
         onChange={(e) => setListName(e.target.value)}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: { height: isSmallScreen ? "42px" : undefined },
         }}
+        error={!!errors.listName}
+        helperText={errors.listName}
       />
       <TextField
         placeholder="Enter a description (optional)"

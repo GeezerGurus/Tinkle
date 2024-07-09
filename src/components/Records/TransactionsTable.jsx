@@ -214,9 +214,15 @@ const TransactionsTable = ({ action }) => {
 
   const handleBulkDelete = async () => {
     try {
-      await Promise.all(selectedRows.map(async (id) => await deleteRecord(id)));
+      await Promise.all(
+        selectedRows.map(async (id) => {
+          await deleteRecord(id);
+          console.log("deleted:", id);
+        })
+      );
+      console.log("done");
       setSelectedRows([]);
-      fetchRecords();
+      await fetchRecords();
     } catch (error) {
       console.error("Error deleting records:", error);
     }

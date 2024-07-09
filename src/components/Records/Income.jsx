@@ -15,7 +15,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import { Item } from "../utils";
+import { AccountIcons, Item } from "../utils";
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 import { postRecord } from "../../api/recordsApi";
@@ -43,6 +43,19 @@ const Income = ({ onClose, accounts, budgets }) => {
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const types = {
+    Cash: AccountIcons[0],
+    Bank: AccountIcons[1],
+    Saving: AccountIcons[2],
+    General: AccountIcons[3],
+    Investment: AccountIcons[4],
+    Loan: AccountIcons[5],
+    Card: AccountIcons[6],
+    Insurance: AccountIcons[7],
+    Bonus: AccountIcons[8],
+    EMoney: AccountIcons[9],
+  };
 
   const handleSubmit = async () => {
     const recordData = {
@@ -120,11 +133,12 @@ const Income = ({ onClose, accounts, budgets }) => {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
             },
           }}
+          disabled={accounts.length === 0}
         >
           {accounts.map((account) => (
             <MenuItem key={account._id} value={account._id}>
               <Item
-                // icon={account.icon}
+                icon={types[account.type]}
                 text={account.name}
                 // bgColor={account.bgColor}
               />
@@ -149,11 +163,11 @@ const Income = ({ onClose, accounts, budgets }) => {
           value={budget}
           onChange={(event) => setBudget(event.target.value)}
           displayEmpty
+          disabled={budgets.length === 0}
         >
           {budgets.map((budget) => (
             <MenuItem key={budget._id} value={budget._id}>
               <Item
-                // icon={budget.icon}
                 text={budget.name}
                 // bgColor={budget.bgColor}
               />

@@ -12,15 +12,12 @@ import AddIcon from "@mui/icons-material/Add";
 import CreateAccount from "./CreateAccount";
 import { tokens } from "../../theme";
 
-
-const AddAccount = ({refresh}) => {
+const AddAccount = ({ refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [open, setOpen] = useState(false);
 
- 
-  
   return (
     <Paper
       sx={{

@@ -64,8 +64,6 @@ const Budget = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 

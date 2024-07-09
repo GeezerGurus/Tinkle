@@ -537,7 +537,7 @@ const Hero = () => {
           alignItems={"center"}
         >
           {/* 1st  */}
-          <Grid item xs={12} md={5} >
+          <Grid item xs={12} md={5}>
             <Stack>
               <Typography variant={"title1"}>Tired of Forgetting:</Typography>
               <Typography
@@ -565,7 +565,7 @@ const Hero = () => {
             />
           </Grid>
           {/* 2nd  */}
-          <Grid item xs={12} md={5}  display={isMediumScreen?"block":"none"}>
+          <Grid item xs={12} md={5} display={isMediumScreen ? "block" : "none"}>
             <Stack>
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
@@ -585,7 +585,6 @@ const Hero = () => {
             </Stack>
           </Grid>
           <Grid item xs={12} md={6}>
-          
             <img
               src={ListItem2Image}
               alt=""
@@ -595,7 +594,7 @@ const Hero = () => {
               }}
             />
           </Grid>
-          <Grid item xs={12} md={5} display={isMediumScreen?"none":"block"}>
+          <Grid item xs={12} md={5} display={isMediumScreen ? "none" : "block"}>
             <Stack>
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
@@ -785,7 +784,10 @@ const Hero = () => {
               <img
                 src={ThreeStarsImage}
                 alt=""
-                style={{ width: isSmallScreen?"50px":70, height: isSmallScreen?"50px":70 }}
+                style={{
+                  width: isSmallScreen ? "50px" : 70,
+                  height: isSmallScreen ? "50px" : 70,
+                }}
               />
               <Typography
                 variant="title4"
@@ -797,7 +799,11 @@ const Hero = () => {
               <img
                 src={ThreeStarsImage}
                 alt=""
-                style={{ width: isSmallScreen?"50px":70, height: isSmallScreen?"50px":70, transform: "scaleX(-1)" }}
+                style={{
+                  width: isSmallScreen ? "50px" : 70,
+                  height: isSmallScreen ? "50px" : 70,
+                  transform: "scaleX(-1)",
+                }}
               />
             </Box>
             <Typography
@@ -917,7 +923,13 @@ const Hero = () => {
           </Stack>
 
           {/* Quick Answers  */}
-          <Stack alignItems={"center"} gap={2} marginBottom={"20px"} height={"auto"} g>
+          <Stack
+            alignItems={"center"}
+            gap={2}
+            marginBottom={"20px"}
+            height={"auto"}
+            g
+          >
             <Typography variant="title1" sx={{ color: colors.purple[900] }}>
               Quick Answers
             </Typography>

@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -16,86 +16,125 @@ import RestaurantIcon from "@mui/icons-material/Restaurant";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 import { getRecords } from "../../api/recordsApi";
+import { getAccount } from "../../api/accountApi";
 
-const DataRow = ({ data, colors }) => {
+const DataRow = ({ data, colors, accountName }) => {
   return (
     <TableRow>
-      {data.map((text, index) => (
-        <TableCell
-          key={index}
-          align="center"
+      <TableCell
+        align="center"
+        sx={{ borderBottom: "none", paddingBottom: "8px" }}
+      >
+        <Typography variant="body4"> {data.date.split("T")[0]}</Typography>
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{ borderBottom: "none", paddingBottom: "8px" }}
+      >
+        <Box
           sx={{
-            borderBottom: "none",
-            paddingBottom: "8px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              width: "10px",
+              height: "10px",
+              borderRadius: "50%",
+              backgroundColor:
+                data.type === "income"
+                  ? colors.green[100]
+                  : colors.category.red,
+              marginRight: "8px",
+            }}
+          />
+          <RestaurantIcon
+            sx={{
+              marginRight: 1,
+              color: "white",
+              border: "1px solid",
+              borderColor:
+                data.type === "income"
+                  ? colors.green[100]
+                  : colors.category.red,
+              backgroundColor:
+                data.type === "income"
+                  ? colors.green[100]
+                  : colors.category.red,
+              borderRadius: "50%",
+            }}
+          />
+          <Typography
+            variant="body4"
+            sx={{
+              color:
+                data.type === "income"
+                  ? colors.green[500]
+                  : colors.extra.red_accent,
             }}
           >
-            {index === 2 && (
-              <Box
-                sx={{
-                  width: "10px",
-                  height: "10px",
-                  borderRadius: "50%",
-                  backgroundColor:
-                    parseFloat(data[4].slice(1)) > 50
-                      ? colors.green[100]
-                      : colors.category.red,
-                  marginRight: "8px",
-                }}
-              />
-            )}
-            {index === 1 && text !== "Category" && (
-              <RestaurantIcon
-                sx={{
-                  marginRight: 1,
-                  color: "white",
-                  border: "1px solid",
-                  borderColor:
-                    parseFloat(data[4].slice(1)) > 50
-                      ? colors.green[100]
-                      : colors.category.red,
-                  backgroundColor:
-                    parseFloat(data[4].slice(1)) > 50
-                      ? colors.green[100]
-                      : colors.category.red,
-                  borderRadius: "50%",
-                }}
-              />
-            )}
-            <Typography
-              variant="body4"
-              sx={{
-                color:
-                  index === 4
-                    ? parseFloat(text.slice(1)) > 50
-                      ? colors.green[500]
-                      : colors.extra.red_accent
-                    : "",
-              }}
-            >
-              {text}
-            </Typography>
-          </Box>
-        </TableCell>
-      ))}
+            {data.name}
+          </Typography>
+        </Box>
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{ borderBottom: "none", paddingBottom: "8px" }}
+      >
+        <Typography variant="body4"> {accountName}</Typography>
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{ borderBottom: "none", paddingBottom: "8px" }}
+      >
+        <Typography variant="body4">{data.notes}</Typography>
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{ borderBottom: "none", paddingBottom: "8px" }}
+      >
+        <Typography
+          variant="body4"
+          sx={{
+            color:
+              data.type === "income"
+                ? colors.green[500]
+                : colors.extra.red_accent,
+          }}
+        >
+          {data.type === "income" ? "+ " : "- "}MMK {data.amount}
+        </Typography>
+      </TableCell>
     </TableRow>
   );
 };
 
 const BasicTable = ({ colors }) => {
   const [rowsData, setRowsData] = useState([]);
+  const [accountNames, setAccountNames] = useState({}); // Added state for account names
 
   const headers = ["Date", "Category", "Account", "Notes", "Amount"];
 
   const fetchRecords = async () => {
-    const res = await getRecords();
-    setRowsData(res);
+    const records = await getRecords();
+    setRowsData(records);
+
+    // Fetch account names for each row
+    const accountIds = records.map((record) => record.accountId);
+    const uniqueAccountIds = [...new Set(accountIds)];
+    const namesMap = {};
+
+    // Fetch account details for each unique accountId
+    await Promise.all(
+      uniqueAccountIds.map(async (id) => {
+        const account = await getAccount(id);
+        namesMap[id] = account.name;
+      })
+    );
+
+    setAccountNames(namesMap);
   };
 
   useEffect(() => {
@@ -120,7 +159,12 @@ const BasicTable = ({ colors }) => {
         </TableHead>
         <TableBody>
           {rowsData.map((rowData, index) => (
-            <DataRow key={index} data={rowData} colors={colors} />
+            <DataRow
+              key={index}
+              data={rowData}
+              colors={colors}
+              accountName={accountNames[rowData.accountId]}
+            />
           ))}
         </TableBody>
       </Table>

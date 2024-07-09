@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
@@ -8,15 +9,20 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  isMuiElement
+  isMuiElement,
 } from "@mui/material";
-import BookMarkIcon from "@mui/icons-material/Bookmark";
+import {
+  BookmarkBorderOutlined as BookmarkBorderOutlinedIcon,
+  BookmarkOutlined as BookmarkOutlinedIcon,
+} from "@mui/icons-material";
 import DotIcon from "@mui/icons-material/FiberManualRecord";
 import { tokens } from "../../theme";
 
-const VideoContents = ({ title, author, pathImage, vdavatar }) => {
+const VideoContents = ({ title, author, pathImage, vdavatar, favorite }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [favorited, setFavorited] = useState(favorite || false);
+  //responsive
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
@@ -25,7 +31,13 @@ const VideoContents = ({ title, author, pathImage, vdavatar }) => {
     <Box
       sx={{
         alignContent: "center",
-        width: isSmallScreen ? "326px" :isMediumScreen?"40vw": isLargeScreen?"40vw":"426px",
+        width: isSmallScreen
+          ? "326px"
+          : isMediumScreen
+          ? "40vw"
+          : isLargeScreen
+          ? "40vw"
+          : "426px",
         borderRadius: "16px",
         padding: "16px",
       }}
@@ -82,8 +94,19 @@ const VideoContents = ({ title, author, pathImage, vdavatar }) => {
                 </Typography>
               </Box>
             </Box>
-            <IconButton sx={{ alignSelf: "flex-start" }}>
-              <BookMarkIcon sx={{ color: colors.purple[600] }} />
+            <IconButton
+              onClick={() => {
+                favorited ? setFavorited(false) : setFavorited(true);
+              }}
+              sx={{ alignSelf: "flex-start", color: colors.purple[600] }}
+            >
+              {favorited ? (
+                <BookmarkOutlinedIcon sx={{ width: "30px", height: "30px" }} />
+              ) : (
+                <BookmarkBorderOutlinedIcon
+                  sx={{ width: "30px", height: "30px" }}
+                />
+              )}
             </IconButton>
           </Box>
         </CardContent>

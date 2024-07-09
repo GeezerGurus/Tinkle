@@ -44,7 +44,7 @@ exports.getaAccount = async (req, res) => {
       return res.status(404).json({ message: "Account not found!" });
     }
     res.status(200).json(account)
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };
@@ -75,8 +75,8 @@ exports.patchAccount = async (req, res) => {
         await account.save();
 
         res.status(200).json({ message: "Account updated successfully", account });
-    } catch (err) {
-        res.status(500).json({ message: err });
+    } catch (error) {
+        res.status(500).json({ message: error });
     }
 }
 

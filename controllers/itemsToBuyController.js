@@ -45,7 +45,7 @@ exports.getaItemToBuy = async (req, res) => {
       return res.status(404).json({ message: "Item To Buy not found!" });
     }
     res.status(200).json(itemtobuy)
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };

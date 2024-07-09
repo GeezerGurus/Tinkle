@@ -48,7 +48,7 @@ exports.getaBudget = async (req, res) => {
       return res.status(404).json({ message: "Budget not found!" });
     }
     res.status(200).json(budget)
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };
@@ -61,7 +61,7 @@ exports.getBudgetPeriodically = async (req, res) => {
       return res.status(404).json({ message: "Budget not found!" });
     }
     res.status(200).json(budget)
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };

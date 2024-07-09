@@ -42,7 +42,7 @@ exports.getaSetting = async (req, res) => {
         return res.status(404).json({ message: "Setting not found!" });
       }
       res.status(200).json(setting)
-    } catch {
+    } catch (error) {
       res.status(500).json({ message: error });
     }
   };

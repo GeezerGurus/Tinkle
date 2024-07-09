@@ -33,7 +33,7 @@ exports.getToBuyLists = async (req, res) => {
       return res.status(404).json({ message: "Lists not found!" });
     }
     res.status(200).json(list);
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };
@@ -49,7 +49,7 @@ exports.getaToBuyList = async (req, res) => {
       return res.status(404).json({ message: "List not found!" });
     }
     res.status(200).json(tobuylist);
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };

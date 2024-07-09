@@ -43,7 +43,7 @@ exports.getaVideo = async (req, res) => {
       return res.status(404).json({ message: "Video not found!" });
     }
     res.status(200).json(video)
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };

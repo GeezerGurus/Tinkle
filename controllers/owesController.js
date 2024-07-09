@@ -56,7 +56,7 @@ exports.getaOwe = async (req, res) => {
       return res.status(404).json({ message: "Owe not found!" });
     }
     res.status(200).json(owe)
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error });
   }
 };

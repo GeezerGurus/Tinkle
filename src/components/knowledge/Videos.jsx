@@ -1,5 +1,12 @@
 import React, { useMemo } from "react";
-import { Box, Button, Typography, Grid, useTheme, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Grid,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import ArrowIcon from "@mui/icons-material/KeyboardArrowRight";
 import VideoContents from "../utils/VideoContents";
 import { Link } from "react-router-dom";
@@ -7,33 +14,78 @@ import { tokens } from "../../theme";
 
 const videoData = {
   favourites: [
-    { img: "", title: "How to get your ex back", avatar: "", author: "Zaw" },
-    { img: "", title: "How to talk to girls", avatar: "", author: "Zaw" },
-    { img: "", title: "How to make her happy", avatar: "", author: "Zaw" },
+    {
+      img: "",
+      title: "How to get your ex back",
+      avatar: "",
+      author: "Zaw",
+      favorite: true,
+    },
+    {
+      img: "",
+      title: "How to talk to girls",
+      avatar: "",
+      author: "Zaw",
+      favorite: true,
+    },
+    {
+      img: "",
+      title: "How to make her happy",
+      avatar: "",
+      author: "Zaw",
+      favorite: true,
+    },
     {
       img: "",
       title: "How to make her fall in love with you",
       avatar: "",
       author: "Zaw",
+      favorite: true,
     },
-    { img: "", title: "Date ideas", avatar: "", author: "Zaw" },
-    { img: "", title: "What to do on your dates", avatar: "", author: "Zaw" },
+    { img: "", title: "Date ideas", avatar: "", author: "Zaw", favorite: true },
+    {
+      img: "",
+      title: "What to do on your dates",
+      avatar: "",
+      author: "Zaw",
+      favorite: true,
+    },
   ],
   budgets: [
-    { img: "", title: "How to go broke like a pro", avatar: "", author: "YY" },
-    { img: "", title: "How to save money", avatar: "", author: "YY" },
-    { img: "", title: "How to eat without money", avatar: "", author: "YY" },
+    {
+      img: "",
+      title: "How to go broke like a pro",
+      avatar: "",
+      author: "YY",
+      favorite: true,
+    },
+    {
+      img: "",
+      title: "How to save money",
+      avatar: "",
+      author: "YY",
+      favorite: true,
+    },
+    {
+      img: "",
+      title: "How to eat without money",
+      avatar: "",
+      author: "YY",
+      favorite: true,
+    },
     {
       img: "",
       title: "How to go out with friends without money",
       avatar: "",
       author: "YY",
+      favorite: true,
     },
     {
       img: "",
       title: "How to be financially stable",
       avatar: "",
       author: "YY",
+      favorite: true,
     },
   ],
   saving: [
@@ -42,48 +94,67 @@ const videoData = {
       title: "How to save money without money",
       avatar: "",
       author: "Sithu",
+      favorite: true,
     },
     {
       img: "",
       title: "How to eat food which are expired",
       avatar: "",
       author: "Sithu",
+      favorite: true,
     },
     {
       img: "",
       title: "How to save your money on dates",
       avatar: "",
       author: "Sithu",
+      favorite: true,
     },
     {
       img: "",
       title: "Top recycling tips for college students",
       avatar: "",
       author: "Sithu",
+      favorite: true,
     },
   ],
   business: [
-    { img: "", title: "How to do drug dealing", avatar: "", author: "Yei" },
+    {
+      img: "",
+      title: "How to do drug dealing",
+      avatar: "",
+      author: "Yei",
+      favorite: true,
+    },
     {
       img: "",
       title: "Where to start online scamming",
       avatar: "",
       author: "Yei",
+      favorite: true,
     },
     {
       img: "",
       title: "How to sell human body in 2024",
       avatar: "",
       author: "Yei",
+      favorite: true,
     },
   ],
   tinkle: [
-    { img: "", title: "How to use our app", avatar: "", author: "Zayer" },
+    {
+      img: "",
+      title: "How to use our app",
+      avatar: "",
+      author: "Zayer",
+      favorite: true,
+    },
     {
       img: "",
       title: "How to stalk using our app",
       avatar: "",
       author: "Zayer",
+      favorite: true,
     },
   ],
   life: [
@@ -92,6 +163,7 @@ const videoData = {
       title: "Just give up on your dream and d*e",
       avatar: "",
       author: "TT",
+      favorite: true,
     },
   ],
 };
@@ -123,7 +195,7 @@ const Videos = ({ header }) => {
           marginTop: "50px",
         }}
       >
-        <Typography variant={isSmallScreen?"h4":"h3"}>{header}</Typography>
+        <Typography variant={isSmallScreen ? "h4" : "h3"}>{header}</Typography>
         <Button
           component={Link}
           to={`/videos/${path}`}
@@ -132,7 +204,7 @@ const Videos = ({ header }) => {
             width: "150px",
             height: "27px",
             alignSelf: "center",
-            justifyContent:"flex-end",
+            justifyContent: "flex-end",
             color: colors.purple[600],
           }}
           endIcon={<ArrowIcon />}
@@ -148,20 +220,23 @@ const Videos = ({ header }) => {
         </Button>
       </Box>
       {/* Video content box */}
-      <Grid container rowSpacing={5} columnSpacing={1}
-        direction={isSmallScreen?"column": "row"}
+      <Grid
+        container
+        rowSpacing={5}
+        columnSpacing={1}
+        direction={isSmallScreen ? "column" : "row"}
         justifyContent="flex-start"
         alignItems="center"
       >
         {videos.length > 0 ? (
           videos.map((item, index) => (
-            <Grid item key={index} sm={6} md ={6} lg={4} xl={3}
-            >
+            <Grid item key={index} sm={6} md={6} lg={4} xl={3}>
               <VideoContents
                 title={item.title}
                 author={item.author}
                 pathImage={item.img}
                 vdavatar={item.avatar}
+                favorite={item.favorite}
               />
             </Grid>
           ))

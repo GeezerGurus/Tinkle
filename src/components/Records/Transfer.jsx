@@ -26,6 +26,7 @@ const Transfer = ({ onClose, accounts }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [fromAcc, setFromAcc] = useState("");
   const [toAcc, setToAcc] = useState("");
   const [category, setCategory] = useState("");
@@ -34,6 +35,30 @@ const Transfer = ({ onClose, accounts }) => {
   const [notes, setNotes] = useState("");
   const [amount, setAmount] = useState("");
   const [transactor, setTransactor] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!fromAcc) {
+      errors.fromAcc = "Account is required";
+    }
+    if (!toAcc) {
+      errors.toAcc = "Account is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    if (!time) {
+      errors.time = "Time is required";
+    }
+    if (!date) {
+      errors.date = "Date is required";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -71,6 +96,9 @@ const Transfer = ({ onClose, accounts }) => {
       transactor,
       notes,
     };
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       if (fromAcc !== "out-of-wallet") {
@@ -117,6 +145,7 @@ const Transfer = ({ onClose, accounts }) => {
           label="From Account"
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           fullWidth
           select
@@ -130,6 +159,8 @@ const Transfer = ({ onClose, accounts }) => {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
             },
           }}
+          error={!!errors.fromAcc}
+          helperText={errors.fromAcc}
         >
           {accounts.map((account) => (
             <MenuItem key={account._id} value={account._id}>
@@ -141,8 +172,10 @@ const Transfer = ({ onClose, accounts }) => {
 
         <TextField
           label="To Account"
+          required
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           fullWidth
           select
@@ -155,6 +188,8 @@ const Transfer = ({ onClose, accounts }) => {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
             },
           }}
+          error={!!errors.toAcc}
+          helperText={errors.toAcc}
           disabled={accounts.length === 0}
         >
           {accounts.map((account) => (
@@ -169,6 +204,7 @@ const Transfer = ({ onClose, accounts }) => {
       <TextField
         label="Amount"
         type="number"
+        required
         fullWidth
         placeholder="Enter amount"
         value={amount}
@@ -182,16 +218,21 @@ const Transfer = ({ onClose, accounts }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
         type="time"
+        required
         fullWidth
         placeholder="Enter time"
         label="Time"
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         value={time}
         onChange={(event) => setTime(event.target.value)}
@@ -200,9 +241,12 @@ const Transfer = ({ onClose, accounts }) => {
             height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
           },
         }}
+        error={!!errors.time}
+        helperText={errors.time}
       />
 
       <TextField
+        required
         type="date"
         label="Date"
         fullWidth
@@ -220,7 +264,10 @@ const Transfer = ({ onClose, accounts }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.date}
+        helperText={errors.date}
       />
 
       <TextField

@@ -31,6 +31,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [acc, setAcc] = useState("");
   const [selectedOption, setSelectedOption] = useState("account");
   const [budget, setBudget] = useState("");
@@ -40,6 +41,30 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   const [notes, setNotes] = useState("");
   const [amount, setAmount] = useState("");
   const [payee, setPayee] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!acc && selectedOption === "account") {
+      errors.acc = "Account is required";
+    }
+    if (!budget && selectedOption === "budget") {
+      errors.budget = "Budget is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    if (!time) {
+      errors.time = "Time is required";
+    }
+    if (!date) {
+      errors.date = "Date is required";
+    }
+    setErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -70,6 +95,10 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
       notes,
     };
 
+    if (!validateForm()) {
+      return;
+    }
+    console.log("here");
     try {
       await postRecord(recordData);
       if (
@@ -121,8 +150,10 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
       {selectedOption === "account" && (
         <TextField
           label="Account"
+          required
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           fullWidth
           select
@@ -133,6 +164,8 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
             },
           }}
+          error={!!errors.acc}
+          helperText={errors.acc}
           disabled={accounts.length === 0}
         >
           {accounts.length === 0 ? (
@@ -155,10 +188,12 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
 
       {selectedOption === "budget" && (
         <TextField
+          required
           fullWidth
           select
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           InputProps={{
             sx: {
@@ -169,6 +204,8 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
           value={budget}
           onChange={(event) => setBudget(event.target.value)}
           displayEmpty
+          error={!!errors.budget}
+          helperText={errors.budget}
           disabled={budgets.length === 0}
         >
           {budgets.length === 0 ? (
@@ -191,6 +228,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
       <TextField
         label="Amount"
         type="number"
+        required
         fullWidth
         placeholder="Enter amount"
         value={amount}
@@ -213,7 +251,10 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
@@ -246,11 +287,13 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
 
       <TextField
         type="time"
+        required
         fullWidth
         placeholder="Enter time"
         label="Time"
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: {
@@ -259,11 +302,14 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
         }}
         value={time}
         onChange={(event) => setTime(event.target.value)}
+        error={!!errors.time}
+        helperText={errors.time}
       />
 
       <TextField
         type="date"
         label="Date"
+        required
         fullWidth
         placeholder="Enter date"
         value={date}
@@ -279,7 +325,10 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.date}
+        helperText={errors.date}
       />
 
       <TextField

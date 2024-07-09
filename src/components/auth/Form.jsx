@@ -22,12 +22,35 @@ const Form = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [page, setPage] = useState("sign-up");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
   const { login, signup } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const validateForm = (formData) => {
+    const errors = {};
+    if (!formData.username) {
+      errors.username = "Username is required";
+    }
+    if (!formData.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "Email is invalid";
+    }
+    if (!formData.password) {
+      errors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+    if (page === "sign-up" && formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -56,7 +79,23 @@ const Form = () => {
     setIsLoading(true);
 
     try {
-      await login(userData);
+      const res = await login(userData);
+      if (res.data !== undefined) {
+        const errors = {};
+        if (res.data.errors.password) {
+          errors.loginPassword = res.data.errors.password;
+        }
+        if (res.data.errors.email) {
+          errors.loginEmail = res.data.errors.email;
+        }
+        if (res.data.errors.username) {
+          errors.loginUserName = res.data.errors.username;
+        }
+
+        setErrors(errors);
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(false);
       navigate("/dashboard");
     } catch (error) {
@@ -73,7 +112,15 @@ const Form = () => {
       email: formData.get("email"),
       password: formData.get("password"),
     };
-
+    const Data = {
+      username: formData.get("username"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    };
+    if (!validateForm(Data)) {
+      return;
+    }
     if (page === "sign-up") {
       signingUp(userData);
     } else {
@@ -150,34 +197,44 @@ const Form = () => {
                 name="username"
                 label="Username"
                 variant="outlined"
+                required
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
+                  required: true,
                 }}
                 InputProps={{
                   sx: { height: isSmallScreen ? "45px" : undefined },
                 }}
+                error={!!errors.username}
+                helperText={errors.uername}
               />
               <TextField
                 name="email"
                 label="Email"
                 variant="outlined"
+                required
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
+                  required: true,
                 }}
                 InputProps={{
                   sx: { height: isSmallScreen ? "45px" : undefined },
                 }}
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <TextField
                 name="password"
                 label="Password"
                 variant="outlined"
+                required
                 fullWidth
                 type={showPassword ? "text" : "password"} // Toggle visibility based on state
                 InputLabelProps={{
                   shrink: true,
+                  required: true,
                 }}
                 InputProps={{
                   sx: { height: isSmallScreen ? "45px" : undefined },
@@ -192,15 +249,19 @@ const Form = () => {
                     </InputAdornment>
                   ),
                 }}
+                error={!!errors.password}
+                helperText={errors.password}
               />
               <TextField
                 name="confirmPassword"
                 label="Confirm Password"
                 variant="outlined"
+                required
                 fullWidth
                 type={showConfirmPassword ? "text" : "password"} // Toggle visibility based on state
                 InputLabelProps={{
                   shrink: true,
+                  required: true,
                 }}
                 InputProps={{
                   sx: { height: isSmallScreen ? "45px" : undefined },
@@ -219,6 +280,8 @@ const Form = () => {
                     </InputAdornment>
                   ),
                 }}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword}
               />
               <Button
                 variant="contained"
@@ -280,6 +343,8 @@ const Form = () => {
                 InputProps={{
                   sx: { height: isSmallScreen ? "45px" : undefined },
                 }}
+                error={!!errors.loginUserName}
+                helperText={errors.loginUserName}
               />
               <TextField
                 name="email"
@@ -292,6 +357,8 @@ const Form = () => {
                 InputProps={{
                   sx: { height: isSmallScreen ? "45px" : undefined },
                 }}
+                error={!!errors.loginEmail || !!errors.email}
+                helperText={errors.loginEmail || errors.email}
               />
               <TextField
                 name="password"
@@ -315,6 +382,8 @@ const Form = () => {
                     </InputAdornment>
                   ),
                 }}
+                error={!!errors.loginPassword}
+                helperText={errors.loginPassword}
               />
               <Button
                 variant="contained"

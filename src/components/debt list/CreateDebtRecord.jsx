@@ -129,7 +129,7 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
         helperText={errors.amount}
       />
 
-      <TextField
+      {/* <TextField
         value={selectedAccount}
         onChange={(e) => setSelectedAccount(e.target.value)}
         select
@@ -151,7 +151,7 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
             />
           </MenuItem>
         ))}
-      </TextField>
+      </TextField> */}
 
       <TextField
         label="Date"

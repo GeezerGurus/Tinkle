@@ -34,6 +34,7 @@ const EditDebtList = ({
   const colors = tokens(theme.palette.mode);
 
   // const [accounts, setAccounts] = useState([]);
+  const [errors, setErrors] = useState({});
   const [chosenName, setchosenName] = useState(name);
   const [chosenPurppose, setChosenPurppose] = useState(purpose);
   const [selectedAmount, setSelectedAmount] = useState(amount);
@@ -42,7 +43,19 @@ const EditDebtList = ({
   const [selectedDate, setSelectedDate] = useState(date);
   const [DueDate, setDueDate] = useState(dueDate);
 
+  const validateForm = () => {
+    const errors = {};
+    if (selectedAmount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       const newDebt = {
         type: action,
@@ -55,7 +68,7 @@ const EditDebtList = ({
       };
       await patchDebtRecord(id, newDebt);
       refresh();
-      enqueueSnackbar("Debt list created!", { variant: "success" });
+      enqueueSnackbar("Debt list Updated!", { variant: "success" });
       onClose();
     } catch (error) {
       console.error("Error creating new list:", error);
@@ -196,6 +209,8 @@ const EditDebtList = ({
         InputLabelProps={{
           shrink: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField

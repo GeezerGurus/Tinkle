@@ -73,29 +73,54 @@ export const CreateGoal = ({
   name,
   savedAlready,
   goal,
-  dateF,refresh
+  dateF,
+  refresh,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [goalName, setGoalName] = useState(name || "");
   const [icon, setIcon] = useState(iconF || "");
   const [color, setColor] = useState(bgColor || "");
   const [note, setNote] = useState("");
-  const [date, setDate] = useState(dateF || "no target date");
+  const [date, setDate] = useState(dateF || "");
   const [amount, setAmount] = useState(goal || 0);
-  const [saved, setSaved] = useState(savedAlready || 0);
-  
-  const handleSave =async () => {
+  const [saved, setSaved] = useState(savedAlready || "");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!goalName) {
+      errors.goalName = "Goal Name is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    if (!saved) {
+      errors.saved = "Saved Amount is required";
+    }
+    if (!date) {
+      errors.date = "Date is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
-      const newList={
+      const newList = {
         name: goalName,
         // icon: icon,
         // bgColor: color,
         amount: amount,
         saveamount: saved,
         description: note,
-        desireDate: date
+        desireDate: date,
       };
       const createdList = await postGoal(newList);
       console.log("New Goal created:", createdList);
@@ -109,7 +134,6 @@ export const CreateGoal = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  
   return (
     <Paper
       sx={{
@@ -146,11 +170,15 @@ export const CreateGoal = ({
           fullWidth
           label="Name"
           placeholder="What are you saving for?"
+          required
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           value={goalName || ""}
           onChange={(e) => setGoalName(e.target.value)}
+          error={!!errors.goalName}
+          helperText={errors.goalName}
         />
 
         {/* Target Amount */}
@@ -158,6 +186,7 @@ export const CreateGoal = ({
           fullWidth
           type="number"
           label="Target Amount"
+          required
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           inputProps={{ min: "0" }}
@@ -166,13 +195,17 @@ export const CreateGoal = ({
           }}
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
+          error={!!errors.amount}
+          helperText={errors.amount}
         />
 
         {/* Saved Already */}
         <TextField
           type="number"
           label="Saved Already"
+          required
           fullWidth
           value={saved}
           onChange={(e) => setSaved(e.target.value)}
@@ -182,13 +215,17 @@ export const CreateGoal = ({
           }}
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
+          error={!!errors.saved}
+          helperText={errors.saved}
         />
 
         {/* Desired Date */}
         <TextField
           type="date"
           label="Desired Date"
+          required
           placeholder="To whom have I lent?"
           fullWidth
           value={date}
@@ -199,6 +236,12 @@ export const CreateGoal = ({
               max: "2025-12-31",
             },
           }}
+          InputLabelProps={{
+            required: true,
+            shrink: true,
+          }}
+          error={!!errors.date}
+          helperText={errors.date}
         />
 
         {/* Color Type */}
@@ -303,7 +346,8 @@ export const CreateGoal = ({
         justifyContent={"space-between"}
       >
         <Button
-          onClick={handleSave} refresh={refresh}
+          onClick={handleSave}
+          refresh={refresh}
           sx={{
             width: "208px",
             height: "40px",

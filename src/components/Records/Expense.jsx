@@ -101,12 +101,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
     console.log("here");
     try {
       await postRecord(recordData);
-      if (
-        window.location.pathname === "/records" ||
-        window.location.pathname === "/settings/balance-accounts"
-      ) {
-        window.location.reload();
-      }
+      window.location.reload();
       onClose();
     } catch (error) {
       console.error("Error posting record:", error);

@@ -12,6 +12,7 @@ import { getAccounts } from "../../api/accountApi";
 import { getBudgets } from "../../api/budgetsApi";
 import EditExpense from "./EditExpense";
 import EditIncome from "./EditIncome";
+import { getCategories } from "../../api/categoriesApi";
 
 const EditRecord = ({ onClose, dataRow, refresh }) => {
   const theme = useTheme();
@@ -20,6 +21,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
   const [page, setPage] = useState("expense");
   const [accounts, setAccounts] = useState([]);
   const [budgets, setBudgets] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const handlePageChange = useCallback((value) => {
     setPage(value);
@@ -41,6 +43,14 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
     fetchBudgets();
   }, []);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+    };
+    fetchCategories();
+  }, []);
+
   const buttonStyles = {
     borderRadius: "16px",
     height: "40px",
@@ -58,6 +68,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
             budgets={budgets}
             dataRow={dataRow}
             refresh={refresh}
+            categories={categories}
           />
         );
       case "income":
@@ -68,6 +79,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
             budgets={budgets}
             dataRow={dataRow}
             refresh={refresh}
+            categories={categories}
           />
         );
       default:

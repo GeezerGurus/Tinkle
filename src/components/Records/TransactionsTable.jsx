@@ -14,18 +14,21 @@ import {
 import {
   Box,
   Button,
+  Icon,
   Modal,
   Paper,
+  Stack,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { ConfirmModal, Loader } from "../utils";
+import { CategoryIcons, ConfirmModal, Loader } from "../utils";
 import EditRecord from "./EditRecord";
 import { tokens } from "../../theme";
 import { getRecords, deleteRecord } from "../../api/recordsApi";
 import { getAccount } from "../../api/accountApi";
+import { getCategory } from "../../api/categoriesApi";
 
 const CustomToolbar = ({ action }) => {
   return (
@@ -89,6 +92,7 @@ const TransactionsTable = ({ action }) => {
   const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [accountNames, setAccountNames] = useState({});
+  const [categoryDetails, setCategoryDetails] = useState({});
   const [selectedRow, setSelectedRow] = useState();
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -104,12 +108,27 @@ const TransactionsTable = ({ action }) => {
         return params.split("T")[0];
       },
     },
-    { field: "category", headerName: "Category", flex: 1 },
+    {
+      field: "category",
+      headerName: "Category",
+      flex: 1,
+      renderCell: (params) => {
+        const categoryId = params.row.category;
+        const category = categoryDetails[categoryId] || {};
+        const IconComponent = CategoryIcons[category.icon];
+
+        return (
+          <Stack direction={"row"} alignItems={"center"} gap={1}>
+            {IconComponent && <IconComponent sx={{ color: category.color }} />}
+            {category.name}
+          </Stack>
+        );
+      },
+    },
     {
       field: "account",
       headerName: "Account",
       flex: 1,
-      // do not delete params
       valueGetter: (params, row) => {
         const accountId = row.accountId;
         return accountNames[accountId] || "";
@@ -181,17 +200,34 @@ const TransactionsTable = ({ action }) => {
       // Fetch account names for each row
       const accountIds = records.map((record) => record.accountId);
       const uniqueAccountIds = [...new Set(accountIds)];
-      const namesMap = {};
+      const accountNamesMap = {};
 
-      // Fetch account details for each unique accountId
       await Promise.all(
         uniqueAccountIds.map(async (id) => {
           const account = await getAccount(id);
-          namesMap[id] = account.name;
+          accountNamesMap[id] = account.name;
         })
       );
 
-      setAccountNames(namesMap);
+      setAccountNames(accountNamesMap);
+
+      // Fetch category details for each row
+      const categoryIds = records.map((record) => record.category);
+      const uniqueCategoryIds = [...new Set(categoryIds)];
+      const categoryDetailsMap = {};
+
+      await Promise.all(
+        uniqueCategoryIds.map(async (id) => {
+          const category = await getCategory(id);
+          categoryDetailsMap[id] = {
+            name: category.name,
+            color: category.color,
+            icon: category.icon,
+          };
+        })
+      );
+
+      setCategoryDetails(categoryDetailsMap);
     } catch (error) {
       console.error("Error fetching records:", error);
     } finally {

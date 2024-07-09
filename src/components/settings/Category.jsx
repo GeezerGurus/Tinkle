@@ -15,29 +15,26 @@ import DeleteCategory from "./DeleteCategory";
 import EditCategory from "./EditCategory";
 import { tokens } from "../../theme";
 import { CategoryIcons } from "../utils";
-import { patchCategory } from "../../api/categorySetting";
 
-const Category = ({ id,name,icon, backgroundColor, refresh }) => {
+const Category = ({ id, name, icon, backgroundColor, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-
 
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
-  
 
-  
   const Icon = CategoryIcons[icon];
 
   return (
     <Grid
-      item xxs={12} sm={6}
+      item
+      xxs={12}
+      sm={6}
       sx={{
-        width: isSmallScreen ? "100%" :"50%",
-        maxWidth: "400px !important", 
+        width: isSmallScreen ? "100%" : "50%",
+        maxWidth: "400px !important",
         height: "64px",
         borderBottom: "1px solid grey",
         display: "flex",
@@ -51,7 +48,6 @@ const Category = ({ id,name,icon, backgroundColor, refresh }) => {
           sx={{
             width: "65px",
             height: "65px",
-            
             color: backgroundColor,
             borderRadius: "50%",
             padding: "4px",
@@ -118,7 +114,6 @@ const Category = ({ id,name,icon, backgroundColor, refresh }) => {
               categoryicon={icon}
               username={name}
               bgcolor={backgroundColor}
-              
               refresh={refresh}
             />
           )}

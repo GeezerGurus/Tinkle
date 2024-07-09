@@ -31,13 +31,8 @@ const VideoContents = ({ title, author, pathImage, vdavatar, favorite }) => {
     <Box
       sx={{
         alignContent: "center",
-        width: isSmallScreen
-          ? "326px"
-          : isMediumScreen
-          ? "40vw"
-          : isLargeScreen
-          ? "40vw"
-          : "426px",
+        width: isSmallScreen ? "326px" :isMediumScreen?"40vw": isLargeScreen?"40vw":"426px",
+        height:"auto",
         borderRadius: "16px",
         padding: "16px",
       }}
@@ -49,7 +44,7 @@ const VideoContents = ({ title, author, pathImage, vdavatar, favorite }) => {
           sx={{ width: "100%", height: "240px", borderRadius: "12px" }}
         />
         <CardContent>
-          <Box display="flex" justifyContent="space-between">
+          <Box display="flex" justifyContent="space-between" height={"80px"}>
             <Box
               display="flex"
               flexDirection="column"
@@ -65,8 +60,10 @@ const VideoContents = ({ title, author, pathImage, vdavatar, favorite }) => {
               </Typography>
               <Box
                 width="100%"
+                height="50px !important"
                 display="flex"
                 alignItems="center"
+                justifyContent={"space-between"}
                 sx={{ gap: "4px", marginTop: "4px" }}
               >
                 <Avatar

@@ -10,5 +10,5 @@ export { default as BackBtn } from "./BackBtn";
 export { default as BookContents } from "./BookContents";
 export { default as VideoContents } from "./VideoContents";
 export { default as Loader } from "./Loader";
-export { default as CategoryColors } from "./CategoryColors";
-export { default as AccountIcons } from "./AccountIcons";
+export {default as CategoryColors} from "./CategoryColors"
+export {default as AccountIcons} from "./AccountIcons";

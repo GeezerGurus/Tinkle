@@ -14,7 +14,7 @@ const budgetSchema = new Schema(
       trim: true,
     },
     initial: {
-      type: String,
+      type: Number,
     },
     amount: {
       type: Number,

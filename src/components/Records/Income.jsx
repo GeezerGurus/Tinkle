@@ -15,7 +15,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import { AccountIcons, Item } from "../utils";
+import { AccountIcons, CategoryIcons, Item } from "../utils";
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 import { postRecord } from "../../api/recordsApi";
@@ -27,7 +27,7 @@ const getCurrentTimeString = () => {
   return `${hours}:${minutes}`;
 };
 
-const Income = ({ onClose, accounts, budgets }) => {
+const Income = ({ onClose, accounts, budgets, categories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -44,10 +44,10 @@ const Income = ({ onClose, accounts, budgets }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!acc) {
+    if (!acc && selectedOption === "account") {
       errors.acc = "Account is required";
     }
-    if (!budget) {
+    if (!budget && selectedOption === "budget") {
       errors.budget = "Budget is required";
     }
     if (!amount) {
@@ -100,12 +100,7 @@ const Income = ({ onClose, accounts, budgets }) => {
 
     try {
       await postRecord(recordData);
-      if (
-        window.location.pathname === "/records" ||
-        window.location.pathname === "/settings/balance-accounts"
-      ) {
-        window.location.reload();
-      }
+      window.location.reload();
       onClose();
     } catch (error) {
       console.error("Error posting record:", error);
@@ -243,6 +238,34 @@ const Income = ({ onClose, accounts, budgets }) => {
         error={!!errors.amount}
         helperText={errors.amount}
       />
+
+      <TextField
+        fullWidth
+        select
+        InputLabelProps={{
+          shrink: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
+        label="Category"
+        value={category}
+        onChange={(event) => setCategory(event.target.value)}
+        displayEmpty
+        disabled={categories.length === 0}
+      >
+        {categories.map((category) => (
+          <MenuItem key={category._id} value={category._id}>
+            <Item
+              icon={CategoryIcons[category.icon]}
+              text={category.name}
+              bgColor={category.color}
+            />
+          </MenuItem>
+        ))}
+      </TextField>
 
       <TextField
         type="time"

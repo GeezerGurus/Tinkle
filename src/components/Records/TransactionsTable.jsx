@@ -14,7 +14,6 @@ import {
 import {
   Box,
   Button,
-  Icon,
   Modal,
   Paper,
   Stack,
@@ -53,15 +52,19 @@ const CustomToolbar = ({ action }) => {
   );
 };
 
-const CustomFooter = ({ selectedRows, handleBulkDelete }) => {
+const CustomFooter = ({ selectedRows, handleBulkDelete, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <GridFooterContainer>
       {selectedRows.length > 0 ? (
         <Button
-          onClick={handleBulkDelete}
+          onClick={() => {
+            setOpenModal(true);
+          }}
           sx={{
             textTransform: "none",
             color: "white",
@@ -79,6 +82,33 @@ const CustomFooter = ({ selectedRows, handleBulkDelete }) => {
         <Box sx={{ flexGrow: 1 }} />
       )}
       <GridPagination />
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <ConfirmModal
+            highlight={"Delete"}
+            color={colors.extra.red_accent}
+            promptText={"Do you really want to Delete?"}
+            description={
+              <>
+                This action will delete all the selected records and make
+                changes to your
+                <br /> balance accounts.
+              </>
+            }
+            snackbarText={"Records deleted!"}
+            refresh={refresh}
+            onClick={handleBulkDelete}
+            onClose={() => setOpenModal(false)}
+          />
+        </Box>
+      </Modal>
     </GridFooterContainer>
   );
 };
@@ -308,6 +338,7 @@ const TransactionsTable = ({ action }) => {
               <CustomFooter
                 selectedRows={selectedRows}
                 handleBulkDelete={handleBulkDelete}
+                refresh={fetchRecords}
               />
             ),
           }}
@@ -335,8 +366,8 @@ const TransactionsTable = ({ action }) => {
               promptText={"Do you really want to Delete?"}
               description={
                 <>
-                  This action will delete all the selected records and make
-                  changes to your
+                  This action will delete the selected record and make changes
+                  to your
                   <br /> balance accounts.
                 </>
               }

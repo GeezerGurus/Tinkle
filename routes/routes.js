@@ -176,20 +176,20 @@ router
   )
 
   //Book
-  .post("/book", requireAuth, addBook)
+  .post("/book", addBook)
   .get("/books", requireAuth, getBooks)
   .get("/book/:bookId", requireAuth, getaBook)
   .get("/books/favourite", requireAuth, getFavouriteBooks)
   .patch("/book/:bookId", requireAuth, patchBook)
-  .delete("/book/:bookId", requireAuth, deleteBook)
+  .delete("/book/:bookId", deleteBook)
 
   //Video
-  .post("/video", requireAuth, addVideo)
+  .post("/video", addVideo)
   .get("/videos", requireAuth, getVideos)
   .get("/video/:videoId", requireAuth, getaVideo)
   .get("/videos/favourite", requireAuth, getFavouriteVideos)
   .patch("/video/:videoId", requireAuth, patchVideo)
-  .delete("/video/:videoId", requireAuth, deleteVideo)
+  .delete("/video/:videoId", deleteVideo)
 
   //Record
   .post("/record", requireAuth, addRecord)

@@ -64,6 +64,9 @@ const recordSchema = new Schema(
             trim: true,
             maxlength: [200, 'Notes cannot exceed 200 characters'],
         },
+        time: {
+            type: String,
+        }
     },
     { timestamps: true }
 );

@@ -51,9 +51,12 @@ exports.getaVideo = async (req, res) => {
 exports.getFavouriteVideos = async (req, res) => {
   try { 
     const video = await VideoSchema.find({ userId: req.userId, favourite: true }).sort({ createdAt: -1 })
-    res.status(200).jason(video);
+    if (!video) {
+      return res.status(404).json({ message: "Video not found!" });
+    }    
+    return res.status(200).jason(video);
   } catch (error) {
-    res.status(500).json({ message: error });
+    return res.status(500).json({ message: error });
   }
 };
 

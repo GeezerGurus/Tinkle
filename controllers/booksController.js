@@ -51,9 +51,12 @@ exports.getaBook = async (req, res) => {
 exports.getFavouriteBooks = async (req, res) => {
   try { 
     const Book = await BookSchema.find({ userId: req.userId, favourite: true }).sort({ createdAt: -1 })
-    res.status(200).jason(Book);
+    if (!Book) {
+      return res.status(404).json({ message: "Book not found!" });
+    }
+    return res.status(200).json(Book);
   } catch (error) {
-    res.status(500).json({ message: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -61,15 +64,11 @@ exports.patchBook = async (req, res) => {
   const { bookId } = req.params;
   const { title, author, category, description, link, coverImage, favourite } = req.body;
   try {
-        const Book = await BookSchema.findOne({ userId: req.userId, _id: bookId });
+        const Book = await BookSchema.findOne({ _id: bookId });
         if (!Book) {
             return res.status(404).json({ message: "Book not found!" });
         }
-        if (req.userId) {
-          Book.userId = req.userId;
-        } else {
-          return res.status(401).json({ error: "Unauthorized" });
-        }
+        Book.userId = req.userId;
         if (title) Book.title = title;
         if (author) Book.author = author;
         if (category) Book.category = category;
@@ -87,6 +86,7 @@ exports.patchBook = async (req, res) => {
 }
 
 exports.deleteBook = async (req, res) => {
+  const { bookId } = req.params;
   BookSchema.findOneAndDelete({ _id:bookId })
     .then((Book) => {
       res.status(200).json({ message: "Book Deleted" });

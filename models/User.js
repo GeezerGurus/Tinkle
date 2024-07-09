@@ -28,6 +28,9 @@ const userSchema = new Schema(
       sparse: true,
       default: null,
     },
+    profilePhoto: { 
+      type: String
+    },
   },
   { timestamps: true }
 );
@@ -41,19 +44,16 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.statics.login = async function(username, email, password) {
-  // Check if the username exists
   const userByUsername = await this.findOne({ username });
   if (!userByUsername) {
     throw Error("incorrect username");
   }
 
-  // Check if the email exists for the given username
   const userByEmail = await this.findOne({ username, email });
   if (!userByEmail) {
     throw Error("incorrect email");
   }
 
-  // Validate the password
   const auth = await bcrypt.compare(password, userByEmail.password);
   if (!auth) {
     throw Error("incorrect password");

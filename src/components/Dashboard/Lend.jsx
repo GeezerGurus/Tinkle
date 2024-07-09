@@ -30,10 +30,11 @@ const transactions = [
   },
 ];
 
-export const Lend = ({ handleChange, color }) => {
+export const Lend = ({ handleChange, color, items }) => {
   return (
     <Box
       sx={{
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -57,8 +58,32 @@ export const Lend = ({ handleChange, color }) => {
         </IconButton>
       </Stack>
       {/* Map over transactions */}
-      <Box sx={{ overflowY: "auto", height: "auto", width: "100%" }}>
-        {transactions.map((transaction, index) => (
+      <Box
+        sx={{
+          overflowY: "auto",
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          // justifyContent: "space-around",
+          gap: 2,
+        }}
+      >
+        {(!items || items.length === 0) && (
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="body4">The List is Empty Now</Typography>
+          </Box>
+        )}
+
+        {items.slice(0.5).map((transaction, index) => (
           <Stack
             key={index}
             flexDirection={"row"}
@@ -72,9 +97,11 @@ export const Lend = ({ handleChange, color }) => {
             }}
           >
             <Typography variant="body4">
-              {transaction.amount} to {transaction.payee}
+              {transaction.amount} to {transaction.name}
             </Typography>
-            <Typography variant="body4">Due - {transaction.dueDate}</Typography>
+            <Typography variant="body4">
+              Due - {new Date(transaction.DueDate).toLocaleDateString()}
+            </Typography>
           </Stack>
         ))}
       </Box>

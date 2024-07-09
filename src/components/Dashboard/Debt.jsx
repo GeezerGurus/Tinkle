@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import { Owe } from "./Owe";
 import { Lend } from "./Lend";
-import { ShowMoreBtn } from "../utils";
+import { Loader, ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
+import { getDebtRecord } from "../../api/debtRecord";
 
 const Debt = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchDebtRecord = async () => {
+    setIsLoading(true);
+    const response = await getDebtRecord();
+    setItems(response.data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchDebtRecord();
+  }, []);
 
   const [page, setPage] = useState("Owe");
 
@@ -19,6 +34,9 @@ const Debt = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
+  const lendItems = items?.filter((item) => item.type === "lend");
+  const oweItems = items?.filter((item) => item.type === "owe");
 
   return (
     <Paper
@@ -32,6 +50,7 @@ const Debt = () => {
         borderRadius: "16px",
       }}
     >
+      <Loader isLoading={isLoading} />
       {/* Header box of Debt List */}
       <Box
         sx={{
@@ -47,9 +66,17 @@ const Debt = () => {
       </Box>
 
       {page === "Owe" ? (
-        <Lend handleChange={handleChange} color={colors.category.red} />
+        <Lend
+          handleChange={handleChange}
+          color={colors.category.red}
+          items={lendItems}
+        />
       ) : (
-        <Owe handleChange={handleChange} color={colors.green[500]} />
+        <Owe
+          handleChange={handleChange}
+          color={colors.green[500]}
+          items={oweItems}
+        />
       )}
     </Paper>
   );

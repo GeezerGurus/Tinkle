@@ -12,17 +12,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-import HouseIcon from "@mui/icons-material/House";
-import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { Item } from "../utils";
 import { tokens } from "../../theme";
 import { postAccount } from "../../api/accountApi";
 import { enqueueSnackbar } from "notistack";
+import AccountIcons from "../utils/AccountIcons";
 
-const CreateAccount = ({ onClose, refresh}) => {
+const CreateAccount = ({ onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -56,36 +52,16 @@ const CreateAccount = ({ onClose, refresh}) => {
   };
 
   const types = [
-    {
-      value: "food",
-      icon: <RestaurantIcon />,
-      text: "Food and Drinks",
-      bgColor: "red",
-    },
-    {
-      value: "shopping",
-      icon: <LocalMallIcon />,
-      text: "Shopping",
-      bgColor: "lightblue",
-    },
-    {
-      value: "housing",
-      icon: <HouseIcon />,
-      text: "Housing",
-      bgColor: "orange",
-    },
-    {
-      value: "transportation",
-      icon: <DirectionsBusIcon />,
-      text: "Transportation",
-      bgColor: "grey",
-    },
-    {
-      value: "vehicle",
-      icon: <DirectionsCarIcon />,
-      text: "Vehicle",
-      bgColor: "purple",
-    },
+    { value: "Cash", icon: AccountIcons[0], text: "Cash" },
+    { value: "Bank", icon: AccountIcons[1], text: "Bank" },
+    { value: "Saving", icon: AccountIcons[2], text: "Saving" },
+    { value: "General", icon: AccountIcons[3], text: "General" },
+    { value: "Investment", icon: AccountIcons[4], text: "Investment" },
+    { value: "Loan", icon: AccountIcons[5], text: "Loan" },
+    { value: "Card", icon: AccountIcons[6], text: "Card" },
+    { value: "Insurance", icon: AccountIcons[7], text: "Insurance" },
+    { value: "Bonus", icon: AccountIcons[8], text: "Bonus" },
+    { value: "EMoney", icon: AccountIcons[9], text: "E Money" },
   ];
   return (
     <Paper

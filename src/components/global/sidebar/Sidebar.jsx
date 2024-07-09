@@ -39,6 +39,7 @@ import { useNavigate } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import OpenSideItems from "./OpenSideItems";
 import CloseSideItems from "./CloseSideItems";
+import { LogoDarkImage } from "../../../assets/hero";
 
 // Drawer Component
 const drawerWidth = "320px";
@@ -229,33 +230,25 @@ const Sidebar = ({ mode }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              width: open ? "71.875%" : "61px",
-              height: "39px",
+              width: open ? "100%" : "61px",
+              height: "40px",
             }}
           >
             {/* Logo and Header */}
             {open && (
               <Box
                 sx={{
+                  width: "100%",
                   display: "flex",
+                  justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >
-                <WavesIcon
-                  sx={{
-                    border: "1px solid black",
-                    borderRadius: "50%",
-                    width: "40.19px",
-                    height: "39px",
-                  }}
+                <img
+                  src={LogoDarkImage}
+                  alt="Tinkle"
+                  style={{ width: "88px", objectFit: "contain" }}
                 />
-                <Button
-                  variant="text"
-                  onClick={toggleDrawer(false)}
-                  sx={{ color: colors.grey[100], textTransform: "none" }}
-                >
-                  <Typography variant="h6">Tinkle</Typography>
-                </Button>
               </Box>
             )}
 

@@ -13,10 +13,12 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { tokens } from "../../theme";
-import EditAccount from "./EditAccount";
+import EditAccount from "../settings/EditAccount";
 import { ConfirmModal } from "../utils";
+import AccountIcons from "../utils/AccountIcons";
+import { deleteAccount } from "../../api/accountApi";
 
-export const Account = ({ Icon, Title, Amount, BgColor, isMediumScreen }) => {
+export const Account = ({ id,refresh,type, Title, Amount, BgColor, isMediumScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -35,6 +37,21 @@ export const Account = ({ Icon, Title, Amount, BgColor, isMediumScreen }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  //account data fetch
+  const types = [
+    { value: "Cash", icon: AccountIcons[0], text: "Cash" },
+    { value: "Bank", icon: AccountIcons[1], text: "Bank" },
+    { value: "Saving", icon: AccountIcons[2], text: "Saving" },
+    { value: "General", icon: AccountIcons[3], text: "General" },
+    { value: "Investment", icon: AccountIcons[4], text: "Investment" },
+    { value: "Loan", icon: AccountIcons[5], text: "Loan" },
+    { value: "Card", icon: AccountIcons[6], text: "Card" },
+    { value: "Insurance", icon: AccountIcons[7], text: "Insurance" },
+    { value: "Bonus", icon: AccountIcons[8], text: "Bonus" },
+    { value: "EMoney", icon: AccountIcons[9], text: "EMoney" },
+  ];
+  const accountType = types.find((t) => t.value === type);
 
   return (
     <Paper
@@ -62,12 +79,14 @@ export const Account = ({ Icon, Title, Amount, BgColor, isMediumScreen }) => {
           borderRadius: "50%",
         }}
       >
-        <Icon
+        {accountType && (
+          <accountType.icon
           sx={{
             fontSize: "40px",
             color: colors.purple[600],
           }}
-        />
+          />
+        )}
       </Box>
 
       {/* Menu  */}
@@ -147,15 +166,19 @@ export const Account = ({ Icon, Title, Amount, BgColor, isMediumScreen }) => {
             <EditAccount
               name={Title}
               balance={Amount}
-              Type={<Icon />}
+              type={type}
+              refresh={refresh}
+              id={id}
               onClose={() => setOpenModal(false)}
-              isMediumScreen={isMediumScreen}
             />
           ) : (
             <ConfirmModal
-              onClose={() => {
-                setOpenModal(false);
+              onClick={()=>{
+                deleteAccount(id);
               }}
+              refresh={refresh}
+              snackbarText={"Account deleted!"}
+             
               color={colors.extra.red_accent}
               highlight={"Delete"}
               description={
@@ -166,7 +189,9 @@ export const Account = ({ Icon, Title, Amount, BgColor, isMediumScreen }) => {
                   lost.
                 </>
               }
-              promptText={"Do you really want to Delete?"}
+              promptText={"Do you really want to Delete?"} onClose={() => {
+                setOpenModal(false);
+              }}
             />
           )}
         </Box>

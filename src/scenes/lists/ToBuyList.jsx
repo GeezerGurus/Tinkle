@@ -16,9 +16,8 @@ const ToBuyList = () => {
   const fetchLists = async () => {
     setIsLoading(true);
     const res = await getListsToBuy();
-    setLists(res || []);
+    setLists(res);
     setIsLoading(false);
-    
   };
 
   useEffect(() => {
@@ -74,7 +73,6 @@ const ToBuyList = () => {
         {lists.map((list, index) => (
           <ListBox
             key={index}
-            
             id={list._id}
             name={list.name}
             description={list.description}

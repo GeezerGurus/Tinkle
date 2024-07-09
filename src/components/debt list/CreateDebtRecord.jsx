@@ -21,6 +21,7 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState("");
   const [selectedAccount, setSelectedAccount] = useState("");
@@ -33,6 +34,21 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const validateForm = () => {
+    const errors = {};
+
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    if (!date) {
+      errors.date = "Date is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   useEffect(() => {
     const fetchAccounts = async () => {
       const AccountsData = await getAccounts();
@@ -42,6 +58,9 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
   }, []);
 
   const postItem = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       const data = {
         debtId: debtId,
@@ -85,6 +104,7 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
         type="number"
         label="Amount"
         value={amount}
+        required
         onChange={(e) => setAmount(e.target.value)}
         fullWidth
         inputProps={{ min: "0" }}
@@ -103,7 +123,10 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
@@ -134,10 +157,12 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
         label="Date"
         type="date"
         value={date}
+        required
         onChange={(e) => setDate(e.target.value)}
         fullWidth
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: { height: isSmallScreen ? "45px" : undefined },
@@ -146,6 +171,8 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
             max: "2030-12-31",
           },
         }}
+        error={!!errors.date}
+        helperText={errors.date}
       />
 
       <Stack

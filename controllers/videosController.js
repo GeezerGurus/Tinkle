@@ -27,7 +27,7 @@ exports.addVideo = async (req, res) => {
 
 exports.getVideos = async (req, res) => {
   try {
-    const video = await VideoSchema.find.sort({ createdAt: -1 });
+    const video = await VideoSchema.find().sort({ createdAt: -1 });
     res.status(200).json(video);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -75,7 +75,7 @@ exports.patchVideo = async (req, res) => {
         if (link) video.link = link;
         if (description) video.description = description;
         if (thumbnail) video.thumbnail = thumbnail;
-        if (favourite) video.favourite = favourite;
+        if (favourite !== undefined) video.favourite = favourite;
 
         await video.save();
 

@@ -76,7 +76,7 @@ exports.patchBook = async (req, res) => {
         if (link) Book.link = link;
         if (description) Book.description = description;
         if (coverImage) Book.coverImage = coverImage;
-        if (favourite) Book.favourite = favourite;
+        if (favourite !== undefined) Book.favourite = favourite;
 
         await Book.save();
 

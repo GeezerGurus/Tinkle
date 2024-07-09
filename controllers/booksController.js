@@ -1,7 +1,7 @@
 const BookSchema = require("../models/Book");
 
 exports.addBook = async (req, res) => {
-  const { title, author, category, description, link, coverImage,favourite } = req.body;
+  const { title, author, category, description, link, coverImage } = req.body;
 
   try {
     if (!title || !author || !link) {
@@ -14,8 +14,7 @@ exports.addBook = async (req, res) => {
       category,
       description,
       link,
-      coverImage,
-      favourite
+      coverImage
     });
 
     await Book.save();
@@ -60,30 +59,43 @@ exports.getFavouriteBooks = async (req, res) => {
   }
 };
 
-exports.patchBook = async (req, res) => {
+exports.addFavouriteBook = async (req, res) => {
   const { bookId } = req.params;
-  const { title, author, category, description, link, coverImage, favourite } = req.body;
   try {
-        const Book = await BookSchema.findOne({ _id: bookId });
-        if (!Book) {
+        const book = await BookSchema.findOne({ _id: bookId });
+        if (!book) {
             return res.status(404).json({ message: "Book not found!" });
         }
-        Book.userId = req.userId;
-        if (title) Book.title = title;
-        if (author) Book.author = author;
-        if (category) Book.category = category;
-        if (link) Book.link = link;
-        if (description) Book.description = description;
-        if (coverImage) Book.coverImage = coverImage;
-        if (favourite !== undefined) Book.favourite = favourite;
 
-        await Book.save();
+        const favourite_book = BookSchema({
+          userId: req.userId,
+          title: book.title,
+          author: book.author,
+          category: book.category,
+          description: book.description,
+          link: book.link,
+          coverImage: book.category,
+          favourite: true,
+        });
+    
+        await favourite_book.save();
+        res.status(200).json({ message: "Favourite book Added" });
 
-        res.status(200).json({ message: "Book updated successfully", Book });
     } catch (err) {
         res.status(500).json({ message: err });
     }
 }
+
+exports.deleteFavouriteBook = async (req, res) => {
+  const { bookId } = req.params;
+  BookSchema.findOneAndDelete({ userId: req.userId, _id:bookId })
+    .then((Book) => {
+      res.status(200).json({ message: "Book Deleted" });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: error });
+    });
+};
 
 exports.deleteBook = async (req, res) => {
   const { bookId } = req.params;

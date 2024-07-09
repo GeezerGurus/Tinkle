@@ -14,8 +14,7 @@ exports.addVideo = async (req, res) => {
         description,
         link,
         category,
-        thumbnail,
-        favourite
+        thumbnail
     });
 
     await video.save();
@@ -60,31 +59,43 @@ exports.getFavouriteVideos = async (req, res) => {
   }
 };
 
-exports.patchVideo = async (req, res) => {
+exports.addFavouriteVideo = async (req, res) => {
   const { videoId } = req.params;
-  const { title, creator, description, link, category, thumbnail, favourite } = req.body;
   try {
         const video = await VideoSchema.findOne({ _id: videoId });
         if (!video) {
             return res.status(404).json({ message: "Video not found!" });
         }
+        
+        const favourite_video = VideoSchema({
+          userId: req.userId,
+          title: video.title,
+          creator: video.creator,
+          description: video.description,
+          link: video.link,
+          category: video.category,
+          thumbnail: video.thumbnail,
+          favourite: true,
+      });
+  
+      await favourite_video.save();
+      res.status(200).json({ message: "Favourite video Added" });
 
-        video.userId = req.userId;
-        if (title) video.title = title;
-        if (creator) video.creator = creator;
-        if (link) video.link = link;
-        if (description) video.description = description;
-        if (category) video.category = category;
-        if (thumbnail) video.thumbnail = thumbnail;
-        if (favourite !== undefined) video.favourite = favourite;
-
-        await video.save();
-
-        res.status(200).json({ message: "Video updated successfully", video });
     } catch (err) {
         res.status(500).json({ message: err });
     }
 }
+
+exports.deleteFavouriteVideo = async (req, res) => {
+  const { videoId } = req.params;
+  VideoSchema.findOneAndDelete({ userId: req.userId, _id:videoId })
+    .then((video) => {
+      res.status(200).json({ message: "Video Deleted" });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: error });
+    });
+};
 
 exports.deleteVideo = async (req, res) => {
   const { videoId } = req.params;

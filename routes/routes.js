@@ -48,7 +48,8 @@ const {
   getBooks,
   getaBook,
   getFavouriteBooks,
-  patchBook,
+  addFavouriteBook,
+  deleteFavouriteBook,
   deleteBook,
 } = require("../controllers/booksController");
 const {
@@ -66,7 +67,8 @@ const {
   getVideos,
   getaVideo,
   getFavouriteVideos,
-  patchVideo,
+  addFavouriteVideo,
+  deleteFavouriteVideo,
   deleteVideo,
 } = require("../controllers/videosController");
 const {
@@ -184,7 +186,8 @@ router
   .get("/books", getBooks)
   .get("/book/:bookId", getaBook)
   .get("/books/favourite", requireAuth, getFavouriteBooks)
-  .patch("/book/:bookId", requireAuth, patchBook)
+  .post("/book/:bookId", requireAuth, addFavouriteBook)
+  .delete("/book/:bookId", requireAuth, deleteFavouriteBook)
   .delete("/book/:bookId", deleteBook)
 
   //Video
@@ -192,7 +195,8 @@ router
   .get("/videos", getVideos)
   .get("/video/:videoId", getaVideo)
   .get("/videos/favourite", requireAuth, getFavouriteVideos)
-  .patch("/video/:videoId", requireAuth, patchVideo)
+  .post("/video/:videoId", requireAuth, addFavouriteVideo)
+  .delete("/video/:videoId", requireAuth, deleteFavouriteVideo)
   .delete("/video/:videoId", deleteVideo)
 
   //Record

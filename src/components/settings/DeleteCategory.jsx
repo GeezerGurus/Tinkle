@@ -1,13 +1,17 @@
 import { Button, Paper, Stack, Typography, useTheme,useMediaQuery } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
+import { CategoryIcons } from "../utils";
+import { deleteCategory } from "../../api/categorySetting";
 
-const DeleteCategory = ({ onClose, icon: Icon, backgroundColor, name }) => {
+const DeleteCategory = ({ onClose, icon,id, backgroundColor, name, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const handleDelete = () => {
+  const Icon = CategoryIcons[icon]
+  const handleDelete = async() => {
     console.log(`Deleting category ${name}`);
+    await deleteCategory(id);
+    refresh();
     onClose();
   };
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));

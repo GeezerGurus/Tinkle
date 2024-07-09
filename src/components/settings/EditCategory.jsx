@@ -10,81 +10,46 @@ import {
   useMediaQuery
 } from "@mui/material";
 import React, { useState } from "react";
-import HomeIcon from "@mui/icons-material/Home";
-import WorkIcon from "@mui/icons-material/Work";
-import SchoolIcon from "@mui/icons-material/School";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import MovieIcon from "@mui/icons-material/Movie";
-import { CategoryIcons as iconsMap } from "../../components/utils";
+import { CategoryIcons, CategoryColors } from "../../components/utils";
 import { tokens } from "../../theme";
+import { patchCategory } from "../../api/categorySetting";
 
-const categories = [
-  { icon: HomeIcon, backgroundColor: "red", name: "Home" },
-  { icon: WorkIcon, backgroundColor: "blue", name: "Work" },
-  { icon: SchoolIcon, backgroundColor: "green", name: "School" },
-  { icon: ShoppingCartIcon, backgroundColor: "purple", name: "Shopping" },
-  { icon: FitnessCenterIcon, backgroundColor: "orange", name: "Fitness" },
-  { icon: RestaurantIcon, backgroundColor: "brown", name: "Food" },
-  { icon: LocalLibraryIcon, backgroundColor: "teal", name: "Library" },
-  { icon: DirectionsCarIcon, backgroundColor: "pink", name: "Travel" },
-  { icon: LocalHospitalIcon, backgroundColor: "grey", name: "Health" },
-  { icon: MovieIcon, backgroundColor: "yellow", name: "Movies" },
-  { icon: HomeIcon, backgroundColor: "red", name: "Home" },
-  { icon: WorkIcon, backgroundColor: "blue", name: "Work" },
-  { icon: SchoolIcon, backgroundColor: "green", name: "School" },
-  { icon: ShoppingCartIcon, backgroundColor: "purple", name: "Shopping" },
-  { icon: FitnessCenterIcon, backgroundColor: "orange", name: "Fitness" },
-  { icon: RestaurantIcon, backgroundColor: "brown", name: "Food" },
-  { icon: LocalLibraryIcon, backgroundColor: "teal", name: "Library" },
-  { icon: DirectionsCarIcon, backgroundColor: "pink", name: "Travel" },
-  { icon: LocalHospitalIcon, backgroundColor: "grey", name: "Health" },
-  { icon: MovieIcon, backgroundColor: "yellow", name: "Movies" },
-];
-
-const Colors = [
-  "red",
-  "blue",
-  "green",
-  "purple",
-  "orange",
-  "brown",
-  "teal",
-  "pink",
-  "grey",
-  "yellow",
-];
-
-const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
+const EditCategory = ({ onClose, username, categoryicon, bgcolor, refresh, id }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [icon, setIcon] = useState("");
-  const [color, setColor] = useState("");
-  const [name, setName] = useState("");
+  const [icon, setIcon] = useState(categoryicon || "");
+  const [color, setColor] = useState(bgcolor || "");
+  const [name, setName] = useState(username || "");
 
-  const handleDelete = () => {
-    console.log(`Deleting category ${name}`);
-    onClose();
+  const handleChange = async () => {
+    const newStatus = {
+      icon: icon,
+      color: color,
+      name: name
+    };
+
+    await patchCategory(id, newStatus);
+    refresh();
+    onClose(); // Close the modal after handling the change
   };
 
-  
+  const handleIconChange = (e) => {
+    setIcon(e.target.value);
+  };
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  
+
   return (
     <Paper
       sx={{
-        width:isSmallScreen?"90vw": "686px",
+        width: isSmallScreen ? "90vw" : "686px",
         gap: theme.spacing(3),
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        padding: isSmallScreen?"33px 28px":"32px 112px"
+        padding: isSmallScreen ? "33px 28px" : "32px 112px"
       }}
     >
       {/* Title  */}
@@ -95,7 +60,8 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
       <TextField
         fullWidth
         label="Name"
-        placeholder="Enter a name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         InputLabelProps={{
           shrink: true,
         }}
@@ -114,14 +80,17 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
             select
             value={icon}
             placeholder="Select Icon"
-            onChange={(e) => setIcon(e.target.value)}
+            onChange={handleIconChange}
             displayEmpty
           >
-            {iconsMap.map((Icon, index) => (
-              <MenuItem key={index} value={Icon}>
-                <Icon />
-              </MenuItem>
-            ))}
+            {Object.keys(CategoryIcons).map((key) => {
+              const IconComponent = CategoryIcons[key]; // Get the icon component
+              return (
+                <MenuItem key={key} value={key}>
+                  <IconComponent /> {/* Render the icon component */}
+                </MenuItem>
+              );
+            })}
           </TextField>
         </Stack>
 
@@ -137,7 +106,7 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
             displayEmpty
             placeholder="Choose your color"
           >
-            {Colors.map((color) => (
+            {CategoryColors.map((color) => (
               <MenuItem
                 key={color}
                 value={color}
@@ -149,9 +118,9 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
       </Box>
 
       {/* button  */}
-      <Stack gap={1} direction={isSmallScreen?"column":"row"}  justifyContent={"space-between"}>
+      <Stack gap={1} direction={isSmallScreen ? "column" : "row"} justifyContent={"space-between"}>
         <Button
-          onClick={handleDelete}
+          onClick={handleChange}
           sx={{
             width: "208px",
             height: "40px",
@@ -165,6 +134,9 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
           }}
         >
           <Typography variant="body2">Save</Typography>
+        </Button>
+        <Button onClick={() => console.log({ user: username, icon: categoryicon, color: bgcolor })}>
+          Test
         </Button>
         <Button
           onClick={onClose}
@@ -186,4 +158,4 @@ const EditCategory = ({ onClose, icon: Icon, backgroundColor }) => {
   );
 };
 
-export default EditCategory;
+export default EditCategory;  // Ensure this is present

@@ -1055,7 +1055,7 @@ const Hero = () => {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel5bh-content"
                 id="panel5bh-header"
-              >
+            >
                 <Typography variant="Hbody2">
                   How can I contact support?
                 </Typography>

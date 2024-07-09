@@ -48,7 +48,7 @@ const Videopage = () => {
       </Box>
  
       {/* Video item box */}
-      <Box sx={{ width: "97%", margin: "0 auto", padding: "8px" }}>
+      <Box sx={{ width: "97%", margin: "0 auto" , padding: "8px" }}>
         {subHeaders.map((header, index) => (
           <Videos key={index} header={header.header} />
         ))}

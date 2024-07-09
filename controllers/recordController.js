@@ -4,7 +4,7 @@ const BudgetSchema = require("../models/Budget");
 
 exports.addRecord = async (req, res) => {
   const userId = req.userId;
-  const { accountId, fromaccountId, toaccountId, budgetId, type, amount, category, date, transactor, notes } = req.body;
+  const { accountId, fromaccountId, toaccountId, budgetId, type, amount, category, date, transactor, notes, time } = req.body;
 
   try {
     if (type === "transfer") {
@@ -96,6 +96,7 @@ exports.addRecord = async (req, res) => {
       date,
       transactor,
       notes,
+      time
     });    
 
     await record.save();
@@ -260,6 +261,7 @@ exports.patchRecord = async (req, res) => {
       if (date) record.date = date;
       if (transactor) record.transactor = transactor;
       if (notes) record.notes = notes;
+      if (time) record.time = time;
       await record.save();
       
     } else if (record.type === "transfer"){
@@ -273,6 +275,7 @@ exports.patchRecord = async (req, res) => {
       if (date) record.date = date;
       if (transactor) record.transactor = transactor;
       if (notes) record.notes = notes;
+      if (time) record.time = time;
       await record.save();
     }
 

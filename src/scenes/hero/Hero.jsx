@@ -307,17 +307,8 @@ const Hero = () => {
             gap: 16,
           }}
         >
-<<<<<<< HEAD
           <Stack width={"72%"} >
             <Typography variant={isSmallScreen?"h6":"title4"} gutterBottom textAlign={"center"}>
-=======
-          <Stack width={"72%"}>
-            <Typography
-              variant={isSmallScreen ? "h6" : "title4"}
-              gutterBottom
-              textAlign={"center"}
-            >
->>>>>>> e7b2d5ccfe7395fc9b833702a2e7c417dd5597f8
               <Typography
                 component="span"
                 variant={isSmallScreen ? "h6" : "title4"}
@@ -330,16 +321,12 @@ const Hero = () => {
           </Stack>
 
           {/* Timeline  */}
-<<<<<<< HEAD
-          <Stack  direction={"row"} width={"100%"} height={"64vh"}>
-=======
           <Stack
             display={isSmallScreen ? "none" : undefined}
             direction={"row"}
             width={"100%"}
             height={"64vh"}
           >
->>>>>>> e7b2d5ccfe7395fc9b833702a2e7c417dd5597f8
             {/* Past Section */}
             <Stack alignItems={"center"} position={"relative"} width={"25%"}>
               <Typography variant="title2" gutterBottom>
@@ -796,15 +783,7 @@ const Hero = () => {
                 alt=""
                 style={{ width: isSmallScreen?"50px":70, height: isSmallScreen?"50px":70 }}
               />
-<<<<<<< HEAD
               <Typography variant={isSmallScreen?"title1":"title4"} textAlign={"center"} sx={{ color: colors.purple[900] }}>
-=======
-              <Typography
-                variant="title4"
-                textAlign={"center"}
-                sx={{ color: colors.purple[900] }}
-              >
->>>>>>> e7b2d5ccfe7395fc9b833702a2e7c417dd5597f8
                 HELP CENTER
               </Typography>
               <img

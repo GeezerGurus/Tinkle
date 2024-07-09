@@ -70,7 +70,9 @@ const ConfirmModal = ({
           onClick={async () => {
             await onClick();
             refresh();
-            enqueueSnackbar(snackbarText, { variant: snackbarColor });
+            enqueueSnackbar(snackbarText, {
+              variant: snackbarColor || "error",
+            });
             onClose();
           }}
           sx={{

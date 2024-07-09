@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Box,
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -8,31 +9,16 @@ import {
   MenuItem,
   Radio,
   RadioGroup,
+  Stack,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
-import {
-  Wallet as WalletIcon,
-  AccountBalance as AccountBalanceIcon,
-  Savings as SavingsIcon,
-  PhonelinkRing as PhonelinkRingIcon,
-  Restaurant as RestaurantIcon,
-  LocalMall as LocalMallIcon,
-  House as HouseIcon,
-  DirectionsBus as DirectionsBusIcon,
-  DirectionsCar as DirectionsCarIcon,
-  Man as ManIcon,
-  Tv as TvIcon,
-  Payments as PaymentsIcon,
-  AutoGraph as AutoGraphIcon,
-  PriceCheck as PriceCheckIcon,
-  List as ListIcon,
-} from "@mui/icons-material";
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
+import { postRecord } from "../../api/recordsApi";
 
 const getCurrentTimeString = () => {
   const now = new Date();
@@ -41,21 +27,49 @@ const getCurrentTimeString = () => {
   return `${hours}:${minutes}`;
 };
 
-const Income = () => {
+const Income = ({ onClose, accounts, budgets }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [acc, setAcc] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("account");
   const [budget, setBudget] = useState("");
+  const [category, setCategory] = useState("");
   const [time, setTime] = useState(getCurrentTimeString());
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [note, setNote] = useState("");
+  const [notes, setNotes] = useState("");
+  const [amount, setAmount] = useState("");
+  const [payer, setPayer] = useState("");
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleSubmit = async () => {
+    const recordData = {
+      type: "income",
+      accountId: selectedOption === "account" ? acc : null,
+      budgetId: selectedOption === "budget" ? budget : null,
+      amount,
+      category,
+      time,
+      date,
+      transactor: payer,
+      notes,
+    };
+
+    try {
+      await postRecord(recordData);
+      if (
+        window.location.pathname === "/records" ||
+        window.location.pathname === "/settings/balance-accounts"
+      ) {
+        window.location.reload();
+      }
+      onClose();
+    } catch (error) {
+      console.error("Error posting record:", error);
+    }
+  };
 
   return (
     <Box
@@ -78,130 +92,90 @@ const Income = () => {
         <RadioGroup
           row
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="female"
           name="radio-buttons-group"
+          value={selectedOption}
+          onChange={(event) => setSelectedOption(event.target.value)}
         >
           <FormControlLabel
-            value="Accounts"
+            value="account"
             control={<Radio />}
-            label="accounts"
+            label="Account"
           />
-          <FormControlLabel
-            value="Budgets"
-            control={<Radio />}
-            label="budgets"
-          />
+          <FormControlLabel value="budget" control={<Radio />} label="Budget" />
         </RadioGroup>
       </FormControl>
 
-      <TextField
-        label="Account"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        fullWidth
-        select
-        value={acc}
-        onChange={(event) => setAcc(event.target.value)}
-        InputProps={{
-          sx: {
-            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
-          },
-        }}
-      >
-        <MenuItem value="wallet">
-          <Item icon={<WalletIcon />} text="Wallet" bgColor="green" />
-        </MenuItem>
-        <MenuItem value="bank">
-          <Item icon={<AccountBalanceIcon />} text="Bank" bgColor="orange" />
-        </MenuItem>
-        <MenuItem value="savings">
-          <Item icon={<SavingsIcon />} text="Savings" bgColor="pink" />
-        </MenuItem>
-        <MenuItem value="Kpay">
-          <Item icon={<PhonelinkRingIcon />} text="Kpay" bgColor="blue" />
-        </MenuItem>
-      </TextField>
+      {selectedOption === "account" && (
+        <TextField
+          label="Account"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          fullWidth
+          select
+          value={acc}
+          onChange={(event) => setAcc(event.target.value)}
+          InputProps={{
+            sx: {
+              height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+            },
+          }}
+        >
+          {accounts.map((account) => (
+            <MenuItem key={account._id} value={account._id}>
+              <Item
+                // icon={account.icon}
+                text={account.name}
+                // bgColor={account.bgColor}
+              />
+            </MenuItem>
+          ))}
+        </TextField>
+      )}
 
-      <TextField
-        fullWidth
-        select
-        InputLabelProps={{
-          shrink: true,
-        }}
-        InputProps={{
-          sx: {
-            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
-          },
-        }}
-        label="Budget"
-        value={budget}
-        onChange={(event) => setBudget(event.target.value)}
-        displayEmpty
-      >
-        <MenuItem value="food">
-          <Item
-            icon={<RestaurantIcon />}
-            text="Food and Drinks"
-            bgColor="red"
-          />
-        </MenuItem>
-        <MenuItem value="shopping">
-          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
-        </MenuItem>
-        <MenuItem value="housing">
-          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-        </MenuItem>
-        <MenuItem value="transportation">
-          <Item
-            icon={<DirectionsBusIcon />}
-            text="Transportation"
-            bgColor="grey"
-          />
-        </MenuItem>
-        <MenuItem value="vehicle">
-          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
-        </MenuItem>
-        <MenuItem value="life">
-          <Item
-            icon={<ManIcon />}
-            text="Life & Entertainment"
-            bgColor="lightgreen"
-          />
-        </MenuItem>
-        <MenuItem value="communication">
-          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
-        </MenuItem>
-        <MenuItem value="financialIncome">
-          <Item
-            icon={<PaymentsIcon />}
-            text="Financial Incomes"
-            bgColor="lightblue"
-          />
-        </MenuItem>
-        <MenuItem value="investment">
-          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
-        </MenuItem>
-        <MenuItem value="income">
-          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-        </MenuItem>
-        <MenuItem value="others">
-          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-        </MenuItem>
-      </TextField>
+      {selectedOption === "budget" && (
+        <TextField
+          fullWidth
+          select
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            sx: {
+              height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+            },
+          }}
+          label="Budget"
+          value={budget}
+          onChange={(event) => setBudget(event.target.value)}
+          displayEmpty
+        >
+          {budgets.map((budget) => (
+            <MenuItem key={budget._id} value={budget._id}>
+              <Item
+                // icon={budget.icon}
+                text={budget.name}
+                // bgColor={budget.bgColor}
+              />
+            </MenuItem>
+          ))}
+        </TextField>
+      )}
 
       <TextField
         label="Amount"
         type="number"
         fullWidth
         placeholder="Enter amount"
+        value={amount}
+        onChange={(event) => setAmount(event.target.value)}
         inputProps={{ min: "0" }}
         InputProps={{
           sx: {
             height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
           },
           startAdornment: (
-            <InputAdornment position="start" sx={{ color: "green" }}>
+            <InputAdornment position="start">
               <Typography
                 sx={{ color: "green", fontWeight: "400", fontSize: "24px" }}
               >
@@ -215,73 +189,6 @@ const Income = () => {
           shrink: true,
         }}
       />
-
-      <TextField
-        fullWidth
-        select
-        InputLabelProps={{
-          shrink: true,
-        }}
-        InputProps={{
-          sx: {
-            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
-          },
-        }}
-        label="Catgory"
-        value={selectedOption}
-        onChange={(event) => setSelectedOption(event.target.value)}
-        displayEmpty
-      >
-        <MenuItem value="food">
-          <Item
-            icon={<RestaurantIcon />}
-            text="Food and Drinks"
-            bgColor="red"
-          />
-        </MenuItem>
-        <MenuItem value="shopping">
-          <Item icon={<LocalMallIcon />} text="Shopping" bgColor="lightblue" />
-        </MenuItem>
-        <MenuItem value="housing">
-          <Item icon={<HouseIcon />} text="Housing" bgColor="orange" />
-        </MenuItem>
-        <MenuItem value="transportation">
-          <Item
-            icon={<DirectionsBusIcon />}
-            text="Transportation"
-            bgColor="grey"
-          />
-        </MenuItem>
-        <MenuItem value="vehicle">
-          <Item icon={<DirectionsCarIcon />} text="Vehicle" bgColor="purple" />
-        </MenuItem>
-        <MenuItem value="life">
-          <Item
-            icon={<ManIcon />}
-            text="Life & Entertainment"
-            bgColor="lightgreen"
-          />
-        </MenuItem>
-        <MenuItem value="communication">
-          <Item icon={<TvIcon />} text="Communication, PC" bgColor="magenta" />
-        </MenuItem>
-        <MenuItem value="financialIncome">
-          <Item
-            icon={<PaymentsIcon />}
-            text="Financial Incomes"
-            bgColor="lightblue"
-          />
-        </MenuItem>
-        <MenuItem value="investment">
-          <Item icon={<AutoGraphIcon />} text="Investments" bgColor="#db2c55" />
-        </MenuItem>
-        <MenuItem value="income">
-          <Item icon={<PriceCheckIcon />} text="Income" bgColor="yellow" />
-        </MenuItem>
-        <MenuItem value="others">
-          <Item icon={<ListIcon />} text="Others" bgColor="brown" />
-        </MenuItem>
-      </TextField>
 
       <TextField
         type="time"
@@ -325,6 +232,8 @@ const Income = () => {
         label="Payer"
         placeholder="Enter payer name"
         fullWidth
+        value={payer}
+        onChange={(event) => setPayer(event.target.value)}
         InputLabelProps={{
           shrink: true,
         }}
@@ -341,8 +250,8 @@ const Income = () => {
         multiline
         fullWidth
         maxRows={2}
-        value={note}
-        onChange={(event) => setNote(event.target.value)}
+        value={notes}
+        onChange={(event) => setNotes(event.target.value)}
         InputLabelProps={{
           shrink: true,
         }}
@@ -352,6 +261,35 @@ const Income = () => {
           },
         }}
       />
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent="space-between"
+      >
+        <Button
+          onClick={handleSubmit}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[600],
+            textTransform: "none",
+            color: "white",
+          }}
+        >
+          <Typography variant="body2">Add</Typography>
+        </Button>
+        <Button
+          onClick={onClose}
+          sx={{
+            width: "208px",
+            height: "40px",
+            backgroundColor: colors.purple[200],
+            textTransform: "none",
+          }}
+        >
+          <Typography variant="body2">Cancel</Typography>
+        </Button>
+      </Stack>
     </Box>
   );
 };

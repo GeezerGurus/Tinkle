@@ -6,6 +6,7 @@ import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
 import { Loader} from "../../components/utils";
+import { GoalClosedImage } from "../../assets/empty";
 
 export const Paused = ({isSmallScreen,state}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,12 +50,16 @@ export const Paused = ({isSmallScreen,state}) => {
         overflowY: "auto",
         overflowX: "hidden",
         padding: "0px 2%",
+        backgroundImage:
+        filteredGoals.length === 0 ? `url(${GoalClosedImage})` : "none",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "40%",
+      backgroundPosition: "center",
       }}
     >
-      {isLoading ? (
-        <p>Loading...</p> // or any loading spinner
-      ): 
-      (filteredGoals.map((list, index) => (
+      
+      
+        {filteredGoals.map((list, index) => (
           <SavingItem
             key={index}
             id={list._id}
@@ -67,8 +72,8 @@ export const Paused = ({isSmallScreen,state}) => {
             state={list.state}
             refresh={fetchGoals}
           />
-        ))
-      )}
+        ))}
+      
     </Box>
   );
 };

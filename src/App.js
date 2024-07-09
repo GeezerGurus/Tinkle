@@ -51,7 +51,7 @@ function App() {
     }
   }, [login]);
 
-  const hideTopbarAndSidebarRoutes = ["/", "/404"]; // Add routes where you want to hide Topbar and Sidebar
+  const hideTopbarAndSidebarRoutes = ["/", "/page-not-found"]; // Add routes where you want to hide Topbar and Sidebar
 
   const shouldShowTopbarAndSidebar = !hideTopbarAndSidebarRoutes.includes(
     location.pathname
@@ -248,8 +248,8 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              <Route path="/404" element={<PageNotFound />} />
-              <Route path="*" element={<Navigate to="/404" />} />
+              <Route path="/page-not-found" element={<PageNotFound />} />
+              <Route path="*" element={<Navigate to="/page-not-found" />} />
             </Routes>
           </main>
         </div>

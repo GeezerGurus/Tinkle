@@ -22,7 +22,7 @@ import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import MovieIcon from "@mui/icons-material/Movie";
-import { Icons as iconsMap } from "../../components/utils";
+import { CategoryIcons as iconsMap } from "../../components/utils";
 import { tokens } from "../../theme";
 
 const categories = [

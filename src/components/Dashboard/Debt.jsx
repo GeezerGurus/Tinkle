@@ -4,7 +4,7 @@ import { Owe } from "./Owe";
 import { Lend } from "./Lend";
 import { Loader, ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
-import { getDebtRecord } from "../../api/debtRecord";
+import { getDebtRecord } from "../../api/debtRecordApi";
 
 const Debt = () => {
   const theme = useTheme();

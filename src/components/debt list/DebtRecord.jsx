@@ -14,8 +14,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditDebtRecord from "./EditDebtRecord";
 import { ConfirmModal } from "../utils";
-import { deleteLendDebtItem } from "../../api/lendDebtItem";
-import { deleteOweDebtItem } from "../../api/oweDebtItems";
+import { deleteLendDebtItem } from "../../api/lendDebtItemsApi";
+import { deleteOweDebtItem } from "../../api/oweDebtItemsApi";
 
 const DebtRecord = ({
   id,

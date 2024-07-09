@@ -13,8 +13,8 @@ import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
 import { getAccounts } from "../../api/accountApi";
-import { postLendDebtItem } from "../../api/lendDebtItem";
-import { postOweDebtItem } from "../../api/oweDebtItems";
+import { postLendDebtItem } from "../../api/lendDebtItemsApi";
+import { postOweDebtItem } from "../../api/oweDebtItemsApi";
 import { enqueueSnackbar } from "notistack";
 
 const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {

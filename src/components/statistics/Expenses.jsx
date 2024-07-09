@@ -1,7 +1,9 @@
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { tokens } from "../../theme";
 import PieActiveArc from "./PieActiveArc";
+import { getRecords } from "../../api/recordsApi";
+import { getCategory } from "../../api/categoriesApi";
 
 const pieData = [
   { id: 0, value: 88000, label: "Education and Development" },
@@ -13,8 +15,79 @@ const pieData = [
 const Expenses = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [records, setRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [categories, setCategories] = useState({});
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const fetchCategoryNames = async (categoryIds) => {
+    const categoryMap = {};
+    await Promise.all(
+      categoryIds.map(async (id) => {
+        try {
+          const res = await getCategory(id);
+          categoryMap[id] = { name: res.name, color: res.color };
+        } catch (error) {
+          console.log("Error Getting Category Name");
+        }
+      })
+    );
+    return categoryMap;
+  };
+
+  const fetchRecord = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getRecords();
+      const expenseCategories = [
+        ...new Set(
+          res
+            .filter((record) => record.type === "expense")
+            .map((record) => record.category)
+        ),
+      ];
+      const categoryNames = await fetchCategoryNames(expenseCategories);
+      setCategories(categoryNames);
+      setRecords(res);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error in fetching Records");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchRecord();
+  }, []);
+
+  const expenses =
+    records?.filter((expense) => expense.type === "expense") || [];
+
+  console.log(expenses);
+  // Function to group and sum the expenses by category
+  const groupAndSumByCategory = (expenses) => {
+    return expenses.reduce((acc, expense) => {
+      const { category, amount } = expense;
+      if (!acc[category]) {
+        const categoryData = categories[category] || {
+          name: category,
+          color: "gray",
+        };
+        acc[category] = {
+          label: `${categoryData.name} `,
+          color: `${categoryData.color}`,
+          value: 0,
+        };
+      }
+      acc[category].value += amount;
+      return acc;
+    }, {});
+  };
+
+  const summedExpenses = Object.values(groupAndSumByCategory(expenses));
+
+  console.log(summedExpenses);
 
   return (
     <Paper
@@ -41,7 +114,7 @@ const Expenses = () => {
       >
         <Typography variant={isSmallScreen ? "h6" : "h4"}>Expenses</Typography>
       </Box>
-      <PieActiveArc data={pieData} />
+      <PieActiveArc data={summedExpenses} />
     </Paper>
   );
 };

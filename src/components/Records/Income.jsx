@@ -44,10 +44,10 @@ const Income = ({ onClose, accounts, budgets }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!acc) {
+    if (!acc && selectedOption === "account") {
       errors.acc = "Account is required";
     }
-    if (!budget) {
+    if (!budget && selectedOption === "budget") {
       errors.budget = "Budget is required";
     }
     if (!amount) {

@@ -18,7 +18,7 @@ import CreateDebtRecord from "./CreateDebtRecord";
 import { ConfirmModal } from "../utils";
 import { Link, useLocation } from "react-router-dom";
 import EditDebtList from "./EditDebtList";
-import { deleteDebtRecord } from "../../api/debtRecord";
+import { deleteDebtRecord } from "../../api/debtRecordApi";
 
 const Debt = ({
   name,

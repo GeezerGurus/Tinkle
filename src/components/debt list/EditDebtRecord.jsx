@@ -13,8 +13,8 @@ import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
 import { getAccounts } from "../../api/accountApi";
-import { patchLendDebtItem } from "../../api/lendDebtItem";
-import { patchOweDebtItem } from "../../api/oweDebtItems";
+import { patchLendDebtItem } from "../../api/lendDebtItemsApi";
+import { patchOweDebtItem } from "../../api/oweDebtItemsApi";
 import { enqueueSnackbar } from "notistack";
 
 const EditDebtRecord = ({

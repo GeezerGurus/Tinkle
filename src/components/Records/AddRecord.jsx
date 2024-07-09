@@ -1,25 +1,45 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Paper,
   Typography,
   useTheme,
   Button,
   ButtonGroup,
-  Stack,
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import Expense from "./Expense";
 import Income from "./Income";
 import Transfer from "./Transfer";
+import { getAccounts } from "../../api/accountApi";
+import { getBudgets } from "../../api/budgetsApi";
 
 const AddRecord = ({ onClose }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const [page, setPage] = useState("expense");
+  const [accounts, setAccounts] = useState([]);
+  const [budgets, setBudgets] = useState([]);
 
   const handlePageChange = useCallback((value) => {
     setPage(value);
+  }, []);
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      const accountsData = await getAccounts();
+      setAccounts(accountsData);
+    };
+    fetchAccounts();
+  }, []);
+
+  useEffect(() => {
+    const fetchBudgets = async () => {
+      const accountsData = await getBudgets();
+      setBudgets(accountsData);
+    };
+    fetchBudgets();
   }, []);
 
   const buttonStyles = {
@@ -32,11 +52,17 @@ const AddRecord = ({ onClose }) => {
   const pageComponent = (() => {
     switch (page) {
       case "expense":
-        return <Expense />;
+        return (
+          <Expense onClose={onClose} accounts={accounts} budgets={budgets} />
+        );
       case "income":
-        return <Income />;
+        return (
+          <Income onClose={onClose} accounts={accounts} budgets={budgets} />
+        );
       case "transfer":
-        return <Transfer />;
+        return (
+          <Transfer onClose={onClose} accounts={accounts} budgets={budgets} />
+        );
       default:
         return null;
     }
@@ -44,7 +70,6 @@ const AddRecord = ({ onClose }) => {
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper
@@ -52,14 +77,14 @@ const AddRecord = ({ onClose }) => {
         position: "relative",
         padding: isLargest ? "8px 0" : "24px 0",
         width: isMediumScreen ? "95vw" : "686px",
-        height: isLargest ? "95vh" : "805px",
+        height: isLargest ? "72vh" : "805px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         flexDirection: "column",
       }}
     >
-      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+      <Typography variant="h4" sx={{ color: colors.purple[900] }} gutterBottom>
         Add Record
       </Typography>
       <ButtonGroup
@@ -93,35 +118,6 @@ const AddRecord = ({ onClose }) => {
 
       {/* Conditional Rendering */}
       {pageComponent}
-
-      <Stack
-        gap={1}
-        direction={isSmallScreen ? "column" : "row"}
-        justifyContent="space-between"
-      >
-        <Button
-          sx={{
-            width: "208px",
-            height: "40px",
-            backgroundColor: colors.purple[600],
-            textTransform: "none",
-            color: "white",
-          }}
-        >
-          <Typography variant="body2">Add</Typography>
-        </Button>
-        <Button
-          onClick={onClose}
-          sx={{
-            width: "208px",
-            height: "40px",
-            backgroundColor: colors.purple[200],
-            textTransform: "none",
-          }}
-        >
-          <Typography variant="body2">Cancel</Typography>
-        </Button>
-      </Stack>
     </Paper>
   );
 };

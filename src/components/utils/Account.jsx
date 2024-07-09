@@ -21,7 +21,7 @@ export const Account = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-    setOpen(false); // Ensure menu closes when an item is clicked or outside click
+    setOpen(false);
   };
 
   const handleRadioChange = (event) => {

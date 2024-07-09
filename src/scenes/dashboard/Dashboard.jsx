@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -119,7 +119,7 @@ const Dashboard = () => {
                 Title={account.name}
                 Amount={account.balance}
                 BgColor={colorOrder[index]}
-                refresh = {fetchAccounts}
+                refresh={fetchAccounts}
                 isMediumScreen={isMediumScreen}
               />
             )

@@ -333,7 +333,6 @@ export const SavingItem = ({
               onClick={async () => {
                 await deleteGoal(id);
                 refresh();
-                
                 handleClose();
               }}
               highlight={"Delete"}

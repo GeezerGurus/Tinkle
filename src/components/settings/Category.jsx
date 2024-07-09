@@ -14,20 +14,30 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import DeleteCategory from "./DeleteCategory";
 import EditCategory from "./EditCategory";
 import { tokens } from "../../theme";
+import { CategoryIcons } from "../utils";
+import { patchCategory } from "../../api/categorySetting";
 
-const Category = ({ icon: Icon, backgroundColor, name }) => {
+const Category = ({ id,name,icon, backgroundColor, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  
+
+  
+  const Icon = CategoryIcons[icon];
 
   return (
     <Grid
-      item
+      item xxs={12} sm={6}
       sx={{
-        width: isSmallScreen ? "100%" : "45%",
+        width: isSmallScreen ? "100%" :"50%",
+        maxWidth: "400px !important", 
         height: "64px",
         borderBottom: "1px solid grey",
         display: "flex",
@@ -39,10 +49,10 @@ const Category = ({ icon: Icon, backgroundColor, name }) => {
       <Stack direction={"row"} alignItems={"center"} gap={1}>
         <Icon
           sx={{
-            width: "40px",
-            height: "40px",
-            color: "white",
-            backgroundColor: backgroundColor,
+            width: "65px",
+            height: "65px",
+            
+            color: backgroundColor,
             borderRadius: "50%",
             padding: "4px",
           }}
@@ -95,16 +105,21 @@ const Category = ({ icon: Icon, backgroundColor, name }) => {
           {modal === "delete" ? (
             <DeleteCategory
               onClose={() => setOpenModal(false)}
+              id={id}
               name={name}
-              backgroundColor={backgroundColor}
-              icon={Icon}
+              color={backgroundColor}
+              icon={icon}
+              refresh={refresh}
             />
           ) : (
             <EditCategory
               onClose={() => setOpenModal(false)}
-              name={name}
-              backgroundColor={backgroundColor}
-              icon={Icon}
+              id={id}
+              categoryicon={icon}
+              username={name}
+              bgcolor={backgroundColor}
+              
+              refresh={refresh}
             />
           )}
         </Box>

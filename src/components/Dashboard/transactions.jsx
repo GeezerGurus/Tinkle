@@ -1,4 +1,4 @@
-import * as React from "react";
+import { React, useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -15,6 +15,7 @@ import {
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
+import { getRecords } from "../../api/recordsApi";
 
 const DataRow = ({ data, colors }) => {
   return (
@@ -88,21 +89,25 @@ const DataRow = ({ data, colors }) => {
 };
 
 const BasicTable = ({ colors }) => {
-  const rowsData = [
-    ["Date", "Category", "Account", "Notes", "Amount"],
-    ["01-01-2024", "Groceries", "Savings", "Weekly shopping", "MMK 50.00"],
-    ["01-02-2024", "Utilities", "Checking", "Electric bill", "MMK 100.00"],
-    ["01-03-2024", "Entertainment", "Credit Card", "Movie night", "MMK 20.00"],
-    ["01-04-2024", "Transportation", "Checking", "Gasoline", "MMK 40.00"],
-    ["01-05-2024", "Healthcare", "Savings", "Doctor's visit", "MMK 80.00"],
-  ];
+  const [rowsData, setRowsData] = useState([]);
+
+  const headers = ["Date", "Category", "Account", "Notes", "Amount"];
+
+  const fetchRecords = async () => {
+    const res = await getRecords();
+    setRowsData(res);
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
 
   return (
     <TableContainer sx={{ overflow: "hidden" }}>
       <Table sx={{ border: "none" }}>
         <TableHead>
           <TableRow>
-            {rowsData[0].map((header, index) => (
+            {headers.map((header, index) => (
               <TableCell
                 key={index}
                 align="center"
@@ -114,7 +119,7 @@ const BasicTable = ({ colors }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsData.slice(1).map((rowData, index) => (
+          {rowsData.map((rowData, index) => (
             <DataRow key={index} data={rowData} colors={colors} />
           ))}
         </TableBody>

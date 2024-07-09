@@ -1,26 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Paper,
   Typography,
   useTheme,
   Button,
   ButtonGroup,
-  Stack,
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import Expense from "./Expense";
-import Income from "./Income";
-import Transfer from "./Transfer";
+import { getAccounts } from "../../api/accountApi";
+import { getBudgets } from "../../api/budgetsApi";
+import EditExpense from "./EditExpense";
+import EditIncome from "./EditIncome";
 
-const EditRecord = ({ onClose }) => {
+const EditRecord = ({ onClose, dataRow, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [page, setPage] = useState("expense");
 
-  const handlePageChange = (event) => {
-    setPage(event.target.value);
-  };
+  const [page, setPage] = useState("expense");
+  const [accounts, setAccounts] = useState([]);
+  const [budgets, setBudgets] = useState([]);
+
+  const handlePageChange = useCallback((value) => {
+    setPage(value);
+  }, []);
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      const accountsData = await getAccounts();
+      setAccounts(accountsData);
+    };
+    fetchAccounts();
+  }, []);
+
+  useEffect(() => {
+    const fetchBudgets = async () => {
+      const budgetsData = await getBudgets();
+      setBudgets(budgetsData);
+    };
+    fetchBudgets();
+  }, []);
 
   const buttonStyles = {
     borderRadius: "16px",
@@ -29,10 +48,35 @@ const EditRecord = ({ onClose }) => {
     textTransform: "none",
   };
 
+  const pageComponent = (() => {
+    switch (page) {
+      case "expense":
+        return (
+          <EditExpense
+            onClose={onClose}
+            accounts={accounts}
+            budgets={budgets}
+            dataRow={dataRow}
+            refresh={refresh}
+          />
+        );
+      case "income":
+        return (
+          <EditIncome
+            onClose={onClose}
+            accounts={accounts}
+            budgets={budgets}
+            dataRow={dataRow}
+            refresh={refresh}
+          />
+        );
+      default:
+        return null;
+    }
+  })();
+
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper
@@ -40,14 +84,14 @@ const EditRecord = ({ onClose }) => {
         position: "relative",
         padding: isLargest ? "8px 0" : "24px 0",
         width: isMediumScreen ? "95vw" : "686px",
-        height: isLargest ? "95vh" : "805px",
+        height: isLargest ? "72vh" : "805px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         flexDirection: "column",
       }}
     >
-      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+      <Typography variant="h4" sx={{ color: colors.purple[900] }} gutterBottom>
         Edit Record
       </Typography>
       <ButtonGroup
@@ -57,68 +101,60 @@ const EditRecord = ({ onClose }) => {
           border: `1px solid ${colors.purple[600]}`,
         }}
       >
-        {["expense", "income", "transfer"].map((type) => (
-          <Button
-            key={type}
-            value={type}
-            onClick={handlePageChange}
-            sx={{
-              ...buttonStyles,
-              backgroundColor: page === type ? colors.purple[600] : "white",
-              color: page === type ? "white" : colors.purple[600],
-              "&:hover": {
-                backgroundColor:
-                  page === type ? colors.purple[200] : colors.purple[100],
-                color: "white",
-              },
-            }}
-          >
-            <Typography variant="body2">
-              {type.charAt(0).toUpperCase() + type.slice(1)}
-            </Typography>
-          </Button>
-        ))}
+        <Button
+          key="expense"
+          onClick={() => handlePageChange("expense")}
+          sx={{
+            ...buttonStyles,
+            backgroundColor: page === "expense" ? colors.purple[600] : "white",
+            color: page === "expense" ? "white" : colors.purple[600],
+            "&:hover": {
+              backgroundColor:
+                page === "expense" ? colors.purple[200] : colors.purple[100],
+              color: "white",
+            },
+          }}
+        >
+          <Typography variant="body2">Expense</Typography>
+        </Button>
+        <Button
+          key="income"
+          onClick={() => handlePageChange("income")}
+          sx={{
+            ...buttonStyles,
+            backgroundColor: page === "income" ? colors.purple[600] : "white",
+            color: page === "income" ? "white" : colors.purple[600],
+            "&:hover": {
+              backgroundColor:
+                page === "income" ? colors.purple[200] : colors.purple[100],
+              color: "white",
+            },
+          }}
+        >
+          <Typography variant="body2">Income</Typography>
+        </Button>
+        <Button
+          key="transfer"
+          disabled
+          sx={{
+            ...buttonStyles,
+            backgroundColor: page === "transfer" ? colors.purple[600] : "white",
+            color: page === "transfer" ? "white" : colors.purple[600],
+            "&:hover": {
+              backgroundColor:
+                page === "transfer" ? colors.purple[200] : colors.purple[100],
+              color: "white",
+            },
+          }}
+        >
+          <Typography variant="body2">Transfer</Typography>
+        </Button>
       </ButtonGroup>
 
       {/* Conditional Rendering */}
-      {page === "expense" ? (
-        <Expense />
-      ) : page === "income" ? (
-        <Income />
-      ) : (
-        <Transfer />
-      )}
-
-      <Stack
-        gap={1}
-        direction={isSmallScreen ? "column" : "row"}
-        justifyContent="space-between"
-      >
-        <Button
-          sx={{
-            width: "208px",
-            height: "40px",
-            backgroundColor: colors.purple[600],
-            textTransform: "none",
-            color: "white",
-          }}
-        >
-          <Typography variant="body2">Save</Typography>
-        </Button>
-        <Button
-          onClick={onClose}
-          sx={{
-            width: "208px",
-            height: "40px",
-            backgroundColor: colors.purple[200],
-            textTransform: "none",
-          }}
-        >
-          <Typography variant="body2">Cancel</Typography>
-        </Button>
-      </Stack>
+      {pageComponent}
     </Paper>
   );
 };
 
-export default EditRecord;
+export default React.memo(EditRecord);

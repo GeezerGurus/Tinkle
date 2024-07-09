@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Modal, Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import AddRecord from "../records/AddRecord";
+import { AddRecord } from "../records";
 
 const RecordBtn = ({ color, hoverColor }) => {
   const [open, setOpen] = useState(false);

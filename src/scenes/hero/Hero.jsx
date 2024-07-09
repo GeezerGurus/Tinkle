@@ -7,13 +7,13 @@ import {
   Stack,
   useTheme,
   Divider,
-  Avatar,
   Accordion,
+  Avatar,
   AccordionSummary,
   AccordionDetails,
   Grid,
   Modal,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import {
   DashboardImage,
@@ -30,6 +30,7 @@ import {
   ListItem2Image,
   ListItem3Image,
   KnowledgeImage,
+  LogoDarkImage,
 } from "../../assets/hero";
 import { tokens } from "../../theme";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -40,6 +41,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Form from "../../components/auth/Form";
 import { Heroavatarprofile } from "../../components/hero";
+import { Directions } from "@mui/icons-material";
 const Hero = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -48,24 +50,21 @@ const Hero = () => {
   const [open, setOpen] = useState(false);
 
   const profiles = [
-    
-      { code: "0", name: "Wai Yan Htut", job: "DL" },
-      { code: "01", name: "Yei Khant Lwin", job: "Nigga" },
-      { code: "02", name: "Zayar Naing", job: "broke coder" },
-      { code: "03", name: "Zaw Lin Naing", job: "brooken coder" }
+    { code: "0", name: "Wai Yan Htut", job: "DL" },
+    { code: "01", name: "Yei Khant Lwin", job: "Nigga" },
+    { code: "02", name: "Zayar Naing", job: "broke coder" },
+    { code: "03", name: "Zaw Lin Naing", job: "brooken coder" },
     // Add more profiles as needed
   ];
 
-  const profiles2=[
+  const profiles2 = [
     { code: "05", name: "Ye Yint Naing Oo", job: "Designer" },
-    
+
     { code: "08", name: "Sithu", job: "A Ba" },
     { code: "06", name: "Sai Sai Lin Htet", job: "E boy" },
     { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
     { code: "04", name: "Swan Lynn Htun", job: "Edi coder" },
-    
   ];
-  
 
   useEffect(() => {
     const sections = ["past", "present", "future"];
@@ -84,7 +83,7 @@ const Hero = () => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-    
+
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
@@ -110,13 +109,16 @@ const Hero = () => {
       >
         <Stack
           direction={"row"}
-          
           justifyContent={"space-between"}
           alignItems={"center"}
           padding={"8px 16px"}
-          >
-          <Typography variant="h6">Tinkle</Typography>
-          <Stack direction={"row"} gap={1} display={isSmallScreen?"none":"block"}>
+        >
+          <img
+            src={LogoDarkImage}
+            alt="Tinkle"
+            style={{ width: "88px", objectFit: "contain" }}
+          />
+          <Stack direction={"row"} display={isSmallScreen ? "none" : "block"}>
             <Button
               component="a"
               href="#home"
@@ -124,10 +126,13 @@ const Hero = () => {
                 textTransform: "none",
                 borderRadius: "0",
                 borderBottom: `2px solid ${colors.purple[600]}`,
+                margin: 1,
               }}
               color="inherit"
             >
-              <Typography variant={isSmallScreen?"body4":"body2"}>Home</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                Home
+              </Typography>
             </Button>
             <Button
               component="a"
@@ -136,10 +141,13 @@ const Hero = () => {
                 textTransform: "none",
                 borderRadius: "0",
                 borderBottom: `2px solid ${colors.purple[600]}`,
+                margin: 1,
               }}
               color="inherit"
             >
-              <Typography variant={isSmallScreen?"body4":"body2"}>Features</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                Features
+              </Typography>
             </Button>
             <Button
               component="a"
@@ -148,10 +156,13 @@ const Hero = () => {
                 textTransform: "none",
                 borderRadius: "0",
                 borderBottom: `2px solid ${colors.purple[600]}`,
+                margin: 1,
               }}
               color="inherit"
             >
-              <Typography variant={isSmallScreen?"body4":"body2"}>About</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                About
+              </Typography>
             </Button>
             <Button
               component="a"
@@ -160,10 +171,13 @@ const Hero = () => {
                 textTransform: "none",
                 borderRadius: "0",
                 borderBottom: `2px solid ${colors.purple[600]}`,
+                margin: 1,
               }}
               color="inherit"
             >
-              <Typography variant={isSmallScreen?"body4":"body2"}>Support</Typography>
+              <Typography variant={isSmallScreen ? "body4" : "body2"}>
+                Support
+              </Typography>
             </Button>
           </Stack>
           <Button
@@ -182,7 +196,9 @@ const Hero = () => {
               textTransform: "none",
             }}
           >
-            <Typography variant={isSmallScreen?"body4":"Hbody2"}>Sign Up</Typography>
+            <Typography variant={isSmallScreen ? "body4" : "Hbody2"}>
+              Sign Up
+            </Typography>
           </Button>
         </Stack>
       </Box>
@@ -207,22 +223,32 @@ const Hero = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant={isSmallScreen?"title2":"title5" }gutterBottom textAlign={"center"}>
+          <Typography
+            variant={isSmallScreen ? "title2" : "title5"}
+            gutterBottom
+            textAlign={"center"}
+          >
             Let's Make Your Finance Glow With{" "}
             <Typography
               component="span"
-              variant={isSmallScreen?"title2":"title5" }
+              variant={isSmallScreen ? "title2" : "title5"}
               sx={{ color: colors.purple[600] }}
             >
               Tinkle
             </Typography>
             !
           </Typography>
-          <Typography variant={isSmallScreen?"Hbody3":"Hbody2" } textAlign={"center"}>
+          <Typography
+            variant={isSmallScreen ? "Hbody3" : "Hbody2"}
+            textAlign={"center"}
+          >
             Twinkle is a new platform where you can track, set and make plans
             for your finance.
           </Typography>
-          <Typography variant={isSmallScreen?"Hbody3":"Hbody2"} textAlign={"center"}>
+          <Typography
+            variant={isSmallScreen ? "Hbody3" : "Hbody2"}
+            textAlign={"center"}
+          >
             If you love being organize and wants a secure future. Come Join Us!
           </Typography>
           <Button
@@ -240,7 +266,9 @@ const Hero = () => {
               textTransform: "none",
             }}
           >
-            <Typography variant={isSmallScreen?"body3":"Hbody2" }>Join Us</Typography>
+            <Typography variant={isSmallScreen ? "body3" : "Hbody2"}>
+              Join Us
+            </Typography>
           </Button>
         </Box>
 
@@ -270,7 +298,7 @@ const Hero = () => {
         </Stack>
 
         {/* Features */}
-        <Box 
+        <Box
           id="features"
           sx={{
             display: "flex",
@@ -278,13 +306,21 @@ const Hero = () => {
             alignItems: "center",
             gap: 16,
           }}
-          
         >
-          <Stack width={"72%"}>
+<<<<<<< HEAD
+          <Stack width={"72%"} >
             <Typography variant={isSmallScreen?"h6":"title4"} gutterBottom textAlign={"center"}>
+=======
+          <Stack width={"72%"}>
+            <Typography
+              variant={isSmallScreen ? "h6" : "title4"}
+              gutterBottom
+              textAlign={"center"}
+            >
+>>>>>>> e7b2d5ccfe7395fc9b833702a2e7c417dd5597f8
               <Typography
                 component="span"
-                variant={isSmallScreen?"h6":"title4"}
+                variant={isSmallScreen ? "h6" : "title4"}
                 sx={{ color: colors.purple[600] }}
               >
                 Tinkle{" "}
@@ -294,7 +330,16 @@ const Hero = () => {
           </Stack>
 
           {/* Timeline  */}
-          <Stack display={isSmallScreen?"none":undefined} direction={"row"} width={"100%"} height={"64vh"}>
+<<<<<<< HEAD
+          <Stack  direction={"row"} width={"100%"} height={"64vh"}>
+=======
+          <Stack
+            display={isSmallScreen ? "none" : undefined}
+            direction={"row"}
+            width={"100%"}
+            height={"64vh"}
+          >
+>>>>>>> e7b2d5ccfe7395fc9b833702a2e7c417dd5597f8
             {/* Past Section */}
             <Stack alignItems={"center"} position={"relative"} width={"25%"}>
               <Typography variant="title2" gutterBottom>
@@ -501,11 +546,11 @@ const Hero = () => {
           alignItems={"center"}
         >
           {/* 1st  */}
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={12} md={5} >
             <Stack>
               <Typography variant={"title1"}>Tired of Forgetting:</Typography>
               <Typography
-                variant={isSmallScreen?"title1":"title3"}
+                variant={isSmallScreen ? "title1" : "title3"}
                 sx={{ color: colors.purple[600] }}
                 gutterBottom
               >
@@ -518,7 +563,7 @@ const Hero = () => {
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <img
               src={ListItem1Image}
               alt=""
@@ -529,7 +574,27 @@ const Hero = () => {
             />
           </Grid>
           {/* 2nd  */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={5}  display={isMediumScreen?"block":"none"}>
+            <Stack>
+              <Typography variant="title1">Tired of Forgetting:</Typography>
+              <Typography
+                variant="title3"
+                sx={{ color: colors.purple[800] }}
+                gutterBottom
+              >
+                The Things To Buy?{" "}
+              </Typography>
+              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+                Sometimes, we love to list out all the things that we want to
+                buy or that we need to buy. And it can be a hassle to list it on
+                a paper where it can get lost easily. Try our list taking
+                feature and take unlimited lists and items as you desire to stay
+                organized.
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+          
             <img
               src={ListItem2Image}
               alt=""
@@ -539,7 +604,7 @@ const Hero = () => {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={12} md={5} display={isMediumScreen?"none":"block"}>
             <Stack>
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
@@ -559,7 +624,7 @@ const Hero = () => {
             </Stack>
           </Grid>
           {/* 3 rd  */}
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={12} md={5}>
             <Stack>
               <Typography variant="title1">Want To List:</Typography>
               <Typography
@@ -576,7 +641,7 @@ const Hero = () => {
               </Typography>
             </Stack>
           </Grid>{" "}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <img
               src={ListItem3Image}
               alt=""
@@ -589,7 +654,12 @@ const Hero = () => {
         </Grid>
 
         {/* Knowledge page  */}
-        <Stack direction={isMediumScreen?"column":"row"} textAlign={isMediumScreen?"center": undefined} alignItems={"center"} mb={8}>
+        <Stack
+          direction={isMediumScreen ? "column" : "row"}
+          textAlign={isMediumScreen ? "center" : undefined}
+          alignItems={"center"}
+          mb={8}
+        >
           <img
             src={KnowledgeImage}
             alt=""
@@ -598,25 +668,27 @@ const Hero = () => {
               objectFit: "contain",
             }}
           />
-          <Stack width={"80%"} >
-            <Typography variant={isSmallScreen?"title2":"title3"}>Need Advice on</Typography>
-            <Stack direction={"row"}  columnGap={2} justifyContent={"center"}>
+          <Stack width={"80%"}>
+            <Typography variant={isSmallScreen ? "title2" : "title3"}>
+              Need Advice on
+            </Typography>
+            <Stack direction={"row"} columnGap={2} justifyContent={"center"}>
               <Typography
-                variant={isSmallScreen?"title1":"title3"}
+                variant={isSmallScreen ? "title1" : "title3"}
                 sx={{ color: colors.purple[600] }}
                 gutterBottom
               >
                 Business?
               </Typography>
               <Typography
-                variant={isSmallScreen?"title1":"title3"}
+                variant={isSmallScreen ? "title1" : "title3"}
                 sx={{ color: colors.purple[800] }}
                 gutterBottom
               >
                 Finance?
               </Typography>
             </Stack>
-            <Typography variant={isSmallScreen?"body1":"title1"}>
+            <Typography variant={isSmallScreen ? "body1" : "title1"}>
               Get Advice and Suggestions, Gain
               <br /> Knowledge and See Business Ideas from our Handpicked Videos
               and Books
@@ -625,23 +697,29 @@ const Hero = () => {
         </Stack>
 
         {/* our team pages  */}
-        <Stack display={"none"} width={"100%"} alignItems={"center"} mb={7} id="about">
+        <Stack
+          display={"none"}
+          width={"100%"}
+          alignItems={"center"}
+          mb={7}
+          id="about"
+        >
           <Typography variant="title3">Meet Our Team</Typography>
           <Typography
             variant="title4"
             gutterBottom
-            textAlign={isSmallScreen?"center":undefined}
+            textAlign={isSmallScreen ? "center" : undefined}
             sx={{ color: colors.purple[900] }}
           >
             Passionate, Proactive, Resilient
           </Typography>
           {/* Avatars  */}
-          <Stack width={"100%"} >
+          <Stack width={"100%"}>
             <Stack
               spacing={2}
               width={"100%"}
               direction="row"
-              alignSelf={"center"} 
+              alignSelf={"center"}
               // direction={isSmallScreen?"column":"row"}
               justifyContent={"center"}
               padding={"40px 32px"}
@@ -652,23 +730,21 @@ const Hero = () => {
                 src={RightArrowImage2}
                 alt=""
                 style={{
-                  height: isSmallScreen?"20vw":"40%",
+                  height: isSmallScreen ? "20vw" : "40%",
                   position: "absolute",
                   objectFit: "contain",
                   top: 0,
                   right: 30,
                 }}
               />
-               
-               {profiles.map((profile, index) => (
-                    
-                    <Heroavatarprofile
-                      code={profile.code}
-                      name={profile.name}
-                      job={profile.job}
-                    />
-                  
-                ))}
+
+              {profiles.map((profile, index) => (
+                <Heroavatarprofile
+                  code={profile.code}
+                  name={profile.name}
+                  job={profile.job}
+                />
+              ))}
             </Stack>
             <Divider />
             <Stack
@@ -684,23 +760,20 @@ const Hero = () => {
                 src={LeftArrowImage2}
                 alt=""
                 style={{
-                  height: isSmallScreen?"8%":"40%",
+                  height: isSmallScreen ? "8%" : "40%",
                   position: "absolute",
                   objectFit: "contain",
                   bottom: 50,
-                  left: isSmallScreen?"-15px":"-30px",
+                  left: isSmallScreen ? "-15px" : "-30px",
                 }}
               />
               {profiles2.map((profile, index) => (
-                    
-                    <Heroavatarprofile
-                      code={profile.code}
-                      name={profile.name}
-                      job={profile.job}
-                    />
-                  
-                ))}
-              
+                <Heroavatarprofile
+                  code={profile.code}
+                  name={profile.name}
+                  job={profile.job}
+                />
+              ))}
             </Stack>
           </Stack>
           <Typography variant="Hbody1" sx={{ color: colors.purple[900] }}>
@@ -721,20 +794,28 @@ const Hero = () => {
               <img
                 src={ThreeStarsImage}
                 alt=""
-                style={{ width: 70, height: 70 }}
+                style={{ width: isSmallScreen?"50px":70, height: isSmallScreen?"50px":70 }}
               />
-              <Typography variant="title4" textAlign={"center"} sx={{ color: colors.purple[900] }}>
+<<<<<<< HEAD
+              <Typography variant={isSmallScreen?"title1":"title4"} textAlign={"center"} sx={{ color: colors.purple[900] }}>
+=======
+              <Typography
+                variant="title4"
+                textAlign={"center"}
+                sx={{ color: colors.purple[900] }}
+              >
+>>>>>>> e7b2d5ccfe7395fc9b833702a2e7c417dd5597f8
                 HELP CENTER
               </Typography>
               <img
                 src={ThreeStarsImage}
                 alt=""
-                style={{ width: 70, height: 70, transform: "scaleX(-1)" }}
+                style={{ width: isSmallScreen?"50px":70, height: isSmallScreen?"50px":70, transform: "scaleX(-1)" }}
               />
             </Box>
             <Typography
-            padding={"20px"}
-              variant={isSmallScreen?"body1":"Hbody2"}
+              padding={"20px"}
+              variant={isSmallScreen ? "body1" : "Hbody2"}
               sx={{ color: colors.purple[900] }}
               textAlign={"center"}
             >
@@ -752,22 +833,32 @@ const Hero = () => {
             mb={3}
             flexWrap={"wrap"}
           >
-            <Stack padding="20px" alignItems={"center"} gap={2} width={isSmallScreen?"100%":"25%"}  >
+            <Stack
+              padding="20px"
+              alignItems={"center"}
+              gap={2}
+              width={isSmallScreen ? "100%" : "25%"}
+            >
               <lord-icon
                 src="https://cdn.lordicon.com/rsvfayfn.json"
                 trigger="hover"
-                style={{ width: isSmallScreen?"50px":"72px", height: isSmallScreen?"50px":"72px" }}
+                style={{
+                  width: isSmallScreen ? "50px" : "72px",
+                  height: isSmallScreen ? "50px" : "72px",
+                }}
               ></lord-icon>
               <Typography
                 gutterBottom
-                variant={isSmallScreen?"body3":"title1"}
+                variant={isSmallScreen ? "body3" : "title1"}
                 sx={{ color: colors.purple[900] }}
               >
                 Reach Out Directly
               </Typography>
-              <Typography variant={isSmallScreen?"body5":"Hbody2" }textAlign={"center"}>
-                Prefer to send us and 
-                email or give us a call?
+              <Typography
+                variant={isSmallScreen ? "body5" : "Hbody2"}
+                textAlign={"center"}
+              >
+                Prefer to send us and email or give us a call?
                 <br />
                 Email:{" "}
                 <a href="" style={{ textDecoration: "none" }}>
@@ -775,44 +866,61 @@ const Hero = () => {
                 </a>
               </Typography>
             </Stack>
-            <Stack padding="20px" alignItems={"center"} gap={2} width={isSmallScreen?"100%":"25%"}  >
-              
+            <Stack
+              padding="20px"
+              alignItems={"center"}
+              gap={2}
+              width={isSmallScreen ? "100%" : "25%"}
+            >
               <lord-icon
                 src="https://cdn.lordicon.com/axteoudt.json"
                 trigger="hover"
-                style={{ width: isSmallScreen?"50px":"72px", height: isSmallScreen?"50px":"72px" }}
+                style={{
+                  width: isSmallScreen ? "50px" : "72px",
+                  height: isSmallScreen ? "50px" : "72px",
+                }}
               ></lord-icon>
               <Typography
                 gutterBottom
-                variant={isSmallScreen?"body3":"title1"}
+                variant={isSmallScreen ? "body3" : "title1"}
                 sx={{ color: colors.purple[900] }}
               >
                 Tell Us Your Experience
               </Typography>
-              
-              
-              
-              <Typography variant={isSmallScreen?"body5":"Hbody2" } textAlign={"center"}>
-                We are incredibly excited to
-                hear your stories and feedback.
+
+              <Typography
+                variant={isSmallScreen ? "body5" : "Hbody2"}
+                textAlign={"center"}
+              >
+                We are incredibly excited to hear your stories and feedback.
               </Typography>
             </Stack>{" "}
-            <Stack padding="20px" alignItems={"center"} gap={2} width={isSmallScreen?"100%":"25%"} >
+            <Stack
+              padding="20px"
+              alignItems={"center"}
+              gap={2}
+              width={isSmallScreen ? "100%" : "25%"}
+            >
               <lord-icon
                 src="https://cdn.lordicon.com/fdxqrdfe.json"
                 trigger="hover"
-                style={{ width: isSmallScreen?"50px":"72px", height: isSmallScreen?"50px":"72px" }}
+                style={{
+                  width: isSmallScreen ? "50px" : "72px",
+                  height: isSmallScreen ? "50px" : "72px",
+                }}
               ></lord-icon>
               <Typography
                 gutterBottom
-                variant={isSmallScreen?"body3":"title1"}
+                variant={isSmallScreen ? "body3" : "title1"}
                 sx={{ color: colors.purple[900] }}
               >
                 Immediate Assistance?
               </Typography>
-              <Typography variant={isSmallScreen?"body5":"Hbody2" }textAlign={"center"}>
-                Come chat with us any time on
-                our official Face Book Page.
+              <Typography
+                variant={isSmallScreen ? "body5" : "Hbody2"}
+                textAlign={"center"}
+              >
+                Come chat with us any time on our official Face Book Page.
                 <br />
                 <a href="" style={{ textDecoration: "none" }}>
                   Geezers Co.
@@ -822,7 +930,7 @@ const Hero = () => {
           </Stack>
 
           {/* Quick Answers  */}
-          <Stack alignItems={"center"} gap={2} height={"100vh"}>
+          <Stack alignItems={"center"} gap={2} marginBottom={"20px"} height={"auto"} g>
             <Typography variant="title1" sx={{ color: colors.purple[900] }}>
               Quick Answers
             </Typography>

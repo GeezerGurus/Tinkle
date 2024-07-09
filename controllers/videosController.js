@@ -69,11 +69,7 @@ exports.patchVideo = async (req, res) => {
             return res.status(404).json({ message: "Video not found!" });
         }
 
-        if (req.userId) {
-          video.userId = req.userId;
-        } else {
-          return res.status(401).json({ error: "Unauthorized" });
-        }
+        video.userId = req.userId;
         if (title) video.title = title;
         if (creator) video.creator = creator;
         if (link) video.link = link;

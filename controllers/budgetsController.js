@@ -2,7 +2,7 @@ const BudgetSchema = require("../models/Budget");
 
 exports.addBudget = async (req, res) => {
   const userId = req.userId;
-  const { name, period, amount, endDate, startDate, description } = req.body;
+  const { name, period, amount, endDate, startDate, description, initial } = req.body;
 
   try {
     if ( !name || !amount || !period) {
@@ -19,7 +19,8 @@ exports.addBudget = async (req, res) => {
       amount,
       endDate,
       startDate,
-      description
+      description,
+      initial
     });
   
     await budget.save();
@@ -67,7 +68,7 @@ exports.getBudgetPeriodically = async (req, res) => {
 
 exports.patchBudget = async (req, res) => {
   const { budgetId } = req.params;
-  const { name, period, amount, endDate, startDate, description } = req.body;
+  const { name, period, amount, endDate, startDate, description, initial } = req.body;
   try {
         const budget = await BudgetSchema.findOne({ userId: req.userId ,_id: budgetId });
         if (!budget) {
@@ -83,7 +84,8 @@ exports.patchBudget = async (req, res) => {
         if (endDate) budget.endDate = endDate;
         if (startDate) budget.startDate = startDate;
         if (description) budget.description = description;
-        
+        if (initial) budget.initial = initial;
+
         await budget.save();
 
         res.status(200).json({ message: "Budget updated successfully", budget });

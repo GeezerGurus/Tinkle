@@ -13,6 +13,9 @@ const budgetSchema = new Schema(
       required: true,
       trim: true,
     },
+    initial: {
+      type: String,
+    },
     amount: {
       type: Number,
       required: true,

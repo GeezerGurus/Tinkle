@@ -2,21 +2,21 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const requireAuth = (req, res, next) => {
-  const token =
-    req.headers.authorization && req.headers.authorization.split(" ")[1];
-    // const token = req.cookies.jwt;
+  // const token =
+  //   req.headers.authorization && req.headers.authorization.split(" ")[1];
+    const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, "net ninja secret", (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.status(401).json({ error: "Unauthorized" });
+        return res.status(401).json({ error: "Unauthorized" });
       } else {
         req.userId = decodedToken.id;
         next();
       }
     });
   } else {
-    res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: "Unauthorized" });
   }
 };
 

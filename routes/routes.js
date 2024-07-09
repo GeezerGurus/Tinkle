@@ -1,4 +1,6 @@
-const { requireAuth } = require("../middlewares/authentication"); //Apply this middleware to routes that should only be accessible to authenticated users. For example look at incomes route
+const { requireAuth } = require("../middlewares/authentication");
+const upload = require("../middlewares/upload");
+
 const {
   addUser,
   getUsers,
@@ -53,6 +55,7 @@ const {
   signup_post,
   login_post,
   getUser,
+  addProfilePic,
   updateEmail,
   updatePassword,
   updateProfile,
@@ -117,6 +120,7 @@ router
   .post("/login", login_post)
   .get("/getuser", requireAuth, getUser)
   .post("/logout", requireAuth, logout)
+  .post("/user/profile/photo", requireAuth, upload.single('profilePhoto'), addProfilePic)
   .patch("/user/newemail", requireAuth, updateEmail)
   .patch("/user/profile", requireAuth, updateProfile)
   .patch("/user/newpassword", requireAuth, updatePassword)

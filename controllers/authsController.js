@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const upload = require("../middlewares/upload");
 
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -89,6 +90,21 @@ exports.getUser = async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error });
+  }
+};
+
+exports.addProfilePic = async (req, res) => {
+  try {
+      const user = await User.findById(req.userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found!" });
+      };
+      user.profilePhoto = req.file.path;
+      await user.save();
+      return res.status(200).json({ message: "Profile image updated successfully" });
+  } catch (error) {
+      console.error("Error adding profile photo:", error);
+      return res.status(500).json({ message: "Internal server error" });
   }
 };
 

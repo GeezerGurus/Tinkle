@@ -30,6 +30,10 @@ const videoSchema = new Schema(
       trim: true,
       maxlength: 500,
     },
+    category: {
+      type: String,
+      trim: true,
+    },
     thumbnail: {
       type: String,
       trim: true,

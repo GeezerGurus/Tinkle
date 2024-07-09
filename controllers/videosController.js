@@ -1,7 +1,7 @@
 const VideoSchema = require("../models/Video");
 
 exports.addVideo = async (req, res) => {
-  const { title, creator, description, link, thumbnail, favourite } = req.body;
+  const { title, creator, description, link, category, thumbnail, favourite } = req.body;
 
   try {
     if (!title || !creator || !link) {
@@ -13,6 +13,7 @@ exports.addVideo = async (req, res) => {
         creator,
         description,
         link,
+        category,
         thumbnail,
         favourite
     });
@@ -58,7 +59,7 @@ exports.getFavouriteVideos = async (req, res) => {
 
 exports.patchVideo = async (req, res) => {
   const { videoId } = req.params;
-  const { title, creator, description, link, thumbnail, favourite } = req.body;
+  const { title, creator, description, link, category, thumbnail, favourite } = req.body;
   try {
         const video = await VideoSchema.findOne({ _id: videoId });
         if (!video) {
@@ -74,6 +75,7 @@ exports.patchVideo = async (req, res) => {
         if (creator) video.creator = creator;
         if (link) video.link = link;
         if (description) video.description = description;
+        if (category) video.category = category;
         if (thumbnail) video.thumbnail = thumbnail;
         if (favourite !== undefined) video.favourite = favourite;
 

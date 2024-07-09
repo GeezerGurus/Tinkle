@@ -22,7 +22,6 @@ const bookSchema = new Schema(
     category: {
       type: String,
       trim: true,
-      maxlength: 50,
     },
     description: {
       type: String,

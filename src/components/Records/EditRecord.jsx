@@ -12,6 +12,7 @@ import { getAccounts } from "../../api/accountApi";
 import { getBudgets } from "../../api/budgetsApi";
 import EditExpense from "./EditExpense";
 import EditIncome from "./EditIncome";
+import { getCategories } from "../../api/categoriesApi";
 
 const EditRecord = ({ onClose, dataRow, refresh }) => {
   const theme = useTheme();
@@ -20,6 +21,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
   const [page, setPage] = useState("expense");
   const [accounts, setAccounts] = useState([]);
   const [budgets, setBudgets] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const handlePageChange = useCallback((value) => {
     setPage(value);
@@ -41,6 +43,14 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
     fetchBudgets();
   }, []);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+    };
+    fetchCategories();
+  }, []);
+
   const buttonStyles = {
     borderRadius: "16px",
     height: "40px",
@@ -58,6 +68,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
             budgets={budgets}
             dataRow={dataRow}
             refresh={refresh}
+            categories={categories}
           />
         );
       case "income":
@@ -68,6 +79,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
             budgets={budgets}
             dataRow={dataRow}
             refresh={refresh}
+            categories={categories}
           />
         );
       default:
@@ -77,6 +89,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   return (
     <Paper
@@ -84,7 +97,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
         position: "relative",
         padding: isLargest ? "8px 0" : "24px 0",
         width: isMediumScreen ? "95vw" : "686px",
-        height: isLargest ? "72vh" : "805px",
+        height: isMediumScreen ? "72vh" : isLaptop ? "95vh" : "805px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

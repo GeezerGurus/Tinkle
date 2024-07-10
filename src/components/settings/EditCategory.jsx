@@ -7,16 +7,25 @@ import {
   useTheme,
   Box,
   MenuItem,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
-import { CategoryIcons, CategoryColors } from "../../components/utils";
+import { CategoryIcons, useCategoryColors } from "../../components/utils";
 import { tokens } from "../../theme";
-import { patchCategory } from "../../api/categorySetting";
+import { patchCategory } from "../../api/categoriesApi";
 
-const EditCategory = ({ onClose, username, categoryicon, bgcolor, refresh, id }) => {
+const EditCategory = ({
+  onClose,
+  username,
+  categoryicon,
+  bgcolor,
+  refresh,
+  id,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const CategoryColors = useCategoryColors();
 
   const [icon, setIcon] = useState(categoryicon || "");
   const [color, setColor] = useState(bgcolor || "");
@@ -26,7 +35,7 @@ const EditCategory = ({ onClose, username, categoryicon, bgcolor, refresh, id })
     const newStatus = {
       icon: icon,
       color: color,
-      name: name
+      name: name,
     };
 
     await patchCategory(id, newStatus);
@@ -49,7 +58,7 @@ const EditCategory = ({ onClose, username, categoryicon, bgcolor, refresh, id })
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        padding: isSmallScreen ? "33px 28px" : "32px 112px"
+        padding: isSmallScreen ? "33px 28px" : "32px 112px",
       }}
     >
       {/* Title  */}
@@ -118,7 +127,11 @@ const EditCategory = ({ onClose, username, categoryicon, bgcolor, refresh, id })
       </Box>
 
       {/* button  */}
-      <Stack gap={1} direction={isSmallScreen ? "column" : "row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           onClick={handleChange}
           sx={{
@@ -135,9 +148,7 @@ const EditCategory = ({ onClose, username, categoryicon, bgcolor, refresh, id })
         >
           <Typography variant="body2">Save</Typography>
         </Button>
-        <Button onClick={() => console.log({ user: username, icon: categoryicon, color: bgcolor })}>
-          Test
-        </Button>
+
         <Button
           onClick={onClose}
           sx={{
@@ -158,4 +169,4 @@ const EditCategory = ({ onClose, username, categoryicon, bgcolor, refresh, id })
   );
 };
 
-export default EditCategory;  // Ensure this is present
+export default EditCategory; // Ensure this is present

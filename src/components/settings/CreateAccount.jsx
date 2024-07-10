@@ -22,9 +22,25 @@ const CreateAccount = ({ onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [name, setAccountName] = useState("");
-  const [balance, setCurrentBalance] = useState();
+  const [balance, setCurrentBalance] = useState(0);
   const [type, setSelectedOption] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!name) {
+      errors.name = "Name is required";
+    }
+    if (balance <= 0) {
+      errors.balance = "Balance must be greater than 0";
+    } else if (!balance) {
+      errors.balance = "Balance is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const menuProps = {
@@ -36,6 +52,9 @@ const CreateAccount = ({ onClose, refresh }) => {
     },
   };
   const handleSaveAccount = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       await postAccount({
         name,
@@ -94,6 +113,7 @@ const CreateAccount = ({ onClose, refresh }) => {
       <TextField
         placeholder="Enter a name"
         label="Name"
+        required
         fullWidth
         onChange={(e) => {
           setAccountName(e.target.value);
@@ -102,12 +122,16 @@ const CreateAccount = ({ onClose, refresh }) => {
         inputProps={{ min: "0" }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.name}
+        helperText={errors.name}
       />
 
       <TextField
         type="number"
         label="Current Balance"
+        required
         value={balance}
         onChange={(e) => {
           setCurrentBalance(Number(e.target.value));
@@ -128,7 +152,10 @@ const CreateAccount = ({ onClose, refresh }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.balance}
+        helperText={errors.balance}
       />
 
       <TextField

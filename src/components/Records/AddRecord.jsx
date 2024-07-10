@@ -13,6 +13,7 @@ import Income from "./Income";
 import Transfer from "./Transfer";
 import { getAccounts } from "../../api/accountApi";
 import { getBudgets } from "../../api/budgetsApi";
+import { getCategories } from "../../api/categoriesApi";
 
 const AddRecord = ({ onClose }) => {
   const theme = useTheme();
@@ -21,6 +22,7 @@ const AddRecord = ({ onClose }) => {
   const [page, setPage] = useState("expense");
   const [accounts, setAccounts] = useState([]);
   const [budgets, setBudgets] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const handlePageChange = useCallback((value) => {
     setPage(value);
@@ -36,10 +38,18 @@ const AddRecord = ({ onClose }) => {
 
   useEffect(() => {
     const fetchBudgets = async () => {
-      const accountsData = await getBudgets();
-      setBudgets(accountsData);
+      const budgetsData = await getBudgets();
+      setBudgets(budgetsData);
     };
     fetchBudgets();
+  }, []);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+    };
+    fetchCategories();
   }, []);
 
   const buttonStyles = {
@@ -53,15 +63,30 @@ const AddRecord = ({ onClose }) => {
     switch (page) {
       case "expense":
         return (
-          <Expense onClose={onClose} accounts={accounts} budgets={budgets} />
+          <Expense
+            onClose={onClose}
+            accounts={accounts}
+            budgets={budgets}
+            categories={categories}
+          />
         );
       case "income":
         return (
-          <Income onClose={onClose} accounts={accounts} budgets={budgets} />
+          <Income
+            onClose={onClose}
+            accounts={accounts}
+            budgets={budgets}
+            categories={categories}
+          />
         );
       case "transfer":
         return (
-          <Transfer onClose={onClose} accounts={accounts} budgets={budgets} />
+          <Transfer
+            onClose={onClose}
+            accounts={accounts}
+            budgets={budgets}
+            categories={categories}
+          />
         );
       default:
         return null;
@@ -70,6 +95,7 @@ const AddRecord = ({ onClose }) => {
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   return (
     <Paper
@@ -77,7 +103,7 @@ const AddRecord = ({ onClose }) => {
         position: "relative",
         padding: isLargest ? "8px 0" : "24px 0",
         width: isMediumScreen ? "95vw" : "686px",
-        height: isLargest ? "72vh" : "805px",
+        height: isLaptop ? "95vh" : isLargest ? "72vh" : "805px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

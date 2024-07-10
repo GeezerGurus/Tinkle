@@ -13,14 +13,16 @@ import {
 } from "@mui/material";
 import Category from "../../components/settings/Category";
 import { enqueueSnackbar } from "notistack";
-import { CategoryIcons, CategoryColors } from "../../components/utils";
+import { CategoryIcons, useCategoryColors } from "../../components/utils";
 import { tokens } from "../../theme";
-import { getCategories, postCategory } from "../../api/categorySetting";
-import Loader from "../../components/utils";
+import { getCategories, postCategory } from "../../api/categoriesApi";
+import { Loader } from "../../components/utils";
 
 const CategorySettings = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const CategoryColors = useCategoryColors();
 
   const [icon, setIcon] = useState("");
   const [color, setColor] = useState("");
@@ -34,7 +36,7 @@ const CategorySettings = () => {
         name: name,
         icon: icon,
         color: color,
-      })
+      });
       const newList = {
         name: name,
         icon: icon,
@@ -75,7 +77,7 @@ const CategorySettings = () => {
         height: "100%",
       }}
     >
-      
+      <Loader isLoading={isLoading} />
       <Paper
         sx={{
           mt: "20px",
@@ -85,7 +87,7 @@ const CategorySettings = () => {
           height: isSmallScreen ? "1000px" : "100%",
           display: "flex",
           flexDirection: "column",
-          
+
           alignItems: "center",
           backgroundColor: colors.purple[50],
         }}
@@ -116,7 +118,12 @@ const CategorySettings = () => {
               flexWrap: isLargeScreen ? "wrap" : undefined,
             }}
           >
-            <Stack gap={2} direction="row" alignItems="flex-end" sx={{ width: isLargeScreen ? "100%" : "60%" }}>
+            <Stack
+              gap={2}
+              direction="row"
+              alignItems="flex-end"
+              sx={{ width: isLargeScreen ? "100%" : "60%" }}
+            >
               <Stack gap={1} width={"30%"}>
                 <Typography variant="body2">Icon</Typography>
                 <TextField
@@ -160,7 +167,12 @@ const CategorySettings = () => {
               </Stack>
             </Stack>
 
-            <Stack gap={2} direction="row" alignItems="flex-end" sx={{ width: isLargeScreen ? "100%" : "40%" }}>
+            <Stack
+              gap={2}
+              direction="row"
+              alignItems="flex-end"
+              sx={{ width: isLargeScreen ? "100%" : "40%" }}
+            >
               <Stack gap={1} width={"100%"}>
                 <Typography variant="body2">Name</Typography>
                 <TextField
@@ -197,14 +209,22 @@ const CategorySettings = () => {
           Your Categories
         </Typography>
 
-        <Box sx={{ width: "100%", height: "auto", marginTop: "30px", overflowY: "auto" }}>
+        <Box
+          sx={{
+            width: "100%",
+            height: "auto",
+            marginTop: "30px",
+            overflowY: "auto",
+          }}
+        >
           <Grid
             container
-            rowGap={6} Spacing={3}
+            rowGap={6}
+            Spacing={3}
             sx={{
               display: "flex",
-              
-              justifyContent: "space-between", 
+
+              justifyContent: "space-between",
               flexDirection: isSmallScreen ? "column" : "row",
             }}
           >

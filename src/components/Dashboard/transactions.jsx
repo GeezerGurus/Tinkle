@@ -12,20 +12,53 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import { ShowMoreBtn } from "../utils";
+import { CategoryIcons, Loader, ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 import { getRecords } from "../../api/recordsApi";
 import { getAccount } from "../../api/accountApi";
+import { getBudget } from "../../api/budgetsApi";
+import { getCategory } from "../../api/categoriesApi";
 
-const DataRow = ({ data, colors, accountName }) => {
+const DataRow = ({ data, colors, entityName, icon }) => {
+  const IconComponent = icon ? CategoryIcons[icon.icon] : null;
+
   return (
-    <TableRow>
+    <TableRow
+      sx={{
+        backgroundColor: data.type === "expense" ? colors.purple[100] : "",
+      }}
+    >
       <TableCell
         align="center"
         sx={{ borderBottom: "none", paddingBottom: "8px" }}
       >
         <Typography variant="body4"> {data.date.split("T")[0]}</Typography>
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{ borderBottom: "none", paddingBottom: "8px" }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {IconComponent && (
+            <IconComponent
+              sx={{
+                marginRight: 1,
+                color: "white",
+                border: "1px solid",
+                borderColor: icon.color,
+                backgroundColor: icon.color,
+                borderRadius: "50%",
+              }}
+            />
+          )}
+          <Typography variant="body4">{icon?.name}</Typography>
+        </Box>
       </TableCell>
       <TableCell
         align="center"
@@ -50,40 +83,8 @@ const DataRow = ({ data, colors, accountName }) => {
               marginRight: "8px",
             }}
           />
-          <RestaurantIcon
-            sx={{
-              marginRight: 1,
-              color: "white",
-              border: "1px solid",
-              borderColor:
-                data.type === "income"
-                  ? colors.green[100]
-                  : colors.category.red,
-              backgroundColor:
-                data.type === "income"
-                  ? colors.green[100]
-                  : colors.category.red,
-              borderRadius: "50%",
-            }}
-          />
-          <Typography
-            variant="body4"
-            sx={{
-              color:
-                data.type === "income"
-                  ? colors.green[500]
-                  : colors.extra.red_accent,
-            }}
-          >
-            {data.name}
-          </Typography>
+          <Typography variant="body4"> {entityName}</Typography>
         </Box>
-      </TableCell>
-      <TableCell
-        align="center"
-        sx={{ borderBottom: "none", paddingBottom: "8px" }}
-      >
-        <Typography variant="body4"> {accountName}</Typography>
       </TableCell>
       <TableCell
         align="center"
@@ -113,28 +114,58 @@ const DataRow = ({ data, colors, accountName }) => {
 
 const BasicTable = ({ colors }) => {
   const [rowsData, setRowsData] = useState([]);
-  const [accountNames, setAccountNames] = useState({}); // Added state for account names
+  const [entityNames, setEntityNames] = useState({});
+  const [categoryDetails, setCategoryDetails] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const headers = ["Date", "Category", "Account", "Notes", "Amount"];
+  const headers = ["Date", "Category", "Account/Budget", "Notes", "Amount"];
 
   const fetchRecords = async () => {
-    const records = await getRecords();
-    setRowsData(records);
+    setIsLoading(true);
+    try {
+      const records = await getRecords();
+      setRowsData(records);
 
-    // Fetch account names for each row
-    const accountIds = records.map((record) => record.accountId);
-    const uniqueAccountIds = [...new Set(accountIds)];
-    const namesMap = {};
+      // Fetch account/budget names for each row
+      const entityIds = records.map((record) =>
+        record.accountId ? record.accountId : record.budgetId
+      );
+      const uniqueEntityIds = [...new Set(entityIds)];
+      const entityNamesMap = {};
 
-    // Fetch account details for each unique accountId
-    await Promise.all(
-      uniqueAccountIds.map(async (id) => {
-        const account = await getAccount(id);
-        namesMap[id] = account.name;
-      })
-    );
+      await Promise.all(
+        uniqueEntityIds.map(async (id) => {
+          const entity = records.find((record) => record.accountId === id)
+            ? await getAccount(id)
+            : await getBudget(id);
+          entityNamesMap[id] = entity.name;
+        })
+      );
 
-    setAccountNames(namesMap);
+      setEntityNames(entityNamesMap);
+
+      // Fetch category details for each row
+      const categoryIds = records.map((record) => record.category);
+      const uniqueCategoryIds = [...new Set(categoryIds)];
+      const categoryDetailsMap = {};
+
+      await Promise.all(
+        uniqueCategoryIds.map(async (id) => {
+          const category = await getCategory(id);
+          categoryDetailsMap[id] = {
+            name: category.name,
+            color: category.color,
+            icon: category.icon,
+          };
+        })
+      );
+
+      setCategoryDetails(categoryDetailsMap);
+    } catch (error) {
+      console.error("Error fetching records:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -142,7 +173,8 @@ const BasicTable = ({ colors }) => {
   }, []);
 
   return (
-    <TableContainer sx={{ overflow: "hidden" }}>
+    <TableContainer sx={{ overflow: "hidden", padding: "0 24px" }}>
+      <Loader isLoading={isLoading} />
       <Table sx={{ border: "none" }}>
         <TableHead>
           <TableRow>
@@ -158,14 +190,20 @@ const BasicTable = ({ colors }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsData.map((rowData, index) => (
-            <DataRow
-              key={index}
-              data={rowData}
-              colors={colors}
-              accountName={accountNames[rowData.accountId]}
-            />
-          ))}
+          {Array.isArray(rowsData) &&
+            rowsData
+              .slice(0, 5)
+              .map((rowData, index) => (
+                <DataRow
+                  key={index}
+                  data={rowData}
+                  colors={colors}
+                  entityName={
+                    entityNames[rowData.accountId || rowData.budgetId]
+                  }
+                  icon={categoryDetails[rowData.category]}
+                />
+              ))}
         </TableBody>
       </Table>
     </TableContainer>
@@ -184,7 +222,6 @@ const Transactions = ({ isMediumScreen }) => {
         display: isMediumScreen ? "none" : "",
         height: isLargeScreen ? "auto" : "354px",
         borderRadius: "16px",
-        // overflowY: "auto",
       }}
     >
       <Box

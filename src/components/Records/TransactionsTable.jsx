@@ -16,16 +16,19 @@ import {
   Button,
   Modal,
   Paper,
+  Stack,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { ConfirmModal, Loader } from "../utils";
+import { CategoryIcons, ConfirmModal, Loader } from "../utils";
 import EditRecord from "./EditRecord";
 import { tokens } from "../../theme";
 import { getRecords, deleteRecord } from "../../api/recordsApi";
 import { getAccount } from "../../api/accountApi";
+import { getBudget } from "../../api/budgetsApi";
+import { getCategory } from "../../api/categoriesApi";
 
 const CustomToolbar = ({ action }) => {
   return (
@@ -50,15 +53,19 @@ const CustomToolbar = ({ action }) => {
   );
 };
 
-const CustomFooter = ({ selectedRows, handleBulkDelete }) => {
+const CustomFooter = ({ selectedRows, handleBulkDelete, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <GridFooterContainer>
       {selectedRows.length > 0 ? (
         <Button
-          onClick={handleBulkDelete}
+          onClick={() => {
+            setOpenModal(true);
+          }}
           sx={{
             textTransform: "none",
             color: "white",
@@ -76,6 +83,33 @@ const CustomFooter = ({ selectedRows, handleBulkDelete }) => {
         <Box sx={{ flexGrow: 1 }} />
       )}
       <GridPagination />
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <ConfirmModal
+            highlight={"Delete"}
+            color={colors.extra.red_accent}
+            promptText={"Do you really want to Delete?"}
+            description={
+              <>
+                This action will delete all the selected records and make
+                changes to your
+                <br /> balance accounts.
+              </>
+            }
+            snackbarText={"Records deleted!"}
+            refresh={refresh}
+            onClick={handleBulkDelete}
+            onClose={() => setOpenModal(false)}
+          />
+        </Box>
+      </Modal>
     </GridFooterContainer>
   );
 };
@@ -88,7 +122,8 @@ const TransactionsTable = ({ action }) => {
   const [openModal, setOpenModal] = useState(false);
   const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [accountNames, setAccountNames] = useState({});
+  const [entityNames, setEntityNames] = useState({});
+  const [categoryDetails, setCategoryDetails] = useState({});
   const [selectedRow, setSelectedRow] = useState();
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -104,15 +139,30 @@ const TransactionsTable = ({ action }) => {
         return params.split("T")[0];
       },
     },
-    { field: "category", headerName: "Category", flex: 1 },
     {
-      field: "account",
-      headerName: "Account",
+      field: "category",
+      headerName: "Category",
       flex: 1,
-      // do not delete params
+      renderCell: (params) => {
+        const categoryId = params.row.category;
+        const category = categoryDetails[categoryId] || {};
+        const IconComponent = CategoryIcons[category.icon];
+
+        return (
+          <Stack direction={"row"} alignItems={"center"} gap={1}>
+            {IconComponent && <IconComponent sx={{ color: category.color }} />}
+            {category.name}
+          </Stack>
+        );
+      },
+    },
+    {
+      field: "entity",
+      headerName: "Accounts/Budgets",
+      flex: 1,
       valueGetter: (params, row) => {
-        const accountId = row.accountId;
-        return accountNames[accountId] || "";
+        const entityId = row.accountId ? row.accountId : row.budgetId;
+        return entityNames[entityId] || "";
       },
     },
     { field: "notes", headerName: "Note", flex: 1 },
@@ -178,20 +228,41 @@ const TransactionsTable = ({ action }) => {
       const records = await getRecords();
       setRows(records);
 
-      // Fetch account names for each row
-      const accountIds = records.map((record) => record.accountId);
-      const uniqueAccountIds = [...new Set(accountIds)];
-      const namesMap = {};
+      // Fetch entity names for each row (either account or budget)
+      const entityIds = records.map((record) =>
+        record.accountId ? record.accountId : record.budgetId
+      );
+      const uniqueEntityIds = [...new Set(entityIds)];
+      const entityNamesMap = {};
 
-      // Fetch account details for each unique accountId
       await Promise.all(
-        uniqueAccountIds.map(async (id) => {
-          const account = await getAccount(id);
-          namesMap[id] = account.name;
+        uniqueEntityIds.map(async (id) => {
+          const entity = records.find((record) => record.accountId === id)
+            ? await getAccount(id)
+            : await getBudget(id); // Fetch from budget API for budgetId
+          entityNamesMap[id] = entity.name;
         })
       );
 
-      setAccountNames(namesMap);
+      setEntityNames(entityNamesMap);
+
+      // Fetch category details for each row
+      const categoryIds = records.map((record) => record.category);
+      const uniqueCategoryIds = [...new Set(categoryIds)];
+      const categoryDetailsMap = {};
+
+      await Promise.all(
+        uniqueCategoryIds.map(async (id) => {
+          const category = await getCategory(id);
+          categoryDetailsMap[id] = {
+            name: category.name,
+            color: category.color,
+            icon: category.icon,
+          };
+        })
+      );
+
+      setCategoryDetails(categoryDetailsMap);
     } catch (error) {
       console.error("Error fetching records:", error);
     } finally {
@@ -233,14 +304,14 @@ const TransactionsTable = ({ action }) => {
         date: true,
         category: true,
         amount: true,
-        account: false,
+        entity: false,
         notes: false,
         actions: action === "edit",
       }
     : {
         date: true,
         category: true,
-        account: true,
+        entity: true,
         notes: true,
         amount: true,
         actions: action === "edit",
@@ -272,6 +343,7 @@ const TransactionsTable = ({ action }) => {
               <CustomFooter
                 selectedRows={selectedRows}
                 handleBulkDelete={handleBulkDelete}
+                refresh={fetchRecords}
               />
             ),
           }}
@@ -299,8 +371,8 @@ const TransactionsTable = ({ action }) => {
               promptText={"Do you really want to Delete?"}
               description={
                 <>
-                  This action will delete all the selected records and make
-                  changes to your
+                  This action will delete the selected record and make changes
+                  to your
                   <br /> balance accounts.
                 </>
               }

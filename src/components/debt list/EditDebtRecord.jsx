@@ -13,8 +13,8 @@ import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
 import { getAccounts } from "../../api/accountApi";
-import { patchLendDebtItem } from "../../api/lendDebtItem";
-import { patchOweDebtItem } from "../../api/oweDebtItems";
+import { patchLendDebtItem } from "../../api/lendDebtItemsApi";
+import { patchOweDebtItem } from "../../api/oweDebtItemsApi";
 import { enqueueSnackbar } from "notistack";
 
 const EditDebtRecord = ({
@@ -30,10 +30,20 @@ const EditDebtRecord = ({
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [accountsData, setAccountsData] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState(amount);
   const [selectedAccount, setSelectedAccount] = useState(account);
   const [selectedDate, setSelectedDate] = useState(date);
+
+  const validateForm = () => {
+    const errors = {};
+    if (selectedAmount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleAmountChange = (event) => {
     setSelectedAmount(event.target.value);
@@ -58,6 +68,9 @@ const EditDebtRecord = ({
   }, []);
 
   const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       const data = {
         amount: selectedAmount,
@@ -115,9 +128,11 @@ const EditDebtRecord = ({
         InputLabelProps={{
           shrink: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
-      <TextField
+      {/* <TextField
         value={selectedAccount}
         onChange={handleAccountChange}
         select
@@ -139,7 +154,7 @@ const EditDebtRecord = ({
             />
           </MenuItem>
         ))}
-      </TextField>
+      </TextField> */}
 
       <TextField
         label="Date"

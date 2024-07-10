@@ -15,7 +15,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import { AccountIcons, Item } from "../utils";
+import { AccountIcons, CategoryIcons, Item } from "../utils";
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 import { postRecord } from "../../api/recordsApi";
@@ -27,10 +27,11 @@ const getCurrentTimeString = () => {
   return `${hours}:${minutes}`;
 };
 
-const Expense = ({ onClose, accounts, budgets }) => {
+const Expense = ({ onClose, accounts, budgets, categories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [acc, setAcc] = useState("");
   const [selectedOption, setSelectedOption] = useState("account");
   const [budget, setBudget] = useState("");
@@ -40,6 +41,30 @@ const Expense = ({ onClose, accounts, budgets }) => {
   const [notes, setNotes] = useState("");
   const [amount, setAmount] = useState("");
   const [payee, setPayee] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!acc && selectedOption === "account") {
+      errors.acc = "Account is required";
+    }
+    if (!budget && selectedOption === "budget") {
+      errors.budget = "Budget is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    if (!time) {
+      errors.time = "Time is required";
+    }
+    if (!date) {
+      errors.date = "Date is required";
+    }
+    setErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -70,14 +95,13 @@ const Expense = ({ onClose, accounts, budgets }) => {
       notes,
     };
 
+    if (!validateForm()) {
+      return;
+    }
+    console.log("here");
     try {
       await postRecord(recordData);
-      if (
-        window.location.pathname === "/records" ||
-        window.location.pathname === "/settings/balance-accounts"
-      ) {
-        window.location.reload();
-      }
+      window.location.reload();
       onClose();
     } catch (error) {
       console.error("Error posting record:", error);
@@ -121,8 +145,10 @@ const Expense = ({ onClose, accounts, budgets }) => {
       {selectedOption === "account" && (
         <TextField
           label="Account"
+          required
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           fullWidth
           select
@@ -133,6 +159,8 @@ const Expense = ({ onClose, accounts, budgets }) => {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
             },
           }}
+          error={!!errors.acc}
+          helperText={errors.acc}
           disabled={accounts.length === 0}
         >
           {accounts.length === 0 ? (
@@ -155,10 +183,12 @@ const Expense = ({ onClose, accounts, budgets }) => {
 
       {selectedOption === "budget" && (
         <TextField
+          required
           fullWidth
           select
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           InputProps={{
             sx: {
@@ -169,6 +199,8 @@ const Expense = ({ onClose, accounts, budgets }) => {
           value={budget}
           onChange={(event) => setBudget(event.target.value)}
           displayEmpty
+          error={!!errors.budget}
+          helperText={errors.budget}
           disabled={budgets.length === 0}
         >
           {budgets.length === 0 ? (
@@ -191,6 +223,7 @@ const Expense = ({ onClose, accounts, budgets }) => {
       <TextField
         label="Amount"
         type="number"
+        required
         fullWidth
         placeholder="Enter amount"
         value={amount}
@@ -213,14 +246,15 @@ const Expense = ({ onClose, accounts, budgets }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
-        type="time"
         fullWidth
-        placeholder="Enter time"
-        label="Time"
+        select
         InputLabelProps={{
           shrink: true,
         }}
@@ -229,13 +263,48 @@ const Expense = ({ onClose, accounts, budgets }) => {
             height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
           },
         }}
+        label="Category"
+        value={category}
+        onChange={(event) => setCategory(event.target.value)}
+        displayEmpty
+        disabled={categories.length === 0}
+      >
+        {categories.map((category) => (
+          <MenuItem key={category._id} value={category._id}>
+            <Item
+              icon={CategoryIcons[category.icon]}
+              text={category.name}
+              bgColor={category.color}
+            />
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <TextField
+        type="time"
+        required
+        fullWidth
+        placeholder="Enter time"
+        label="Time"
+        InputLabelProps={{
+          shrink: true,
+          required: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
         value={time}
         onChange={(event) => setTime(event.target.value)}
+        error={!!errors.time}
+        helperText={errors.time}
       />
 
       <TextField
         type="date"
         label="Date"
+        required
         fullWidth
         placeholder="Enter date"
         value={date}
@@ -251,7 +320,10 @@ const Expense = ({ onClose, accounts, budgets }) => {
         }}
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
+        error={!!errors.date}
+        helperText={errors.date}
       />
 
       <TextField

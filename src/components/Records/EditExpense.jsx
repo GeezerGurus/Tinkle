@@ -15,21 +15,29 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import { Item } from "../utils";
+import { CategoryIcons, Item } from "../utils";
 import { useTheme } from "@emotion/react";
 import { patchRecord } from "../../api/recordsApi";
 import { enqueueSnackbar } from "notistack";
 
-const EditExpense = ({ onClose, accounts, budgets, dataRow, refresh }) => {
+const EditExpense = ({
+  onClose,
+  accounts,
+  budgets,
+  dataRow,
+  refresh,
+  categories,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const [acc, setAcc] = useState(dataRow.accountId);
-  const [selectedOption, setSelectedOption] = useState("account");
+  const [selectedOption, setSelectedOption] = useState(
+    dataRow.accountId ? "account" : "budget"
+  );
   const [budget, setBudget] = useState(dataRow.budgetId);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(dataRow.category);
   const [time, setTime] = useState(dataRow.time);
-  const [date, setDate] = useState(dataRow.date);
+  const [date, setDate] = useState(dataRow.date.split("T")[0]);
   const [notes, setNotes] = useState(dataRow.notes);
   const [amount, setAmount] = useState(dataRow.amount);
   const [payee, setPayee] = useState(dataRow.transactor);
@@ -89,8 +97,14 @@ const EditExpense = ({ onClose, accounts, budgets, dataRow, refresh }) => {
             value="account"
             control={<Radio />}
             label="Account"
+            disabled={!acc}
           />
-          <FormControlLabel value="budget" control={<Radio />} label="Budget" />
+          <FormControlLabel
+            value="budget"
+            control={<Radio />}
+            label="Budget"
+            disabled={!budget}
+          />
         </RadioGroup>
       </FormControl>
 
@@ -180,6 +194,34 @@ const EditExpense = ({ onClose, accounts, budgets, dataRow, refresh }) => {
       />
 
       <TextField
+        fullWidth
+        select
+        InputLabelProps={{
+          shrink: true,
+        }}
+        InputProps={{
+          sx: {
+            height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+          },
+        }}
+        label="Category"
+        value={category}
+        onChange={(event) => setCategory(event.target.value)}
+        displayEmpty
+        disabled={categories.length === 0}
+      >
+        {categories.map((category) => (
+          <MenuItem key={category._id} value={category._id}>
+            <Item
+              icon={CategoryIcons[category.icon]}
+              text={category.name}
+              bgColor={category.color}
+            />
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <TextField
         type="time"
         fullWidth
         placeholder="Enter time"
@@ -218,7 +260,7 @@ const EditExpense = ({ onClose, accounts, budgets, dataRow, refresh }) => {
       />
 
       <TextField
-        label="payee"
+        label="Payee"
         placeholder="Enter payee name"
         fullWidth
         value={payee}

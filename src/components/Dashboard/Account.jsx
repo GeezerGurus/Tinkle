@@ -17,13 +17,23 @@ import EditAccount from "../settings/EditAccount";
 import { ConfirmModal } from "../utils";
 import AccountIcons from "../utils/AccountIcons";
 import { deleteAccount } from "../../api/accountApi";
+import { isLeaf } from "@mui/x-data-grid";
 
-export const Account = ({ id,refresh,type, Title, Amount, BgColor, isMediumScreen }) => {
+export const Account = ({
+  id,
+  refresh,
+  type,
+  Title,
+  Amount,
+  BgColor,
+  isMediumScreen,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modal, setModal] = useState("");
@@ -81,10 +91,10 @@ export const Account = ({ id,refresh,type, Title, Amount, BgColor, isMediumScree
       >
         {accountType && (
           <accountType.icon
-          sx={{
-            fontSize: "40px",
-            color: colors.purple[600],
-          }}
+            sx={{
+              fontSize: "40px",
+              color: colors.purple[600],
+            }}
           />
         )}
       </Box>
@@ -147,7 +157,10 @@ export const Account = ({ id,refresh,type, Title, Amount, BgColor, isMediumScree
           >
             {Amount} {isMediumScreen ? "MMK" : ""}
           </Typography>
-          <Typography variant="body1" display={isMediumScreen ? "none" : ""}>
+          <Typography
+            variant={isLaptop ? "body2" : "body1"}
+            display={isMediumScreen ? "none" : ""}
+          >
             MMK
           </Typography>
         </Stack>
@@ -173,12 +186,11 @@ export const Account = ({ id,refresh,type, Title, Amount, BgColor, isMediumScree
             />
           ) : (
             <ConfirmModal
-              onClick={()=>{
+              onClick={() => {
                 deleteAccount(id);
               }}
               refresh={refresh}
               snackbarText={"Account deleted!"}
-             
               color={colors.extra.red_accent}
               highlight={"Delete"}
               description={
@@ -189,7 +201,8 @@ export const Account = ({ id,refresh,type, Title, Amount, BgColor, isMediumScree
                   lost.
                 </>
               }
-              promptText={"Do you really want to Delete?"} onClose={() => {
+              promptText={"Do you really want to Delete?"}
+              onClose={() => {
                 setOpenModal(false);
               }}
             />

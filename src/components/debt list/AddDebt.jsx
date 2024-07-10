@@ -13,7 +13,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
-import { postDebtRecord } from "../../api/debtRecord";
+import { postDebtRecord } from "../../api/debtRecordApi";
 import { enqueueSnackbar } from "notistack";
 import { getAccounts } from "../../api/accountApi";
 
@@ -90,7 +90,7 @@ const AddDebt = ({ onClose, action, refresh }) => {
     if (!selectedAmount) {
       errors.amount = "Amount is required";
     } else if (selectedAmount <= 0) {
-      errors.amount = "Amount must be larger than 0";
+      errors.amount = "Amount must be greater than 0";
     }
     if (!selectedAccount) {
       errors.account = "Account is required";
@@ -124,7 +124,7 @@ const AddDebt = ({ onClose, action, refresh }) => {
     >
       {/* Title  */}
       <Typography variant="h4" sx={{ color: colors.purple[900] }}>
-        Edit Debt
+        Add Debt
       </Typography>
       {action === "lend" ? (
         <Stack alignItems={"center"} gap={1}>

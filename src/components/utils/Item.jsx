@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 const Item = ({
   icon: Icon,
   text,
-  bgColor = "black",
+  bgColor,
   marginRight,
   iconSize = "24px",
 }) => {
@@ -14,7 +14,9 @@ const Item = ({
         <Icon
           sx={{
             color: "white",
-            backgroundColor: bgColor,
+            padding: "2px",
+            borderRadius: "50%",
+            backgroundColor: bgColor || "black",
             marginRight: marginRight || "10px",
             fontSize: iconSize,
           }}

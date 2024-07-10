@@ -5,16 +5,33 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
+import { getRecords } from "../../api/recordsApi";
 
 const Total = ({ type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const [totalAmount, setTotalAmount] = useState(0);
+
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const fetchRecords = async () => {
+    try {
+      const res = await getRecords();
+      const filteredRecords = res.filter((record) => record.type === type);
+      const sum = filteredRecords.reduce((acc, curr) => acc + curr.amount, 0);
+      setTotalAmount(sum);
+    } catch (error) {
+      console.error("Error fetching records:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
 
   return (
     <Paper
@@ -47,25 +64,28 @@ const Total = ({ type }) => {
       )}
 
       {/* Amount */}
-      {type === "income" ? (
-        <Stack direction={"row"} alignItems={"baseline"} gap={1}>
-          <Typography variant="h3" sx={{ color: colors.purple[600] }}>
-            45,678
-          </Typography>
-          <Typography variant="h4" sx={{ color: colors.purple[600] }}>
-            MMK
-          </Typography>
-        </Stack>
-      ) : (
-        <Stack direction={"row"} alignItems={"baseline"} gap={1}>
-          <Typography variant="h3" sx={{ color: colors.extra.red_accent }}>
-            2,405
-          </Typography>
-          <Typography variant="h4" sx={{ color: colors.extra.red_accent }}>
-            MMK
-          </Typography>
-        </Stack>
-      )}
+      <Stack direction={"row"} alignItems={"baseline"} gap={1}>
+        <Typography
+          variant="h3"
+          sx={
+            type === "income"
+              ? { color: colors.purple[600] }
+              : { color: colors.extra.red_accent }
+          }
+        >
+          {totalAmount.toLocaleString()}
+        </Typography>
+        <Typography
+          variant="h4"
+          sx={
+            type === "income"
+              ? { color: colors.purple[600] }
+              : { color: colors.extra.red_accent }
+          }
+        >
+          MMK
+        </Typography>
+      </Stack>
 
       {/* Percent */}
       {type === "income" ? (

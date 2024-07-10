@@ -20,12 +20,27 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [period, setPeriod] = useState(periodProp);
   const [descript, setDescript] = useState("");
   const [startDate, setStartDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [endDate, setEndDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [amount, setAmount] = useState(0);
   const [name, setName] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!name) {
+      errors.name = "Name is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -38,6 +53,9 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
       endDate: period === "one-time" ? endDate : undefined,
       description: descript,
     };
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       await postBudget(budgetData);
@@ -87,18 +105,23 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
         <TextField
           label="Name"
           placeholder="Enter budget name"
+          required
           fullWidth
           value={name}
           onChange={(e) => setName(e.target.value)}
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
           InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
+          error={!!errors.name}
+          helperText={errors.name}
         />
 
         <TextField
           type="number"
           label="Amount"
+          required
           fullWidth
           inputProps={{ min: "0" }}
           value={amount}
@@ -118,16 +141,23 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
           }}
           InputLabelProps={{
             shrink: true,
+            required: true,
           }}
+          error={!!errors.amount}
+          helperText={errors.amount}
         />
 
         <TextField
           value={period}
+          required
           onChange={(e) => setPeriod(e.target.value)}
           select
           label="Period"
           fullWidth
           InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
+          InputLabelProps={{
+            required: true,
+          }}
         >
           <MenuItem value="monthly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -155,6 +185,7 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
         {period === "one-time" && (
           <TextField
             type="date"
+            required
             fullWidth
             label="Start Date"
             value={startDate}
@@ -166,12 +197,16 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
                 max: "2025-12-31",
               },
             }}
+            InputLabelProps={{
+              required: true,
+            }}
           />
         )}
         {/* End-Date */}
         {period === "one-time" && (
           <TextField
             type="date"
+            required
             value={endDate}
             label="End Date"
             fullWidth
@@ -182,6 +217,9 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
                 min: "2022-01-01", // Set min and max dates if needed
                 max: "2025-12-31",
               },
+            }}
+            InputLabelProps={{
+              required: true,
             }}
           />
         )}

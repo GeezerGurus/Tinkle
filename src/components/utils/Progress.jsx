@@ -5,14 +5,13 @@ const Progress = ({ percent, height, showPercentText, barColor, bgColor }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const progressValue = parseInt(percent, 10); // Convert percent to integer
-  const isOverspent = progressValue < 0; // Check if overspent
+  const progressValue = parseFloat(percent);
 
   const getBarColor = () => {
     if (barColor) {
       return barColor;
     }
-    if (isOverspent) {
+    if (progressValue < 20) {
       return colors.category.red; // overspent
     }
     if (progressValue < 50) {
@@ -21,16 +20,19 @@ const Progress = ({ percent, height, showPercentText, barColor, bgColor }) => {
     return colors.green[100]; // in limit
   };
 
+  // Calculate remaining percentage
+  const remainingPercent = progressValue;
+
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <Box sx={{ width: "100%" }}>
         <LinearProgress
           variant="determinate"
-          value={isOverspent ? 100 : 100 - progressValue}
+          value={remainingPercent}
           sx={{
             height: height || 17,
             bgcolor: bgColor || colors.extra.light_grey,
-            direction: isOverspent ? "rtl" : "ltr", // Reverse direction for overspent values only
+            direction: "rtl",
             "& .MuiLinearProgress-bar": {
               bgcolor: getBarColor(),
             },
@@ -39,7 +41,9 @@ const Progress = ({ percent, height, showPercentText, barColor, bgColor }) => {
       </Box>
       {showPercentText && (
         <Box sx={{ width: "43px", height: "30px" }}>
-          <Typography variant="h6">{`${percent}%`}</Typography>
+          <Typography variant="h6">{`${Math.round(
+            progressValue
+          )}%`}</Typography>
         </Box>
       )}
     </Box>

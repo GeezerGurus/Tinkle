@@ -1,8 +1,11 @@
+import React, { useState, useEffect } from "react";
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { PieActiveArc } from "../statistics";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
+import { getCategory } from "../../api/categoriesApi";
+import { getRecords } from "../../api/recordsApi";
 
 const pieData = [
   { id: 0, value: 88000, label: "Education and Development" },
@@ -15,10 +18,80 @@ export const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [records, setRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [categories, setCategories] = useState({});
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
+
+  const fetchCategoryNames = async (categoryIds) => {
+    const categoryMap = {};
+    await Promise.all(
+      categoryIds.map(async (id) => {
+        try {
+          const res = await getCategory(id);
+          categoryMap[id] = { name: res.name, color: res.color };
+        } catch (error) {
+          console.log("Error Getting Category Name");
+        }
+      })
+    );
+    return categoryMap;
+  };
+
+  const fetchRecord = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getRecords();
+      const expenseCategories = [
+        ...new Set(
+          res
+            .filter((record) => record.type === "expense")
+            .map((record) => record.category)
+        ),
+      ];
+      const categoryNames = await fetchCategoryNames(expenseCategories);
+      setCategories(categoryNames);
+      setRecords(res);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error in fetching Records");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchRecord();
+  }, []);
+
+  const expenses =
+    records?.filter((expense) => expense.type === "expense") || [];
+
+  console.log(expenses);
+  // Function to group and sum the expenses by category
+  const groupAndSumByCategory = (expenses) => {
+    return expenses.reduce((acc, expense) => {
+      const { category, amount } = expense;
+      if (!acc[category]) {
+        const categoryData = categories[category] || {
+          name: category,
+          color: "gray",
+        };
+        acc[category] = {
+          label: `${categoryData.name}`,
+          color: `${categoryData.color}`,
+          value: 0,
+        };
+      }
+      acc[category].value += amount;
+      return acc;
+    }, {});
+  };
+
+  const summedExpenses = Object.values(groupAndSumByCategory(expenses));
 
   return (
     <Paper
@@ -58,7 +131,7 @@ export const Chart = () => {
           // width={isMediumScreen ? 320 : 500}
           series={[
             {
-              data: pieData,
+              data: summedExpenses,
               highlightScope: { faded: "global", highlighted: "item" },
               faded: {
                 innerRadius: isLargest ? 50 : 30,

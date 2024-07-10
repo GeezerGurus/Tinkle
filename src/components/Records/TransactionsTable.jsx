@@ -27,6 +27,7 @@ import EditRecord from "./EditRecord";
 import { tokens } from "../../theme";
 import { getRecords, deleteRecord } from "../../api/recordsApi";
 import { getAccount } from "../../api/accountApi";
+import { getBudget } from "../../api/budgetsApi";
 import { getCategory } from "../../api/categoriesApi";
 
 const CustomToolbar = ({ action }) => {
@@ -121,7 +122,7 @@ const TransactionsTable = ({ action }) => {
   const [openModal, setOpenModal] = useState(false);
   const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [accountNames, setAccountNames] = useState({});
+  const [entityNames, setEntityNames] = useState({});
   const [categoryDetails, setCategoryDetails] = useState({});
   const [selectedRow, setSelectedRow] = useState();
   const [selectedRows, setSelectedRows] = useState([]);
@@ -156,12 +157,12 @@ const TransactionsTable = ({ action }) => {
       },
     },
     {
-      field: "account",
-      headerName: "Account",
+      field: "entity",
+      headerName: "Accounts/Budgets",
       flex: 1,
       valueGetter: (params, row) => {
-        const accountId = row.accountId;
-        return accountNames[accountId] || "";
+        const entityId = row.accountId ? row.accountId : row.budgetId;
+        return entityNames[entityId] || "";
       },
     },
     { field: "notes", headerName: "Note", flex: 1 },
@@ -227,19 +228,23 @@ const TransactionsTable = ({ action }) => {
       const records = await getRecords();
       setRows(records);
 
-      // Fetch account names for each row
-      const accountIds = records.map((record) => record.accountId);
-      const uniqueAccountIds = [...new Set(accountIds)];
-      const accountNamesMap = {};
+      // Fetch entity names for each row (either account or budget)
+      const entityIds = records.map((record) =>
+        record.accountId ? record.accountId : record.budgetId
+      );
+      const uniqueEntityIds = [...new Set(entityIds)];
+      const entityNamesMap = {};
 
       await Promise.all(
-        uniqueAccountIds.map(async (id) => {
-          const account = await getAccount(id);
-          accountNamesMap[id] = account.name;
+        uniqueEntityIds.map(async (id) => {
+          const entity = records.find((record) => record.accountId === id)
+            ? await getAccount(id)
+            : await getBudget(id); // Fetch from budget API for budgetId
+          entityNamesMap[id] = entity.name;
         })
       );
 
-      setAccountNames(accountNamesMap);
+      setEntityNames(entityNamesMap);
 
       // Fetch category details for each row
       const categoryIds = records.map((record) => record.category);
@@ -299,14 +304,14 @@ const TransactionsTable = ({ action }) => {
         date: true,
         category: true,
         amount: true,
-        account: false,
+        entity: false,
         notes: false,
         actions: action === "edit",
       }
     : {
         date: true,
         category: true,
-        account: true,
+        entity: true,
         notes: true,
         amount: true,
         actions: action === "edit",

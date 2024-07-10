@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
+import { getSettings } from "../../api/generalSettings";
+import { getBudgetPeriodically } from "../../api/budgetsApi";
 
 const Progress = ({ content, dollar, percent }) => {
   const theme = useTheme();
@@ -64,8 +66,27 @@ const Budget = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [budgets, setBudgets] = useState([]);
+
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
+  const fetchBudgets = async () => {
+    try {
+      const settings = await getSettings();
+      if (settings && settings.length > 0) {
+        const firstSetting = settings[0];
+        const res = await getBudgetPeriodically(firstSetting.default_interval);
+        setBudgets(res || []);
+      }
+    } catch (error) {
+      console.error("Error fetching budgets:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBudgets();
+  }, []);
 
   return (
     <Paper
@@ -93,12 +114,16 @@ const Budget = () => {
         <Typography variant="h6">Budgets</Typography>
         <ShowMoreBtn to={"/budget"} />
       </Box>
-
-      <Progress content="Home" dollar="$60" percent="90%" />
-
-      <Progress content="School" dollar="$70" percent="30%" />
-
-      <Progress content="Gas Fee" dollar="-$300" percent="-56%" />
+      {Array.isArray(budgets) &&
+        budgets.slice(0, 3).map((budget) => {
+          return (
+            <Progress
+              content={budget.name}
+              dollar={budget.amount}
+              percent={"50%"}
+            />
+          );
+        })}
 
       {/* Indicators  */}
       <Box

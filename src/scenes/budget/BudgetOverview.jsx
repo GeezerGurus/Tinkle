@@ -30,6 +30,7 @@ import {
   ConfirmModal,
   BackBtn,
   Loader,
+  CategoryIcons,
 } from "../../components/utils";
 import { EditBudget } from "../../components/budget";
 import {
@@ -37,86 +38,8 @@ import {
   getBudget,
   getBudgetPeriodically,
 } from "../../api/budgetsApi";
-
-const rows = [
-  {
-    date: "2024-06-26",
-    category: "Food",
-    account: "Checking Account",
-    note: "Grocery shopping",
-    amount: 50.0,
-  },
-  {
-    date: "2024-06-25",
-    category: "Utilities",
-    account: "Savings Account",
-    note: "Electricity bill",
-    amount: 80.0,
-  },
-  {
-    date: "2024-06-24",
-    category: "Entertainment",
-    account: "Credit Card",
-    note: "Movie tickets",
-    amount: 30.0,
-  },
-  {
-    date: "2024-06-23",
-    category: "Transportation",
-    account: "Cash",
-    note: "Taxi fare",
-    amount: 15.0,
-  },
-  {
-    date: "2024-06-22",
-    category: "Shopping",
-    account: "Checking Account",
-    note: "Clothing",
-    amount: 100.0,
-  },
-  {
-    date: "2024-06-21",
-    category: "Healthcare",
-    account: "Health Savings Account",
-    note: "Doctor's appointment",
-    amount: 120.0,
-  },
-  {
-    date: "2024-06-20",
-    category: "Dining Out",
-    account: "Credit Card",
-    note: "Restaurant dinner",
-    amount: 70.0,
-  },
-  {
-    date: "2024-06-19",
-    category: "Travel",
-    account: "Travel Credit Card",
-    note: "Flight booking",
-    amount: 300.0,
-  },
-  {
-    date: "2024-06-18",
-    category: "Education",
-    account: "Savings Account",
-    note: "Textbooks",
-    amount: 85.0,
-  },
-  {
-    date: "2024-06-17",
-    category: "Insurance",
-    account: "Insurance Savings",
-    note: "Car insurance premium",
-    amount: 150.0,
-  },
-  {
-    date: "2024-06-16",
-    category: "Home Improvement",
-    account: "Home Equity Line",
-    note: "Paint and supplies",
-    amount: 200.0,
-  },
-];
+import { getRecords } from "../../api/recordsApi";
+import { getCategory } from "../../api/categoriesApi";
 
 const BudgetOverview = () => {
   const theme = useTheme();
@@ -125,12 +48,14 @@ const BudgetOverview = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { periodType, budgetId } = useParams();
   const [modal, setModal] = useState("");
   const [budget, setBudget] = useState("");
   const [allBudgets, setAllBudgets] = useState([]);
+  const [records, setRecords] = useState([]);
+  const [categoryDetails, setCategoryDetails] = useState({});
+  const [spent, setSpent] = useState(0);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -166,26 +91,51 @@ const BudgetOverview = () => {
     }
   };
 
-  // const fetchItems = async () => {
-  //   setIsLoading(true);
-  //   let timeoutId;
-
-  //   // Simulate async call
-  //   timeoutId = setTimeout(() => {
-  //     setItems(budgetItems); // Using mock budgetItems for demonstration
-  //     setIsLoading(false);
-  //   }, 1000);
-
-  //   return () => clearTimeout(timeoutId);
-  // };
-
   const fetchBudget = async () => {
     setIsLoading(true);
-    const budget = await getBudget(budgetId);
-    const allBudgets = await getBudgetPeriodically(periodType);
-    setBudget(budget);
-    setAllBudgets(allBudgets);
-    setIsLoading(false);
+
+    try {
+      const budget = await getBudget(budgetId);
+      const allBudgets = await getBudgetPeriodically(periodType);
+      const records = await getRecords();
+
+      // Filter records based on budgetId
+      const filteredRecords = records.filter(
+        (record) => record.budgetId === budgetId
+      );
+
+      // Calculate total expenses (spent)
+      const spent = filteredRecords
+        .filter((record) => record.type === "expense")
+        .reduce((total, record) => total + record.amount, 0);
+
+      setSpent(spent);
+
+      // Fetch category details for each unique category
+      const categoryIds = filteredRecords.map((record) => record.category);
+      const uniqueCategoryIds = [...new Set(categoryIds)];
+      const categoryDetailsMap = {};
+
+      await Promise.all(
+        uniqueCategoryIds.map(async (id) => {
+          const category = await getCategory(id);
+          categoryDetailsMap[id] = {
+            name: category.name,
+            color: category.color,
+            icon: category.icon,
+          };
+        })
+      );
+
+      setCategoryDetails(categoryDetailsMap);
+      setRecords(filteredRecords);
+      setBudget(budget);
+      setAllBudgets(allBudgets);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -206,6 +156,8 @@ const BudgetOverview = () => {
 
     navigate(`/budget/${periodType}/${allBudgets[newIndex]._id}`);
   };
+
+  const percentageRemains = Math.round((budget.amount / budget.initial) * 100);
 
   return (
     <Box
@@ -338,7 +290,7 @@ const BudgetOverview = () => {
 
             <Stack direction={"row"} alignItems={"flex-end"} gap={"4px"}>
               <Typography variant={isSmallScreen ? "body3" : "h6"}>
-                {budget.amount}
+                {budget.initial}
               </Typography>
               <Typography variant={isSmallScreen ? "body4" : "body1"}>
                 MMK
@@ -347,27 +299,27 @@ const BudgetOverview = () => {
           </Stack>
 
           {/* Progress bar  */}
-          <Progress percent={80} height={32} />
+          <Progress percent={percentageRemains} height={32} />
 
           {/* Info  */}
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Stack alignItems={"flex-start"}>
               <Typography variant={isSmallScreen ? "body4" : "body3"}>
-                200 MMK
+                {spent} MMK
               </Typography>
               <Typography variant={isSmallScreen ? "body3" : "body2"}>
                 Spent
               </Typography>
             </Stack>
             <Stack alignItems={"center"}>
-              <Typography variant="body3">80%</Typography>
+              <Typography variant="body3">{percentageRemains}%</Typography>
               <Typography variant={isSmallScreen ? "body3" : "body2"}>
                 Remains
               </Typography>
             </Stack>
             <Stack alignItems={"flex-end"}>
               <Typography variant={isSmallScreen ? "body4" : "body3"}>
-                300 MMK
+                {budget.amount} MMK
               </Typography>
               <Typography variant={isSmallScreen ? "body3" : "body2"}>
                 Remains
@@ -404,32 +356,66 @@ const BudgetOverview = () => {
                 <TableCell align="center">Category</TableCell>
                 {!isSmallScreen && (
                   <>
-                    <TableCell align="center">Account</TableCell>
-                    <TableCell align="center">Note</TableCell>
+                    <TableCell align="center">Transactor</TableCell>
+                    <TableCell align="center">Notes</TableCell>
                   </>
                 )}
                 <TableCell align="center">Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody sx={{ backgroundColor: colors.extra.faint_white }}>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.date}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="center" component="th" scope="row">
-                    {row.date}
-                  </TableCell>
-                  <TableCell align="center">{row.category}</TableCell>
-                  {!isSmallScreen && (
-                    <>
-                      <TableCell align="center">{row.account}</TableCell>
-                      <TableCell align="center">{row.note}</TableCell>
-                    </>
-                  )}
-                  <TableCell align="center">{row.amount}</TableCell>
-                </TableRow>
-              ))}
+              {records.map((record) => {
+                const category = categoryDetails[record.category];
+                const IconComponent = CategoryIcons[category?.icon];
+
+                return (
+                  <TableRow
+                    key={record._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center" component="th" scope="row">
+                      {record.date.split("T")[0]}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Stack
+                        direction={"row"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        gap={1}
+                      >
+                        <IconComponent
+                          sx={{
+                            color: category?.color,
+                          }}
+                        />
+                        {category?.name || "-"}
+                      </Stack>
+                    </TableCell>
+                    {!isSmallScreen && (
+                      <>
+                        <TableCell align="center">
+                          {record.transactor}
+                        </TableCell>
+                        <TableCell align="center">{record.notes}</TableCell>
+                      </>
+                    )}
+                    <TableCell align="center">
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color:
+                            record.type === "expense"
+                              ? colors.extra.red_accent
+                              : colors.green[500],
+                        }}
+                      >
+                        {record.type === "expense" ? "- " : "+ "}
+                        {record.amount} MMK
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>

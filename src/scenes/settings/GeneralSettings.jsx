@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { tokens } from "../../theme";
 import {
   Typography,
@@ -64,7 +64,7 @@ const GeneralSettings = () => {
       if (settingId) {
         const EditedSettings = { hide_dec: targetDec };
         const createdSettings = await patchSettings(settingId, EditedSettings);
-        console.log("created setting:",createdSettings);
+        console.log("created setting:", createdSettings);
         enqueueSnackbar("Saved!", { variant: "info" });
       } else {
         console.error("Setting ID not found");
@@ -100,8 +100,8 @@ const GeneralSettings = () => {
     handleSaveInterval(newInterval);
   };
   const handleDelete = () => {
-    deleteUser()
-    logout()
+    deleteUser();
+    logout();
   };
   return (
     <Box
@@ -169,11 +169,11 @@ const GeneralSettings = () => {
                 onChange={handleChangeInterval}
                 sx={{ width: "220px", height: "56px" }}
               >
-                <MenuItem value="daily">
+                {/* <MenuItem value="daily">
                   <Typography variant={isSmallScreen ? "body4" : "body2"}>
                     Today
                   </Typography>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem value="monthly">
                   <Typography variant={isSmallScreen ? "body4" : "body2"}>
                     This month

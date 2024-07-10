@@ -242,8 +242,8 @@ const Hero = () => {
             variant={isSmallScreen ? "Hbody3" : "Hbody2"}
             textAlign={"center"}
           >
-            Twinkle is a new platform where you can track, set and make plans
-            for your finance.
+            Tinkle is a new platform where you can track, set and make plans for
+            your finance.
           </Typography>
           <Typography
             variant={isSmallScreen ? "Hbody3" : "Hbody2"}
@@ -976,14 +976,14 @@ const Hero = () => {
                 id="panel2bh-header"
               >
                 <Typography variant="Hbody2">
-                  How can I contact support?
+                  Is Tinkle user-friendly?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  You can contact our support team via email or phone. Visit the
-                  Support section on our website for more information.
+                  Yes, Tinkle is designed with an intuitive interface that is
+                  easy to navigate, even for beginners.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1003,14 +1003,14 @@ const Hero = () => {
                 id="panel3bh-header"
               >
                 <Typography variant="Hbody2">
-                  How can I contact support?
+                  Can I customize the categories and budgets?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  You can contact our support team via email or phone. Visit the
-                  Support section on our website for more information.
+                  Yes, you can fully customize your expense categories and
+                  budget limits to suit your personal needs.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1030,14 +1030,14 @@ const Hero = () => {
                 id="panel4bh-header"
               >
                 <Typography variant="Hbody2">
-                  How can I contact support?
+                  Are there regular updates and improvements?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  You can contact our support team via email or phone. Visit the
-                  Support section on our website for more information.
+                  The app is updated regularly, with new features and
+                  improvements released every a couple of month.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1055,16 +1055,17 @@ const Hero = () => {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel5bh-content"
                 id="panel5bh-header"
-            >
+              >
                 <Typography variant="Hbody2">
-                  How can I contact support?
+                  Can I use it on both iOS and Android devices?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  You can contact our support team via email or phone. Visit the
-                  Support section on our website for more information.
+                  Unfortunately for now, Tinkle is not available on both iOS and
+                  Android devices but We are working on to develop as an app
+                  version.
                 </Typography>
               </AccordionDetails>
             </Accordion>

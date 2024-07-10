@@ -23,7 +23,7 @@ export const getAccount = async (accountId) => {
     const response = await api.get(`/account/${accountId}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching Account:", error);
+    console.error("Error fetching an Account:", error);
   }
 };
 

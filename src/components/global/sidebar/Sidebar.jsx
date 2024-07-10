@@ -40,6 +40,7 @@ import DropDownMenu from "./DropDownMenu";
 import OpenSideItems from "./OpenSideItems";
 import CloseSideItems from "./CloseSideItems";
 import { LogoDarkImage } from "../../../assets/hero";
+import { getUser } from "../../../api/userAccounts";
 
 // Drawer Component
 const drawerWidth = "320px";
@@ -157,12 +158,29 @@ const Sidebar = ({ mode }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [name, setName] = useState("");
+  const [job, setJob] = useState("");
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = React.useState("list");
   const [lightMode, setLightMode] = useState(false);
 
   const navigate = useNavigate();
   const colorMode = useContext(ColorModeContext);
+
+  const fetchUser = async () => {
+    try {
+      const res = await getUser();
+      setName(res.username);
+      setJob(res.job);
+    } catch (error) {
+      console.log("Error Fetching User Data");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const handleEsc = (event) => {
@@ -535,8 +553,8 @@ const Sidebar = ({ mode }) => {
                       justifyContent: "center",
                     }}
                   >
-                    <Typography variant="body3">Yei Khant Lwin</Typography>
-                    <Typography variant="body4">Developer</Typography>
+                    <Typography variant="body3">{name}</Typography>
+                    <Typography variant="body4">{job}</Typography>
                   </Box>
                 </Box>
                 <Box

@@ -89,6 +89,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   return (
     <Paper
@@ -96,7 +97,7 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
         position: "relative",
         padding: isLargest ? "8px 0" : "24px 0",
         width: isMediumScreen ? "95vw" : "686px",
-        height: isLargest ? "72vh" : "805px",
+        height: isMediumScreen ? "72vh" : isLaptop ? "95vh" : "805px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

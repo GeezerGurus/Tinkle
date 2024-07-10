@@ -6,9 +6,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
-import { Progress } from "../utils";
+import { Loader, Progress } from "../utils";
+import { getRecords } from "../../api/recordsApi";
+import { getCategory } from "../../api/categoriesApi";
 
 const pieData = [
   { id: 0, value: 88000, label: "Education and Development" },
@@ -36,7 +38,75 @@ const TopSpendings = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [records, setRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [categories, setCategories] = useState({});
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const fetchCategoryNames = async (categoryIds) => {
+    const categoryMap = {};
+    await Promise.all(
+      categoryIds.map(async (id) => {
+        try {
+          const res = await getCategory(id);
+          categoryMap[id] = { name: res.name, color: res.color };
+        } catch (error) {
+          console.log("Error Getting Category Names");
+        }
+      })
+    );
+    return categoryMap;
+  };
+
+  const fetchRecord = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getRecords();
+      const expenseCategories = [
+        ...new Set(
+          res
+            .filter((record) => record.type === "expense")
+            .map((record) => record.category)
+        ),
+      ];
+      const categoryNames = await fetchCategoryNames(expenseCategories);
+      setCategories(categoryNames);
+      setRecords(res);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error catching records");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchRecord();
+  }, []);
+
+  const expenses = records?.filter((expense) => expense.type === "expense");
+  const total = expenses.reduce((total, expense) => total + expense.amount, 0);
+
+  const groupAndSumByCategory = (expenses) => {
+    return expenses.reduce((acc, expense) => {
+      const { category, amount } = expense;
+      if (!acc[category]) {
+        const categoryData = categories[category] || {
+          name: category,
+          color: "gray",
+        };
+        acc[category] = {
+          label: `${categoryData.name}`,
+          color: `${categoryData.color}`,
+          value: 0,
+        };
+      }
+      acc[category].value += amount;
+      return acc;
+    }, {});
+  };
+
+  const modifiedData = Object.values(groupAndSumByCategory(expenses));
 
   return (
     <Paper
@@ -51,6 +121,7 @@ const TopSpendings = () => {
         gap: 2,
       }}
     >
+      <Loader isLoading={isLoading} />
       <Box
         sx={{
           minHeight: "56px",
@@ -73,7 +144,7 @@ const TopSpendings = () => {
           flexDirection: "column",
         }}
       >
-        {pieData.map((category) => (
+        {modifiedData.map((category) => (
           <Stack minHeight={isSmallScreen ? "auto" : "64px"} key={category.id}>
             <Stack
               direction={"row"}
@@ -88,7 +159,7 @@ const TopSpendings = () => {
               >{`${category.value} MMK`}</Typography>
             </Stack>
             <Progress
-              percent={`${(category.value / 300000) * 100}%`} // Example calculation based on max value (300000 MMK)
+              percent={`${(category.value / total) * 100}%`} // Example calculation based on max value (300000 MMK)
               height={"35px"}
               barColor={colorMap[category.id]}
             />

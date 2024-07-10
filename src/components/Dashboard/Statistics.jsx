@@ -13,20 +13,20 @@ export const Statistics = ({ isMediumScreen }) => {
   const [records, setRecords] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const processData = (type) => {
+  const processData = (type, negate = false) => {
     const dailyAmounts = Array(31).fill(0);
     records
       .filter((record) => record.type === type)
       .forEach((record) => {
         const day = new Date(record.date).getDate() - 1; // getDate returns 1-31
-        dailyAmounts[day] += record.amount;
+        dailyAmounts[day] += negate ? -record.amount : record.amount;
       });
     return dailyAmounts;
   };
 
   const data = {
     income: processData("income"),
-    expenses: processData("expense"),
+    expenses: processData("expense", true),
   };
 
   const fetchRecordData = async () => {

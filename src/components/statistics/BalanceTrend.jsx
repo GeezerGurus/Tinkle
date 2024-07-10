@@ -1,12 +1,14 @@
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { tokens } from "../../theme";
 import LineChart from "./LineChart";
+import { getRecords } from "../../api/recordsApi";
+import { Loader } from "../utils";
 
-const data = {
-  income: Array.from({ length: 31 }, (_, i) => Math.random() * 1000),
-  expenses: Array.from({ length: 31 }, (_, i) => Math.random() * -1000),
-};
+// const data = {
+//   income: Array.from({ length: 31 }, (_, i) => Math.random() * 1000),
+//   expenses: Array.from({ length: 31 }, (_, i) => Math.random() * -1000),
+// };
 
 const labels = Array.from({ length: 31 }, (_, i) => i + 1);
 
@@ -14,7 +16,42 @@ const BalanceTrend = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [records, setRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const fetchRecordData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getRecords();
+      setRecords(res);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error Catching Data");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchRecordData();
+  }, []);
+
+  const processData = (type) => {
+    const dailyAmounts = Array(31).fill(0);
+    records
+      .filter((record) => record.type === type)
+      .forEach((record) => {
+        const day = new Date(record.date).getDate() - 1; // getDate returns 1-31
+        dailyAmounts[day] += record.amount;
+      });
+    return dailyAmounts;
+  };
+
+  const data = {
+    income: processData("income"),
+    expenses: processData("expense"),
+  };
 
   return (
     <Paper
@@ -29,6 +66,7 @@ const BalanceTrend = () => {
         justifyContent: "space-between",
       }}
     >
+      <Loader isLoading={isLoading} />
       <Box
         sx={{
           minHeight: "56px",

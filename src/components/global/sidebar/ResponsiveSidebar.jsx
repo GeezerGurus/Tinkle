@@ -33,6 +33,7 @@ import { tokens, ColorModeContext } from "../../../theme";
 import { useNavigate } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import OpenSideItems from "./OpenSideItems";
+import { getUser } from "../../../api/userAccounts";
 
 // Contents
 // lists
@@ -102,12 +103,28 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [name, setName] = useState("");
+  const [job, setJob] = useState("");
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = React.useState("list");
 
   const navigate = useNavigate();
   const colorMode = useContext(ColorModeContext);
 
+  const fetchUser = async () => {
+    try {
+      const res = await getUser();
+      setName(res.username);
+      setJob(res.job);
+    } catch (error) {
+      console.log("Error Fetching User Data");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.keyCode === 27) {
@@ -397,8 +414,8 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
                       justifyContent: "center",
                     }}
                   >
-                    <Typography variant="body3">Yei Khant Lwin</Typography>
-                    <Typography variant="body4">Developer</Typography>
+                    <Typography variant="body3">{name}</Typography>
+                    <Typography variant="body4">{job}</Typography>
                   </Box>
                 </Box>
                 <Box

@@ -1,18 +1,49 @@
+import React, { useState, useEffect } from "react";
 import { Box, Paper, Typography, useTheme } from "@mui/material";
-import { ShowMoreBtn } from "../utils";
+import { Loader, ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 import { LineChart } from "../statistics";
-
-const data = {
-  income: Array.from({ length: 31 }, (_, i) => Math.random() * 1000),
-  expenses: Array.from({ length: 31 }, (_, i) => Math.random() * -1000),
-};
+import { getRecords } from "../../api/recordsApi";
 
 const labels = Array.from({ length: 31 }, (_, i) => i + 1);
-
 export const Statistics = ({ isMediumScreen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [records, setRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const processData = (type) => {
+    const dailyAmounts = Array(31).fill(0);
+    records
+      .filter((record) => record.type === type)
+      .forEach((record) => {
+        const day = new Date(record.date).getDate() - 1; // getDate returns 1-31
+        dailyAmounts[day] += record.amount;
+      });
+    return dailyAmounts;
+  };
+
+  const data = {
+    income: processData("income"),
+    expenses: processData("expense"),
+  };
+
+  const fetchRecordData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getRecords();
+      setRecords(res);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error Catching Data");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchRecordData();
+  }, []);
 
   return (
     <Paper
@@ -27,6 +58,7 @@ export const Statistics = ({ isMediumScreen }) => {
         borderRadius: "16px",
       }}
     >
+      <Loader isLoading={isLoading} />
       <Box
         sx={{
           height: "48px",

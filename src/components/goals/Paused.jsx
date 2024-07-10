@@ -58,7 +58,7 @@ export const Paused = ({isSmallScreen,state}) => {
       }}
     >
       
-      
+      <Loader isLoading={isLoading} />
         {filteredGoals.map((list, index) => (
           <SavingItem
             key={index}

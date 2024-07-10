@@ -8,7 +8,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+// import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useLocation } from "react-router-dom";
@@ -142,11 +142,11 @@ const Topbar = () => {
             color={colors.purple[600]}
             hoverColor={colors.purple[200]}
           />
-          <IconButton size="large">
+          {/* <IconButton size="large">
             <NotificationsOutlinedIcon
               sx={{ width: "32px", height: "32px", color: colors.purple[500] }}
             />
-          </IconButton>
+          </IconButton> */}
           <IconButton size="large" onClick={logout} aria-haspopup="true">
             <LogoutIcon
               sx={{ width: "32px", height: "32px", color: colors.purple[500] }}

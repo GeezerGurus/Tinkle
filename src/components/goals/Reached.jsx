@@ -6,6 +6,7 @@ import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
 import { GoalReachedImage } from "../../assets/empty";
+import { Loader } from "../utils";
 
 export const Reached = ({isSmallScreen,state}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -56,15 +57,13 @@ export const Reached = ({isSmallScreen,state}) => {
       backgroundPosition: "center",
         
       }}
-    >{isLoading ? (
-      <p>Loading...</p> // or any loading spinner
-      ):(filteredGoals.map((list, index) => (
+    >{filteredGoals.map((list, index) => (
           <SavingItem
             key={index}
             id={list._id}
             name={list.name}
             goal={list.amount}
-            saved={list.saveamount}
+            saved={list.amount}
             createdAt={list.createdAt}
             updatedAt={list.updatedAt}
             date={list.desireDate}
@@ -72,7 +71,7 @@ export const Reached = ({isSmallScreen,state}) => {
             refresh={fetchGoals}
           />
         ))
-      )}
+      }
     </Box>
   );
 };

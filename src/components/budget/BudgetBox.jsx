@@ -23,8 +23,20 @@ const Progress = ({ content, dollar, percent, period, budgetId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const progressValue = parseInt(percent, 10);
-  const isOverspent = progressValue < 0;
+  const progressValue = parseFloat(percent);
+
+  const getBarColor = () => {
+    if (progressValue < 20) {
+      return colors.category.red; // overspent
+    }
+    if (progressValue < 50) {
+      return colors.category.orange; // normal spending or risk of overspent
+    }
+    return colors.green[100]; // in limit
+  };
+
+  // Calculate remaining percentage
+  const remainingPercent = progressValue;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", marginBottom: 1 }}>
@@ -38,25 +50,21 @@ const Progress = ({ content, dollar, percent, period, budgetId }) => {
       >
         <Typography variant="body1">{content}</Typography>
         <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-          <Typography variant="body3">{dollar}</Typography>
-          <Typography variant="body2">{percent}</Typography>
+          <Typography variant="body3">{dollar} MMK</Typography>
+          <Typography variant="body2">{percent}%</Typography>
         </Box>
       </Box>
       <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
         <Box sx={{ flexGrow: 1 }}>
           <LinearProgress
             variant="determinate"
-            value={isOverspent ? 100 : 100 - progressValue}
+            value={remainingPercent}
             sx={{
               height: 17,
               bgcolor: "#D9D9D9B2",
-              direction: isOverspent ? "rtl" : "ltr",
+              direction: "rtl",
               "& .MuiLinearProgress-bar": {
-                bgcolor: isOverspent
-                  ? colors.category.red
-                  : progressValue < 50
-                  ? colors.category.orange
-                  : colors.green[100],
+                bgcolor: getBarColor(),
               },
             }}
           />
@@ -143,7 +151,7 @@ const BudgetBox = ({ period }) => {
               key={index}
               content={budget.name}
               dollar={budget.amount}
-              percent={null}
+              percent={Math.round((budget.amount / budget.initial) * 100)}
               period={period}
               budgetId={budget._id}
             />

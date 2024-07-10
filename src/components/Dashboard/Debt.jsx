@@ -62,7 +62,7 @@ const Debt = () => {
         }}
       >
         <Typography variant="h6">Debt List</Typography>
-        <ShowMoreBtn to={"/budget"} />
+        <ShowMoreBtn to={"/lists/debt-list"} />
       </Box>
 
       {page === "Owe" ? (

@@ -13,11 +13,33 @@ import {
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
 import BookIcon from "@mui/icons-material/Book";
+import { patchBook } from "../../api/booksApi";
+import { enqueueSnackbar } from "notistack";
 
-const BookContents = ({ title, author, favorite, pathImage }) => {
+const BookContents = ({ id,title,link, author, favorite, pathImage ,refresh}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [favorited, setFavorited] = useState(favorite || false);
+
+  const handleSaveFav = async (fav) => {
+    try {
+      if (id) {
+        const EditedBook = { favourite : fav };
+        const createVideos = await patchBook(id, EditedBook);
+        console.log("created Videos:",createVideos);
+        enqueueSnackbar("Saved!", { variant: "info" });
+      } else {
+        console.error("Video ID not found");
+      }
+    } catch (error) {
+      console.error("Error editing setting:", error);
+    }
+  };
+  const handleChangeBookMark = () => {
+    const newFav = favorited ? false : true;
+    setFavorited(newFav);
+    handleSaveFav(newFav);
+  };
 
   const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -44,7 +66,7 @@ const BookContents = ({ title, author, favorite, pathImage }) => {
         }}
       >
         <Avatar
-          variant="rounded"
+          variant="rounded" component="a" href={link}
           src={pathImage} // Replace with your image variable or URL
           sx={{
             width: "100%",
@@ -70,9 +92,9 @@ const BookContents = ({ title, author, favorite, pathImage }) => {
         }}
       >
         <IconButton
-          onClick={() => {
-            favorited ? setFavorited(false) : setFavorited(true);
-          }}
+          onClick={
+            handleChangeBookMark
+          }
           sx={{
             position: "absolute",
             top: "5%",
@@ -89,7 +111,7 @@ const BookContents = ({ title, author, favorite, pathImage }) => {
           )}
         </IconButton>
         {/* Title */}
-        <Typography variant="body1" sx={{ width: "80%" }}>
+        <Typography variant="body1" sx={{ width: "80%" }} noWrap>
           {title}
         </Typography>
         {/* Author */}

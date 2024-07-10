@@ -121,7 +121,6 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
         width: isSmallerScreen ? "350px" : isSmallScreen ? "400px" : "766px",
         height: "auto",
         display: "flex",
-        
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "32px 40px",
@@ -157,7 +156,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
       {/* Progress Bar */}
       <CircularProgressBar value={percentage} saved={saved} goal={goal} />
       {/* Last Week Added Amount and Estimation */}
-      <Stack alignItems={"center"}>
+      {/* <Stack alignItems={"center"}>
         <Typography variant={isSmallScreen ? "body1" : "h6"}>
           Last week added amount
         </Typography>
@@ -173,7 +172,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
           <Typography variant="h5">20</Typography>
           <Typography variant="body1">weeks</Typography>
         </Stack>
-      </Stack>
+      </Stack> */}
       {/* Buttons */}
       <Stack
         gap={isSmallScreen ? 2 : 1}
@@ -230,12 +229,15 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
         >
           {modal === "reached" || modal === "paused" ? (
             <ConfirmModal
-              
               highlight={modal === "paused" ? "Paused" : "Reached"}
-              snackbarText={modal==="paused"? "Paused!":"Reached!"}
+              snackbarText={modal === "paused" ? "Paused!" : "Reached!"}
               snackbarColor={"success"}
-              promptText={`Do you want to set goal as ${modal === "paused" ? "Paused" : "Reached"}?`}
-              description={`This action will set your Saving plan as ${modal === "paused" ? "paused" : "reached"}.`}
+              promptText={`Do you want to set goal as ${
+                modal === "paused" ? "Paused" : "Reached"
+              }?`}
+              description={`This action will set your Saving plan as ${
+                modal === "paused" ? "paused" : "reached"
+              }.`}
               onClose={() => {
                 setOpenModal(false);
               }}

@@ -1,59 +1,80 @@
-import React, { useEffect, useRef, useState, } from "react";
-import { Box, Typography, useTheme, Paper, Grid,useMediaQuery  } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Typography,
+  useTheme,
+  Paper,
+  Grid,
+  useMediaQuery,
+} from "@mui/material";
 import { tokens } from "../../theme";
 import { useParams } from "react-router-dom";
 import { BackBtn, VideoContents } from "../../components/utils";
-
-const favourites = [
-  { img: "", title: "How to get your ex back", avatar: "", author: "Zaw" },
-  { img: "", title: "How to talk to girls", avatar: "", author: "Zaw" },
-  { img: "", title: "How to make her happy", avatar: "", author: "Zaw" },
-  {
-    img: "",
-    title: "How to make her fall in love with you",
-    avatar: "",
-    author: "Zaw",
-  },
-  { img: "", title: "Date ideas", avatar: "", author: "Zaw" },
-  { img: "", title: "What to do on your dates", avatar: "", author: "Zaw" },
-  { img: "", title: "How to get your ex back", avatar: "", author: "Zaw" },
-  { img: "", title: "How to get your ex back", avatar: "", author: "Zaw" },
-];
+import { getVideos, getFavoriteVideos } from "../../api/videosApi";
+import { Loader } from "../../components/utils";
 
 const VideoCollection = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  
   const { videoCollection } = useParams();
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
+  //data fetch
+  const [isLoading, setIsLoading] = useState(false);
+  const header = videoCollection
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+  const [videos, setVideos] = useState([]);
   
+  const fetchVideos = async () => {
+    setIsLoading(true);
+    const res = await getVideos();
+    setVideos(res || []);
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+  //for favourite
+  // const [favVideos, setFavVideos] = useState([]);
+
+  // const fetchFavouriteVideos = async () => {
+  //   setIsLoading(true);
+  //   const res = await getFavoriteVideos();
+  //   setFavVideos(res || []);
+  //   setIsLoading(false);
+  // };
+
+  // useEffect(() => {
+  //   fetchFavouriteVideos();
+  // }, []);
   return (
     // Main Container
     <Paper
       sx={{
         width: "100%",
-        height: "100%",
+        height: "auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        
+
         justifyContent: "flex-start",
         position: "relative",
       }}
     >
       {/* Call Back Button */}
-      <BackBtn g/>
+      <BackBtn g />
       {/* Gradient title */}
       <Box
         sx={{
-          textAlign:"center",
-          marginTop:isMediumScreen?"50px":undefined,
+          textAlign: "center",
+          marginTop: isMediumScreen ? "50px" : undefined,
           width: "100%",
           height: "134px",
           borderRadius: "16px",
@@ -65,21 +86,19 @@ const VideoCollection = () => {
           justifyContent: "center",
         }}
       >
-        <Typography
-          variant={isSmallScreen?"body3":"h6"}
-        >
+        <Typography variant={isSmallScreen ? "body3" : "h6"}>
           Expand your knowledge on finance and life with our selected videos
         </Typography>
       </Box>
       {/* Header */}
       <Box
         sx={{
-          width:"100%",
-          height: "56px",
+          width: "100%",
+          height: "auto",
           display: "flex",
-          
+
           position: "relative",
-          padding:"50px"
+          padding: "50px",
         }}
       >
         {/* Title */}
@@ -95,32 +114,49 @@ const VideoCollection = () => {
       {/* Contents */}
       <Grid
         container
-        
         rowSpacing={3}
         columnSpacing={1}
-        
-        direction={isSmallScreen?"column": "row"}
+        direction={isSmallScreen ? "column" : "row"}
         justifyContent="flex-start"
         alignItems="center"
         sx={{
           width: "100%",
           height: "auto",
-          
-          
-        
-          
         }}
       >
-        {favourites.map((item, index) => (
-          <Grid item key={index} sm={6} md ={6} lg={4} xl={3}>
-            <VideoContents
-              title={item.title}
-              author={item.author}
-              pathImage={item.img}
-              vdavatar={item.avatar}
-            />
-          </Grid>
-        ))}
+        <Loader isLoading={isLoading} />
+        {/* {header === "Favourites"
+          ? favVideos.map((item, index) => (
+              <Grid item key={index} sm={6} md={6} lg={4} xl={3}>
+                <VideoContents
+                  id={item._id}
+                  title={item.title}
+                  author={item.creator}
+                  pathImage={item.thumbnail}
+                  category={item.category}
+                  favorite={item.favourite}
+                  link={item.link}
+                  refresh={fetchVideos}
+                />
+              </Grid>
+            ))
+          : */}
+           {videos
+              .filter((item) => item.category === header)
+              .map((item, index) => (
+                <Grid item key={index} sm={6} md={6} lg={4} xl={3}>
+                  <VideoContents
+                    id={item._id}
+                    title={item.title}
+                    author={item.creator}
+                    pathImage={item.thumbnail}
+                    category={item.category}
+                    favorite={item.favourite}
+                    link={item.link}
+                    refresh={fetchVideos}
+                  />
+                </Grid>
+              ))}
       </Grid>
     </Paper>
   );

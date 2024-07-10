@@ -151,7 +151,6 @@ const EditExpense = ({
           label="Budget"
           value={budget}
           onChange={(event) => setBudget(event.target.value)}
-          displayEmpty
         >
           {budgets.map((budget) => (
             <MenuItem key={budget._id} value={budget._id}>
@@ -207,7 +206,6 @@ const EditExpense = ({
         label="Category"
         value={category}
         onChange={(event) => setCategory(event.target.value)}
-        displayEmpty
         disabled={categories.length === 0}
       >
         {categories.map((category) => (

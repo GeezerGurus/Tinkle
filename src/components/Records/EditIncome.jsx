@@ -47,7 +47,7 @@ const EditIncome = ({
 
   const handleSubmit = async () => {
     const recordData = {
-      type: "expense",
+      type: "income",
       accountId: selectedOption === "account" ? acc : null,
       budgetId: selectedOption === "budget" ? budget : null,
       amount,

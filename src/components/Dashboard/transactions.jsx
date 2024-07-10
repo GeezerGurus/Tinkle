@@ -16,9 +16,10 @@ import { CategoryIcons, Loader, ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 import { getRecords } from "../../api/recordsApi";
 import { getAccount } from "../../api/accountApi";
+import { getBudget } from "../../api/budgetsApi";
 import { getCategory } from "../../api/categoriesApi";
 
-const DataRow = ({ data, colors, accountName, icon }) => {
+const DataRow = ({ data, colors, entityName, icon }) => {
   const IconComponent = icon ? CategoryIcons[icon.icon] : null;
 
   return (
@@ -56,7 +57,6 @@ const DataRow = ({ data, colors, accountName, icon }) => {
               }}
             />
           )}
-
           <Typography variant="body4">{icon?.name}</Typography>
         </Box>
       </TableCell>
@@ -83,7 +83,7 @@ const DataRow = ({ data, colors, accountName, icon }) => {
               marginRight: "8px",
             }}
           />
-          <Typography variant="body4"> {accountName}</Typography>
+          <Typography variant="body4"> {entityName}</Typography>
         </Box>
       </TableCell>
       <TableCell
@@ -114,11 +114,11 @@ const DataRow = ({ data, colors, accountName, icon }) => {
 
 const BasicTable = ({ colors }) => {
   const [rowsData, setRowsData] = useState([]);
-  const [accountNames, setAccountNames] = useState({});
+  const [entityNames, setEntityNames] = useState({});
   const [categoryDetails, setCategoryDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const headers = ["Date", "Category", "Account", "Notes", "Amount"];
+  const headers = ["Date", "Category", "Account/Budget", "Notes", "Amount"];
 
   const fetchRecords = async () => {
     setIsLoading(true);
@@ -126,19 +126,23 @@ const BasicTable = ({ colors }) => {
       const records = await getRecords();
       setRowsData(records);
 
-      // Fetch account names for each row
-      const accountIds = records.map((record) => record.accountId);
-      const uniqueAccountIds = [...new Set(accountIds)];
-      const accountNamesMap = {};
+      // Fetch account/budget names for each row
+      const entityIds = records.map((record) =>
+        record.accountId ? record.accountId : record.budgetId
+      );
+      const uniqueEntityIds = [...new Set(entityIds)];
+      const entityNamesMap = {};
 
       await Promise.all(
-        uniqueAccountIds.map(async (id) => {
-          const account = await getAccount(id);
-          accountNamesMap[id] = account.name;
+        uniqueEntityIds.map(async (id) => {
+          const entity = records.find((record) => record.accountId === id)
+            ? await getAccount(id)
+            : await getBudget(id);
+          entityNamesMap[id] = entity.name;
         })
       );
 
-      setAccountNames(accountNamesMap);
+      setEntityNames(entityNamesMap);
 
       // Fetch category details for each row
       const categoryIds = records.map((record) => record.category);
@@ -163,6 +167,7 @@ const BasicTable = ({ colors }) => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchRecords();
   }, []);
@@ -185,15 +190,20 @@ const BasicTable = ({ colors }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsData.slice(0, 5).map((rowData, index) => (
-            <DataRow
-              key={index}
-              data={rowData}
-              colors={colors}
-              accountName={accountNames[rowData.accountId]}
-              icon={categoryDetails[rowData.category]}
-            />
-          ))}
+          {Array.isArray(rowsData) &&
+            rowsData
+              .slice(0, 5)
+              .map((rowData, index) => (
+                <DataRow
+                  key={index}
+                  data={rowData}
+                  colors={colors}
+                  entityName={
+                    entityNames[rowData.accountId || rowData.budgetId]
+                  }
+                  icon={categoryDetails[rowData.category]}
+                />
+              ))}
         </TableBody>
       </Table>
     </TableContainer>
@@ -212,7 +222,6 @@ const Transactions = ({ isMediumScreen }) => {
         display: isMediumScreen ? "none" : "",
         height: isLargeScreen ? "auto" : "354px",
         borderRadius: "16px",
-        // overflowY: "auto",
       }}
     >
       <Box

@@ -7,7 +7,6 @@ import {
   IconButton,
   Avatar,
   useMediaQuery,
-  Stack,
 } from "@mui/material";
 
 import {
@@ -16,25 +15,25 @@ import {
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
 
-import { Link } from "react-router-dom";
-
 const BookSliderItem = ({
+  id,
   title,
   author,
+  category,
   description,
   favorite,
   path,
   link,
-  direction,
+  refresh // Assuming this is used for refreshing data after an action
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [favorited, setFavorited] = useState(favorite || false);
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
@@ -58,7 +57,7 @@ const BookSliderItem = ({
       >
         <Avatar
           variant="square"
-          src={path} // Replace with your image variable or URL
+          src={path} // Assuming path is the URL or path to the book cover image
           sx={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </Box>
@@ -83,7 +82,9 @@ const BookSliderItem = ({
             right: isSmallScreen ? -20 : -80,
           }}
           onClick={() => {
-            favorited ? setFavorited(false) : setFavorited(true);
+            setFavorited((prev) => !prev); // Toggle favorite state
+            // Optionally, you might want to call refresh here to update the state in the parent component
+            refresh(); // Assuming refresh is a function passed down from parent
           }}
         >
           {favorited ? (
@@ -133,10 +134,22 @@ const BookSliderItem = ({
         {/* Read More Button */}
         <Button
           component="a"
-          href={link.startsWith("http") ? link : `https://${link}`} // Replace with your target URL
+          href={link.startsWith("http") ? link : `https://${link}`} // Assuming link is the URL or path to read more about the book
           target="_blank"
           rel="noopener noreferrer"
           variant="contained"
+          onClick={console.log([
+            id,
+            title,
+            author,
+            category,
+            description,
+            favorite,
+            path,
+            link,
+          ]
+
+          )}
           sx={{
             width: "176px",
             height: "42px",

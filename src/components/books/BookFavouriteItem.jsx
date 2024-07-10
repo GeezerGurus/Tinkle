@@ -12,7 +12,7 @@ import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import { BookContents } from "../utils";
 import PropTypes from 'prop-types';
-import { getBooks } from "../../api/booksApi";
+import { getBooks, getFavoriteBooks } from "../../api/booksApi";
 
 
 // All Contents for each Sub Header
@@ -25,12 +25,28 @@ const life = [/* ... */];
 
 
 
-const BookHeaderItem = ({ header,lists ,refresh}) => {
+const BookFavouriteItem = ({header}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   // Ensure header is defined before further processing
-  const books = lists
+  const [lists, setLists] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const fetchFavouriteBooks = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getFavoriteBooks();
+      setLists(res || []);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchFavouriteBooks();
+  }, []);
 
   const path = useMemo(() => header.toLowerCase().replace(" ", "-"), [header]);
 
@@ -63,7 +79,7 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
         </Typography>
 
         <Button
-          component={Link} 
+          component={Link}
           to={`/books/${path}`}
           endIcon={<ArrowForwardIosIcon sx={{ color: colors.purple[600] }} />}
           sx={{ height: "27px", mr: 2 }}
@@ -86,18 +102,18 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
             width: isSmallScreen ? "80%" : "100%",
             height: "100%",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
           }}
         > 
-          {books.filter(item => item.category === header).map((item, index) => (
+          {lists.map((item, index) => (
             <Grid item key={index} xs={5} sm={5} md={3}>
               <BookContents
-                id={item._id}
+                id = {item._id}
                 title={item.title}
                 author={item.author}
                 favorite={item.favourite}
                 pathImage={item.coverImage}
-                refresh={refresh}
+                // refresh = {fetchFavouriteBooks()}
               />
             </Grid>
           ))}
@@ -107,8 +123,8 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
   );
 };
 
-BookHeaderItem.propTypes = {
+BookFavouriteItem.propTypes = {
   header: PropTypes.string.isRequired,
 };
 
-export default BookHeaderItem;
+export default BookFavouriteItem;

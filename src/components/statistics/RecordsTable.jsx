@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -10,78 +10,141 @@ import {
   Paper,
   useMediaQuery,
   useTheme,
+  Stack,
 } from "@mui/material";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
-import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
-import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
+import { getAccount } from "../../api/accountApi";
+import { getCategory } from "../../api/categoriesApi";
+import { getBudget } from "../../api/budgetsApi";
+import { CategoryIcons } from "../utils";
+import { tokens } from "../../theme";
 
 const RecordsTable = ({ data }) => {
-  const getIconForFact = (fact) => {
-    switch (fact) {
-      case "Food and Drinks":
-        return <RestaurantIcon sx={{ color: "#A8BCF5" }} />;
-      case "Health and Beauty":
-        return <VolunteerActivismIcon sx={{ color: "#F5ADA8" }} />;
-      case "Education and Development":
-        return <LocalLibraryIcon sx={{ color: "#7772F2" }} />;
-      case "Charges, Fees":
-        return <DirectionsBikeIcon sx={{ color: "#F5EEA8" }} />;
-      default:
-        return null;
-    }
-  };
-  const renderCashMethod = (method) => (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box
-        sx={{
-          width: 8,
-          height: 8,
-          backgroundColor: "green",
-          borderRadius: "50%",
-          marginRight: 1,
-        }}
-      />
-      <Typography variant="body4">{method}</Typography>
-    </Box>
-  );
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [categoryDetails, setCategoryDetails] = useState({});
+  const [names, setNames] = useState({});
+
+  useEffect(() => {
+    const fetchCategoryDetails = async () => {
+      const uniqueCategoryIds = [...new Set(data.map((row) => row.category))];
+      const categoryDetailsMap = {};
+
+      await Promise.all(
+        uniqueCategoryIds.map(async (id) => {
+          const category = await getCategory(id);
+          categoryDetailsMap[id] = {
+            name: category.name,
+            color: category.color,
+            icon: category.icon,
+          };
+        })
+      );
+
+      setCategoryDetails(categoryDetailsMap);
+    };
+
+    const fetchNames = async () => {
+      const uniqueIds = [
+        ...new Set(
+          data.flatMap((row) => [row.accountId, row.budgetId].filter(Boolean))
+        ),
+      ];
+      const namesMap = {};
+
+      await Promise.all(
+        uniqueIds.map(async (id) => {
+          if (id) {
+            const account = await getAccount(id).catch(() => null);
+            if (account) {
+              namesMap[id] = account.name;
+            } else {
+              const budget = await getBudget(id).catch(() => null);
+              if (budget) {
+                namesMap[id] = budget.name;
+              }
+            }
+          }
+        })
+      );
+
+      setNames(namesMap);
+    };
+
+    fetchCategoryDetails();
+    fetchNames();
+  }, [data]);
+
   return (
-    <Box sx={{ overflow: "auto" }}>
+    <Box sx={{ overflow: "auto", height: "100%" }}>
       <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
         <Table>
           <TableBody>
-            {data.map((row, index) => (
-              <TableRow key={index} sx={{ borderBottom: "none" }}>
-                <TableCell sx={{ borderBottom: "none" }}>
-                  <Typography variant="body4">{row.date}</Typography>
-                </TableCell>
-                <TableCell
-                  sx={{
-                    borderBottom: "none",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {getIconForFact(row.fact)}
-                  <Typography variant="body4">{row.fact}</Typography>
-                </TableCell>
-                {!isSmallScreen && (
+            {data.map((row, index) => {
+              const category = categoryDetails[row.category] || {};
+              const name = names[row.accountId] || names[row.budgetId] || "";
+              const IconComponent = category
+                ? CategoryIcons[category.icon]
+                : null;
+
+              return (
+                <TableRow key={index} sx={{ borderBottom: "none" }}>
                   <TableCell sx={{ borderBottom: "none" }}>
                     <Typography variant="body4">
-                      {renderCashMethod(row.method)}
+                      {row.date.split("T")[0]}
                     </Typography>
                   </TableCell>
-                )}
-                <TableCell sx={{ borderBottom: "none" }} align="right">
-                  <Typography variant="body4" sx={{ color: "red" }}>
-                    {row.amount}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell
+                    sx={{
+                      borderBottom: "none",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Stack
+                      direction={"row"}
+                      gap={1}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      {IconComponent && (
+                        <IconComponent sx={{ color: category.color }} />
+                      )}
+                      <Typography variant="body4">{category.name}</Typography>
+                    </Stack>
+                  </TableCell>
+                  {!isSmallScreen && (
+                    <TableCell sx={{ borderBottom: "none" }}>
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Box
+                          sx={{
+                            width: 8,
+                            height: 8,
+                            backgroundColor:
+                              row.type === "expense"
+                                ? colors.extra.red_accent
+                                : colors.green[500],
+                            borderRadius: "50%",
+                            marginRight: 1,
+                          }}
+                        />
+                        <Typography variant="body4">{name}</Typography>
+                      </Box>
+                    </TableCell>
+                  )}
+                  <TableCell sx={{ borderBottom: "none" }} align="right">
+                    <Typography
+                      variant="body4"
+                      sx={{ color: row.type === "expense" ? "red" : "green" }}
+                    >
+                      {row.type === "expense" ? "- " : "+ "}
+                      {row.amount} MMK
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

@@ -2,16 +2,16 @@ import React from "react";
 import { tokens } from "../../theme";
 import {
   Box,
-  Button,
-  ButtonGroup,
+  // Button,
+  // ButtonGroup,
   Grid,
-  Stack,
-  Typography,
+  // Stack,
+  // Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+// import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+// import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {
   BalanceTrend,
   Expenses,
@@ -27,32 +27,6 @@ const Statistics = () => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
-  // const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-
-  // const monthNames = [
-  //   "January",
-  //   "February",
-  //   "March",
-  //   "April",
-  //   "May",
-  //   "June",
-  //   "July",
-  //   "August",
-  //   "September",
-  //   "October",
-  //   "November",
-  //   "December",
-  // ];
-
-  // // Function to handle previous month button click
-  // const handlePrevMonth = () => {
-  //   setCurrentMonth((prev) => (prev === 0 ? 11 : prev - 1));
-  // };
-
-  // // Function to handle next month button click
-  // const handleNextMonth = () => {
-  //   setCurrentMonth((prev) => (prev === 11 ? 0 : prev + 1));
-  // };
   const sidebarWidth = 84;
 
   return (
@@ -82,11 +56,10 @@ const Statistics = () => {
         }}
       >
         {/* top bar  */}
-        <Stack
+        {/* <Stack
           alignItems={"center"}
           mb={isMediumScreen ? (isSmallScreen ? "" : 2) : ""}
         >
-          {/* Navigate left and right */}
           <ButtonGroup
             variant="contained"
             sx={{
@@ -131,7 +104,7 @@ const Statistics = () => {
               <NavigateNextIcon />
             </Button>
           </ButtonGroup>
-        </Stack>
+        </Stack> */}
 
         {/* 4 boxes */}
         <Grid

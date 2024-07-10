@@ -1,14 +1,26 @@
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 import RecordsTable from "./RecordsTable";
+import { getRecords } from "../../api/recordsApi";
 
 const Records = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [records, setRecords] = useState([]);
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const fetchRecords = async () => {
+    const res = await getRecords();
+    setRecords(res);
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
 
   return (
     <Paper
@@ -34,70 +46,7 @@ const Records = () => {
         <Typography variant={isSmallScreen ? "h6" : "h4"}>Records</Typography>
         <ShowMoreBtn to={"/records"} />
       </Box>
-      <RecordsTable
-        data={[
-          {
-            date: "2024-06-01",
-            fact: "Education and Development",
-            method: "Credit Card",
-            amount: "-88000 MMK",
-          },
-          {
-            date: "2024-06-02",
-            fact: "Food and Drinks",
-            method: "Cash",
-            amount: "-240000 MMK",
-          },
-          {
-            date: "2024-06-03",
-            fact: "Health and Beauty",
-            method: "Debit Card",
-            amount: "-88000 MMK",
-          },
-          {
-            date: "2024-06-04",
-            fact: "Charges, Fees",
-            method: "Bank Transfer",
-            amount: "-88000 MMK",
-          },
-          {
-            date: "2024-06-04",
-            fact: "Charges, Fees",
-            method: "Bank Transfer",
-            amount: "-88000 MMK",
-          },
-          {
-            date: "2024-06-01",
-            fact: "Education and Development",
-            method: "Credit Card",
-            amount: "-88000 MMK",
-          },
-          {
-            date: "2024-06-02",
-            fact: "Food and Drinks",
-            method: "Cash",
-            amount: "-240000 MMK",
-          },
-          {
-            date: "2024-06-03",
-            fact: "Health and Beauty",
-            method: "Debit Card",
-            amount: "-88000 MMK",
-          },
-          {
-            date: "2024-06-04",
-            fact: "Charges, Fees",
-            method: "Bank Transfer",
-            amount: "-88000 MMK",
-          },
-          {
-            date: "2024-06-04",
-            fact: "Charges, Fees",
-            method: "Bank Transfer",
-            amount: "-88000 MMK",
-          },
-        ]}
-      />
+      <RecordsTable data={records} />
     </Paper>
   );
 };

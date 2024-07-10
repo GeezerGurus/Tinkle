@@ -20,7 +20,7 @@ exports.addBudget = async (req, res) => {
       endDate,
       startDate,
       description,
-      initial
+      initial: amount,
     });
   
     await budget.save();

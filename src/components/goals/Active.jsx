@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
 import {GoalActiveImage} from "../../assets/empty/index"
+import { Loader } from "../utils";
 
 
 export const Active = ({ isSmallScreen, state }) => {
@@ -53,7 +54,7 @@ export const Active = ({ isSmallScreen, state }) => {
       backgroundPosition: "center",
       }}
     >
-      
+      <Loader isLoading={isLoading} />
         {filteredGoals.map((list, index) => (
             <SavingItem
               key={index}

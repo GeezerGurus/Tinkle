@@ -12,34 +12,9 @@ import { tokens } from "../../theme";
 import { useParams } from "react-router-dom";
 import { BookContents } from "../../components/utils";
 import { BackBtn } from "../../components/utils";
+import { getBooks } from "../../api/booksApi";
 
-const favorite = [
-  {
-    title: "The bottle Budget",
-    author: "Joel Woods",
-    image: "",
-    favorite: true,
-  },
-  {
-    title: "Project Over School Work",
-    author: "Thuta Htun",
-    image: "",
-    favorite: true,
-  },
-  { title: "Restless Nights", author: "Thuta Htun", image: "", favorite: true },
-  {
-    title: "Darkness When Light",
-    author: "Thuta Htun",
-    image: "",
-    favorite: true,
-  },
-  {
-    title: "Darkness When Light",
-    author: "Thuta Htun",
-    image: "",
-    favorite: true,
-  },
-];
+
 
 const path = "/books";
 const Collection = () => {
@@ -48,6 +23,25 @@ const Collection = () => {
   const [isOverflowing, setIsOverflowing] = useState(false);
   const gridRef = useRef(null);
   const { collection } = useParams();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [lists, setLists] = useState([]);
+
+  const fetchBooks = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getBooks();
+      setLists(res || []);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -68,6 +62,10 @@ const Collection = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
 
+  const header = collection
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
   return (
     // Main Container
     <Paper
@@ -106,10 +104,7 @@ const Collection = () => {
         >
           {/* Title */}
           <Typography variant="h3">
-            {collection
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ")}
+            {header}
           </Typography>
 
           {/* Call Back Button */}
@@ -135,14 +130,15 @@ const Collection = () => {
             overflowY: "auto",
           }}
         >
-          {favorite.map((item, index) => (
+          {lists.filter(item => item.category === header || item.favourite===true).map((item, index) => (
             <Grid item xxs={5} sm={5} md={3} lg={2.5}>
               <BookContents
                 key={index}
+                id={item._id}
                 title={item.title}
                 author={item.author}
-                favorite={item.favorite}
-                pathImage={item.image}
+                favorite={item.favourite}
+                pathImage={item.coverImage}
               />
             </Grid>
           ))}

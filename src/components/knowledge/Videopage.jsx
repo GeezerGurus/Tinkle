@@ -1,16 +1,16 @@
 import React from "react";
 import { Box, Typography,useTheme,useMediaQuery } from "@mui/material";
 import Videos from "./Videos";
+import VideoFavourite from "./VideoFavourite";
 import { tokens } from "../../theme";
 
+
 const subHeaders = [
-  { header: "Favourites" },
-  { header: "Budgets" },
-  { header: "Saving" },
+  { header: "Budget" },
+  { header: "Savings" },
   { header: "Business" },
-  { header: "Tinkle" },
-  { header: "Life" },
 ];
+
 
 const Videopage = () => {
   const theme = useTheme();
@@ -22,8 +22,9 @@ const Videopage = () => {
   const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
+ 
   return (
-    <Box sx={{ margin: "0 auto", textAlign: "center" }}>
+    <Box sx={{ margin: "0 auto", textAlign: "center", height:"auto" }}>
       {/* Gradient title */}
       <Box
         sx={{
@@ -48,7 +49,8 @@ const Videopage = () => {
       </Box>
  
       {/* Video item box */}
-      <Box sx={{ width: "97%", margin: "0 auto" , padding: "8px" }}>
+      <Box sx={{ width: "97%", height:"auto", margin: "0 auto" , padding: "8px" }}>
+        {/* <VideoFavourite header={"Favourites"}/> */}
         {subHeaders.map((header, index) => (
           <Videos key={index} header={header.header} />
         ))}

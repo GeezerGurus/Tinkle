@@ -293,7 +293,7 @@ const Hero = () => {
           <img
             src={DashboardImage}
             alt="Dashboard"
-            style={{ width: "72%", objectFit: "contain" }}
+            style={{ width: "72%", objectFit: "contain", borderRadius: "16px" }}
           />
         </Stack>
 

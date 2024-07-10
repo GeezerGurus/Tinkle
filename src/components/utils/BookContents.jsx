@@ -16,7 +16,7 @@ import BookIcon from "@mui/icons-material/Book";
 import { patchBook } from "../../api/booksApi";
 import { enqueueSnackbar } from "notistack";
 
-const BookContents = ({ id,title, author, favorite, pathImage ,refresh}) => {
+const BookContents = ({ id,title,link, author, favorite, pathImage ,refresh}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [favorited, setFavorited] = useState(favorite || false);
@@ -66,7 +66,7 @@ const BookContents = ({ id,title, author, favorite, pathImage ,refresh}) => {
         }}
       >
         <Avatar
-          variant="rounded"
+          variant="rounded" component="a" href={link}
           src={pathImage} // Replace with your image variable or URL
           sx={{
             width: "100%",

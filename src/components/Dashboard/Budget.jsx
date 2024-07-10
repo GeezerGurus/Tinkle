@@ -17,12 +17,30 @@ const Progress = ({ content, dollar, percent }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const progressValue = parseInt(percent, 10); // Convert percent to integer
-  const isOverspent = progressValue < 0; // Check if overspent
+  const progressValue = parseFloat(percent);
+
+  const getBarColor = () => {
+    if (progressValue < 20) {
+      return colors.category.red; // overspent
+    }
+    if (progressValue < 50) {
+      return colors.category.orange; // normal spending or risk of overspent
+    }
+    return colors.green[100]; // in limit
+  };
+
+  // Calculate remaining percentage
+  const remainingPercent = progressValue;
 
   return (
-    <Box sx={{ display: "flex", width: "100%", flexDirection: "column" }}>
-      {/* Texts  */}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: 1,
+        width: "100%",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -31,32 +49,27 @@ const Progress = ({ content, dollar, percent }) => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="body4">{content}</Typography>
-
-        <Stack flexDirection={"row"} gap={2}>
-          <Typography variant="body3">{dollar}</Typography>
-          <Typography variant="body2">{percent}</Typography>
-        </Stack>
+        <Typography variant="body1">{content}</Typography>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+          <Typography variant="body3">{dollar} MMK</Typography>
+          <Typography variant="body2">{percent}%</Typography>
+        </Box>
       </Box>
-
-      {/* Progress Bar */}
-      <Box sx={{ width: "100%" }}>
-        <LinearProgress
-          variant="determinate"
-          value={isOverspent ? 100 : 100 - progressValue}
-          sx={{
-            height: 17,
-            bgcolor: " #D9D9D9B2",
-            direction: isOverspent ? "rtl" : "ltr", // Reverse direction for overspent values only
-            "& .MuiLinearProgress-bar": {
-              bgcolor: isOverspent
-                ? colors.category.red // overspent
-                : progressValue < 50
-                ? colors.category.orange // normal spending or risl of overspent
-                : colors.green[100], // in limit
-            },
-          }}
-        />
+      <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <LinearProgress
+            variant="determinate"
+            value={remainingPercent}
+            sx={{
+              height: 17,
+              bgcolor: "#D9D9D9B2",
+              direction: "rtl",
+              "& .MuiLinearProgress-bar": {
+                bgcolor: getBarColor(),
+              },
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );
@@ -120,7 +133,7 @@ const Budget = () => {
             <Progress
               content={budget.name}
               dollar={budget.amount}
-              percent={"50%"}
+              percent={Math.round((budget.amount / budget.initial) * 100)}
             />
           );
         })}
@@ -152,7 +165,7 @@ const Budget = () => {
               backgroundColor: colors.category.orange,
             }}
           ></Box>
-          <Typography variant="body4">Risk of Overspent</Typography>
+          <Typography variant="body4">Normal</Typography>
         </Stack>
         <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
           <Box
@@ -162,7 +175,7 @@ const Budget = () => {
               backgroundColor: colors.category.red,
             }}
           ></Box>
-          <Typography variant="body4">Overspent</Typography>
+          <Typography variant="body4">Risk of Overspent</Typography>
         </Stack>
       </Box>
     </Paper>

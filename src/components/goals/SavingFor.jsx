@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Paper,
   Button,
@@ -34,8 +34,8 @@ const GridItem = ({ bg, icon, name, refresh }) => {
         alignItems={"center"}
         justifyContent={"center"}
         sx={{
-          width: isSmallerScreen? "110px": "145px",
-          height: isSmallerScreen? "90px":"124px",
+          width: isSmallerScreen ? "110px" : "145px",
+          height: isSmallerScreen ? "90px" : "124px",
           border: "1px solid black",
           borderRadius: "8px",
         }}
@@ -44,8 +44,8 @@ const GridItem = ({ bg, icon, name, refresh }) => {
           {icon &&
             React.cloneElement(icon, {
               sx: {
-                width: isSmallerScreen? "36px": "56px",
-                height: isSmallerScreen? "36px": "56px",
+                width: isSmallerScreen ? "36px" : "56px",
+                height: isSmallerScreen ? "36px" : "56px",
                 color: bg,
               },
             })}
@@ -68,19 +68,19 @@ const GridItem = ({ bg, icon, name, refresh }) => {
             />
           </Box>
         </Modal>
-        <Typography variant={isSmallerScreen? "body4":"body2"}>{name}</Typography>
+        <Typography variant={isSmallerScreen ? "body4" : "body2"}>
+          {name}
+        </Typography>
       </Stack>
     </Grid>
   );
 };
-export const SavingFor = ({ onClose,refresh }) => {
+export const SavingFor = ({ onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
-
-  
 
   const handleClose = () => {
     setOpen(false);
@@ -92,7 +92,7 @@ export const SavingFor = ({ onClose,refresh }) => {
   return (
     <Paper
       sx={{
-        width: isSmallerScreen? "390px": isMediumScreen ? "450px" : "814px",
+        width: isSmallerScreen ? "390px" : isMediumScreen ? "450px" : "814px",
         height: isMediumScreen ? "auto" : "556px",
         display: "flex",
         flexDirection: "column",
@@ -115,7 +115,7 @@ export const SavingFor = ({ onClose,refresh }) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          marginTop: isSmallerScreen? "10px":isMediumScreen ? "20px" : "0px",
+          marginTop: isSmallerScreen ? "10px" : isMediumScreen ? "20px" : "0px",
         }}
       >
         <TextField
@@ -136,7 +136,11 @@ export const SavingFor = ({ onClose,refresh }) => {
             height: "44px",
             display: "flex",
             justifyContent: "space-between",
-            marginTop: isSmallerScreen? "10px": isMediumScreen ? "20px" : "10px",
+            marginTop: isSmallerScreen
+              ? "10px"
+              : isMediumScreen
+              ? "20px"
+              : "10px",
           }}
         >
           {/* Create Button */}
@@ -182,14 +186,16 @@ export const SavingFor = ({ onClose,refresh }) => {
         </Box>
       </Box>
       {/* Bottom Section */}
-      <Typography
+      {/* <Typography
         variant={isMediumScreen ? "body1" : "h6"}
-        sx={{ marginTop: isSmallerScreen? "10px": isMediumScreen ? "20px" : "0px" }}
+        sx={{
+          marginTop: isSmallerScreen ? "10px" : isMediumScreen ? "20px" : "0px",
+        }}
       >
         Some things people save for:
-      </Typography>
+      </Typography> */}
 
-      <Grid
+      {/* <Grid
         container
         justifyContent="center"
         alignItems="center"
@@ -213,7 +219,7 @@ export const SavingFor = ({ onClose,refresh }) => {
         <GridItem refresh={refresh} name="Health Care" bg="red" icon={<HealthAndSafetyIcon />} />
         <GridItem refresh={refresh} name="Fine Dining" bg="yellow" icon={<WineBarIcon />} />
         <GridItem refresh={refresh} name="Charity" bg="lightblue" icon={<CardGiftcardIcon />} />
-      </Grid>
+      </Grid> */}
     </Paper>
   );
 };

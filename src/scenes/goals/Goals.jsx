@@ -8,7 +8,7 @@ import {
   Stack,
   useMediaQuery,
 } from "@mui/material";
-import { Active, Paused, Reached } from "../../components/goals";
+import { Active, CreateGoal, Paused, Reached } from "../../components/goals";
 import { Loader, SpeedDial } from "../../components/utils";
 import SavingFor from "../../components/goals/SavingFor";
 import { tokens } from "../../theme";
@@ -23,7 +23,6 @@ export const Goals = () => {
   const [page, setPage] = useState("active");
 
   const fetchGoals = async () => {
-    
     setIsLoading(true);
     const res = await getGoals();
     setLists(res || []);
@@ -85,7 +84,7 @@ export const Goals = () => {
     >
       <Loader isLoading={isLoading} />
       {/* Speed Dial */}
-      <SpeedDial modal={<SavingFor refresh={fetchGoals} />} />
+      <SpeedDial modal={<CreateGoal refresh={fetchGoals} />} />
 
       {/* Nav Buttons */}
       <ButtonGroup

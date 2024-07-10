@@ -131,7 +131,7 @@ exports.getaRecord = async (req, res) => {
 
 exports.patchRecord = async (req, res) => {
   const { recordId } = req.params;
-  const { accountId, fromaccountId, toaccountId, budgetId, type, amount, category, date, transactor, notes } = req.body;
+  const { accountId, fromaccountId, toaccountId, budgetId, type, amount, category, date, transactor, notes, time } = req.body;
   
   try {
     const record = await RecordSchema.findOne({ userId: req.userId, _id: recordId });

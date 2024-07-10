@@ -1,13 +1,13 @@
 import React from "react";
 import { tokens } from "../../theme";
-import { Paper, useTheme } from "@mui/material";
+import { Paper, useTheme,Box } from "@mui/material";
 import Videopage from "../../components/knowledge/Videopage";
 
 const Video = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
-    <Paper
+    <Box
       sx={{
         width: "100%",
         height:"fit-cotent",
@@ -17,7 +17,7 @@ const Video = () => {
       }}
     >
       <Videopage />
-    </Paper>
+    </Box>
   );
 };
 

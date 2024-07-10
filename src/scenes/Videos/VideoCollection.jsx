@@ -42,18 +42,18 @@ const VideoCollection = () => {
     fetchVideos();
   }, []);
   //for favourite
-  const [favVideos, setFavVideos] = useState([]);
+  // const [favVideos, setFavVideos] = useState([]);
 
-  const fetchFavouriteVideos = async () => {
-    setIsLoading(true);
-    const res = await getFavoriteVideos();
-    setFavVideos(res || []);
-    setIsLoading(false);
-  };
+  // const fetchFavouriteVideos = async () => {
+  //   setIsLoading(true);
+  //   const res = await getFavoriteVideos();
+  //   setFavVideos(res || []);
+  //   setIsLoading(false);
+  // };
 
-  useEffect(() => {
-    fetchFavouriteVideos();
-  }, []);
+  // useEffect(() => {
+  //   fetchFavouriteVideos();
+  // }, []);
   return (
     // Main Container
     <Paper

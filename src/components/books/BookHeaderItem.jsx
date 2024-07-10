@@ -94,6 +94,7 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
               <BookContents
                 id={item._id}
                 title={item.title}
+                link={item.link}
                 author={item.author}
                 favorite={item.favourite}
                 pathImage={item.coverImage}

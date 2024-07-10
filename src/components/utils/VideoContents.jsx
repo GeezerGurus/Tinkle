@@ -39,36 +39,36 @@ const VideoContents = ({
   //api
   const [favVideos, setFavVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const fetchFavouriteVideos = async () => {
-    setIsLoading(true);
-    const res = await getFavoriteVideos();
-    setFavVideos(res || []);
-    setIsLoading(false);
-  };
+  // const fetchFavouriteVideos = async () => {
+  //   setIsLoading(true);
+  //   const res = await getFavoriteVideos();
+  //   setFavVideos(res || []);
+  //   setIsLoading(false);
+  // };
 
  
-  const handleSaveFav = async () => {
-    try {
-      fetchFavouriteVideos()
-      const addedVideo = {
-        favourite: favorited,
-      };
-      const createdVideo = await postFavVideos(id, addedVideo);
-      console.log("Account Edited:", addedVideo);
-      fetchFavouriteVideos()
-    } catch (error) {
-      console.error("Error editing setting:", error);
-    }
-  };
+  // const handleSaveFav = async () => {
+  //   try {
+  //     fetchFavouriteVideos()
+  //     const addedVideo = {
+  //       favourite: favorited,
+  //     };
+  //     const createdVideo = await postFavVideos(id, addedVideo);
+  //     console.log("Account Edited:", addedVideo);
+  //     fetchFavouriteVideos()
+  //   } catch (error) {
+  //     console.error("Error editing setting:", error);
+  //   }
+  // };
 
   const handleChangeBookMark = () => {
     const newFav = favorited ? false : true;
     setFavorited(newFav);
-    newFav ? handleSaveFav(id, newFav) : deleteFavVideos(id);
+    // newFav ? handleSaveFav(id, newFav) : deleteFavVideos(id);
   };
-  useEffect(() => {
-    fetchFavouriteVideos();
-  }, []);
+  // useEffect(() => {
+  //   fetchFavouriteVideos();
+  // }, []);
   return (
     <Box
       sx={{
@@ -86,7 +86,7 @@ const VideoContents = ({
       }}
     >
       <Card sx={{ textDecoration: "none" }}>
-        <Box component="a" href={link}>
+        <Box component="a" href={link.startsWith("http") ? link : `https://${link}`} target="_blank">
           <CardMedia
             component="img"
             image={pathImage}

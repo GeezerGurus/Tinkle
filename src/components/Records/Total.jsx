@@ -90,11 +90,11 @@ const Total = ({ type }) => {
       {/* Percent */}
       {type === "income" ? (
         <Typography variant="body2" sx={{ color: colors.extra.grey_accent }}>
-          +20% more income than the month before
+          This is the total income you have made this month.
         </Typography>
       ) : (
         <Typography variant="body2" sx={{ color: colors.extra.grey_accent }}>
-          +33% more expense than the month before
+          This is the total expense you have made this month.
         </Typography>
       )}
     </Paper>

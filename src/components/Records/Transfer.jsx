@@ -117,6 +117,7 @@ const Transfer = ({ onClose, accounts, categories }) => {
   return (
     <Box
       sx={{
+        height: "auto",
         width: "100%",
         padding: isSmallScreen
           ? "16px 26px"
@@ -128,6 +129,7 @@ const Transfer = ({ onClose, accounts, categories }) => {
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
+        gap: 2,
       }}
     >
       <Stack

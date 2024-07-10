@@ -111,6 +111,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   return (
     <Box
       sx={{
+        height: "auto",
         width: "100%",
         padding: isSmallScreen
           ? "16px 26px"
@@ -122,6 +123,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
+        gap: 2,
       }}
     >
       <FormControl fullWidth>

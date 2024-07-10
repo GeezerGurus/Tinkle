@@ -245,7 +245,7 @@ const Profile = () => {
               justifyContent={"center"}
             >
               <Avatar
-                src={UserProfile}
+                // src={UserProfile}
                 alt="avatar"
                 sx={{
                   width: isSmallScreen ? 120 : 155,

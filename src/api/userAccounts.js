@@ -41,3 +41,16 @@ export const patchUserPassword = async (passwords) => {
         return error.response;
     }
 }
+
+export const updateProfilePic = async (data) => {
+    try {
+        const response = await api.post('/user/profile/photo', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    } catch (error) {
+        console.log("Error Updating Profile Pic");
+        throw error;
+    }
+}

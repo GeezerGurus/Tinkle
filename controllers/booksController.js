@@ -27,7 +27,7 @@ exports.addBook = async (req, res) => {
 
 exports.getBooks = async (req, res) => {
   try {
-    const Book = await BookSchema.find().sort({ createdAt: -1 });
+    const Book = await BookSchema.find({ favourite: false }).sort({ createdAt: -1 });
     res.status(200).json(Book);
   } catch (error) {
     res.status(500).json({ message: error });

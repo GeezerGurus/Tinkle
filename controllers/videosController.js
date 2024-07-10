@@ -27,7 +27,7 @@ exports.addVideo = async (req, res) => {
 
 exports.getVideos = async (req, res) => {
   try {
-    const video = await VideoSchema.find().sort({ createdAt: -1 });
+    const video = await VideoSchema.find({ favourite: false }).sort({ createdAt: -1 });
     res.status(200).json(video);
   } catch (error) {
     res.status(500).json({ message: error });

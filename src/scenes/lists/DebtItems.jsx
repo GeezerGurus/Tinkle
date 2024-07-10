@@ -6,9 +6,9 @@ import { BackBtn, Loader, SpeedDial } from "../../components/utils";
 import { useParams } from "react-router-dom";
 import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
 import { CreateDebtRecord } from "../../components/debt list";
-import { getAllLendDebtItems } from "../../api/lendDebtItem";
-import { getDebtRecordID } from "../../api/debtRecord";
-import { getAllOweDebtItems } from "../../api/oweDebtItems";
+import { getAllLendDebtItems } from "../../api/lendDebtItemsApi";
+import { getDebtRecordID } from "../../api/debtRecordApi";
+import { getAllOweDebtItems } from "../../api/oweDebtItemsApi";
 
 const DebtItems = () => {
   const theme = useTheme();

@@ -13,7 +13,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { tokens } from "../../theme";
 import { Item } from "../utils";
-import { postDebtRecord } from "../../api/debtRecord";
+import { postDebtRecord } from "../../api/debtRecordApi";
 import { enqueueSnackbar } from "notistack";
 import { getAccounts } from "../../api/accountApi";
 

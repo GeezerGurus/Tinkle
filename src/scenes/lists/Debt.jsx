@@ -15,7 +15,7 @@ import {
 import { ActivePage, AddDebt, ClosedPage } from "../../components/debt list";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-import { getDebtRecord } from "../../api/debtRecord";
+import { getDebtRecord } from "../../api/debtRecordApi";
 import { Loader } from "../../components/utils";
 
 const StyledButton = styled(Button)(({ theme, isMediumScreen }) => ({

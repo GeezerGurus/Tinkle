@@ -158,11 +158,12 @@ const Sidebar = ({ mode }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [profilePhoto, setProfilePhoto] = useState("");
   const [name, setName] = useState("");
   const [job, setJob] = useState("");
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = React.useState("list");
-  const [lightMode, setLightMode] = useState(false);
+  const [lightMode, setLightMode] = useState(true);
 
   const navigate = useNavigate();
   const colorMode = useContext(ColorModeContext);
@@ -172,6 +173,11 @@ const Sidebar = ({ mode }) => {
       const res = await getUser();
       setName(res.username);
       setJob(res.job);
+      if (res.profilePhoto) {
+        const profilePhotoPath = res.profilePhoto.replace(/^uploads[\\/]/, "");
+        const profilePhotoURL = `http://localhost:3000/uploads/${profilePhotoPath}`;
+        setProfilePhoto(profilePhotoURL);
+      }
     } catch (error) {
       console.log("Error Fetching User Data");
       throw error;
@@ -530,7 +536,7 @@ const Sidebar = ({ mode }) => {
                 }}
               >
                 <Avatar
-                  src=""
+                  src={profilePhoto}
                   alt="avatar"
                   sx={{ width: "32px", height: "32px" }}
                 />
@@ -644,7 +650,7 @@ const Sidebar = ({ mode }) => {
                   <Tooltip title="Profile" placement="right">
                     <Button component={Link} to={"/profile"}>
                       <Avatar
-                        src=""
+                        src={profilePhoto}
                         alt="avatar"
                         sx={{ width: "38px", height: "38px" }}
                       />

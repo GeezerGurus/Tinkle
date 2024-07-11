@@ -5,6 +5,7 @@ import { BudgetBox } from "../../components/budget";
 
 const Budget = () => {
   const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -12,6 +13,7 @@ const Budget = () => {
     // Container
     <Box
       sx={{
+        width: isMediumScreen ? "100%" : isLargeScreen ? "91vw" : "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -26,7 +28,8 @@ const Budget = () => {
           justifyContent: "center",
           marginTop: theme.spacing(3),
           width: isMediumScreen ? (isSmallScreen ? "95%" : "60%") : "987px",
-          height: "855px",
+
+          height: isMediumScreen ? "100%" : "855px",
           gridTemplateColumns: isMediumScreen
             ? isSmallScreen
               ? "repeat(1, 1fr)"

@@ -13,17 +13,34 @@ import {
 import { tokens } from "../../theme";
 import { patchGoal } from "../../api/goals";
 
-const AddSaveAmount = ({ onClose,currentAmount,id,  refresh }) => {
+const AddSaveAmount = ({ onClose, currentAmount, id, refresh, goal }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [amount, setAmount] = useState("");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    } else if (amount > goal) {
+      errors.amount = "Amount cannot be greater than goal amount";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleAmount = (amount) => {
     setAmount(amount.target.value);
   };
   const handleSave = async () => {
     const newAmount = parseFloat(amount);
+    if (!validateForm()) {
+      return;
+    }
     if (newAmount > 0) {
       const updatedAmount = currentAmount + newAmount;
       await patchGoal(id, { saveamount: updatedAmount });
@@ -65,6 +82,8 @@ const AddSaveAmount = ({ onClose,currentAmount,id,  refresh }) => {
         InputLabelProps={{
           shrink: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       {/* Bottom Section */}

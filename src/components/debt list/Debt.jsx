@@ -192,6 +192,7 @@ const Debt = ({
               debtId={id}
               action={action}
               refresh={refresh}
+              debtAmount={amount}
               onClose={() => {
                 setOpenModal(false);
               }}

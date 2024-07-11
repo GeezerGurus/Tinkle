@@ -103,6 +103,7 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [profilePhoto, setProfilePhoto] = useState("");
   const [name, setName] = useState("");
   const [job, setJob] = useState("");
   const [open, setOpen] = useState(false);
@@ -116,6 +117,11 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
       const res = await getUser();
       setName(res.username);
       setJob(res.job);
+      if (res.profilePhoto) {
+        const profilePhotoPath = res.profilePhoto.replace(/^uploads[\\/]/, "");
+        const profilePhotoURL = `http://localhost:3000/uploads/${profilePhotoPath}`;
+        setProfilePhoto(profilePhotoURL);
+      }
     } catch (error) {
       console.log("Error Fetching User Data");
       throw error;
@@ -391,7 +397,7 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
                 }}
               >
                 <Avatar
-                  src=""
+                  src={profilePhoto}
                   alt="avatar"
                   sx={{ width: "32px", height: "32px" }}
                 />

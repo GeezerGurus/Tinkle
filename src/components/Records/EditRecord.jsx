@@ -87,9 +87,11 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
     }
   })();
 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <Paper
@@ -97,14 +99,26 @@ const EditRecord = ({ onClose, dataRow, refresh }) => {
         position: "relative",
         padding: isLargest ? "8px 0" : "24px 0",
         width: isMediumScreen ? "95vw" : "686px",
-        height: isMediumScreen ? "72vh" : isLaptop ? "95vh" : "805px",
+        height: isSmallest
+          ? "90vh"
+          : isSmallScreen
+          ? "90vh"
+          : isMediumScreen
+          ? "72vh"
+          : isLaptop
+          ? "auto"
+          : "805px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         flexDirection: "column",
       }}
     >
-      <Typography variant="h4" sx={{ color: colors.purple[900] }} gutterBottom>
+      <Typography
+        variant={isSmallest ? "h6" : "h4"}
+        sx={{ color: colors.purple[900] }}
+        gutterBottom
+      >
         Edit Record
       </Typography>
       <ButtonGroup

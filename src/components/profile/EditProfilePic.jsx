@@ -11,8 +11,9 @@ import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { updateProfilePic } from "../../api/userAccounts";
 import { getUser } from "../../api/userAccounts";
+import { enqueueSnackbar } from "notistack";
 
-const EditProfilePic = ({ userProfile, onClose }) => {
+const EditProfilePic = ({ userProfile, onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -20,31 +21,37 @@ const EditProfilePic = ({ userProfile, onClose }) => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [profilePic, setProfilePic] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(userProfile);
-  const [isFileSelected, setIsFileSelected] = useState(false);
-
-  const fetchUser = async () => {
-    try {
-      const res = await getUser();
-      setUserData(res);
-    } catch (error) {
-      console.log("Error Fetching User Data");
-      throw error;
-    }
-  };
+  const [preview, setPreview] = useState("");
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await getUser();
+        setUserData(res);
+        if (res.profilePhoto) {
+          const profilePhotoPath = res.profilePhoto.replace(
+            /^uploads[\\/]+/,
+            ""
+          );
+          const profilePhotoURL = `http://localhost:3000/uploads/${profilePhotoPath}`;
+          console.log("Profile Photo URL:", profilePhotoURL);
+          setPreview(profilePhotoURL);
+        }
+      } catch (error) {
+        console.error("Error Fetching User Data", error);
+      }
+    };
+
     fetchUser();
-  }, []);
-  console.log(userData);
+  }, [userProfile]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
-    setPreview(URL.createObjectURL(file));
-    setIsFileSelected(true);
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleUpdateClick = async () => {
@@ -55,24 +62,26 @@ const EditProfilePic = ({ userProfile, onClose }) => {
 
     const formData = new FormData();
     formData.append("profilePhoto", selectedFile);
-    // console.log(formData);
 
     try {
       const response = await updateProfilePic(formData);
       console.log("Profile picture updated successfully:", response);
-      setPreview(formData);
+      setPreview(URL.createObjectURL(selectedFile));
+      refresh();
+      enqueueSnackbar("Successfully Updated", { variant: "success" });
       onClose();
     } catch (error) {
       console.error("Error updating profile picture:", error);
-      // Handle error state or display error message to the user
     }
   };
+
   return (
     <Paper
       sx={{
         padding: isMediumScreen ? "19px" : "32px 40px",
         width: isMediumScreen ? (isSmallScreen ? "95vw" : "580px") : "686px",
-        height: isSmallScreen ? "auto" : "483px",
+        // height: isSmallScreen ? "auto" : "483px",
+        height: "auto",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
@@ -90,11 +99,7 @@ const EditProfilePic = ({ userProfile, onClose }) => {
         Adding picture can make your profile look more personal
       </Typography>
       <Avatar
-        // src={
-        //   userData?.profilePhoto
-        //     ? `http://localhost:3001/api/v1/${userData.profilePhoto}`
-        //     : preview
-        // }
+        src={preview}
         alt="avatar"
         sx={{
           width: 245,
@@ -103,7 +108,7 @@ const EditProfilePic = ({ userProfile, onClose }) => {
       />
       {/* Choosing Picture */}
 
-      {/* <input
+      <input
         type="file"
         accept="image/*"
         onChange={handleFileChange}
@@ -123,7 +128,7 @@ const EditProfilePic = ({ userProfile, onClose }) => {
         >
           Choose Photo
         </Button>
-      </label> */}
+      </label>
 
       <Stack
         gap={1}
@@ -133,8 +138,7 @@ const EditProfilePic = ({ userProfile, onClose }) => {
         {/* <label htmlFor="upload-profile-photo"> */}
         <Button
           onClick={handleUpdateClick}
-          component="span"
-          // onClick={handleUpdateClick}
+          disabled={!selectedFile}
           sx={{
             width: isSmallScreen ? 202 : 208,
             height: isSmallScreen ? 44 : 40,

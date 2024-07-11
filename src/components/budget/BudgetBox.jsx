@@ -90,7 +90,11 @@ const BudgetBox = ({ period }) => {
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   const boxWidth = isSmallScreen ? "100%" : "474px";
 
   const [budgets, setBudgets] = useState([]);
@@ -168,8 +172,9 @@ const BudgetBox = ({ period }) => {
             width: "100%",
             borderRadius: "16px",
             border: `2px dashed ${colors.purple[600]}`,
-            height: "25%",
+            height: isMediumScreen ? 55 : "25%",
             display: "flex",
+            mt: isMediumScreen ? 2 : undefined,
           }}
         >
           <Box

@@ -58,6 +58,7 @@ const Profile = () => {
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
   const [openProfilePicModal, setOpenProfilePicModal] = useState(false);
 
+  const [profilePic, setProfilePic] = useState("");
   const [selectedName, setSelectedName] = useState(userData.username);
   const [selectedJob, setSelectedJob] = useState(userData.job);
   const [selectedEmail, setSelectedEmail] = useState(userData.email);
@@ -95,6 +96,14 @@ const Profile = () => {
       setIsLoading(true);
       const response = await getUser();
       setUserData(response || []);
+      if (response.profilePhoto) {
+        const profilePhotoPath = response.profilePhoto.replace(
+          /^uploads[\\/]+/,
+          ""
+        );
+        const profilePhotoURL = `http://localhost:3000/uploads/${profilePhotoPath}`;
+        setProfilePic(profilePhotoURL);
+      }
       setIsLoading(false);
     } catch (error) {
       console.log("Error Getting Data");
@@ -245,7 +254,7 @@ const Profile = () => {
               justifyContent={"center"}
             >
               <Avatar
-                // src={UserProfile}
+                src={profilePic}
                 alt="avatar"
                 sx={{
                   width: isSmallScreen ? 120 : 155,
@@ -376,6 +385,7 @@ const Profile = () => {
               <EditProfilePic
                 userProfile={UserProfile}
                 onClose={() => setOpenProfilePicModal(false)}
+                refresh={fetchUser}
               />
             </Box>
           </Modal>

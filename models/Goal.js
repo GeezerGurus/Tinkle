@@ -25,11 +25,15 @@ const goalSchema = new Schema (
             trim: true,
             min: 0,
             default: 0, 
-          },
+        },
         description: {
             type: String,
             trim: true,
             maxlength: 200,
+        },
+        icon: {
+            type: String,
+            required: true
         },
         desireDate: {
             type: Date,

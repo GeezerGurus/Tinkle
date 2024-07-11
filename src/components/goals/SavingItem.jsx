@@ -18,8 +18,10 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { enqueueSnackbar } from "notistack";
 import { tokens } from "../../theme";
 import EditGoal from "./EditGoal";
+
 import { ConfirmModal } from "../utils";
 import { deleteGoal, patchGoal } from "../../api/goals";
+import { CategoryIcons } from "../utils";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -74,15 +76,18 @@ export const SavingItem = ({
   name,
   goal,
   saved,
+  bgcolor,
   description,
   createdAt,
   updatedAt,
+  icon,
   refresh,
   date,
   state,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const IconComponent = CategoryIcons[icon];
 
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -164,8 +169,18 @@ export const SavingItem = ({
               justifyContent: "space-between",
             }}
           >
+
             {/* Left Side */}
             <Stack direction={"row"} gap={1}>
+              
+
+              <IconComponent
+                sx={{
+                  width: "48px",
+                  height: "48px",
+                  color: bgcolor,
+                }}
+              />
               <Stack>
                 <Typography variant={isMediumScreen ? "body2" : "body1"}>
                   {name}

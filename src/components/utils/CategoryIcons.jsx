@@ -63,6 +63,7 @@ import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import MovieIcon from "@mui/icons-material/Movie";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 
 export const CategoryIcons = {
   Plane: PlaneIcon,
@@ -123,6 +124,7 @@ export const CategoryIcons = {
   DirectionsCar: DirectionsCarIcon,
   LocalHospital: LocalHospitalIcon,
   Movie: MovieIcon,
+  GiftCard: CardGiftcardIcon
 };
 
 

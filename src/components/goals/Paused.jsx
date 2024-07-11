@@ -64,6 +64,8 @@ export const Paused = ({isSmallScreen,state}) => {
             key={index}
             id={list._id}
             name={list.name}
+            icon={list.icon}
+            bgcolor={list.color}
             goal={list.amount}
             saved={list.saveamount}
             createdAt={list.createdAt}

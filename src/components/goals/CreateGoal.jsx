@@ -16,39 +16,9 @@ import {
 } from "@mui/material";
 import { Item } from "../utils";
 import { enqueueSnackbar } from "notistack";
-import {
-  Home as HomeIcon,
-  DirectionsCar as DirectionsCarIcon,
-  ConnectingAirports as ConnectingAirportsIcon,
-  School as SchoolIcon,
-  Payments as PaymentsIcon,
-  HealthAndSafety as HealthAndSafetyIcon,
-  WineBar as WineBarIcon,
-  CardGiftcard as CardGiftcardIcon,
-  Settings as SettingsIcon,
-  Pets as PetsIcon,
-  Celebration as CelebrationIcon,
-  ChildFriendly as ChildFriendlyIcon,
-  Computer as ComputerIcon,
-} from "@mui/icons-material";
+import CategoryIcons from "../utils/CategoryIcons";
 import { tokens } from "../../theme";
 import { postGoal } from "../../api/goals";
-
-const icons = [
-  <HomeIcon />,
-  <DirectionsCarIcon />,
-  <ConnectingAirportsIcon />,
-  <SchoolIcon />,
-  <PaymentsIcon />,
-  <HealthAndSafetyIcon />,
-  <WineBarIcon />,
-  <CardGiftcardIcon />,
-  <SettingsIcon />,
-  <PetsIcon />,
-  <CelebrationIcon />,
-  <ChildFriendlyIcon />,
-  <ComputerIcon />,
-];
 
 const input_colors = [
   "red",
@@ -68,7 +38,7 @@ const input_colors = [
 
 export const CreateGoal = ({
   onClose,
-  bgColor,
+  bg,
   iconF,
   name,
   savedAlready,
@@ -82,7 +52,7 @@ export const CreateGoal = ({
   const [errors, setErrors] = useState({});
   const [goalName, setGoalName] = useState(name || "");
   const [icon, setIcon] = useState(iconF || "");
-  const [color, setColor] = useState(bgColor || "");
+  const [color, setColor] = useState(bg || "");
   const [note, setNote] = useState("");
   const [date, setDate] = useState(dateF || "");
   const [amount, setAmount] = useState(goal || 0);
@@ -115,8 +85,8 @@ export const CreateGoal = ({
     try {
       const newList = {
         name: goalName,
-        // icon: icon,
-        // bgColor: color,
+        icon: icon,
+        color: color,
         amount: amount,
         saveamount: saved,
         description: note,
@@ -131,6 +101,7 @@ export const CreateGoal = ({
       console.error("Error creating new Goal:", error);
     }
   };
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -149,10 +120,8 @@ export const CreateGoal = ({
         borderRadius: "8px",
       }}
     >
-      {/* Header */}
       <Typography variant="h4">Create Goal</Typography>
 
-      {/* Middle Section */}
       <Box
         sx={{
           width: "100%",
@@ -165,7 +134,6 @@ export const CreateGoal = ({
           gap: "10px",
         }}
       >
-        {/* Goal Name */}
         <TextField
           fullWidth
           label="Name"
@@ -181,7 +149,6 @@ export const CreateGoal = ({
           helperText={errors.goalName}
         />
 
-        {/* Target Amount */}
         <TextField
           fullWidth
           type="number"
@@ -201,7 +168,6 @@ export const CreateGoal = ({
           helperText={errors.amount}
         />
 
-        {/* Saved Already */}
         <TextField
           type="number"
           label="Saved Already"
@@ -221,7 +187,6 @@ export const CreateGoal = ({
           helperText={errors.saved}
         />
 
-        {/* Desired Date */}
         <TextField
           type="date"
           label="Desired Date"
@@ -232,7 +197,7 @@ export const CreateGoal = ({
           onChange={(e) => setDate(e.target.value)}
           InputProps={{
             inputProps: {
-              min: "2022-01-01", // Set min and max dates if needed
+              min: "2022-01-01",
               max: "2025-12-31",
             },
           }}
@@ -244,19 +209,15 @@ export const CreateGoal = ({
           helperText={errors.date}
         />
 
-        {/* Color Type */}
         <Stack direction={"row"} width={"100%"} gap={2}>
-          {/* <FormControl sx={{ width: "80%" }}>
-            <InputLabel id="from-account-label" sx={{ color: "black" }}>
+          <FormControl sx={{ width: "80%" }}>
+            <InputLabel id="color-label" sx={{ color: "black" }}>
               Color
             </InputLabel>
             <Select
-              id="from-account-label"
-              select
-              label="From Account"
+              labelId="color-label"
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              placeholder="Choose your color"
               displayEmpty
               MenuProps={{
                 PaperProps: {
@@ -266,17 +227,15 @@ export const CreateGoal = ({
                   },
                 },
               }}
-              renderValue={(selected) => {
-                return (
-                  <Box
-                    sx={{
-                      width: "100%",
-                      height: "30px",
-                      backgroundColor: selected,
-                    }}
-                  />
-                );
-              }}
+              renderValue={(selected) => (
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "30px",
+                    backgroundColor: selected,
+                  }}
+                />
+              )}
             >
               {input_colors.map((color) => (
                 <MenuItem key={color} value={color}>
@@ -286,22 +245,19 @@ export const CreateGoal = ({
                       width: "100%",
                       height: "32px",
                     }}
-                  ></Box>
+                  />
                 </MenuItem>
               ))}
             </Select>
-          </FormControl> */}
+          </FormControl>
 
-          {/* Icon Selection */}
-          {/* <FormControl sx={{ flexGrow: 1 }}>
+          <FormControl sx={{ flexGrow: 1 }}>
             <InputLabel id="icon-label" sx={{ color: "black" }}>
               Icon
             </InputLabel>
             <Select
-              id="icon-label"
+              labelId="icon-label"
               value={icon}
-              select
-              label="Icon"
               onChange={(e) => setIcon(e.target.value)}
               MenuProps={{
                 PaperProps: {
@@ -311,20 +267,22 @@ export const CreateGoal = ({
                   },
                 },
               }}
-              renderValue={(selected) => {
-                return <Item icon={selected} text="" bgColor="black" />;
-              }}
+              renderValue={(selected) => (
+                <Item icon={CategoryIcons[selected]} text="" bgColor="black" />
+              )}
             >
-              {icons.map((icon) => (
-                <MenuItem key={icon} value={icon} sx={{ height: "auto" }}>
-                  <Item icon={icon} text="" bgColor="black" iconSize="auto" />
-                </MenuItem>
-              ))}
+              {Object.keys(CategoryIcons).map((key) => {
+                const IconComponent = CategoryIcons[key];
+                return (
+                  <MenuItem key={key} value={key}>
+                    <IconComponent />
+                  </MenuItem>
+                );
+              })}
             </Select>
-          </FormControl> */}
+          </FormControl>
         </Stack>
 
-        {/* Note */}
         <TextField
           InputLabelProps={{
             shrink: true,
@@ -339,7 +297,6 @@ export const CreateGoal = ({
         />
       </Box>
 
-      {/* Bottom Section */}
       <Stack
         gap={isSmallerScreen ? 1 : 2}
         direction={isSmallScreen ? "column" : "row"}
@@ -347,7 +304,6 @@ export const CreateGoal = ({
       >
         <Button
           onClick={handleSave}
-          refresh={refresh}
           sx={{
             width: "208px",
             height: "40px",

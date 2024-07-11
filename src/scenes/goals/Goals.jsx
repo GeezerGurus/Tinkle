@@ -13,6 +13,7 @@ import { Loader, SpeedDial } from "../../components/utils";
 import SavingFor from "../../components/goals/SavingFor";
 import { tokens } from "../../theme";
 import { getGoals } from "../../api/goals";
+import CategoryIcons from "../../components/utils";
 
 export const Goals = () => {
   const theme = useTheme();
@@ -21,6 +22,7 @@ export const Goals = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lists, setLists] = useState([]);
   const [page, setPage] = useState("active");
+  
 
   const fetchGoals = async () => {
     setIsLoading(true);
@@ -84,7 +86,7 @@ export const Goals = () => {
     >
       <Loader isLoading={isLoading} />
       {/* Speed Dial */}
-      <SpeedDial modal={<CreateGoal refresh={fetchGoals} />} />
+      <SpeedDial modal={<SavingFor refresh={fetchGoals} />} />
 
       {/* Nav Buttons */}
       <ButtonGroup

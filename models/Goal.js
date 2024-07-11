@@ -42,6 +42,9 @@ const goalSchema = new Schema (
             type: String,
             default: "active"
         },
+        color: {
+            type: String,
+        }
     },
     { timestamps: true }
 );

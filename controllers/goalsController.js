@@ -2,7 +2,7 @@ const GoalSchema = require("../models/Goal");
 
 exports.addGoal = async (req, res) => {
   const userId = req.userId;
-  const { name, amount, saveamount, description, desireDate, state, icon } = req.body;
+  const { name, amount, saveamount, description, desireDate, state, icon, color } = req.body;
 
   try {
     if (!name || !amount) {
@@ -20,7 +20,8 @@ exports.addGoal = async (req, res) => {
       description,
       desireDate,
       state,
-      icon
+      icon,
+      color
     });
 
     await goal.save();
@@ -55,7 +56,7 @@ exports.getaGoal = async (req, res) => {
 
 exports.patchGoal = async (req, res) => {
   const { goalId } = req.params;
-  const { name, amount, saveamount, description, desireDate, state, icon } = req.body;
+  const { name, amount, saveamount, description, desireDate, state, icon, color } = req.body;
   try {
         const goal = await GoalSchema.findOne({ userId: req.userId, _id: goalId });
         if (!goal) {
@@ -69,6 +70,7 @@ exports.patchGoal = async (req, res) => {
         if (desireDate) goal.desireDate = desireDate;
         if (state) goal.state = state;
         if (icon) goal.icon = icon;
+        if (color) goal.color = color;
 
         await goal.save();
 

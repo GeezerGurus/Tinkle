@@ -87,14 +87,15 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
+        bgcolor: colors.backGround
       }}
     >
-      <Typography variant={isSmallScreen ? "h6" : "h4"}>
+      <Typography variant={isSmallScreen ? "h6" : "h4"} color={colors.text.text2}>
         Your Profile Picture
       </Typography>
       <Typography
         variant={isSmallScreen ? "body4" : "body1"}
-        textAlign={"center"}
+        textAlign={"center"} color={colors.text.text1}
       >
         Adding picture can make your profile look more personal
       </Typography>
@@ -142,9 +143,9 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
           sx={{
             width: isSmallScreen ? 202 : 208,
             height: isSmallScreen ? 44 : 40,
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
-            color: "white",
+            color: colors.text.text1,
           }}
         >
           <Typography variant="body2">
@@ -158,8 +159,9 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
           sx={{
             width: isSmallScreen ? 202 : 208,
             height: isSmallScreen ? 44 : 40,
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
+            color: colors.text.text2
           }}
         >
           <Typography variant="body2">Cancel</Typography>

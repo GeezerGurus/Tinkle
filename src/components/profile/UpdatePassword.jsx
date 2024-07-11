@@ -77,6 +77,8 @@ const UpdatePassword = ({ onClose, refresh }) => {
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
+        bgcolor: colors.backGround,
+        color: colors.text.text1
       }}
     >
       <Typography variant={isSmallScreen ? "h6" : "h4"}>
@@ -177,9 +179,9 @@ const UpdatePassword = ({ onClose, refresh }) => {
           sx={{
             width: 208,
             height: 40,
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
-            color: "white",
+            color: colors.text.text1,
           }}
         >
           <Typography variant="body2">Save</Typography>
@@ -189,7 +191,8 @@ const UpdatePassword = ({ onClose, refresh }) => {
           sx={{
             width: 208,
             height: 40,
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
+            color: colors.text.text2,
             textTransform: "none",
           }}
         >

@@ -34,12 +34,12 @@ const EditButton = ({ onClick }) => {
         height: 38,
         borderRadius: "4px",
         textTransform: "none",
-        backgroundColor: colors.purple[900],
-        "&:hover": { backgroundColor: colors.purple[800] },
+        backgroundColor: colors.button.button3,
+        "&:hover": { backgroundColor: colors.button.button2 },
       }}
       onClick={onClick}
     >
-      <Typography variant="body2">Edit</Typography>
+      <Typography variant="body2" color={colors.text.text1}>Edit</Typography>
     </Button>
   );
 };
@@ -123,6 +123,7 @@ const Profile = () => {
     setValue
   ) => (
     <Stack
+
       direction="row"
       justifyContent="space-between"
       alignItems="center"
@@ -167,7 +168,8 @@ const Profile = () => {
                   ? 90
                   : 101,
                 textTransform: "none",
-                backgroundColor: colors.purple[600],
+                backgroundColor: colors.button.button1,
+                color: colors.text.text1
               }}
             >
               <Typography variant="body1">Save</Typography>
@@ -182,7 +184,8 @@ const Profile = () => {
                   ? 90
                   : 101,
                 textTransform: "none",
-                backgroundColor: colors.purple[200],
+                backgroundColor: colors.button.button2,
+                color: colors.text.text2
               }}
               onClick={() => setOpenInput(false)}
             >
@@ -217,10 +220,11 @@ const Profile = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        bgcolor: colors.backGround
       }}
     >
       <Paper
-        sx={{ width: isSmallScreen ? "95%" : "64%", borderRadius: "22px" }}
+        sx={{ width: isSmallScreen ? "95%" : "64%", borderRadius: "22px", bgcolor: colors.panel.panel1 }}
       >
         {/* Banner  */}
         <Box
@@ -257,15 +261,16 @@ const Profile = () => {
                 src={profilePic}
                 alt="avatar"
                 sx={{
+                  borderColor: colors.panel.panelBorder,
                   width: isSmallScreen ? 120 : 155,
                   height: isSmallScreen ? 120 : 155,
-                  border: "15px solid white",
+                  border: "15px solid",
                   top: -56,
                 }}
               />
               <Stack
                 alignItems={isSmallScreen ? "center" : undefined}
-                sx={{ mt: isSmallScreen ? -5 : undefined }}
+                sx={{ mt: isSmallScreen ? -5 : undefined, color: colors.text.text1 }}
               >
                 <Typography variant={isMediumScreen ? "h6" : "h3"}>
                   {userData.username}
@@ -281,8 +286,9 @@ const Profile = () => {
                 mt: isMediumScreen ? (isSmallScreen ? 4 : -5) : 4,
                 borderRadius: "4px",
                 textTransform: "none",
-                backgroundColor: colors.purple[600],
-                "&:hover": { backgroundColor: colors.purple[200] },
+                backgroundColor: colors.button.button1,
+                "&:hover": { backgroundColor: colors.button.button2 },
+                color: colors.text.text1
               }}
               onClick={() => setOpenProfilePicModal(true)}
             >
@@ -300,6 +306,8 @@ const Profile = () => {
               flexDirection: "column",
               alignItems: "center",
               gap: 2,
+              bgcolor: colors.panel.panelBorder,
+              color: colors.text.text2
             }}
           >
             <Box
@@ -345,8 +353,9 @@ const Profile = () => {
                 height: 42,
                 borderRadius: "4px",
                 textTransform: "none",
-                backgroundColor: colors.purple[600],
-                "&:hover": { backgroundColor: colors.purple[200] },
+                backgroundColor: colors.button.button1,
+                "&:hover": { backgroundColor: colors.button.button2},
+                color: colors.text.text1
               }}
             >
               <Typography variant="body2">Change Password</Typography>

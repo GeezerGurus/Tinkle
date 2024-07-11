@@ -98,13 +98,15 @@ export const tokens = (mode) => ({
           900: "#1C4F2A",
         },
         category: {
-          purple: "#7772F2",
+          purple: "#B3B1EB",
           light_purple: "#AAA7F5",
-          light_blue: "#A8E2F5",
-          orange: "#F5CCA8",
-          blue: "#A8BCF5",
-          red: "#F5ADA8",
-          yellow: "#F5EEA8",
+          light_blue: "#34CBCB",
+          orange: "#CB7034",
+          blue: "#345CCB",
+          red: "#D1574D",
+          yellow: "#BBAF44",
+          pink: "#D998E2",
+          green: "#6DB673",
         },
         extra: {
           pure_white: "FFFFFF",
@@ -115,6 +117,10 @@ export const tokens = (mode) => ({
           yellow_accent: "#C7B50F",
           red_accent: "#FE3F2F",
           faint_black: "#111111",
+          sideBar: "#080927",
+          pause: "#323558",
+          underLine: "#9591F2",
+          totalIncome: "#9591F2",
         },
         vibrant: {
           yellow: "#EFE371",
@@ -124,6 +130,43 @@ export const tokens = (mode) => ({
           orange: "#EFAC71",
           purple: "#7771EF",
           pink: "#E071EF",
+        },
+        title: {
+          title1: "#F5F5F5",
+          title2: "#B8B5F6",
+        },
+        backGround: "#0D0F35",
+        sideBar: "#080927",
+        text: {
+          text1: "#F5F5F5",
+          text2: "#3F3D66",
+          textSecondary: "#B5B5B5",
+        },
+        icon: {
+          icon1: "#8884DC",
+          icon2: "#F5F5F5",
+        },
+        button: {
+          button1: "#6756D8",
+          button2: "#B8B5F6",
+          button3: "#525085",
+          editButton: "#23B6E7",
+        },
+        panel: {
+          panel1: "#323558",
+          panel2: "#938EF5",
+          panelBorder: "#AAA7F5",
+        },
+        barMeter: {
+          green: "#71EFC1",
+          orange: "#EFAC71",
+          yellow: "#EFE371",
+          red: "#EF7971",
+          gray: "#D6D6D6",
+        },
+        notice: {
+          warning: "#E85245",
+          accept: "#43BC63",
         },
       }
     : {
@@ -228,7 +271,7 @@ export const tokens = (mode) => ({
           red: "#F5ADA8",
           yellow: "#F5EEA8",
           pink: "#ECA8F5",
-          melon: "#A8F5C2",
+          green: "#A8F5C2",
         },
         extra: {
           pure_white: "FFFFFF",
@@ -239,6 +282,10 @@ export const tokens = (mode) => ({
           yellow_accent: "#C7B50F",
           red_accent: "#FE3F2F",
           faint_black: "#111111",
+          sideBar: "#080927",
+          pause: "#323558",
+          underLine: "#8884DC",
+          totalIncome: "#8884DC",
         },
         vibrant: {
           yellow: "#EFE371",
@@ -249,6 +296,46 @@ export const tokens = (mode) => ({
           purple: "#7771EF",
           pink: "#E071EF",
         },
+        title: {
+          title1: "#3F3D66",
+          title2: "#111111",
+        },
+       
+        text: {
+          text1: "#111111",
+          text2: "#111111",
+          textSecondary: "#B5B5B5",
+        },
+        icon: {
+          icon1: "#8884DC",
+          icon2: "#F5F5F5",
+        },
+        button: {
+          button1: "#8884DC",
+          button2: "#CECCF9",
+          button3: "#8884DC",
+          editButton: "#71D0EF",
+        },
+        panel: {
+          panel1: "#DEDDFB",
+          panel2: "#D9D9D9",
+          panelReached: "#F5F5F5",
+          panelBorder: "#E0E0E0",
+        },
+        barMeter: {
+          green: "#A8F5C2",
+          orange: "#F5CCA8",
+          yellow: "#EFE371",
+          red: "#D9D9D9",
+          gray: "#D6D6D6",
+        },
+        notice: {
+          warning: "#FE3F2F",
+          accept: "#43BC63",
+        },
+        backGround: "#F5F5F5",
+        sideBar: "#080927",
+        profileSignUp: "525085",
       }),
 });
 
@@ -273,10 +360,10 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[500],
+              default: colors.backGround,
             },
             frameBackground: {
-              default: "",
+              default: colors.backGround,
             },
           }
         : {
@@ -293,10 +380,10 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#F5F5F5",
+              default: colors.backGround,
             },
             frameBackground: {
-              default: "white",
+              default: colors.backGround,
             },
           }),
     },

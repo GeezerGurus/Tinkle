@@ -14,7 +14,7 @@ const useCategoryColors = () => {
     colors.category.red,
     colors.category.yellow,
     colors.category.pink,
-    colors.category.melon,
+    colors.category.green,
   ];
 
   return CategoryColors;

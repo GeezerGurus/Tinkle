@@ -249,6 +249,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
               id={id}
               currentAmount={saved}
               refresh={refresh}
+              goal={goal}
               onClose={() => {
                 setOpenModal(false);
               }}

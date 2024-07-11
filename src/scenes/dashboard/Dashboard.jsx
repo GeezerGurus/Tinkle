@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import GridViewIcon from "@mui/icons-material/GridView";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { tokens } from "../../theme";
 import { useTheme, Box, useMediaQuery } from "@mui/material";
 import {

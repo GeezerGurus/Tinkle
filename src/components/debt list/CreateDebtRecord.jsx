@@ -17,14 +17,13 @@ import { postLendDebtItem } from "../../api/lendDebtItemsApi";
 import { postOweDebtItem } from "../../api/oweDebtItemsApi";
 import { enqueueSnackbar } from "notistack";
 
-const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
+const CreateDebtRecord = ({ onClose, debtId, action, debtAmount, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [errors, setErrors] = useState({});
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState("");
-  const [selectedAccount, setSelectedAccount] = useState("");
   const [accountsData, setAccountsData] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
   const handleChange = (event) => {
@@ -41,6 +40,8 @@ const CreateDebtRecord = ({ onClose, debtId, action, refresh }) => {
       errors.amount = "Amount is required";
     } else if (amount <= 0) {
       errors.amount = "Amount must be greater than 0";
+    } else if (amount > debtAmount) {
+      errors.amount = "Amount must not be greater than Debt";
     }
     if (!date) {
       errors.date = "Date is required";

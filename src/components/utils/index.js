@@ -12,3 +12,4 @@ export { default as VideoContents } from "./VideoContents";
 export { default as Loader } from "./Loader";
 export { default as useCategoryColors } from "./useCategoryColors";
 export { default as AccountIcons } from "./AccountIcons";
+export { default as currencyNames } from "./CurrencyNames"

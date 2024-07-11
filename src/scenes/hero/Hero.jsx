@@ -688,7 +688,7 @@ const Hero = () => {
 
         {/* our team pages  */}
         <Stack
-          display={"none"}
+          
           width={"100%"}
           alignItems={"center"}
           mb={7}
@@ -698,7 +698,7 @@ const Hero = () => {
           <Typography
             variant="title4"
             gutterBottom
-            textAlign={isSmallScreen ? "center" : undefined}
+            textAlign={isSmallScreen ? "center" : isMediumScreen?"center" :undefined}
             sx={{ color: colors.purple[900] }}
           >
             Passionate, Proactive, Resilient
@@ -706,25 +706,27 @@ const Hero = () => {
           {/* Avatars  */}
           <Stack width={"100%"}>
             <Stack
+              gap="30px"
               spacing={2}
               width={"100%"}
               direction="row"
               alignSelf={"center"}
+              flexWrap={"wrap"}
               // direction={isSmallScreen?"column":"row"}
               justifyContent={"center"}
               padding={"40px 32px"}
-              flexWrap={"warp"}
+              
               position={"relative"}
             >
               <img
                 src={RightArrowImage2}
                 alt=""
                 style={{
-                  height: isSmallScreen ? "20vw" : "40%",
+                  height:  isMediumScreen?"15vw":"40%",
                   position: "absolute",
                   objectFit: "contain",
-                  top: 0,
-                  right: 30,
+                  top: "-30px",
+                  right: "0",
                 }}
               />
 
@@ -738,23 +740,25 @@ const Hero = () => {
             </Stack>
             <Divider />
             <Stack
+              gap="20px"
               width={"100%"}
               spacing={1}
               direction="row"
+              flexWrap={"wrap"}
               // direction={isSmallScreen?"column":"row"}
               justifyContent={"center"}
-              padding={"40px 60px"}
+              padding={"40px 32px"}
               position={"relative"}
             >
               <img
                 src={LeftArrowImage2}
                 alt=""
                 style={{
-                  height: isSmallScreen ? "8%" : "40%",
+                  height: isMediumScreen?"15vw":isLargeScreen?"20vw":"40%",
                   position: "absolute",
                   objectFit: "contain",
                   bottom: 50,
-                  left: isSmallScreen ? "-15px" : "-30px",
+                  left:isLargeScreen?"24px":"-56px",
                 }}
               />
               {profiles2.map((profile, index) => (
@@ -766,7 +770,7 @@ const Hero = () => {
               ))}
             </Stack>
           </Stack>
-          <Typography variant="Hbody1" sx={{ color: colors.purple[900] }}>
+          <Typography textAlign={"center"} variant="Hbody1" sx={{ color: colors.purple[900] }}>
             We lead with care -- We work with trust -- We strive for quality --
             We strive for uniqueness
           </Typography>

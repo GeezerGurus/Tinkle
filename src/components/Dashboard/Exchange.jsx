@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -12,6 +12,7 @@ import {
 import { styled } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { tokens } from "../../theme";
+import { currencyNames } from "../utils";
 
 const StyledInput = styled("input")({
   maxWidth: "104px",
@@ -24,13 +25,6 @@ const StyledInput = styled("input")({
 
 // Exchange Rates data
 
-const exchangeRates = {
-  USD: { MMK: 3200, Yen: 110, Euro: 0.85, USD: 1 },
-  MMK: { USD: 0.00031, Yen: 0.034, Euro: 0.00027, MMK: 1 },
-  Yen: { USD: 0.0091, MMK: 29.5, Euro: 0.0077, Yen: 1 },
-  Euro: { USD: 1.18, MMK: 3740, Yen: 130, Euro: 1 },
-};
-
 const Exchange = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -38,13 +32,39 @@ const Exchange = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
 
+  const [apiExchangeRates, setApiExchangeRates] = useState({});
   const [inputCurrency, setInputCurrency] = useState("USD");
   const [outputCurrency, setOutputCurrency] = useState("MMK");
 
-  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
+  const fetchExchangeRates = async () => {
+    try {
+      const API_KEY = "88b049f9ee5cb4b41121e4c7";
+      const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${inputCurrency}`;
+      const response = await fetch(API_URL);
+
+      console.log("Response status:", response.status);
+      console.log("Response headers:", response.headers);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      setApiExchangeRates(data.conversion_rates);
+    } catch (error) {
+      console.error("Failed to fetch exchange rates:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchExchangeRates();
+  }, [inputCurrency]);
+
+  console.log(apiExchangeRates);
 
   const handleInputCurrencyChange = (event) => {
     const selectedCurrency = event.target.value;
@@ -71,7 +91,7 @@ const Exchange = () => {
   };
 
   const handleConvert = () => {
-    const rate = exchangeRates[inputCurrency][outputCurrency];
+    const rate = apiExchangeRates[outputCurrency];
     const result = input * rate;
     setOutput(result.toFixed(2));
   };
@@ -98,7 +118,7 @@ const Exchange = () => {
       <Box>
         <Typography variant="h6">Currency Exchange</Typography>
         <Typography variant="body2">
-          1 {inputCurrency} = {exchangeRates[inputCurrency][outputCurrency]}{" "}
+          1 {inputCurrency} = {apiExchangeRates[outputCurrency]}
           {outputCurrency}
         </Typography>
       </Box>
@@ -135,7 +155,7 @@ const Exchange = () => {
               },
             }}
           >
-            {Object.keys(exchangeRates).map((currency) => (
+            {currencyNames.map((currency) => (
               <MenuItem key={currency} value={currency}>
                 <Typography variant="body3">{currency}</Typography>
               </MenuItem>
@@ -190,7 +210,7 @@ const Exchange = () => {
               },
             }}
           >
-            {Object.keys(exchangeRates).map((currency) => (
+            {Object.keys(apiExchangeRates).map((currency) => (
               <MenuItem
                 key={currency}
                 value={currency}

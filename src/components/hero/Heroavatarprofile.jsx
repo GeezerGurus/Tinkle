@@ -13,15 +13,15 @@ const Heroavatarprofile = ({ code, name, job }) => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
-    <Box display="flex" alignItems={"center"} width={"250px"}textAlign="center" flexDirection={"column"} >
+    <Box display="flex" alignItems={"center"} width={isLargeScreen?"29vw":"200px"} textAlign="center" flexDirection={"column"} >
       <Avatar sx={{ width:isSmallScreen?"55px":"105px", height:isSmallScreen?"55px ":"105px" }} />
-      <Typography variant={isSmallScreen?"body3":"title1" }sx={{ color: colors.purple[900] }}>
+      <Typography variant={isSmallScreen?"body4":"title1" }sx={{ color: colors.purple[900] }}>
         {code}
       </Typography>
-      <Typography variant={isSmallScreen?"body3":"title1" }sx={{ textAlign: "center", color: colors.purple[900] }}>
+      <Typography variant={isSmallScreen?"body4":"title1" }sx={{ textAlign: "center", color: colors.purple[900] }}>
         {name}
       </Typography>
-      <Typography variant={isSmallScreen?"body4":"Hbody2"} sx={{ color: colors.purple[800] }}>
+      <Typography variant={isSmallScreen?"body5":"Hbody2"} sx={{ color: colors.purple[800] }}>
         {job}
       </Typography>
     </Box>

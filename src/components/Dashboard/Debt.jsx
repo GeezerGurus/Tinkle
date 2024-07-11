@@ -68,13 +68,13 @@ const Debt = () => {
       {page === "Owe" ? (
         <Lend
           handleChange={handleChange}
-          color={colors.category.red}
+          color={colors.green[500]}
           items={lendItems}
         />
       ) : (
         <Owe
           handleChange={handleChange}
-          color={colors.green[500]}
+          color={colors.category.red}
           items={oweItems}
         />
       )}

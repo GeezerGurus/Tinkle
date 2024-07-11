@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, List } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
@@ -60,6 +60,8 @@ export const Active = ({ isSmallScreen, state }) => {
               key={index}
               id={list._id}
               name={list.name}
+              icon={list.icon}
+              bgcolor={list.color}
               goal={list.amount}
               saved={list.saveamount}
               createdAt={list.createdAt}

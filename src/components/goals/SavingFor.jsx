@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Paper,
   Button,
@@ -9,25 +9,17 @@ import {
   Modal,
   Stack,
   useMediaQuery,
+  TextField,
 } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import { tokens } from "../../theme";
-import HomeIcon from "@mui/icons-material/Home";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import ConnectingAirportsIcon from "@mui/icons-material/ConnectingAirports";
-import SchoolIcon from "@mui/icons-material/School";
-import PaymentsIcon from "@mui/icons-material/Payments";
-import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
-import WineBarIcon from "@mui/icons-material/WineBar";
-import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import CreateGoal from "./CreateGoal";
-import { postGoal } from "../../api/goals";
-import { enqueueSnackbar } from "notistack";
+import { CategoryIcons } from "../utils";
 
 const GridItem = ({ bg, icon, name, refresh }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const IconComponent = CategoryIcons[icon];
   return (
     <Grid item sm={6} md={3} lg={3}>
       <Stack
@@ -41,14 +33,15 @@ const GridItem = ({ bg, icon, name, refresh }) => {
         }}
       >
         <Button onClick={() => setOpen(true)}>
-          {icon &&
-            React.cloneElement(icon, {
-              sx: {
-                width: isSmallerScreen ? "36px" : "56px",
-                height: isSmallerScreen ? "36px" : "56px",
-                color: bg,
-              },
-            })}
+        
+            {IconComponent && (
+              <IconComponent
+                sx={{
+                  width: isSmallerScreen ? "36px" : "56px",
+                  height: isSmallerScreen ? "36px" : "56px",
+                  color: bg,
+                }}
+              />)}
         </Button>
         <Modal open={open} onClose={() => setOpen(false)}>
           <Box
@@ -61,7 +54,7 @@ const GridItem = ({ bg, icon, name, refresh }) => {
           >
             <CreateGoal
               iconF={icon}
-              bgColor={bg}
+              bg={bg}
               name={name}
               refresh={refresh}
               onClose={() => setOpen(false)}
@@ -75,6 +68,7 @@ const GridItem = ({ bg, icon, name, refresh }) => {
     </Grid>
   );
 };
+
 export const SavingFor = ({ onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -89,6 +83,7 @@ export const SavingFor = ({ onClose, refresh }) => {
 
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Paper
       sx={{
@@ -102,12 +97,9 @@ export const SavingFor = ({ onClose, refresh }) => {
         padding: "16px 56px",
       }}
     >
-      {/* Upper Section */}
       <Typography variant={isMediumScreen ? "h6" : "h4"}>
         What are you Saving for?
       </Typography>
-
-      {/* Middle Section */}
       <Box
         sx={{
           width: "284px",
@@ -128,8 +120,6 @@ export const SavingFor = ({ onClose, refresh }) => {
             shrink: true,
           }}
         />
-
-        {/* Create and Cancel Buttons */}
         <Box
           sx={{
             width: "100%",
@@ -143,7 +133,6 @@ export const SavingFor = ({ onClose, refresh }) => {
               : "10px",
           }}
         >
-          {/* Create Button */}
           <Button
             onClick={() => setOpen(true)}
             variant="contained"
@@ -171,7 +160,6 @@ export const SavingFor = ({ onClose, refresh }) => {
               <CreateGoal refresh={refresh} onClose={handleClose} name={name} />
             </Box>
           </Modal>
-          {/* Cancel Button */}
           <Button
             onClick={onClose}
             sx={{
@@ -181,45 +169,75 @@ export const SavingFor = ({ onClose, refresh }) => {
               textTransform: "none",
             }}
           >
-            <Typography variant="body2">Cancel</Typography>
+            <Typography variant="body2" refresh={refresh} onClose={handleClose}>Cancel</Typography>
           </Button>
         </Box>
       </Box>
-      {/* Bottom Section */}
-      {/* <Typography
+      <Typography
         variant={isMediumScreen ? "body1" : "h6"}
         sx={{
           marginTop: isSmallerScreen ? "10px" : isMediumScreen ? "20px" : "0px",
         }}
       >
         Some things people save for:
-      </Typography> */}
-
-      {/* <Grid
+      </Typography>
+      <Grid
         container
         justifyContent="center"
         alignItems="center"
         rowSpacing={2}
         columnSpacing={3}
-        sx={{ marginTop: isSmallerScreen? "5px":isMediumScreen ? "20px" : "0px"}}
+        sx={{ marginTop: isSmallerScreen ? "5px" : isMediumScreen ? "20px" : "0px" }}
       >
-        <GridItem refresh={refresh} name="New Home" bg="orange" icon={<HomeIcon />} />
-        <GridItem refresh={refresh}
+        <GridItem
+          refresh={refresh}
+          name="New Home"
+          bg="orange"
+          icon={"Home"}
+        />
+        <GridItem
+          refresh={refresh}
           name="New Vehicle"
           bg="lightblue"
-          icon={<DirectionsCarIcon />}
+          icon={"Car"}
         />
-        <GridItem refresh={refresh}
+        <GridItem
+          refresh={refresh}
           name="Holiday Trip"
           bg="lightgreen"
-          icon={<ConnectingAirportsIcon />}
+          icon={"Plane"}
         />
-        <GridItem refresh={refresh} name="Education" bg="blue" icon={<SchoolIcon />} />
-        <GridItem refresh={refresh} name="Emergency Fund" bg="magenta" icon={<PaymentsIcon />} />
-        <GridItem refresh={refresh} name="Health Care" bg="red" icon={<HealthAndSafetyIcon />} />
-        <GridItem refresh={refresh} name="Fine Dining" bg="yellow" icon={<WineBarIcon />} />
-        <GridItem refresh={refresh} name="Charity" bg="lightblue" icon={<CardGiftcardIcon />} />
-      </Grid> */}
+        <GridItem
+          refresh={refresh}
+          name="Education"
+          bg="blue"
+          icon={"School"}
+        />
+        <GridItem
+          refresh={refresh}
+          name="Emergency Fund"
+          bg="magenta"
+          icon={"Cash"}
+        />
+        <GridItem
+          refresh={refresh}
+          name="Health Care"
+          bg="red"
+          icon={"LocalHospital"}
+        />
+        <GridItem
+          refresh={refresh}
+          name="Fine Dining"
+          bg="yellow"
+          icon={"Liquor"}
+        />
+        <GridItem
+          refresh={refresh}
+          name="Charity"
+          bg="lightblue"
+          icon={"GiftCard"}
+        />
+      </Grid>
     </Paper>
   );
 };

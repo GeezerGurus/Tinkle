@@ -61,6 +61,8 @@ export const Reached = ({isSmallScreen,state}) => {
           <SavingItem
             key={index}
             id={list._id}
+            icon={list.icon}
+            bgcolor={list.color}
             name={list.name}
             goal={list.amount}
             saved={list.amount}

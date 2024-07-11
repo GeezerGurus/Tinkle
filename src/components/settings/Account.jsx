@@ -56,6 +56,7 @@ const Account = ({ name, balance, type, refresh, id }) => {
         alignItems: "center",
         padding: 2,
         overflow: "hidden",
+        bgcolor: colors.panel.panel1
       }}
     >
       {/* Main Stack (Icon and Name) */}
@@ -73,7 +74,8 @@ const Account = ({ name, balance, type, refresh, id }) => {
             sx={{
               fontSize: isSmallScreen? "30px": "45px",
               color: "white",
-              backgroundColor: colors.purple[600] ,
+              backgroundColor: colors.button.button1 ,
+              color: colors.panel.panel1,
               borderRadius: "50%",
               padding: "4px",
             }}
@@ -101,7 +103,7 @@ const Account = ({ name, balance, type, refresh, id }) => {
         </Typography>
         <Typography
           variant={isSmallScreen ? "body4" : "body2"}
-          sx={{ color: colors.purple[900] }}
+          sx={{ color: colors.text.textSecondary }}
         >
           MMK
         </Typography>
@@ -118,7 +120,8 @@ const Account = ({ name, balance, type, refresh, id }) => {
           <EditIcon
             fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
-              color: colors.vibrant.light_blue,
+              bgcolor: colors.button.editButton,
+              color: colors.panel.panel1
             }}
           />
         </IconButton>
@@ -131,7 +134,7 @@ const Account = ({ name, balance, type, refresh, id }) => {
           <DeleteIcon
             fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
-              color: colors.extra.red_accent,
+              color: colors.notice.warning,
             }}
           />
         </IconButton>

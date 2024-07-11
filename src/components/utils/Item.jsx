@@ -1,29 +1,31 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography,useTheme } from "@mui/material";
+import { tokens } from "../../theme";
 
 const Item = ({
   icon: Icon,
   text,
-  bgColor,
   marginRight,
   iconSize = "24px",
 }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       {Icon && (
         <Icon
           sx={{
-            color: "white",
+            color: colors.text.text1,
             padding: "2px",
             borderRadius: "50%",
-            backgroundColor: bgColor || "black",
+            backgroundColor: colors.button.button1,
             marginRight: marginRight || "10px",
             fontSize: iconSize,
           }}
         />
       )}
 
-      <Typography sx={{ color: "black" }}>{text}</Typography>
+      <Typography sx={{ color: colors.text.text1 }}>{text}</Typography>
     </Box>
   );
 };

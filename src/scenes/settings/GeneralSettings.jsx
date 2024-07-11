@@ -111,6 +111,7 @@ const GeneralSettings = () => {
         padding: theme.spacing(4),
         width: "100%",
         height: "100%",
+
       }}
     >
       <Paper
@@ -128,7 +129,8 @@ const GeneralSettings = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "48px 48px",
-          backgroundColor: colors.purple[50],
+          backgroundColor: colors.panel.panel1,
+          color : colors.text.text1
         }}
       >
         <Box
@@ -195,7 +197,7 @@ const GeneralSettings = () => {
                   <Switch checked={hideDec} onChange={handleChangeDec} />
                 }
                 label={
-                  <Typography variant={isSmallScreen ? "body2" : "body1"}>
+                  <Typography color={colors.text.textSecondary} variant={isSmallScreen ? "body2" : "body1"}>
                     Hide decimal within amount
                   </Typography>
                 }
@@ -205,7 +207,7 @@ const GeneralSettings = () => {
           <Typography
             variant={isSmallScreen ? "h6" : "h4"}
             gutterBottom
-            sx={{ borderBottom: `2px solid ${colors.purple[600]}` }}
+            sx={{ borderBottom: `2px solid ${colors.extra.underLine}` }}
           >
             Personal data & Privacy
           </Typography>
@@ -218,31 +220,31 @@ const GeneralSettings = () => {
             >
               <Button
                 variant="outlined"
-                startIcon={<ShieldIcon sx={{ color: colors.purple[600] }} />}
+                startIcon={<ShieldIcon sx={{ color: colors.extra.underLine }} />}
                 sx={{
                   width: "179px",
                   height: "44px",
                   borderRadius: "28px",
-                  border: `2px solid ${colors.purple[600]}`,
+                  border: `2px solid ${colors.extra.underLine}`,
                   textTransform: "none",
                 }}
               >
-                <Typography variant="body2"> Privacy policies</Typography>
+                <Typography variant="body2" color={colors.text.text1}> Privacy policies</Typography>
               </Button>
               <Button
                 variant="outlined"
                 startIcon={
-                  <InsertDriveFileIcon sx={{ color: colors.purple[600] }} />
+                  <InsertDriveFileIcon sx={{ color: colors.extra.underLine }} />
                 }
                 sx={{
                   width: "179px",
                   height: "44px",
                   borderRadius: "28px",
-                  border: `2px solid ${colors.purple[600]}`,
+                  border: `2px solid ${colors.extra.underLine}`,
                   textTransform: "none",
                 }}
               >
-                <Typography variant="body2"> Terms of service </Typography>
+                <Typography variant="body2" color={colors.text.text1} > Terms of service </Typography>
               </Button>
             </Stack>
           </Stack>
@@ -270,14 +272,14 @@ const GeneralSettings = () => {
             onClick={() => setOpen(true)}
             variant="contained"
             sx={{
-              backgroundColor: colors.extra.red_accent,
+              backgroundColor: colors.notice.warning,
               borderRadius: "8px",
               width: "247px",
               alignSelf: "center",
               textTransform: "none",
             }}
           >
-            <Typography sx={{ lineHeight: "28px", fontSize: "15px" }}>
+            <Typography sx={{ lineHeight: "28px", fontSize: "15px"}}>
               Delete user profile and data
             </Typography>
           </Button>

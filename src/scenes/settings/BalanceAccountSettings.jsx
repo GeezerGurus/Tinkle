@@ -54,7 +54,7 @@ const BalanceAccountSettings = () => {
           variant={isSmallScreen ? "h6" : "h4"}
           gutterBottom
           sx={{
-            borderBottom: `2px solid ${colors.purple[600]}`,
+            borderBottom: `2px solid ${colors.extra.underLine}`,
             alignSelf: isSmallScreen ? undefined : "flex-start",
             alignContent: isSmallScreen ? "center" : undefined,
           }}

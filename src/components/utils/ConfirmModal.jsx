@@ -41,6 +41,7 @@ const ConfirmModal = ({
         gap: "16px",
         justifyContent: "space-between",
         alignItems: "center",
+        bgcolor: colors.backGround
       }}
     >
       <Typography variant={isSmallScreen ? "h6" : "h4"} textAlign={"center"}>
@@ -61,7 +62,7 @@ const ConfirmModal = ({
       </Typography>
       <Typography
         variant={isSmallScreen ? "body4" : "body1"}
-        sx={{ textAlign: "center", color: colors.purple[900] }}
+        sx={{ textAlign: "center", color: colors.text.text1 }}
       >
         {description}
       </Typography>
@@ -78,31 +79,31 @@ const ConfirmModal = ({
           sx={{
             width: isSmallScreen ? "134px" : "208px",
             height: isSmallScreen ? "44px" : "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
             borderRadius: "8px",
             "&:hover": {
-              backgroundColor: colors.purple[200],
+              backgroundColor: colors.button.button2,
             },
           }}
         >
-          <Typography variant="body2">Yes</Typography>
+          <Typography color={colors.text.text1} variant="body2">Yes</Typography>
         </Button>
         <Button
           onClick={onClose}
           sx={{
             width: isSmallScreen ? "134px" : "208px",
             height: isSmallScreen ? "44px" : "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             "&:hover": {
-              backgroundColor: colors.purple[100],
+              backgroundColor: colors.button.button1,
             },
             textTransform: "none",
             borderRadius: "8px",
           }}
         >
-          <Typography variant="body2">No</Typography>
+          <Typography color={colors.text.text2} variant="body2">No</Typography>
         </Button>
       </Stack>
     </Paper>

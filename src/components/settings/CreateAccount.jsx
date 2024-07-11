@@ -94,6 +94,7 @@ const CreateAccount = ({ onClose, refresh }) => {
         justifyContent: "space-around",
         alignItems: "center",
         gap: theme.spacing(3),
+        bgcolor: colors.backGround,
       }}
     >
       {/* Close button */}

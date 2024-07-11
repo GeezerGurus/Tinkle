@@ -25,6 +25,7 @@ const AddAccount = ({ refresh }) => {
         height: "136px",
         borderRadius: "16px",
         border: `2px dashed ${colors.purple[600]}`,
+        bgcolor: colors.backGround
       }}
     >
       <Button

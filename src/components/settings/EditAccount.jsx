@@ -8,7 +8,7 @@ import {
   useTheme,
   TextField,
   Stack,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,7 +18,7 @@ import { enqueueSnackbar } from "notistack";
 import { patchAccount } from "../../api/accountApi";
 import AccountIcons from "../utils/AccountIcons";
 
-const EditAccount = ({ onClose, name, balance, type,id,refresh }) => {
+const EditAccount = ({ onClose, name, balance, type, id, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -26,10 +26,7 @@ const EditAccount = ({ onClose, name, balance, type,id,refresh }) => {
   const [currentBalance, setCurrentBalance] = useState(Number(balance) || 0);
   const [selectedOption, setSelectedOption] = useState(type || "");
 
-
-  
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  
 
   const menuProps = {
     PaperProps: {
@@ -45,7 +42,7 @@ const EditAccount = ({ onClose, name, balance, type,id,refresh }) => {
       const EditedAccount = {
         name: accountName,
         balance: currentBalance,
-        type: selectedOption
+        type: selectedOption,
       };
       const createdAccount = await patchAccount(id, EditedAccount);
       console.log("Account Edited:", createdAccount);
@@ -72,15 +69,17 @@ const EditAccount = ({ onClose, name, balance, type,id,refresh }) => {
   return (
     <Paper
       sx={{
-        padding: isSmallScreen?"33px 28px":"32px 112px",
-        width:isSmallScreen?"97vw": "686px",
-        
+        padding: isSmallScreen ? "33px 28px" : "32px 112px",
+        width: isSmallScreen ? "97vw" : "686px",
+        bgcolor: colors.backGround,
+        border: "2px solid",
+        borderColor: colors.panel.panelBorder,
         position: "relative",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        gap: theme.spacing(3)
+        gap: theme.spacing(3),
       }}
     >
       {/* Close button */}
@@ -159,15 +158,19 @@ const EditAccount = ({ onClose, name, balance, type,id,refresh }) => {
         ))}
       </TextField>
       {/* Buttons  */}
-      <Stack gap={1} direction={isSmallScreen?"column":"row"} justifyContent={"space-between"}>
+      <Stack
+        gap={1}
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent={"space-between"}
+      >
         <Button
           onClick={handleSave}
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
-            color: "white",
+            color: colors.text.text1,
           }}
         >
           <Typography variant="body2">Save</Typography>
@@ -177,8 +180,9 @@ const EditAccount = ({ onClose, name, balance, type,id,refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
+            color: colors.text.text2,
           }}
         >
           <Typography variant="body2">Cancel</Typography>

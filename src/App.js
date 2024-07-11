@@ -57,6 +57,10 @@ function App() {
     location.pathname
   );
 
+  // if (Math.random() < 0.5) {
+  //   throw new Error("Install react-error-boundary");
+  // }
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

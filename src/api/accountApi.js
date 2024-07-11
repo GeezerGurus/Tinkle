@@ -15,6 +15,7 @@ export const getAccounts = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching Accounts:", error);
+    throw error;
   }
 };
 
@@ -24,6 +25,7 @@ export const getAccount = async (accountId) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching an Account:", error);
+    throw error;
   }
 };
 

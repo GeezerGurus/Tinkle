@@ -51,14 +51,14 @@ function App() {
     }
   }, [login]);
 
-  const hideTopbarAndSidebarRoutes = ["/", "/page-not-found", "/about-us"]; // Add routes where you want to hide Topbar and Sidebar
+  const hideTopbarAndSidebarRoutes = ["/", "/page-not-found", "/about-us"]; // routes that hide Topbar and Sidebar
 
   const shouldShowTopbarAndSidebar = !hideTopbarAndSidebarRoutes.includes(
     location.pathname
   );
 
   // if (Math.random() < 0.5) {
-  //   throw new Error("Install react-error-boundary");
+  //   throw new Error("Testing react-error-boundary");
   // }
 
   return (

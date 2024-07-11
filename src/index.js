@@ -18,7 +18,7 @@ root.render(
             <App />
           </SnackbarProvider>
         </BrowserRouter>
-      </AuthProvider>{" "}
+      </AuthProvider>
     </ErrorBoundary>
   </React.StrictMode>
 );

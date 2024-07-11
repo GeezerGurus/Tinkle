@@ -34,6 +34,8 @@ const EditExpense = ({
   const [selectedOption, setSelectedOption] = useState(
     dataRow.accountId ? "account" : "budget"
   );
+
+  const [errors, setErrors] = useState({});
   const [budget, setBudget] = useState(dataRow.budgetId);
   const [category, setCategory] = useState(dataRow.category);
   const [time, setTime] = useState(dataRow.time);
@@ -42,8 +44,18 @@ const EditExpense = ({
   const [amount, setAmount] = useState(dataRow.amount);
   const [payee, setPayee] = useState(dataRow.transactor);
 
+  const validateForm = () => {
+    const errors = {};
+    if (amount < 0) {
+      errors.amount = "Please enter a valid amount";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
 
   const handleSubmit = async () => {
     const recordData = {
@@ -57,6 +69,9 @@ const EditExpense = ({
       transactor: payee,
       notes,
     };
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       await patchRecord(dataRow._id, recordData);
@@ -71,6 +86,7 @@ const EditExpense = ({
   return (
     <Box
       sx={{
+        height: "100%",
         width: "100%",
         padding: isSmallScreen
           ? "16px 26px"
@@ -82,6 +98,7 @@ const EditExpense = ({
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
+        gap: 1,
       }}
     >
       <FormControl fullWidth>
@@ -98,12 +115,18 @@ const EditExpense = ({
             control={<Radio />}
             label="Account"
             disabled={!acc}
+            sx={{
+              height: isSmallest ? 20 : undefined,
+            }}
           />
           <FormControlLabel
             value="budget"
             control={<Radio />}
             label="Budget"
             disabled={!budget}
+            sx={{
+              height: isSmallest ? 20 : undefined,
+            }}
           />
         </RadioGroup>
       </FormControl>
@@ -190,6 +213,8 @@ const EditExpense = ({
         InputLabelProps={{
           shrink: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
@@ -299,7 +324,7 @@ const EditExpense = ({
           onClick={handleSubmit}
           sx={{
             width: "208px",
-            height: "40px",
+            height: isSmallest ? "36px" : "40px",
             backgroundColor: colors.purple[600],
             textTransform: "none",
             color: "white",
@@ -311,7 +336,7 @@ const EditExpense = ({
           onClick={onClose}
           sx={{
             width: "208px",
-            height: "40px",
+            height: isSmallest ? "36px" : "40px",
             backgroundColor: colors.purple[200],
             textTransform: "none",
           }}

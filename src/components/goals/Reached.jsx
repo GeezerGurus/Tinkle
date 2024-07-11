@@ -63,7 +63,7 @@ export const Reached = ({isSmallScreen,state}) => {
             id={list._id}
             name={list.name}
             goal={list.amount}
-            saved={list.saveamount}
+            saved={list.amount}
             createdAt={list.createdAt}
             updatedAt={list.updatedAt}
             date={list.desireDate}

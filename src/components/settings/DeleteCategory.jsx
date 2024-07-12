@@ -34,6 +34,8 @@ const DeleteCategory = ({ onClose, icon, id, color, name, refresh }) => {
         justifyContent: "space-around",
         alignItems: "center",
         padding: isSmallScreen ? "33px 28px" : "32px 112px",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}

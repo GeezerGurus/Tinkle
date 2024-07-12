@@ -52,15 +52,15 @@ const Hero = () => {
   const profiles = [
     { code: "0", name: "Wai Yan Htut", job: "DL" },
     { code: "01", name: "Yei Khant Lwin", job: "Backman" },
-    { code: "02", name: "Zayar Naing", job: "broke coder" },
-    { code: "03", name: "Zaw Lin Naing", job: "broken coder" },
+    { code: "02", name: "Zayar Naing", job: "Master Procrastinator" },
+    { code: "03", name: "Zaw Lin Naing", job: "Broken Coder" },
     // Add more profiles as needed
   ];
 
   const profiles2 = [
     { code: "05", name: "Ye Yint Naing Oo", job: "One for all" },
     { code: "08", name: "Sithu", job: "A Ba" },
-    { code: "06", name: "Sai Sai Lin Htet", job: "E boy" },
+    { code: "06", name: "Sai Sai Lin Htet", job: "E Boy" },
     { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
     { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
   ];

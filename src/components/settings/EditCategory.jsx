@@ -59,10 +59,12 @@ const EditCategory = ({
         justifyContent: "space-around",
         alignItems: "center",
         padding: isSmallScreen ? "33px 28px" : "32px 112px",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}
-      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+      <Typography variant="h4" sx={{ color: colors.text.text1 }}>
         Edit Category
       </Typography>
 

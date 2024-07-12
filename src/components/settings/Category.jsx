@@ -36,7 +36,7 @@ const Category = ({ id, name, icon, backgroundColor, refresh }) => {
         width: isSmallScreen ? "100%" : "50%",
         maxWidth: "400px !important",
         height: "64px",
-        borderBottom: "1px solid grey",
+        borderBottom: `1px solid ${colors.extra.underLine}`,
         display: "flex",
         alignItems: "center",
         padding: "0 8px",

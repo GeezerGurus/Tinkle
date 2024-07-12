@@ -1,5 +1,6 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState, useMemo, useEffect } from "react";
 import { createTheme } from "@mui/material/styles";
+import { getSettings, patchSettings } from "./api/generalSettings";
 
 // color design tokens export
 export const tokens = (mode) => ({
@@ -168,6 +169,12 @@ export const tokens = (mode) => ({
           warning: "#E85245",
           accept: "#43BC63",
         },
+        balance: {
+          account1: "#4F49E9",
+          account2: "#89C38F",
+          account3: "#807BEF",
+          account4: "#8FD6A2",
+        }
       }
     : {
         grey: {
@@ -300,7 +307,7 @@ export const tokens = (mode) => ({
           title1: "#3F3D66",
           title2: "#111111",
         },
-       
+
         text: {
           text1: "#111111",
           text2: "#111111",
@@ -332,6 +339,12 @@ export const tokens = (mode) => ({
         notice: {
           warning: "#FE3F2F",
           accept: "#43BC63",
+        },
+        balance: {
+          account1: "#9591F2",
+          account2: "#B4D9B8",
+          account3: "#CECCF9",
+          account4: "#C5EACF",
         },
         backGround: "#F5F5F5",
         sideBar: "#080927",
@@ -551,21 +564,59 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
+  const [settingId, setSettingId] = useState(null);
   const [mode, setMode] = useState("light");
+
+  const fetchSettings = async () => {
+    try {
+      const res = await getSettings();
+      console.log(res);
+
+      // Set the settings ID and mode after fetching settings
+      if (res && res.length > 0) {
+        setSettingId(res[0]._id);
+        setMode(res[0].theme);
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const handleSavetheme = async (targetTheme) => {
+    try {
+      if (settingId) {
+        const EditedSettings = { theme: targetTheme };
+        const createdSettings = await patchSettings(settingId, EditedSettings);
+        console.log("created setting:", createdSettings);
+      } else {
+        console.error("Setting ID not found");
+      }
+    } catch (error) {
+      console.error("Error editing setting:", error);
+    }
+  };
+
   const colorMode = useMemo(
     () => ({
       LightMode() {
         setMode("light");
+        handleSavetheme("light");
       },
 
       DarkMode() {
         setMode("dark");
+        handleSavetheme("dark");
       },
     }),
-    []
+    [settingId] // Add settingId as a dependency
   );
 
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
   return [theme, colorMode, mode];
 };
 export const theme = createTheme({

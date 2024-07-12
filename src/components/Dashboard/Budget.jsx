@@ -112,6 +112,7 @@ const Budget = () => {
         flexDirection: "column",
         justifyContent: "space-between",
         borderRadius: "16px",
+        bgcolor: colors.panel.panel1
       }}
     >
       {/* Header box of Budget */}

@@ -17,9 +17,10 @@ const ShowMoreBtn = ({ to, fontSize, width }) => {
         borderRadius: "8px",
         whiteSpace: "nowrap",
         textTransform: "none",
+        color: colors.text.text1,
         "&:hover": {
-          backgroundColor: colors.purple[300],
-          color: theme.palette.mode === "light" ? "white" : "black",
+          backgroundColor: colors.button.button1,
+          color: colors.text.text2,
           cursor: "pointer",
         },
       }}

@@ -39,10 +39,10 @@ const Dashboard = () => {
     fetchAccounts();
   }, []);
   const colorOrder = [
-    colors.purple[500],
-    colors.mint[500],
-    colors.purple[200],
-    colors.mint[300],
+    colors.balance.account1,
+    colors.balance.account2,
+    colors.balance.account3,
+    colors.balance.account4,
   ];
 
   // Ensure the accounts array has exactly 4 elements
@@ -153,6 +153,7 @@ const Dashboard = () => {
           height: isMediumScreen ? "920px" : isLargeScreen ? "auto" : "892px",
           borderRadius: "8px",
           overflowX: "hidden",
+
         }}
       >
         {/* Budget */}

@@ -22,6 +22,7 @@ ChartJS.register(
 );
 
 const LineChart = ({ data, labels, height }) => {
+
   const lineChartData = {
     labels,
     datasets: [

@@ -87,9 +87,8 @@ const CategorySettings = () => {
           height: isSmallScreen ? "1000px" : "100%",
           display: "flex",
           flexDirection: "column",
-
+          bgcolor: colors.backGround,
           alignItems: "center",
-          backgroundColor: colors.purple[50],
         }}
       >
         <Stack
@@ -97,14 +96,15 @@ const CategorySettings = () => {
           gap={1}
           pb={6}
           sx={{
-            borderBottom: `2px solid black`,
+            borderBottom: `2px solid`,
+            borderColor: colors.extra.underLine
           }}
         >
           <Typography
             variant="h4"
             gutterBottom
             sx={{
-              borderBottom: `2px solid ${colors.purple[600]}`,
+              borderBottom: `2px solid ${colors.extra.underLine}`,
               alignSelf: "flex-start",
             }}
           >
@@ -189,7 +189,8 @@ const CategorySettings = () => {
                   width: "30%",
                   height: "46px",
                   textTransform: "none",
-                  backgroundColor: colors.purple[600],
+                  backgroundColor: colors.button.button1,
+                  color: colors.text.text1
                 }}
               >
                 Add
@@ -202,7 +203,7 @@ const CategorySettings = () => {
           variant="h4"
           gutterBottom
           sx={{
-            borderBottom: `2px solid ${colors.purple[600]}`,
+            borderBottom: `2px solid ${colors.extra.underLine}`,
             alignSelf: "flex-start",
           }}
         >

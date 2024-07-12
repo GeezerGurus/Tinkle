@@ -56,6 +56,7 @@ export const Statistics = ({ isMediumScreen }) => {
         justifyContent: "space-between",
         padding: "16px 24px",
         borderRadius: "16px",
+        bgcolor: colors.panel.panel1
       }}
     >
       <Loader isLoading={isLoading} />

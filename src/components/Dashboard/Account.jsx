@@ -85,7 +85,7 @@ export const Account = ({
           height: "64px",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "white",
+          backgroundColor: colors.backGround,
           borderRadius: "50%",
         }}
       >
@@ -93,7 +93,8 @@ export const Account = ({
           <accountType.icon
             sx={{
               fontSize: "40px",
-              color: colors.purple[600],
+              color: colors.text.text1,
+              bgcolor: colors.backGround
             }}
           />
         )}

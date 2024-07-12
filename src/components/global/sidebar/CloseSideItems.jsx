@@ -19,7 +19,7 @@ export const CloseSideItems = ({ title, icon, dropdown, onClick }) => {
           width: "46.4px",
           ml: 11 + "6px",
           "&:hover": {
-            backgroundColor: colors.purple[100],
+            backgroundColor: colors.panel.panel1,
           },
         }}
       >

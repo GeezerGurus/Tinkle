@@ -41,7 +41,8 @@ const ConfirmModal = ({
         gap: "16px",
         justifyContent: "space-between",
         alignItems: "center",
-        bgcolor: colors.backGround
+        bgcolor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       <Typography variant={isSmallScreen ? "h6" : "h4"} textAlign={"center"}>
@@ -88,7 +89,9 @@ const ConfirmModal = ({
             },
           }}
         >
-          <Typography color={colors.text.text1} variant="body2">Yes</Typography>
+          <Typography color={colors.text.text1} variant="body2">
+            Yes
+          </Typography>
         </Button>
         <Button
           onClick={onClose}
@@ -103,7 +106,9 @@ const ConfirmModal = ({
             borderRadius: "8px",
           }}
         >
-          <Typography color={colors.text.text2} variant="body2">No</Typography>
+          <Typography color={colors.text.text2} variant="body2">
+            No
+          </Typography>
         </Button>
       </Stack>
     </Paper>

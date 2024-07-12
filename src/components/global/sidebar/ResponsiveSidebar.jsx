@@ -34,6 +34,7 @@ import { useNavigate } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import OpenSideItems from "./OpenSideItems";
 import { getUser } from "../../../api/userAccounts";
+import { LogoDarkImage, LogoImage } from "../../../assets/hero";
 
 // Contents
 // lists
@@ -180,6 +181,7 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
             alignItems: "center",
             justifyContent: "space-between",
             overflowX: "hidden",
+            backgroundColor: colors.sideBar,
           }}
           role="presentation"
         >
@@ -200,22 +202,11 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
                 alignItems: "center",
               }}
             >
-              <WavesIcon
-                onClick={toggleSlider}
-                sx={{
-                  border: "1px solid black",
-                  borderRadius: "50%",
-                  width: "40.19px",
-                  height: "39px",
-                }}
+              <img
+                src={theme.palette.mode === "dark" ? LogoImage : LogoDarkImage}
+                alt="Tinkle"
+                style={{ width: "88px", objectFit: "contain" }}
               />
-              <Button
-                variant="text"
-                onClick={toggleSlider}
-                sx={{ color: colors.grey[100], textTransform: "none" }}
-              >
-                <Typography variant="h6">Tinkle</Typography>
-              </Button>
             </Box>
 
             {/* Menu Icon Button for when Opened and Closed */}
@@ -420,8 +411,18 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
                       justifyContent: "center",
                     }}
                   >
-                    <Typography variant="body3">{name}</Typography>
-                    <Typography variant="body4">{job}</Typography>
+                    <Typography
+                      variant="body3"
+                      sx={{ color: colors.text.text1 }}
+                    >
+                      {name}
+                    </Typography>
+                    <Typography
+                      variant="body4"
+                      sx={{ color: colors.text.text1 }}
+                    >
+                      {job}
+                    </Typography>
                   </Box>
                 </Box>
                 <Box

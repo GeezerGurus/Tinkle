@@ -33,13 +33,14 @@ import {
   Circle as CircleIcon,
   LightMode as LightModeIcon,
   DarkMode as DarkModeIcon,
+  CloudUploadSharp,
 } from "@mui/icons-material";
 import { tokens, ColorModeContext } from "../../../theme";
 import { useNavigate } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import OpenSideItems from "./OpenSideItems";
 import CloseSideItems from "./CloseSideItems";
-import { LogoDarkImage } from "../../../assets/hero";
+import { LogoDarkImage, LogoImage } from "../../../assets/hero";
 import { getUser } from "../../../api/userAccounts";
 
 // Drawer Component
@@ -240,11 +241,12 @@ const Sidebar = ({ mode }) => {
           p={2}
           sx={{
             width: open ? "320px" : "84px",
-            height: open ? "1024px" : "auto",
-            // height: "100vh",
+            height: open ? "1024px" : "130vh",
+            // height: "100vh
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            background: colors.sideBar,
           }}
           // role="presentation"
         >
@@ -269,7 +271,9 @@ const Sidebar = ({ mode }) => {
                 }}
               >
                 <img
-                  src={LogoDarkImage}
+                  src={
+                    theme.palette.mode === "dark" ? LogoImage : LogoDarkImage
+                  }
                   alt="Tinkle"
                   style={{ width: "88px", objectFit: "contain" }}
                 />
@@ -348,7 +352,7 @@ const Sidebar = ({ mode }) => {
                             width: open ? "86%" : "61px",
                             borderRadius: "8px",
                             "&:hover": {
-                              backgroundColor: colors.purple[100],
+                              backgroundColor: colors.sideBar,
                             },
                           }}
                         >
@@ -386,7 +390,7 @@ const Sidebar = ({ mode }) => {
                             width: "85%",
                             borderRadius: "8px",
                             "&:hover": {
-                              backgroundColor: "white",
+                              backgroundColor: open ? "white" : "none",
                             },
                           }}
                         >
@@ -453,7 +457,7 @@ const Sidebar = ({ mode }) => {
                             width: open ? "85%" : "61px",
                             borderRadius: "8px",
                             "&:hover": {
-                              backgroundColor: colors.purple[100],
+                              backgroundColor: colors.sideBar,
                             },
                           }}
                         >
@@ -559,8 +563,18 @@ const Sidebar = ({ mode }) => {
                       justifyContent: "center",
                     }}
                   >
-                    <Typography variant="body3">{name}</Typography>
-                    <Typography variant="body4">{job}</Typography>
+                    <Typography
+                      variant="body3"
+                      sx={{ color: colors.text.text1 }}
+                    >
+                      {name}
+                    </Typography>
+                    <Typography
+                      variant="body4"
+                      sx={{ color: colors.text.text1 }}
+                    >
+                      {job}
+                    </Typography>
                   </Box>
                 </Box>
                 <Box
@@ -570,6 +584,7 @@ const Sidebar = ({ mode }) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    color: colors.button.button1,
                   }}
                 >
                   <ArrowIcon />
@@ -643,7 +658,7 @@ const Sidebar = ({ mode }) => {
                     height: "10%",
                     alignItems: "center",
                     justifyContent: "center",
-                    mt: "auto",
+                    mt: 5,
                   }}
                 >
                   {/* Avatar and Name for Closed Sidebar */}

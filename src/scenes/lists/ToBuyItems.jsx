@@ -57,7 +57,6 @@ const ToBuyItems = () => {
         height: "90%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         alignItems: "center",
         gap: "24px",
         backgroundImage:
@@ -153,7 +152,7 @@ const ToBuyItems = () => {
           />
         ))}
       </Box>
-        
+
       {/* Add item  */}
       <SpeedDial
         modal={<AddItem listId={listId} items={items} refresh={fetchItems} />}

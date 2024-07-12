@@ -120,10 +120,12 @@ const AddDebt = ({ onClose, action, refresh }) => {
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}
-      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+      <Typography variant="h4" sx={{ color: colors.text.text1 }}>
         Add Debt
       </Typography>
       {action === "lend" ? (
@@ -321,7 +323,7 @@ const AddDebt = ({ onClose, action, refresh }) => {
                 ? "190px"
                 : "208px",
               height: isMediumScreen ? "35px" : "40px",
-              backgroundColor: colors.purple[600],
+              backgroundColor: colors.button.button1,
               textTransform: "none",
               color: "white",
             }}
@@ -337,7 +339,7 @@ const AddDebt = ({ onClose, action, refresh }) => {
                 ? "190px"
                 : "208px",
               height: isMediumScreen ? "35px" : "40px",
-              backgroundColor: colors.purple[200],
+              backgroundColor: colors.button.button2,
               textTransform: "none",
             }}
           >

@@ -75,10 +75,12 @@ const AddItem = ({ listId, onClose, refresh }) => {
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}
-      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+      <Typography variant="h4" sx={{ color: colors.text.text1 }}>
         Add Item
       </Typography>
 
@@ -125,7 +127,7 @@ const AddItem = ({ listId, onClose, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
           }}
@@ -137,7 +139,7 @@ const AddItem = ({ listId, onClose, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
           }}
         >

@@ -22,7 +22,7 @@ const SpeedDial = ({ modal }) => {
           bottom: 16,
           width: isSmallScreen ? "72px" : "116px",
           height: isSmallScreen ? "72px" : "116px",
-          backgroundColor: colors.purple[200],
+          backgroundColor: colors.button.button2,
         }}
       >
         <AddIcon

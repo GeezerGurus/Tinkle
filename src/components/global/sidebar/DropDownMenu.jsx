@@ -45,11 +45,10 @@ const AccordionSummary = styled((props) => (
     colorMode = useContext(ColorModeContext),
   }) => ({
     borderRadius: "8px",
-    backgroundColor:
-      theme.palette.mode === "dark" ? colorMode.DarkMode() : "white",
+    backgroundColor: theme.palette.mode === "dark" ? colors.sideBar : "white",
     flexDirection: "row",
     "&:hover": {
-      background: colors.purple[100],
+      background: colors.panel.panel1,
       borderRadius: "8px",
     },
     "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
@@ -86,10 +85,12 @@ export const DropDownMenu = ({
       <AccordionDetails>
         <Box
           sx={{
+            height: "100%",
             width: isSmallScreen ? "200px" : "240px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            backgroundColor: colors.sideBar,
           }}
         >
           <DropDownItems

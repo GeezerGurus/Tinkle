@@ -54,7 +54,7 @@ const Debt = ({
         width: "100%",
         height: "160px",
         padding: isSmallScreen ? " 8px 16px" : "16px 32px",
-        backgroundColor: colors.purple[100],
+        backgroundColor: colors.panel.panel1,
         borderRadius: "16px",
         display: "flex",
         flexDirection: "column",
@@ -147,7 +147,9 @@ const Debt = ({
             "&:hover": { backgroundColor: colors.purple[300] },
           }}
         >
-          <Typography variant="body2">See Details</Typography>
+          <Typography variant="body2" sx={{ color: colors.text.text1 }}>
+            See Details
+          </Typography>
         </Button>
         <Stack direction={"row"}>
           <IconButton

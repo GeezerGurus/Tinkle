@@ -29,21 +29,6 @@ const StyledButton = styled(Button)(({ theme, isMediumScreen }) => ({
   borderRadius: "16px",
 }));
 
-const actions = [
-  {
-    icon: (
-      <PowerSettingsNewIcon
-        sx={{ transform: "rotate(180deg)", color: "green" }}
-      />
-    ),
-    name: "Lend",
-  },
-  {
-    icon: <PowerSettingsNewIcon sx={{ color: "red" }} />,
-    name: "Owe",
-  },
-];
-
 const Debt = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -56,6 +41,24 @@ const Debt = () => {
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
+  const actions = [
+    {
+      icon: (
+        <PowerSettingsNewIcon
+          sx={{
+            transform: "rotate(180deg)",
+            color: "green",
+          }}
+        />
+      ),
+      name: "Lend",
+    },
+    {
+      icon: <PowerSettingsNewIcon sx={{ color: "red" }} />,
+      name: "Owe",
+    },
+  ];
 
   const handlePage = useCallback((event) => {
     setPage(event.target.value);
@@ -162,6 +165,7 @@ const Debt = () => {
             right: 16,
             position: "fixed",
           }}
+          color={colors.button.button2}
           icon={<SpeedDialIcon />}
         >
           {actions.map((action) => (

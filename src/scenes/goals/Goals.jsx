@@ -101,7 +101,7 @@ export const Goals = () => {
             borderRadius: "16px",
             width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
-            backgroundColor: page === "active" ? colors.purple[600] : "white",
+            backgroundColor: page === "active" ? colors.button.button1 : "white",
             color: page === "active" ? "white" : "black",
             "&:hover": {
               backgroundColor: colors.purple[200],
@@ -134,10 +134,10 @@ export const Goals = () => {
             borderRadius: "16px",
             width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
-            backgroundColor: page === "reached" ? colors.purple[600] : "white",
+            backgroundColor: page === "reached" ? colors.button.button1 : "white",
             color: page === "reached" ? "white" : "black",
             "&:hover": {
-              backgroundColor: colors.purple[200],
+              backgroundColor: colors.button.button1,
             },
           }}
         >

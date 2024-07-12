@@ -48,12 +48,12 @@ const ListBox = ({ id, name, description, refresh }) => {
   return (
     <Paper
       sx={{
-        backgroundColor: colors.purple[100],
+        backgroundColor: colors.panel.panel1,
         padding: "24px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        width: isSmallScreen ? "90%" : isMediumScreen ? "90vw" : "88%",
+        width: isSmallScreen ? "90%" : isMediumScreen ? "90%" : "88%",
         minHeight: "153px",
         borderRadius: "16px",
       }}

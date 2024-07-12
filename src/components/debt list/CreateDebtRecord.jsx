@@ -95,10 +95,12 @@ const CreateDebtRecord = ({ onClose, debtId, action, debtAmount, refresh }) => {
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}
-      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+      <Typography variant="h4" sx={{ color: colors.text.text1 }}>
         Create Debt Record
       </Typography>
       <TextField

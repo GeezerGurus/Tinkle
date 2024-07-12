@@ -15,7 +15,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CircleIcon from "@mui/icons-material/Circle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { patchItemToBuy, deleteItemToBuy } from "../../api/itemsToBuy";
-import { tokens } from "../../theme";
+import { tokens, useMode } from "../../theme";
 import { ConfirmModal } from "../utils";
 import { enqueueSnackbar } from "notistack";
 
@@ -30,6 +30,7 @@ const ItemBox = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const mode = useMode();
 
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
@@ -49,8 +50,13 @@ const ItemBox = ({
     <Paper
       sx={{
         backgroundColor:
-          ispurchased === true ? colors.extra.grey : colors.purple[100],
+          theme.palette.mode === "dark"
+            ? colors.panel.panel1
+            : ispurchased === true
+            ? colors.extra.grey
+            : colors.purple[100],
         padding: isSmallScreen ? "8px" : "12px 16px",
+        // backgroundColor: colors.panel.panel1,
         borderRadius: "16px",
         width: "100%",
         minHeight: "88px",

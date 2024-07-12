@@ -32,7 +32,7 @@ export const DropDownItems = ({ content, Navigation, onClick, setOpen }) => {
             width: "190px",
             borderRadius: "8px",
             "&:hover": {
-              backgroundColor: colors.purple[100],
+              backgroundColor: colors.panel.panel1,
             },
           }}
         >

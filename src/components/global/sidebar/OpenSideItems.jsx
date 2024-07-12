@@ -24,7 +24,7 @@ export const OpenSideItems = ({
       sx={{
         borderRadius: "8px",
         "&:hover": {
-          backgroundColor: colors.purple[100],
+          backgroundColor: colors.panel.panel1,
           borderRadius: "8px",
         },
       }}

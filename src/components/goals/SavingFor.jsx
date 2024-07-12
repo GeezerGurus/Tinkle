@@ -10,6 +10,7 @@ import {
   Stack,
   useMediaQuery,
   TextField,
+  colors,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import CreateGoal from "./CreateGoal";
@@ -18,6 +19,7 @@ import { CategoryIcons } from "../utils";
 const GridItem = ({ bg, icon, name, refresh }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const IconComponent = CategoryIcons[icon];
   return (
@@ -28,7 +30,8 @@ const GridItem = ({ bg, icon, name, refresh }) => {
         sx={{
           width: isSmallerScreen ? "110px" : "145px",
           height: isSmallerScreen ? "90px" : "124px",
-          border: "1px solid black",
+          
+          border: `1px solid ${colors.panel.panelBorder}`,
           borderRadius: "8px",
         }}
       >

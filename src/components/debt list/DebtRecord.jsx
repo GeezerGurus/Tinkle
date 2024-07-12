@@ -55,7 +55,7 @@ const DebtRecord = ({
         padding: isMediumScreen ? "16px 8px" : "24px",
         width: "96%",
         minHeight: "118px",
-        backgroundColor: colors.purple[100],
+        backgroundColor: colors.panel.panel1,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -96,7 +96,7 @@ const DebtRecord = ({
             </Typography>
             <Typography
               variant={isSmallScreen ? "body3" : "body2"}
-              sx={{ color: colors.extra.faint_black }}
+              sx={{ color: colors.text.text1 }}
             >
               {formatDate(dueDate)}
             </Typography>

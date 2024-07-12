@@ -114,10 +114,12 @@ const EditDebtList = ({
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}
-      <Typography variant="h4" sx={{ color: colors.purple[900] }}>
+      <Typography variant="h4" sx={{ color: colors.text.text1 }}>
         Edit Debt
       </Typography>
       {action === "lent" ? (
@@ -283,7 +285,7 @@ const EditDebtList = ({
           sx={{
             width: isSmallScreen ? "208px" : isMediumScreen ? "190px" : "208px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
           }}
@@ -295,7 +297,7 @@ const EditDebtList = ({
           sx={{
             width: isSmallScreen ? "208px" : isMediumScreen ? "190px" : "208px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
           }}
         >

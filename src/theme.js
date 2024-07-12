@@ -6,176 +6,176 @@ import { getSettings, patchSettings } from "./api/generalSettings";
 export const tokens = (mode) => ({
   ...(mode === "dark"
     ? {
-        grey: {
-          100: "#e0e0e0",
-          200: "#c2c2c2",
-          300: "#a3a3a3",
-          400: "#858585",
-          500: "#666666",
-          600: "#525252",
-          700: "#3d3d3d",
-          800: "#292929",
-          900: "#141414",
-        },
-        primary: {
-          100: "#d0d1d5",
-          200: "#a1a4ab",
-          300: "#727681",
-          400: "#1F2A40",
-          500: "#141b2d",
-          600: "#101624",
-          700: "#0c101b",
-          800: "#080b12",
-          900: "#040509",
-        },
-        greenAccent: {
-          100: "#dbf5ee",
-          200: "#b7ebde",
-          300: "#94e2cd",
-          400: "#70d8bd",
-          500: "#4cceac",
-          600: "#3da58a",
-          700: "#2e7c67",
-          800: "#1e5245",
-          900: "#0f2922",
-        },
-        redAccent: {
-          100: "#f8dcdb",
-          200: "#f1b9b7",
-          300: "#e99592",
-          400: "#e2726e",
-          500: "#db4f4a",
-          600: "#af3f3b",
-          700: "#832f2c",
-          800: "#58201e",
-          900: "#2c100f",
-        },
-        blueAccent: {
-          100: "#e1e2fe",
-          200: "#c3c6fd",
-          300: "#a4a9fc",
-          400: "#868dfb",
-          500: "#6870fa",
-          600: "#535ac8",
-          700: "#3e4396",
-          800: "#2a2d64",
-          900: "#151632",
-        },
-        // New
-        purple: {
-          50: "#F4F4FE",
-          100: "#DEDDFB",
-          200: "#CECCF9",
-          300: "#B8B5F6",
-          400: "#AAA7F5",
-          500: "#9591F2",
-          600: "#8884DC",
-          700: "#6A67AC",
-          800: "#525085",
-          900: "#3F3D66",
-        },
-        mint: {
-          50: "#F8FBF8",
-          100: "#E8F3E9",
-          200: "#DDEEDE",
-          300: "#CDE6CF",
-          400: "#C3E1C6",
-          500: "#B4D9B8",
-          600: "#A4C5A7",
-          700: "#809A83",
-          800: "#637765",
-          900: "#4C5B4D",
-        },
-        green: {
-          50: "#ECF8EF",
-          100: "#C5EACF",
-          200: "#A9E0B7",
-          300: "#81D296",
-          400: "#69C982",
-          500: "#43BC63",
-          600: "#3DAB5A",
-          700: "#308546",
-          800: "#256736",
-          900: "#1C4F2A",
-        },
-        category: {
-          purple: "#B3B1EB",
-          light_purple: "#AAA7F5",
-          light_blue: "#34CBCB",
-          orange: "#CB7034",
-          blue: "#345CCB",
-          red: "#D1574D",
-          yellow: "#BBAF44",
-          pink: "#D998E2",
-          green: "#6DB673",
-        },
-        extra: {
-          pure_white: "FFFFFF",
-          faint_white: "#F5F5F5",
-          light_grey: "#F0F0F0",
-          grey: "#D6D6D6",
-          grey_accent: "#7F7F7F",
-          yellow_accent: "#C7B50F",
-          red_accent: "#FE3F2F",
-          faint_black: "#111111",
-          sideBar: "#080927",
-          pause: "#323558",
-          underLine: "#9591F2",
-          totalIncome: "#9591F2",
-        },
-        vibrant: {
-          yellow: "#EFE371",
-          light_blue: "#71D0EF",
-          red: "#EF7971",
-          green: "#71EFC1",
-          orange: "#EFAC71",
-          purple: "#7771EF",
-          pink: "#E071EF",
-        },
-        title: {
-          title1: "#F5F5F5",
-          title2: "#B8B5F6",
-        },
-        backGround: "#0D0F35",
+      grey: {
+        100: "#e0e0e0",
+        200: "#c2c2c2",
+        300: "#a3a3a3",
+        400: "#858585",
+        500: "#666666",
+        600: "#525252",
+        700: "#3d3d3d",
+        800: "#292929",
+        900: "#141414",
+      },
+      primary: {
+        100: "#d0d1d5",
+        200: "#a1a4ab",
+        300: "#727681",
+        400: "#1F2A40",
+        500: "#141b2d",
+        600: "#101624",
+        700: "#0c101b",
+        800: "#080b12",
+        900: "#040509",
+      },
+      greenAccent: {
+        100: "#dbf5ee",
+        200: "#b7ebde",
+        300: "#94e2cd",
+        400: "#70d8bd",
+        500: "#4cceac",
+        600: "#3da58a",
+        700: "#2e7c67",
+        800: "#1e5245",
+        900: "#0f2922",
+      },
+      redAccent: {
+        100: "#f8dcdb",
+        200: "#f1b9b7",
+        300: "#e99592",
+        400: "#e2726e",
+        500: "#db4f4a",
+        600: "#af3f3b",
+        700: "#832f2c",
+        800: "#58201e",
+        900: "#2c100f",
+      },
+      blueAccent: {
+        100: "#e1e2fe",
+        200: "#c3c6fd",
+        300: "#a4a9fc",
+        400: "#868dfb",
+        500: "#6870fa",
+        600: "#535ac8",
+        700: "#3e4396",
+        800: "#2a2d64",
+        900: "#151632",
+      },
+      // New
+      purple: {
+        50: "#F4F4FE",
+        100: "#DEDDFB",
+        200: "#CECCF9",
+        300: "#B8B5F6",
+        400: "#AAA7F5",
+        500: "#9591F2",
+        600: "#8884DC",
+        700: "#6A67AC",
+        800: "#525085",
+        900: "#3F3D66",
+      },
+      mint: {
+        50: "#F8FBF8",
+        100: "#E8F3E9",
+        200: "#DDEEDE",
+        300: "#CDE6CF",
+        400: "#C3E1C6",
+        500: "#B4D9B8",
+        600: "#A4C5A7",
+        700: "#809A83",
+        800: "#637765",
+        900: "#4C5B4D",
+      },
+      green: {
+        50: "#ECF8EF",
+        100: "#C5EACF",
+        200: "#A9E0B7",
+        300: "#81D296",
+        400: "#69C982",
+        500: "#43BC63",
+        600: "#3DAB5A",
+        700: "#308546",
+        800: "#256736",
+        900: "#1C4F2A",
+      },
+      category: {
+        purple: "#B3B1EB",
+        light_purple: "#AAA7F5",
+        light_blue: "#34CBCB",
+        orange: "#CB7034",
+        blue: "#345CCB",
+        red: "#D1574D",
+        yellow: "#BBAF44",
+        pink: "#D998E2",
+        green: "#6DB673",
+      },
+      extra: {
+        pure_white: "FFFFFF",
+        faint_white: "#F5F5F5",
+        light_grey: "#F0F0F0",
+        grey: "#D6D6D6",
+        grey_accent: "#7F7F7F",
+        yellow_accent: "#C7B50F",
+        red_accent: "#FE3F2F",
+        faint_black: "#111111",
         sideBar: "#080927",
-        text: {
-          text1: "#F5F5F5",
-          text2: "#3F3D66",
-          textSecondary: "#B5B5B5",
-        },
-        icon: {
-          icon1: "#8884DC",
-          icon2: "#F5F5F5",
-        },
-        button: {
-          button1: "#6756D8",
-          button2: "#B8B5F6",
-          button3: "#525085",
-          editButton: "#23B6E7",
-        },
-        panel: {
-          panel1: "#323558",
-          panel2: "#938EF5",
-          panelBorder: "#AAA7F5",
-        },
-        barMeter: {
-          green: "#71EFC1",
-          orange: "#EFAC71",
-          yellow: "#EFE371",
-          red: "#EF7971",
-          gray: "#D6D6D6",
-        },
-        notice: {
-          warning: "#E85245",
-          accept: "#43BC63",
-        },
+        pause: "#323558",
+        underLine: "#9591F2",
+        totalIncome: "#9591F2",
+      },
+      vibrant: {
+        yellow: "#EFE371",
+        light_blue: "#71D0EF",
+        red: "#EF7971",
+        green: "#71EFC1",
+        orange: "#EFAC71",
+        purple: "#7771EF",
+        pink: "#E071EF",
+      },
+      title: {
+        title1: "#F5F5F5",
+        title2: "#B8B5F6",
+      },
+      backGround: "#0D0F35",
+      sideBar: "#080927",
+      text: {
+        text1: "#F5F5F5",
+        text2: "#3F3D66",
+        textSecondary: "#B5B5B5",
+      },
+      icon: {
+        icon1: "#8884DC",
+        icon2: "#F5F5F5",
+      },
+      button: {
+        button1: "#6756D8",
+        button2: "#B8B5F6",
+        button3: "#525085",
+        editButton: "#23B6E7",
+      },
+      panel: {
+        panel1: "#323558",
+        panel2: "#938EF5",
+        panelBorder: "#AAA7F5",
+      },
+      barMeter: {
+        green: "#71EFC1",
+        orange: "#EFAC71",
+        yellow: "#EFE371",
+        red: "#EF7971",
+        gray: "#D6D6D6",
+      },
+      notice: {
+        warning: "#E85245",
+        accept: "#43BC63",
+      },
         balance: {
           account1: "#4F49E9",
           account2: "#89C38F",
           account3: "#807BEF",
           account4: "#8FD6A2",
         }
-      }
+    }
     : {
         grey: {
           100: "#141414",
@@ -307,7 +307,7 @@ export const tokens = (mode) => ({
           title1: "#3F3D66",
           title2: "#111111",
         },
-
+       
         text: {
           text1: "#111111",
           text2: "#111111",
@@ -360,45 +360,45 @@ export const themeSettings = (mode) => {
       mode: mode,
       ...(mode === "dark"
         ? {
-            // palette values for dark mode
-            primary: {
-              main: colors.primary[500],
-            },
-            secondary: {
-              main: colors.greenAccent[500],
-            },
-            neutral: {
-              dark: colors.grey[700],
-              main: colors.grey[500],
-              light: colors.grey[100],
-            },
-            background: {
-              default: colors.backGround,
-            },
-            frameBackground: {
-              default: colors.backGround,
-            },
-          }
+          // palette values for dark mode
+          primary: {
+            main: colors.primary[500],
+          },
+          secondary: {
+            main: colors.greenAccent[500],
+          },
+          neutral: {
+            dark: colors.grey[700],
+            main: colors.grey[500],
+            light: colors.grey[100],
+          },
+          background: {
+            default: colors.backGround,
+          },
+          frameBackground: {
+            default: colors.backGround,
+          },
+        }
         : {
-            // palette values for light mode
-            primary: {
-              main: colors.primary[100],
-            },
-            secondary: {
-              main: colors.greenAccent[500],
-            },
-            neutral: {
-              dark: colors.grey[700],
-              main: colors.grey[500],
-              light: colors.grey[100],
-            },
-            background: {
-              default: colors.backGround,
-            },
-            frameBackground: {
-              default: colors.backGround,
-            },
-          }),
+          // palette values for light mode
+          primary: {
+            main: colors.primary[100],
+          },
+          secondary: {
+            main: colors.greenAccent[500],
+          },
+          neutral: {
+            dark: colors.grey[700],
+            main: colors.grey[500],
+            light: colors.grey[100],
+          },
+          background: {
+            default: colors.backGround,
+          },
+          frameBackground: {
+            default: colors.backGround,
+          },
+        }),
     },
     typography: {
       fontFamily: ["Roboto, Source Sans Pro", "sans-serif"].join(","),
@@ -559,8 +559,8 @@ export const themeSettings = (mode) => {
 
 // context for color mode
 export const ColorModeContext = createContext({
-  LightMode: () => {},
-  DarkMode: () => {},
+  LightMode: () => { },
+  DarkMode: () => { },
 });
 
 export const useMode = () => {

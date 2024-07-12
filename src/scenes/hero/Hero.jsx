@@ -44,26 +44,25 @@ import { Heroavatarprofile } from "../../components/hero";
 import { Directions } from "@mui/icons-material";
 const Hero = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  
   const [currentSection, setCurrentSection] = useState("past");
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
 
   const profiles = [
     { code: "0", name: "Wai Yan Htut", job: "DL" },
-    { code: "01", name: "Yei Khant Lwin", job: "Nigga" },
+    { code: "01", name: "Yei Khant Lwin", job: "Backman" },
     { code: "02", name: "Zayar Naing", job: "broke coder" },
-    { code: "03", name: "Zaw Lin Naing", job: "brooken coder" },
+    { code: "03", name: "Zaw Lin Naing", job: "broken coder" },
     // Add more profiles as needed
   ];
 
   const profiles2 = [
-    { code: "05", name: "Ye Yint Naing Oo", job: "Designer" },
-
+    { code: "05", name: "Ye Yint Naing Oo", job: "One for all" },
     { code: "08", name: "Sithu", job: "A Ba" },
     { code: "06", name: "Sai Sai Lin Htet", job: "E boy" },
     { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
-    { code: "04", name: "Swan Lynn Htun", job: "Edi coder" },
+    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
   ];
 
   useEffect(() => {
@@ -76,9 +75,9 @@ const Hero = () => {
 
     return () => clearInterval(interval);
   }, []);
-
+  
   const getColor = (section) =>
-    currentSection === section ? colors.purple[600] : colors.extra.grey_accent;
+    currentSection === section ?"#8884DC" : "#7F7F7F";
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -90,10 +89,11 @@ const Hero = () => {
   const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   return (
-    <Box
+    <Box color="#000000"
       sx={{
         backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
+        
         backgroundRepeat: "no-repeat",
       }}
     >
@@ -125,7 +125,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #7771EF",
                 margin: 1,
               }}
               color="inherit"
@@ -140,7 +140,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #7771EF",
                 margin: 1,
               }}
               color="inherit"
@@ -155,7 +155,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #3F3D66",
                 margin: 1,
               }}
               color="inherit"
@@ -170,7 +170,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #3F3D66",
                 margin: 1,
               }}
               color="inherit"
@@ -187,11 +187,11 @@ const Hero = () => {
             sx={{
               width: "104px",
               height: "40px",
-              backgroundColor: colors.purple[600],
+              backgroundColor:"#8884DC",
               color: "white",
               borderRadius: "48px",
               "&:hover": {
-                backgroundColor: colors.purple[200],
+                backgroundColor: "#CECCF9" ,
               },
               textTransform: "none",
             }}
@@ -226,13 +226,14 @@ const Hero = () => {
           <Typography
             variant={isSmallScreen ? "title2" : "title5"}
             gutterBottom
+            
             textAlign={"center"}
           >
             Let's Make Your Finance Glow With{" "}
             <Typography
               component="span"
               variant={isSmallScreen ? "title2" : "title5"}
-              sx={{ color: colors.purple[600] }}
+              sx={{ color:"#8884DC" }}
             >
               Tinkle
             </Typography>
@@ -260,8 +261,8 @@ const Hero = () => {
               mt: 5,
               width: "293px",
               height: "44px",
-              backgroundColor: colors.purple[600],
-              "&:hover": { backgroundColor: colors.purple[200] },
+              backgroundColor:"#8884DC",
+              "&:hover": { backgroundColor: "#CECCF9"},
               borderRadius: "8px",
               textTransform: "none",
             }}
@@ -316,7 +317,7 @@ const Hero = () => {
               <Typography
                 component="span"
                 variant={isSmallScreen ? "h6" : "title4"}
-                sx={{ color: colors.purple[600] }}
+                sx={{ color:"#8884DC" }}
               >
                 Tinkle{" "}
               </Typography>
@@ -542,12 +543,12 @@ const Hero = () => {
               <Typography variant={"title1"}>Tired of Forgetting:</Typography>
               <Typography
                 variant={isSmallScreen ? "title1" : "title3"}
-                sx={{ color: colors.purple[600] }}
+                sx={{ color:"#8884DC" }}
                 gutterBottom
               >
                 The Person You Lent Your Money to?
               </Typography>
-              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+              <Typography variant="Hbody2" sx={{ color: "#3F3D66" }}>
                 It's hard to keep track of people who you lent your money to.
                 So, let us help you with that with our Debt list taking feature.
                 Where you can add sub records of the money they pay you back.
@@ -570,12 +571,12 @@ const Hero = () => {
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color: colors.purple[800] }}
+                sx={{ color: "#525085" }}
                 gutterBottom
               >
                 The Things To Buy?{" "}
               </Typography>
-              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+              <Typography variant="Hbody2" sx={{ color: "#3F3D66" }}>
                 Sometimes, we love to list out all the things that we want to
                 buy or that we need to buy. And it can be a hassle to list it on
                 a paper where it can get lost easily. Try our list taking
@@ -599,12 +600,12 @@ const Hero = () => {
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color: colors.purple[800] }}
+                sx={{ color: "#525085"}}
                 gutterBottom
               >
                 The Things To Buy?{" "}
               </Typography>
-              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+              <Typography variant="Hbody2" sx={{ color: "#3F3D66" }}>
                 Sometimes, we love to list out all the things that we want to
                 buy or that we need to buy. And it can be a hassle to list it on
                 a paper where it can get lost easily. Try our list taking
@@ -619,12 +620,12 @@ const Hero = () => {
               <Typography variant="title1">Want To List:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color: colors.purple[600] }}
+                sx={{ color:"#8884DC" }}
                 gutterBottom
               >
                 The Person You Owe Money to?{" "}
               </Typography>
-              <Typography variant="Hbody2" sx={{ color: colors.purple[900] }}>
+              <Typography variant="Hbody2" sx={{ color: "#3F3D66" }}>
                 Not only, you can take the debt list you lent, you can also set
                 up lists for the people you owe money to. Keep it in our app so
                 that you won’t miss the due date to pay it back.
@@ -665,14 +666,14 @@ const Hero = () => {
             <Stack direction={"row"} columnGap={2} justifyContent={"center"}>
               <Typography
                 variant={isSmallScreen ? "title1" : "title3"}
-                sx={{ color: colors.purple[600] }}
+                sx={{ color:"#8884DC" }}
                 gutterBottom
               >
                 Business?
               </Typography>
               <Typography
                 variant={isSmallScreen ? "title1" : "title3"}
-                sx={{ color: colors.purple[800] }}
+                sx={{ color: "#525085" }}
                 gutterBottom
               >
                 Finance?
@@ -699,7 +700,7 @@ const Hero = () => {
             variant="title4"
             gutterBottom
             textAlign={isSmallScreen ? "center" : isMediumScreen?"center" :undefined}
-            sx={{ color: colors.purple[900] }}
+            sx={{ color: "#3F3D66" }}
           >
             Passionate, Proactive, Resilient
           </Typography>
@@ -770,7 +771,7 @@ const Hero = () => {
               ))}
             </Stack>
           </Stack>
-          <Typography textAlign={"center"} variant="Hbody1" sx={{ color: colors.purple[900] }}>
+          <Typography textAlign={"center"} variant="Hbody1" sx={{ color: "#3F3D66"}}>
             We lead with care -- We work with trust -- We strive for quality --
             We strive for uniqueness
           </Typography>
@@ -796,7 +797,7 @@ const Hero = () => {
               <Typography
                 variant="title4"
                 textAlign={"center"}
-                sx={{ color: colors.purple[900] }}
+                sx={{ color: "#3F3D66" }}
               >
                 HELP CENTER
               </Typography>
@@ -813,7 +814,7 @@ const Hero = () => {
             <Typography
               padding={"20px"}
               variant={isSmallScreen ? "body1" : "Hbody2"}
-              sx={{ color: colors.purple[900] }}
+              sx={{ color: "#3F3D66" }}
               textAlign={"center"}
             >
               Encountered any issue or have a question to ask?
@@ -847,7 +848,7 @@ const Hero = () => {
               <Typography
                 gutterBottom
                 variant={isSmallScreen ? "body3" : "title1"}
-                sx={{ color: colors.purple[900] }}
+                sx={{ color: "#3F3D66"}}
               >
                 Reach Out Directly
               </Typography>
@@ -880,7 +881,7 @@ const Hero = () => {
               <Typography
                 gutterBottom
                 variant={isSmallScreen ? "body3" : "title1"}
-                sx={{ color: colors.purple[900] }}
+                sx={{ color: "#3F3D66" }}
               >
                 Tell Us Your Experience
               </Typography>
@@ -909,7 +910,7 @@ const Hero = () => {
               <Typography
                 gutterBottom
                 variant={isSmallScreen ? "body3" : "title1"}
-                sx={{ color: colors.purple[900] }}
+                sx={{ color: "#3F3D66" }}
               >
                 Immediate Assistance?
               </Typography>
@@ -934,7 +935,7 @@ const Hero = () => {
             height={"auto"}
             g
           >
-            <Typography variant="title1" sx={{ color: colors.purple[900] }}>
+            <Typography variant="title1" sx={{ color: "#3F3D66" }}>
               Quick Answers
             </Typography>
             <Accordion
@@ -945,6 +946,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
+                color:"#000000"
               }}
             >
               <AccordionSummary
@@ -972,6 +974,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
+                color:"#000000"
               }}
             >
               <AccordionSummary
@@ -999,6 +1002,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
+                color:"#000000"
               }}
             >
               <AccordionSummary
@@ -1026,6 +1030,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
+                color:"#000000"
               }}
             >
               <AccordionSummary
@@ -1053,6 +1058,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
+                color:"#000000"
               }}
             >
               <AccordionSummary
@@ -1104,7 +1110,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #3F3D66",
               }}
               color="inherit"
             >
@@ -1118,7 +1124,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #3F3D66",
               }}
               color="inherit"
             >
@@ -1132,7 +1138,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #3F3D66",
               }}
               color="inherit"
             >
@@ -1146,7 +1152,7 @@ const Hero = () => {
               sx={{
                 textTransform: "none",
                 borderRadius: "0",
-                borderBottom: `2px solid ${colors.purple[600]}`,
+                borderBottom: "2px solid #3F3D66",
               }}
               color="inherit"
             >

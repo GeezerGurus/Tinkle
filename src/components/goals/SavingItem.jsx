@@ -138,15 +138,17 @@ export const SavingItem = ({
       <Box
         sx={{
           borderRadius: "16px",
-          border: state === "reached" && "1px solid black",
+          border: state === "reached" && `2px solid ${colors.panel.panelBorder}`,
           width: "100%",
           minHeight: "176px",
           backgroundColor:
             state === "active"
-              ? colors.purple[100]
+              ? colors.panel.panel1
               : state === "paused"
-              ? colors.extra.grey
-              : "",
+              ? colors.panel.panel2
+              : state === "reached"
+              ? colors.panel.panel1
+              :"",
           padding: isMediumScreen ? "20px" : "24px 128px",
         }}
       >
@@ -285,7 +287,8 @@ export const SavingItem = ({
               sx={{
                 textTransform: "none",
                 borderRadius: "8px",
-                "&:hover": { backgroundColor: colors.purple[300] },
+                color: colors.text.text1,
+                "&:hover": { backgroundColor: colors.button.button1, },
               }}
             >
               <Typography variant={isSmallScreen ? "body4" : "body2"}>
@@ -337,6 +340,8 @@ export const SavingItem = ({
             <EditGoal
               onClose={handleClose}
               id={id}
+              bgColor={bgcolor}
+              iconF = {icon}
               savedAlready={saved}
               goal={goal}
               name={name}

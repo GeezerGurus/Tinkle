@@ -21,6 +21,7 @@ import { postSetting } from "../../api/generalSettings";
 const Form = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
 
   const [errors, setErrors] = useState({});
   const [page, setPage] = useState("sign-up");
@@ -179,7 +180,7 @@ const Form = () => {
             <>
               <Typography
                 variant={isSmallScreen ? "h6" : "h3"}
-                sx={{ color: colors.purple[900] }}
+                sx={{ color: colors.text.tex1}}
                 gutterBottom
               >
                 Let's Sign Up!
@@ -289,9 +290,9 @@ const Form = () => {
                 fullWidth
                 sx={{
                   height: isSmallScreen ? "45px" : "56px",
-                  backgroundColor: colors.purple[800],
+                  backgroundColor: "#525085",
                   "&:hover": {
-                    backgroundColor: colors.purple[600],
+                    backgroundColor: "#8884DC",
                   },
                   textTransform: "none",
                 }}
@@ -307,7 +308,7 @@ const Form = () => {
                 <Link
                   href="#"
                   onClick={togglePage}
-                  sx={{ color: colors.purple[600], textDecoration: "none" }}
+                  sx={{ color: "#8884DC", textDecoration: "none" }}
                 >
                   Sign in
                 </Link>
@@ -319,7 +320,7 @@ const Form = () => {
             <>
               <Typography
                 variant={isSmallScreen ? "h6" : "h3"}
-                sx={{ color: colors.purple[900] }}
+                sx={{ color: "#3F3D66" }}
                 gutterBottom
               >
                 Welcome Back!
@@ -391,9 +392,9 @@ const Form = () => {
                 fullWidth
                 sx={{
                   height: "56px",
-                  backgroundColor: colors.purple[800],
+                  backgroundColor: "#525085",
                   "&:hover": {
-                    backgroundColor: colors.purple[600],
+                    backgroundColor: "#8884DC",
                   },
                   textTransform: "none",
                 }}
@@ -409,7 +410,7 @@ const Form = () => {
                 <Link
                   href="#"
                   onClick={togglePage}
-                  sx={{ color: colors.purple[600], textDecoration: "none" }}
+                  sx={{ color: "#8884DC", textDecoration: "none" }}
                 >
                   Sign up
                 </Link>

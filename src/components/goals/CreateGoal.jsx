@@ -211,7 +211,7 @@ export const CreateGoal = ({
 
         <Stack direction={"row"} width={"100%"} gap={2}>
           <FormControl sx={{ width: "80%" }}>
-            <InputLabel id="color-label" sx={{ color: "black" }}>
+            <InputLabel id="color-label" sx={{ color: colors.text.text1  }}>
               Color
             </InputLabel>
             <Select
@@ -252,7 +252,7 @@ export const CreateGoal = ({
           </FormControl>
 
           <FormControl sx={{ flexGrow: 1 }}>
-            <InputLabel id="icon-label" sx={{ color: "black" }}>
+            <InputLabel id="icon-label" sx={{ color: colors.text.text1 }}>
               Icon
             </InputLabel>
             <Select

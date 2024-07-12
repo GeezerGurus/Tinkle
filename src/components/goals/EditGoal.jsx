@@ -16,39 +16,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Item } from "../utils";
-import {
-  Home as HomeIcon,
-  DirectionsCar as DirectionsCarIcon,
-  ConnectingAirports as ConnectingAirportsIcon,
-  School as SchoolIcon,
-  Payments as PaymentsIcon,
-  HealthAndSafety as HealthAndSafetyIcon,
-  WineBar as WineBarIcon,
-  CardGiftcard as CardGiftcardIcon,
-  Settings as SettingsIcon,
-  Pets as PetsIcon,
-  Celebration as CelebrationIcon,
-  ChildFriendly as ChildFriendlyIcon,
-  Computer as ComputerIcon,
-} from "@mui/icons-material";
+
 import { tokens } from "../../theme";
 import { patchGoal } from "../../api/goals";
+import {CategoryIcons} from "../utils";
 
-const icons = [
-  <HomeIcon />,
-  <DirectionsCarIcon />,
-  <ConnectingAirportsIcon />,
-  <SchoolIcon />,
-  <PaymentsIcon />,
-  <HealthAndSafetyIcon />,
-  <WineBarIcon />,
-  <CardGiftcardIcon />,
-  <SettingsIcon />,
-  <PetsIcon />,
-  <CelebrationIcon />,
-  <ChildFriendlyIcon />,
-  <ComputerIcon />,
-];
+
 
 const input_colors = [
   "red",
@@ -69,8 +42,8 @@ const input_colors = [
 export const EditGoal = ({
   onClose,
   id,
-  // bgColor,
-  // iconF,
+  bgColor,
+  iconF,
   savedAlready,
   goal,
   name,
@@ -81,8 +54,8 @@ export const EditGoal = ({
   const colors = tokens(theme.palette.mode);
   console.log(description)
   const [goalName, setGoalName] = useState(name || "");
-  const [icon, setIcon] = useState("");
-  const [color, setColor] = useState("");
+  const [icon, setIcon] = useState(iconF||"");
+  const [color, setColor] = useState(bgColor||"");
   const [note, setNote] = useState(description||"");
   const [date, setDate] = useState(dateF || "no target date");
   const [amount, setAmount] = useState(goal || 0);
@@ -93,8 +66,8 @@ export const EditGoal = ({
       
       const newList={
         name: goalName,
-        // icon: icon,
-        // bgColor: color,
+        icon: icon,
+        color: color,
         amount: amount,
         saveamount: saved,
         description: note,
@@ -205,7 +178,7 @@ export const EditGoal = ({
         {/* Color Type */}
         <Stack direction={"row"} width={"100%"} gap={2}>
           <FormControl sx={{ width: "80%" }}>
-            <InputLabel id="from-account-label" sx={{ color: "black" }}>
+            <InputLabel id="from-account-label" sx={{ color: colors.text.text1}}>
               Color
             </InputLabel>
             <Select
@@ -252,7 +225,7 @@ export const EditGoal = ({
 
           {/* Icon Selection */}
           <FormControl sx={{ flexGrow: 1 }}>
-            <InputLabel id="icon-label" sx={{ color: "black" }}>
+            <InputLabel id="icon-label" sx={{ color: colors.text.text1}}>
               Icon
             </InputLabel>
             <Select
@@ -270,14 +243,17 @@ export const EditGoal = ({
                 },
               }}
               renderValue={(selected) => {
-                return <Item icon={selected} text="" bgColor="black" />;
+                return <Item icon={CategoryIcons[selected]} text="" bgColor="black" />;
               }}
             >
-              {icons.map((icon) => (
-                <MenuItem key={icon} value={icon} sx={{ height: "auto" }}>
-                  <Item icon={icon} text="" bgColor="black" iconSize="auto" />
-                </MenuItem>
-              ))}
+              {Object.keys(CategoryIcons).map((key) => {
+                const IconComponent = CategoryIcons[key];
+                return (
+                  <MenuItem key={key} value={key}>
+                    <IconComponent />
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </Stack>

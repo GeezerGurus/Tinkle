@@ -18,8 +18,9 @@ import DropDownItems from "./DropDownItems";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
+))(({ theme, colors = tokens(theme.palette.mode) }) => ({
   borderRadius: "8px",
+  backgroundColor: colors.sideBar,
   "&::before": {
     display: "none",
   },
@@ -73,7 +74,11 @@ export const DropDownMenu = ({
   const colors = tokens(theme.palette.mode);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <Accordion expanded={expanded === page} onChange={ChangePage(page)}>
+    <Accordion
+      expanded={expanded === page}
+      onChange={ChangePage(page)}
+      theme={theme}
+    >
       <AccordionSummary>
         {/* Icon */}
         <ListItemIcon sx={{ ml: open ? "none" : 14 }}>{icon}</ListItemIcon>

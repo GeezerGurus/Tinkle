@@ -48,6 +48,7 @@ const Debt = () => {
         flexDirection: "column",
         gap: "8px",
         borderRadius: "16px",
+        bgcolor: colors.panel.panel1
       }}
     >
       <Loader isLoading={isLoading} />

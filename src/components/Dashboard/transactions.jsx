@@ -25,7 +25,7 @@ const DataRow = ({ data, colors, entityName, icon }) => {
   return (
     <TableRow
       sx={{
-        backgroundColor: data.type === "expense" ? colors.purple[100] : "",
+        backgroundColor: data.type === "expense" ? colors.panel.panel1 : "",
       }}
     >
       <TableCell
@@ -173,7 +173,7 @@ const BasicTable = ({ colors }) => {
   }, []);
 
   return (
-    <TableContainer sx={{ overflow: "hidden", padding: "0 24px" }}>
+    <TableContainer sx={{ overflow: "hidden", padding: "0 24px", bgcolor: colors.panel.panel1 }}>
       <Loader isLoading={isLoading} />
       <Table sx={{ border: "none" }}>
         <TableHead>
@@ -222,6 +222,7 @@ const Transactions = ({ isMediumScreen }) => {
         display: isMediumScreen ? "none" : "",
         height: isLargeScreen ? "auto" : "354px",
         borderRadius: "16px",
+        bgcolor: colors.panel.panel1,
       }}
     >
       <Box

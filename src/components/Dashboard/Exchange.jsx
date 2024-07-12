@@ -112,6 +112,7 @@ const Exchange = () => {
         width: isLaptop ? "100%" : "369px",
         height: "275px",
         borderRadius: "16px",
+        bgcolor: colors.panel.panel1
       }}
     >
       {/* <Stack></Stack> */}
@@ -131,7 +132,7 @@ const Exchange = () => {
           width: isLaptop ? "90%" : "293px",
           height: "156px",
           position: "relative",
-          border: "#E0E0E0 1px solid",
+          border: `1px solid ${colors.text.text1}`,
           borderRadius: "21px",
         }}
       >
@@ -143,6 +144,7 @@ const Exchange = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            bgcolor: colors.panel.panel1
           }}
         >
           <Select
@@ -183,7 +185,7 @@ const Exchange = () => {
             sx={{
               width: "38px",
               height: "38px",
-              backgroundColor: colors.purple[500],
+              backgroundColor: colors.button.button1,
               borderRadius: "50%",
             }}
           />
@@ -194,7 +196,7 @@ const Exchange = () => {
           sx={{
             height: "50%",
             padding: "0 24px 0 40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.panel.panel2,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",

@@ -116,10 +116,10 @@ const BudgetPeriod = () => {
           <BudgetItem
             id={budget._id}
             title={budget.name}
-            total={budget.amount}
-            spent={100}
-            remains={500}
-            progressPercent={10}
+            total={budget.initial}
+            spent={budget.spent || 0}
+            remains={budget.amount}
+            progressPercent={(budget.amount / budget.initial) * 100}
             key={index}
           />
         ))}

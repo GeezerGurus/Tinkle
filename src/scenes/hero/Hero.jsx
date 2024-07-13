@@ -58,11 +58,12 @@ const Hero = () => {
   ];
 
   const profiles2 = [
+    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
     { code: "05", name: "Ye Yint Naing Oo", job: "One for all" },
-    { code: "08", name: "Sithu", job: "A Ba" },
     { code: "06", name: "Sai Sai Lin Htet", job: "E Boy" },
     { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
-    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
+    { code: "08", name: "Sithu", job: "A Ba" },
+    
   ];
 
   useEffect(() => {

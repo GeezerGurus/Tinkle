@@ -99,8 +99,8 @@ const GeneralSettings = () => {
     setInterval(newInterval);
     handleSaveInterval(newInterval);
   };
-  const handleDelete = () => {
-    deleteUser();
+  const handleDelete = async () => {
+    await deleteUser();
     logout();
   };
   return (

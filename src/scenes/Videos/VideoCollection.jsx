@@ -63,7 +63,8 @@ const VideoCollection = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-
+        bgcolor: colors.backGround,
+        border: "none",
         justifyContent: "flex-start",
         position: "relative",
       }}
@@ -96,7 +97,7 @@ const VideoCollection = () => {
           width: "100%",
           height: "auto",
           display: "flex",
-
+          bgcolor: colors.backGround,
           position: "relative",
           padding: "50px",
         }}
@@ -120,6 +121,7 @@ const VideoCollection = () => {
         justifyContent="flex-start"
         alignItems="center"
         sx={{
+          bgcolor: colors.backGround,
           width: "100%",
           height: "auto",
         }}

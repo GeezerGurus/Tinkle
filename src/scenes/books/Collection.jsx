@@ -84,6 +84,7 @@ const Collection = () => {
         justifyContent: "space-around",
         position: "relative",
         overflowX: "hidden",
+        bgcolor: colors.backGround,
       }}
     >
       <Box

@@ -21,7 +21,6 @@ import { postSetting } from "../../api/generalSettings";
 const Form = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
 
   const [errors, setErrors] = useState({});
   const [page, setPage] = useState("sign-up");
@@ -180,7 +179,7 @@ const Form = () => {
             <>
               <Typography
                 variant={isSmallScreen ? "h6" : "h3"}
-                sx={{ color: colors.text.tex1}}
+                sx={{ color: colors.text.tex1 }}
                 gutterBottom
               >
                 Let's Sign Up!

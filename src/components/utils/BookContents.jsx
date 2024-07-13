@@ -66,7 +66,7 @@ const BookContents = ({ id,title,link, author, favorite, pathImage ,refresh}) =>
         }}
       >
         <Avatar
-          variant="rounded" component="a" href={link}
+          variant="rounded" component="a" href={link} target="_blank"
           src={pathImage} // Replace with your image variable or URL
           sx={{
             width: "100%",

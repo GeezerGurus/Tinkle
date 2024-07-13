@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Tinkle/static/css/main.f31af107.css",
-    "main.js": "/Tinkle/static/js/main.866364c5.js",
+    "main.js": "/Tinkle/static/js/main.227b0c8e.js",
     "static/media/uicons-thin-rounded-LFWVTX5C.eot": "/Tinkle/static/media/uicons-thin-rounded-LFWVTX5C.113704fe2cffb14600c8.eot",
     "static/media/uicons-regular-rounded-ESQGLQQ4.eot": "/Tinkle/static/media/uicons-regular-rounded-ESQGLQQ4.9ac4298c39b2d61ec7b0.eot",
     "static/media/background.png": "/Tinkle/static/media/background.46b07cbdf3a5c2704005.png",
@@ -32,6 +32,7 @@
     "static/media/uicons-solid-straight-4DZ3VA4V.woff2": "/Tinkle/static/media/uicons-solid-straight-4DZ3VA4V.10a42bec98afb83391ab.woff2",
     "static/media/banner.png": "/Tinkle/static/media/banner.5d5b475abe1a783bd8e9.png",
     "static/media/knowledge.png": "/Tinkle/static/media/knowledge.4cf1020db95b91033798.png",
+    "static/media/index0.jpg": "/Tinkle/static/media/index0.eaab1d67d2dd397e1601.jpg",
     "static/media/about_us.png": "/Tinkle/static/media/about_us.02fc5d0c609dbad04152.png",
     "static/media/goal_reached.png": "/Tinkle/static/media/goal_reached.575acf15a9c9f18023cf.png",
     "static/media/page_not_found.png": "/Tinkle/static/media/page_not_found.c27016521ced791ec8fd.png",
@@ -56,10 +57,10 @@
     "static/media/right_arrow2.png": "/Tinkle/static/media/right_arrow2.a562da9ece559ac6b383.png",
     "index.html": "/Tinkle/index.html",
     "main.f31af107.css.map": "/Tinkle/static/css/main.f31af107.css.map",
-    "main.866364c5.js.map": "/Tinkle/static/js/main.866364c5.js.map"
+    "main.227b0c8e.js.map": "/Tinkle/static/js/main.227b0c8e.js.map"
   },
   "entrypoints": [
     "static/css/main.f31af107.css",
-    "static/js/main.866364c5.js"
+    "static/js/main.227b0c8e.js"
   ]
 }

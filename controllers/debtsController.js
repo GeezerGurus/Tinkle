@@ -116,19 +116,6 @@ exports.patchDebt = async (req, res) => {
 
 exports.deleteDebt = async (req, res) => {
   const { debtId } = req.params;
-  const debt = await DebtSchema.findOne({ userId: req.userId, _id: debtId});
-  if (!debt) {
-    return res.status(404).json({ message: "Debt not found!" });
-  }
-  const account = await AccountSchema.findOne({ userId: req.userId, _id: debt.accountId });
-  if (debt.type == "lend") {
-    account.balance += Number(debt.amount);
-    await account.save();
-  }
-  if (debt.type == "owe") {
-    account.balance -= debt.amount;
-    await account.save();
-  }
   await DebtSchema.findOneAndDelete({ userId: req.userId, _id: debtId})
     .then(() => {
       res.status(200).json({ message: "Debt Deleted" });

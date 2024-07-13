@@ -1,13 +1,12 @@
 import api from "./api";
 
 export const postGoal = async (data) => {
-    try {
-      const response = await api.post("/goal", data);
-      return response.data;
-    } catch (error) {
-      console.error("Error adding new goal:", error);
-      throw error;
-    }
+  try {
+    const response = await api.post("/goal", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding new goal:", error);
+  }
 };
 
 export const getGoals = async () => {
@@ -16,9 +15,7 @@ export const getGoals = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching goals:", error);
-    throw error;
   }
-
 };
 
 export const getGoal = async (goalId) => {
@@ -27,11 +24,8 @@ export const getGoal = async (goalId) => {
     return response.data;
   } catch (error) {
     console.error(`Error fetching goal ${goalId}:`, error);
-    throw error;
   }
 };
-
-
 
 export const patchGoal = async (goalId, updatedData) => {
   try {
@@ -39,7 +33,6 @@ export const patchGoal = async (goalId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating goal ${goalId}:`, error);
-    throw error;
   }
 };
 
@@ -49,6 +42,5 @@ export const deleteGoal = async (goalId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting goal ${goalId}:`, error);
-    throw error;
   }
 };

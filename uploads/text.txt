@@ -1,1 +1,0 @@
-upload photos are sent in uploads folder.

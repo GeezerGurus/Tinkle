@@ -133,6 +133,8 @@ const BudgetBox = ({ period }) => {
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
+        backgroundColor: colors.panel.panel1,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       <Loader isLoading={isLoading} />

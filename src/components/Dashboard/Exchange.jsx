@@ -34,7 +34,7 @@ const Exchange = () => {
 
   const [apiExchangeRates, setApiExchangeRates] = useState({});
   const [inputCurrency, setInputCurrency] = useState("USD");
-  const [outputCurrency, setOutputCurrency] = useState("MMK");
+  const [outputCurrency, setOutputCurrency] = useState(currencyNames[90]);
 
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
@@ -44,15 +44,11 @@ const Exchange = () => {
       const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${inputCurrency}`;
       const response = await fetch(API_URL);
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("Response data:", data);
 
       setApiExchangeRates(data.conversion_rates);
     } catch (error) {
@@ -63,8 +59,6 @@ const Exchange = () => {
   useEffect(() => {
     fetchExchangeRates();
   }, [inputCurrency]);
-
-  console.log(apiExchangeRates);
 
   const handleInputCurrencyChange = (event) => {
     const selectedCurrency = event.target.value;
@@ -112,7 +106,7 @@ const Exchange = () => {
         width: isLaptop ? "100%" : "369px",
         height: "275px",
         borderRadius: "16px",
-        bgcolor: colors.panel.panel1
+        bgcolor: colors.panel.panel1,
       }}
     >
       {/* <Stack></Stack> */}
@@ -144,7 +138,7 @@ const Exchange = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            bgcolor: colors.panel.panel1
+            bgcolor: colors.panel.panel1,
           }}
         >
           <Select

@@ -112,7 +112,7 @@ const Budget = () => {
         flexDirection: "column",
         justifyContent: "space-between",
         borderRadius: "16px",
-        bgcolor: colors.panel.panel1
+        bgcolor: colors.panel.panel1,
       }}
     >
       {/* Header box of Budget */}
@@ -129,9 +129,10 @@ const Budget = () => {
         <ShowMoreBtn to={"/budget"} />
       </Box>
       {Array.isArray(budgets) &&
-        budgets.slice(0, 3).map((budget) => {
+        budgets.slice(0, 3).map((budget, index) => {
           return (
             <Progress
+              key={index}
               content={budget.name}
               dollar={budget.amount}
               percent={Math.round((budget.amount / budget.initial) * 100)}

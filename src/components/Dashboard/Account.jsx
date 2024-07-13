@@ -94,7 +94,7 @@ export const Account = ({
             sx={{
               fontSize: "40px",
               color: colors.text.text1,
-              bgcolor: colors.backGround
+              bgcolor: colors.backGround,
             }}
           />
         )}

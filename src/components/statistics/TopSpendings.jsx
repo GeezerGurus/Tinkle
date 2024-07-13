@@ -144,8 +144,8 @@ const TopSpendings = () => {
           flexDirection: "column",
         }}
       >
-        {modifiedData.map((category) => (
-          <Stack minHeight={isSmallScreen ? "auto" : "64px"} key={category.id}>
+        {modifiedData.map((category, index) => (
+          <Stack minHeight={isSmallScreen ? "auto" : "64px"} key={index}>
             <Stack
               direction={"row"}
               width={"100%"}

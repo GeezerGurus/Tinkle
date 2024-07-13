@@ -87,6 +87,8 @@ const EditBudget = ({ onClose, budget, refresh }) => {
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}
@@ -148,22 +150,24 @@ const EditBudget = ({ onClose, budget, refresh }) => {
         >
           <MenuItem value="monthly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>Monthly</Typography>
+              <Typography sx={{ color: colors.text.text1 }}>Monthly</Typography>
             </Box>
           </MenuItem>
           <MenuItem value="weekly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>Weekly</Typography>
+              <Typography sx={{ color: colors.text.text1 }}>Weekly</Typography>
             </Box>
           </MenuItem>
           <MenuItem value="yearly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>Yearly</Typography>
+              <Typography sx={{ color: colors.text.text1 }}>Yearly</Typography>
             </Box>
           </MenuItem>
           <MenuItem value="one-time">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>One-Time</Typography>
+              <Typography sx={{ color: colors.text.text1 }}>
+                One-Time
+              </Typography>
             </Box>
           </MenuItem>
         </TextField>
@@ -227,7 +231,7 @@ const EditBudget = ({ onClose, budget, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
           }}
@@ -239,7 +243,7 @@ const EditBudget = ({ onClose, budget, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
           }}
         >

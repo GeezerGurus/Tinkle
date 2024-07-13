@@ -109,9 +109,11 @@ const AddRecord = ({ onClose }) => {
         alignItems: "center",
         justifyContent: "space-between",
         flexDirection: "column",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
-      <Typography variant="h4" sx={{ color: colors.purple[900] }} gutterBottom>
+      <Typography variant="h4" sx={{ color: colors.text.text1 }} gutterBottom>
         Add Record
       </Typography>
       <ButtonGroup
@@ -127,8 +129,8 @@ const AddRecord = ({ onClose }) => {
             onClick={() => handlePageChange(type)}
             sx={{
               ...buttonStyles,
-              backgroundColor: page === type ? colors.purple[600] : "white",
-              color: page === type ? "white" : colors.purple[600],
+              backgroundColor: page === type ? colors.button.button1 : "white",
+              color: page === type ? "white" : colors.button.button1,
               "&:hover": {
                 backgroundColor:
                   page === type ? colors.purple[200] : colors.purple[100],

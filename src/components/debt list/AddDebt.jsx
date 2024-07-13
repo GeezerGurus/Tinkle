@@ -23,14 +23,12 @@ const AddDebt = ({ onClose, action, refresh }) => {
 
   const [name, setName] = useState("");
   const [purpose, setPurpose] = useState("");
-  const [selectedAmount, setSelectedAmount] = useState(0);
+  const [selectedAmount, setSelectedAmount] = useState("");
   const [selectedAccount, setSelectedAccount] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedDueDate, setSelectedDueDate] = useState("");
   const [accounts, setAccounts] = useState([]);
   const [errors, setErrors] = useState({});
-
-  console.log(errors);
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -254,8 +252,8 @@ const AddDebt = ({ onClose, action, refresh }) => {
           error={!!errors.account}
           helperText={errors.account}
         >
-          {accounts.map((account) => (
-            <MenuItem key={account.id} value={account._id}>
+          {accounts.map((account, index) => (
+            <MenuItem key={index} value={account._id}>
               <Item
                 // icon={<account.icon />}
                 text={account.name}

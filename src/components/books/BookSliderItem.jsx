@@ -138,18 +138,18 @@ const BookSliderItem = ({
           target="_blank"
           rel="noopener noreferrer"
           variant="contained"
-          onClick={console.log([
-            id,
-            title,
-            author,
-            category,
-            description,
-            favorite,
-            path,
-            link,
-          ]
+          // onClick={console.log([
+          //   id,
+          //   title,
+          //   author,
+          //   category,
+          //   description,
+          //   favorite,
+          //   path,
+          //   link,
+          // ]
 
-          )}
+          // )}
           sx={{
             width: "176px",
             height: "42px",

@@ -97,7 +97,7 @@ const CategorySettings = () => {
           pb={6}
           sx={{
             borderBottom: `2px solid`,
-            borderColor: colors.extra.underLine
+            borderColor: colors.extra.underLine,
           }}
         >
           <Typography
@@ -131,7 +131,6 @@ const CategorySettings = () => {
                   value={icon}
                   placeholder="Select Icon"
                   onChange={handleIconChange}
-                  displayEmpty
                 >
                   {Object.keys(CategoryIcons).map((key) => {
                     const IconComponent = CategoryIcons[key]; // Get the icon component
@@ -153,7 +152,6 @@ const CategorySettings = () => {
                   }}
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
-                  displayEmpty
                   placeholder="Choose your color"
                 >
                   {CategoryColors.map((color) => (
@@ -190,7 +188,7 @@ const CategorySettings = () => {
                   height: "46px",
                   textTransform: "none",
                   backgroundColor: colors.button.button1,
-                  color: colors.text.text1
+                  color: colors.text.text1,
                 }}
               >
                 Add
@@ -221,7 +219,7 @@ const CategorySettings = () => {
           <Grid
             container
             rowGap={6}
-            Spacing={3}
+            // spacing={3}
             sx={{
               display: "flex",
 

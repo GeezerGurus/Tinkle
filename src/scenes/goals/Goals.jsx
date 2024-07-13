@@ -19,10 +19,10 @@ export const Goals = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [openModal, setOpenModal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [lists, setLists] = useState([]);
   const [page, setPage] = useState("active");
-  
 
   const fetchGoals = async () => {
     setIsLoading(true);
@@ -86,7 +86,11 @@ export const Goals = () => {
     >
       <Loader isLoading={isLoading} />
       {/* Speed Dial */}
-      <SpeedDial modal={<SavingFor refresh={fetchGoals} />} />
+      <SpeedDial
+        modal={
+          <SavingFor refresh={renderPage} onClose={() => setOpenModal(false)} />
+        }
+      />
 
       {/* Nav Buttons */}
       <ButtonGroup
@@ -101,7 +105,8 @@ export const Goals = () => {
             borderRadius: "16px",
             width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
-            backgroundColor: page === "active" ? colors.button.button1 : "white",
+            backgroundColor:
+              page === "active" ? colors.button.button1 : "white",
             color: page === "active" ? "white" : "black",
             "&:hover": {
               backgroundColor: colors.purple[200],
@@ -134,7 +139,8 @@ export const Goals = () => {
             borderRadius: "16px",
             width: isMediumScreen ? "120.67px" : "245.67px",
             height: "37px",
-            backgroundColor: page === "reached" ? colors.button.button1 : "white",
+            backgroundColor:
+              page === "reached" ? colors.button.button1 : "white",
             color: page === "reached" ? "white" : "black",
             "&:hover": {
               backgroundColor: colors.button.button1,

@@ -9,6 +9,9 @@ import {
   TextField,
   Stack,
   useMediaQuery,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -24,7 +27,7 @@ const CreateAccount = ({ onClose, refresh }) => {
 
   const [errors, setErrors] = useState({});
   const [name, setAccountName] = useState("");
-  const [balance, setCurrentBalance] = useState(0);
+  const [balance, setCurrentBalance] = useState("");
   const [type, setSelectedOption] = useState("");
 
   const validateForm = () => {
@@ -95,6 +98,7 @@ const CreateAccount = ({ onClose, refresh }) => {
         alignItems: "center",
         gap: theme.spacing(3),
         bgcolor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Close button */}
@@ -159,17 +163,17 @@ const CreateAccount = ({ onClose, refresh }) => {
         helperText={errors.balance}
       />
 
-      <TextField
+      {/* <TextField
         select
         fullWidth
         label="Type"
         value={type}
         onChange={(event) => setSelectedOption(event.target.value)}
-        displayEmpty
         InputLabelProps={{
           shrink: true,
         }}
-        MenuProps={menuProps}
+        // MenuProps={menuProps}
+        SelectProps={{ MenuProps: menuProps }}
         renderValue={(selected) => (
           <Item {...types.find((type) => type.value === selected)} />
         )}
@@ -179,7 +183,25 @@ const CreateAccount = ({ onClose, refresh }) => {
             <Item {...type} />
           </MenuItem>
         ))}
-      </TextField>
+      </TextField> */}
+      <FormControl fullWidth>
+        <InputLabel shrink>Type</InputLabel>
+        <Select
+          label="Type"
+          value={type}
+          onChange={(event) => setSelectedOption(event.target.value)}
+          MenuProps={menuProps}
+          renderValue={(selected) => (
+            <Item {...types.find((type) => type.value === selected)} />
+          )}
+        >
+          {types.map((type) => (
+            <MenuItem key={type.value} value={type.value}>
+              <Item {...type} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       {/* Buttons  */}
       <Stack
         gap={1}
@@ -191,7 +213,7 @@ const CreateAccount = ({ onClose, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
           }}
@@ -203,7 +225,7 @@ const CreateAccount = ({ onClose, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
           }}
         >

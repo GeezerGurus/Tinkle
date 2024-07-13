@@ -126,6 +126,8 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
         padding: "32px 40px",
         alignItems: "center",
         borderRadius: "8px",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Header */}
@@ -188,7 +190,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
           sx={{
             width: "240px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
             borderRadius: "8px",
@@ -205,7 +207,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
           sx={{
             width: "240px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
             borderRadius: "8px",
           }}

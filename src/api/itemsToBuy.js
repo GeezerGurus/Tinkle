@@ -5,7 +5,6 @@ import api from "./api";
 export const getItemsToBuy = async (tobuylistId) => {
   try {
     const response = await api.get(`/tobuylist/${tobuylistId}/itemstobuy`);
-    console.log(response);
     console.log(response.data);
     return response.data;
   } catch (error) {

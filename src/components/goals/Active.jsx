@@ -2,9 +2,8 @@ import { Box, List } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
-import {GoalActiveImage} from "../../assets/empty/index"
+import { GoalActiveImage } from "../../assets/empty/index";
 import { Loader } from "../utils";
-
 
 export const Active = ({ isSmallScreen, state }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,30 +47,29 @@ export const Active = ({ isSmallScreen, state }) => {
         padding: "0px 2%",
 
         backgroundImage:
-        filteredGoals.length === 0 ? `url(${GoalActiveImage})` : "none",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "70%",
-      backgroundPosition: "center",
+          filteredGoals.length === 0 ? `url(${GoalActiveImage})` : "none",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "70%",
+        backgroundPosition: "center",
       }}
     >
       <Loader isLoading={isLoading} />
-        {filteredGoals.map((list, index) => (
-            <SavingItem
-              key={index}
-              id={list._id}
-              name={list.name}
-              icon={list.icon}
-              bgcolor={list.color}
-              goal={list.amount}
-              saved={list.saveamount}
-              createdAt={list.createdAt}
-              updatedAt={list.updatedAt}
-              date={list.desireDate}
-              state={list.state}
-              refresh={fetchGoals}
-            />
-          ))}
-        
+      {filteredGoals.map((list, index) => (
+        <SavingItem
+          key={index}
+          id={list._id}
+          name={list.name}
+          icon={list.icon}
+          bgcolor={list.color}
+          goal={list.amount}
+          saved={list.saveamount}
+          createdAt={list.createdAt}
+          updatedAt={list.updatedAt}
+          date={list.desireDate}
+          state={list.state}
+          refresh={fetchGoals}
+        />
+      ))}
     </Box>
   );
 };

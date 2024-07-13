@@ -13,6 +13,7 @@ import {
   InputLabel,
   FormControl,
   useMediaQuery,
+  FormHelperText,
 } from "@mui/material";
 import { Item } from "../utils";
 import { enqueueSnackbar } from "notistack";
@@ -55,7 +56,7 @@ export const CreateGoal = ({
   const [color, setColor] = useState(bg || "");
   const [note, setNote] = useState("");
   const [date, setDate] = useState(dateF || "");
-  const [amount, setAmount] = useState(goal || 0);
+  const [amount, setAmount] = useState(goal || "");
   const [saved, setSaved] = useState(savedAlready || "");
 
   const validateForm = () => {
@@ -73,6 +74,12 @@ export const CreateGoal = ({
     }
     if (!date) {
       errors.date = "Date is required";
+    }
+    if (!color) {
+      errors.color = "Please select a color";
+    }
+    if (!icon) {
+      errors.icon = "Please select an icon";
     }
     setErrors(errors);
     return Object.keys(errors).length === 0;
@@ -94,7 +101,7 @@ export const CreateGoal = ({
       };
       const createdList = await postGoal(newList);
       console.log("New Goal created:", createdList);
-      refresh();
+      window.location.reload();
       enqueueSnackbar("Goal created!", { variant: "success" });
       onClose();
     } catch (error) {
@@ -109,15 +116,17 @@ export const CreateGoal = ({
     <Paper
       sx={{
         width: isSmallScreen ? "350px" : "686px",
-        height: "auto",
+        height: isSmallScreen ? "90%" : "auto",
         display: "flex",
         gap: "20px",
-        padding: "32px",
+        padding: isSmallScreen ? "8px" : "32px",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-around",
         position: "relative",
         borderRadius: "8px",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       <Typography variant="h4">Create Goal</Typography>
@@ -147,6 +156,9 @@ export const CreateGoal = ({
           onChange={(e) => setGoalName(e.target.value)}
           error={!!errors.goalName}
           helperText={errors.goalName}
+          InputProps={{
+            sx: { height: isSmallScreen ? "42px" : undefined },
+          }}
         />
 
         <TextField
@@ -159,6 +171,7 @@ export const CreateGoal = ({
           inputProps={{ min: "0" }}
           InputProps={{
             endAdornment: <InputAdornment position="end">MMK</InputAdornment>,
+            sx: { height: isSmallScreen ? "42px" : undefined },
           }}
           InputLabelProps={{
             shrink: true,
@@ -178,6 +191,7 @@ export const CreateGoal = ({
           inputProps={{ min: "0" }}
           InputProps={{
             endAdornment: <InputAdornment position="end">MMK</InputAdornment>,
+            sx: { height: isSmallScreen ? "42px" : undefined },
           }}
           InputLabelProps={{
             shrink: true,
@@ -196,6 +210,8 @@ export const CreateGoal = ({
           value={date}
           onChange={(e) => setDate(e.target.value)}
           InputProps={{
+            sx: { height: isSmallScreen ? "42px" : undefined },
+
             inputProps: {
               min: "2022-01-01",
               max: "2025-12-31",
@@ -211,7 +227,7 @@ export const CreateGoal = ({
 
         <Stack direction={"row"} width={"100%"} gap={2}>
           <FormControl sx={{ width: "80%" }}>
-            <InputLabel id="color-label" sx={{ color: colors.text.text1  }}>
+            <InputLabel id="color-label" sx={{ color: colors.text.text1 }}>
               Color
             </InputLabel>
             <Select
@@ -227,6 +243,7 @@ export const CreateGoal = ({
                   },
                 },
               }}
+              error={!!errors.color}
               renderValue={(selected) => (
                 <Box
                   sx={{
@@ -249,6 +266,11 @@ export const CreateGoal = ({
                 </MenuItem>
               ))}
             </Select>
+            {errors.color && (
+              <FormHelperText sx={{ color: "red" }}>
+                Select a color
+              </FormHelperText>
+            )}
           </FormControl>
 
           <FormControl sx={{ flexGrow: 1 }}>
@@ -258,6 +280,7 @@ export const CreateGoal = ({
             <Select
               labelId="icon-label"
               value={icon}
+              required
               onChange={(e) => setIcon(e.target.value)}
               MenuProps={{
                 PaperProps: {
@@ -270,6 +293,7 @@ export const CreateGoal = ({
               renderValue={(selected) => (
                 <Item icon={CategoryIcons[selected]} text="" bgColor="black" />
               )}
+              error={!!errors.icon}
             >
               {Object.keys(CategoryIcons).map((key) => {
                 const IconComponent = CategoryIcons[key];
@@ -280,6 +304,11 @@ export const CreateGoal = ({
                 );
               })}
             </Select>
+            {errors.icon && (
+              <FormHelperText sx={{ color: "red", display: "flex" }}>
+                Select an Icon
+              </FormHelperText>
+            )}
           </FormControl>
         </Stack>
 
@@ -294,6 +323,9 @@ export const CreateGoal = ({
           placeholder="Enter a description (optional)"
           value={note}
           onChange={(event) => setNote(event.target.value)}
+          InputProps={{
+            sx: { height: isSmallScreen ? "42px" : undefined },
+          }}
         />
       </Box>
 
@@ -307,7 +339,7 @@ export const CreateGoal = ({
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
             borderRadius: "8px",
@@ -320,7 +352,7 @@ export const CreateGoal = ({
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
             borderRadius: "8px",
           }}

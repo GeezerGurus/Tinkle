@@ -21,7 +21,6 @@ import { postSetting } from "../../api/generalSettings";
 const Form = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
 
   const [errors, setErrors] = useState({});
   const [page, setPage] = useState("sign-up");
@@ -180,7 +179,7 @@ const Form = () => {
             <>
               <Typography
                 variant={isSmallScreen ? "h6" : "h3"}
-                sx={{ color: colors.text.tex1}}
+                sx={{ color: colors.text.tex1 }}
                 gutterBottom
               >
                 Let's Sign Up!
@@ -250,8 +249,8 @@ const Form = () => {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.password}
-                helperText={errors.password}
+                error={!!errors.password || !!errors.confirmPassword}
+                helperText={errors.password || errors.confirmPassword}
               />
               <TextField
                 name="confirmPassword"
@@ -344,8 +343,8 @@ const Form = () => {
                 InputProps={{
                   sx: { height: isSmallScreen ? "45px" : undefined },
                 }}
-                error={!!errors.loginUserName}
-                helperText={errors.loginUserName}
+                error={!!errors.loginUserName || !!errors.username}
+                helperText={errors.loginUserName || errors.username}
               />
               <TextField
                 name="email"
@@ -383,8 +382,8 @@ const Form = () => {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.loginPassword}
-                helperText={errors.loginPassword}
+                error={!!errors.loginPassword || !!errors.password}
+                helperText={errors.loginPassword || errors.password}
               />
               <Button
                 variant="contained"

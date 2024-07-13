@@ -39,7 +39,7 @@ const Transfer = ({ onClose, accounts, categories }) => {
   const validateForm = () => {
     const errors = {};
     if (!fromAcc) {
-      errors.fromAcc = "Account is required";
+      errors.fromAcc = "Select an account";
     }
     if (!toAcc) {
       errors.toAcc = "Account is required";
@@ -54,6 +54,9 @@ const Transfer = ({ onClose, accounts, categories }) => {
     }
     if (!date) {
       errors.date = "Date is required";
+    }
+    if (!category) {
+      errors.category = "Select a category";
     }
 
     setErrors(errors);
@@ -224,8 +227,10 @@ const Transfer = ({ onClose, accounts, categories }) => {
       <TextField
         fullWidth
         select
+        required
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: {
@@ -235,8 +240,9 @@ const Transfer = ({ onClose, accounts, categories }) => {
         label="Category"
         value={category}
         onChange={(event) => setCategory(event.target.value)}
-        displayEmpty
         disabled={categories.length === 0}
+        error={!!errors.category}
+        helperText={errors.category}
       >
         {categories.map((category) => (
           <MenuItem key={category._id} value={category._id}>

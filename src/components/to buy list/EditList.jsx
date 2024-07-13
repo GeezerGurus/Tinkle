@@ -16,10 +16,23 @@ const EditList = ({ onClose, id, name, description, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [listName, setListName] = useState(name || "");
   const [listDescription, setListDescription] = useState(description || "");
 
+  const validateForm = () => {
+    const errors = {};
+    if (!listName) {
+      errors.listName = "Name is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       const EditedList = {
         name: listName,
@@ -70,6 +83,8 @@ const EditList = ({ onClose, id, name, description, refresh }) => {
         InputProps={{
           sx: { height: isSmallScreen ? "42px" : undefined },
         }}
+        error={!!errors.listName}
+        helperText={errors.listName}
       />
       <TextField
         placeholder="Enter a description (optional)"

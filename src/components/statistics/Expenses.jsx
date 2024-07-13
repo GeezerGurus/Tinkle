@@ -64,7 +64,6 @@ const Expenses = () => {
   const expenses =
     records?.filter((expense) => expense.type === "expense") || [];
 
-  console.log(expenses);
   // Function to group and sum the expenses by category
   const groupAndSumByCategory = (expenses) => {
     return expenses.reduce((acc, expense) => {
@@ -86,8 +85,6 @@ const Expenses = () => {
   };
 
   const summedExpenses = Object.values(groupAndSumByCategory(expenses));
-
-  console.log(summedExpenses);
 
   return (
     <Paper

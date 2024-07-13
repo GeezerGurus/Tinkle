@@ -45,7 +45,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   const validateForm = () => {
     const errors = {};
     if (!acc && selectedOption === "account") {
-      errors.acc = "Account is required";
+      errors.acc = "Select an account";
     }
     if (!budget && selectedOption === "budget") {
       errors.budget = "Budget is required";
@@ -60,6 +60,9 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
     }
     if (!date) {
       errors.date = "Date is required";
+    }
+    if (!category) {
+      errors.category = "Select a category";
     }
     setErrors(errors);
 
@@ -159,6 +162,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
           InputProps={{
             sx: {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+              color: colors.button.button1,
             },
           }}
           error={!!errors.acc}
@@ -200,7 +204,6 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
           label="Budget"
           value={budget}
           onChange={(event) => setBudget(event.target.value)}
-          displayEmpty
           error={!!errors.budget}
           helperText={errors.budget}
           disabled={budgets.length === 0}
@@ -257,8 +260,10 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
       <TextField
         fullWidth
         select
+        required
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: {
@@ -268,8 +273,9 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
         label="Category"
         value={category}
         onChange={(event) => setCategory(event.target.value)}
-        displayEmpty
         disabled={categories.length === 0}
+        error={!!errors.category}
+        helperText={errors.category}
       >
         {categories.map((category) => (
           <MenuItem key={category._id} value={category._id}>

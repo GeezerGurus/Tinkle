@@ -228,8 +228,8 @@ const EditDebtList = ({
           sx: { height: isLaptop ? "42px" : undefined },
         }}
       >
-        {AccountsData.map((account) => (
-          <MenuItem key={account.id} value={account._id}>
+        {AccountsData.map((account, index) => (
+          <MenuItem key={index} value={account._id}>
             <Item
               // icon={<account.icon />}
               text={account.name}

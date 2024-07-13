@@ -39,7 +39,9 @@ const EditButton = ({ onClick }) => {
       }}
       onClick={onClick}
     >
-      <Typography variant="body2" color={colors.text.text1}>Edit</Typography>
+      <Typography variant="body2" color={colors.text.text1}>
+        Edit
+      </Typography>
     </Button>
   );
 };
@@ -64,9 +66,11 @@ const Profile = () => {
   const [selectedEmail, setSelectedEmail] = useState(userData.email);
   const [selectedPhone, setSelectedPhone] = useState(userData.phoneNo);
 
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const onlyMedium = useMediaQuery(theme.breakpoints.between("sm", "md"));
 
   const updateProfile = async () => {
     const data = {
@@ -101,7 +105,7 @@ const Profile = () => {
           /^uploads[\\/]+/,
           ""
         );
-        const profilePhotoURL = `http://localhost:3000/uploads/${profilePhotoPath}`;
+        const profilePhotoURL = `https://tinkle-production-ad04.up.railway.app/uploads/${profilePhotoPath}`;
         setProfilePic(profilePhotoURL);
       }
       setIsLoading(false);
@@ -115,6 +119,53 @@ const Profile = () => {
     fetchUser();
   }, []);
 
+  const Buttons = ({ setOpenInput }) => {
+    return (
+      <Stack
+        direction={isSmallest ? "row" : isSmallScreen ? "column" : "row"}
+        gap={1}
+      >
+        <Button
+          onClick={() => {
+            updateProfile();
+            setOpenInput(false);
+          }}
+          sx={{
+            width: isMediumScreen
+              ? isSmallScreen
+                ? 60
+                : 80
+              : isSmallLaptop
+              ? 90
+              : 101,
+            textTransform: "none",
+            backgroundColor: colors.button.button1,
+            color: colors.text.text1,
+          }}
+        >
+          <Typography variant="body1">Save</Typography>
+        </Button>
+        <Button
+          sx={{
+            width: isMediumScreen
+              ? isSmallScreen
+                ? 60
+                : 80
+              : isSmallLaptop
+              ? 90
+              : 101,
+            textTransform: "none",
+            backgroundColor: colors.button.button2,
+            color: colors.text.text2,
+          }}
+          onClick={() => setOpenInput(false)}
+        >
+          <Typography variant="body1">Cancel</Typography>
+        </Button>
+      </Stack>
+    );
+  };
+
   const renderInputField = (
     label,
     value,
@@ -123,7 +174,6 @@ const Profile = () => {
     setValue
   ) => (
     <Stack
-
       direction="row"
       justifyContent="space-between"
       alignItems="center"
@@ -152,46 +202,13 @@ const Profile = () => {
                 setValue(e.target.value);
               }}
             />
+            {(onlyMedium || isSmallest) && (
+              <Buttons setOpenInput={setOpenInput} />
+            )}
           </Stack>
-          <Stack direction={isMediumScreen ? "column" : "row"} gap={1}>
-            <Button
-              onClick={() => {
-                updateProfile();
-                setOpenInput(false);
-              }}
-              sx={{
-                width: isMediumScreen
-                  ? isSmallScreen
-                    ? 60
-                    : 80
-                  : isSmallLaptop
-                  ? 90
-                  : 101,
-                textTransform: "none",
-                backgroundColor: colors.button.button1,
-                color: colors.text.text1
-              }}
-            >
-              <Typography variant="body1">Save</Typography>
-            </Button>
-            <Button
-              sx={{
-                width: isMediumScreen
-                  ? isSmallScreen
-                    ? 60
-                    : 80
-                  : isSmallLaptop
-                  ? 90
-                  : 101,
-                textTransform: "none",
-                backgroundColor: colors.button.button2,
-                color: colors.text.text2
-              }}
-              onClick={() => setOpenInput(false)}
-            >
-              <Typography variant="body1">Cancel</Typography>
-            </Button>
-          </Stack>
+          {!onlyMedium && !isSmallest && (
+            <Buttons setOpenInput={setOpenInput} />
+          )}
         </>
       ) : (
         <>
@@ -220,11 +237,15 @@ const Profile = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        bgcolor: colors.backGround
+        bgcolor: colors.backGround,
       }}
     >
       <Paper
-        sx={{ width: isSmallScreen ? "95%" : "64%", borderRadius: "22px", bgcolor: colors.panel.panel1 }}
+        sx={{
+          width: isSmallScreen ? "95%" : "64%",
+          borderRadius: "22px",
+          bgcolor: colors.panel.panel1,
+        }}
       >
         {/* Banner  */}
         <Box
@@ -261,16 +282,18 @@ const Profile = () => {
                 src={profilePic}
                 alt="avatar"
                 sx={{
-                  borderColor: colors.panel.panelBorder,
                   width: isSmallScreen ? 120 : 155,
                   height: isSmallScreen ? 120 : 155,
-                  border: "15px solid",
+                  border: `15px solid ${colors.panel.panelBorder}`,
                   top: -56,
                 }}
               />
               <Stack
                 alignItems={isSmallScreen ? "center" : undefined}
-                sx={{ mt: isSmallScreen ? -5 : undefined, color: colors.text.text1 }}
+                sx={{
+                  mt: isSmallScreen ? -5 : undefined,
+                  color: colors.text.text1,
+                }}
               >
                 <Typography variant={isMediumScreen ? "h6" : "h3"}>
                   {userData.username}
@@ -288,7 +311,7 @@ const Profile = () => {
                 textTransform: "none",
                 backgroundColor: colors.button.button1,
                 "&:hover": { backgroundColor: colors.button.button2 },
-                color: colors.text.text1
+                color: colors.text.text1,
               }}
               onClick={() => setOpenProfilePicModal(true)}
             >
@@ -307,7 +330,7 @@ const Profile = () => {
               alignItems: "center",
               gap: 2,
               bgcolor: colors.panel.panelBorder,
-              color: colors.text.text2
+              color: colors.text.text2,
             }}
           >
             <Box
@@ -354,8 +377,8 @@ const Profile = () => {
                 borderRadius: "4px",
                 textTransform: "none",
                 backgroundColor: colors.button.button1,
-                "&:hover": { backgroundColor: colors.button.button2},
-                color: colors.text.text1
+                "&:hover": { backgroundColor: colors.button.button2 },
+                color: colors.text.text1,
               }}
             >
               <Typography variant="body2">Change Password</Typography>

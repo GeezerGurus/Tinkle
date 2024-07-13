@@ -22,14 +22,8 @@ const CreateDebtRecord = ({ onClose, debtId, action, debtAmount, refresh }) => {
   const colors = tokens(theme.palette.mode);
 
   const [errors, setErrors] = useState({});
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
-  const [accountsData, setAccountsData] = useState([]);
-  const [selectedOption, setSelectedOption] = useState([]);
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setSelectedOption(typeof value === "string" ? value.split(",") : value);
-  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -49,14 +43,6 @@ const CreateDebtRecord = ({ onClose, debtId, action, debtAmount, refresh }) => {
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      const AccountsData = await getAccounts();
-      setAccountsData(AccountsData);
-    };
-    fetchAccounts();
-  }, []);
 
   const postItem = async () => {
     if (!validateForm()) {

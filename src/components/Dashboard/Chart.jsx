@@ -70,7 +70,6 @@ export const Chart = () => {
   const expenses =
     records?.filter((expense) => expense.type === "expense") || [];
 
-  console.log(expenses);
   // Function to group and sum the expenses by category
   const groupAndSumByCategory = (expenses) => {
     return expenses.reduce((acc, expense) => {
@@ -103,7 +102,7 @@ export const Chart = () => {
         justifyContent: "space-between",
         padding: "16px 24px",
         borderRadius: "16px",
-        bgcolor: colors.panel.panel1
+        bgcolor: colors.panel.panel1,
       }}
     >
       <Box

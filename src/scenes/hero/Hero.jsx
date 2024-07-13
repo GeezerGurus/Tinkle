@@ -44,7 +44,7 @@ import { Heroavatarprofile } from "../../components/hero";
 import { Directions } from "@mui/icons-material";
 const Hero = () => {
   const theme = useTheme();
-  
+
   const [currentSection, setCurrentSection] = useState("past");
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
@@ -75,9 +75,9 @@ const Hero = () => {
 
     return () => clearInterval(interval);
   }, []);
-  
+
   const getColor = (section) =>
-    currentSection === section ?"#8884DC" : "#7F7F7F";
+    currentSection === section ? "#8884DC" : "#7F7F7F";
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -85,15 +85,14 @@ const Hero = () => {
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
-  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   return (
-    <Box color="#000000"
+    <Box
+      color="#000000"
       sx={{
         backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
-        
+
         backgroundRepeat: "no-repeat",
       }}
     >
@@ -187,11 +186,11 @@ const Hero = () => {
             sx={{
               width: "104px",
               height: "40px",
-              backgroundColor:"#8884DC",
+              backgroundColor: "#8884DC",
               color: "white",
               borderRadius: "48px",
               "&:hover": {
-                backgroundColor: "#CECCF9" ,
+                backgroundColor: "#CECCF9",
               },
               textTransform: "none",
             }}
@@ -226,14 +225,13 @@ const Hero = () => {
           <Typography
             variant={isSmallScreen ? "title2" : "title5"}
             gutterBottom
-            
             textAlign={"center"}
           >
             Let's Make Your Finance Glow With{" "}
             <Typography
               component="span"
               variant={isSmallScreen ? "title2" : "title5"}
-              sx={{ color:"#8884DC" }}
+              sx={{ color: "#8884DC" }}
             >
               Tinkle
             </Typography>
@@ -261,8 +259,8 @@ const Hero = () => {
               mt: 5,
               width: "293px",
               height: "44px",
-              backgroundColor:"#8884DC",
-              "&:hover": { backgroundColor: "#CECCF9"},
+              backgroundColor: "#8884DC",
+              "&:hover": { backgroundColor: "#CECCF9" },
               borderRadius: "8px",
               textTransform: "none",
             }}
@@ -317,7 +315,7 @@ const Hero = () => {
               <Typography
                 component="span"
                 variant={isSmallScreen ? "h6" : "title4"}
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
               >
                 Tinkle{" "}
               </Typography>
@@ -543,7 +541,7 @@ const Hero = () => {
               <Typography variant={"title1"}>Tired of Forgetting:</Typography>
               <Typography
                 variant={isSmallScreen ? "title1" : "title3"}
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
                 gutterBottom
               >
                 The Person You Lent Your Money to?
@@ -600,7 +598,7 @@ const Hero = () => {
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color: "#525085"}}
+                sx={{ color: "#525085" }}
                 gutterBottom
               >
                 The Things To Buy?{" "}
@@ -620,7 +618,7 @@ const Hero = () => {
               <Typography variant="title1">Want To List:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
                 gutterBottom
               >
                 The Person You Owe Money to?{" "}
@@ -666,7 +664,7 @@ const Hero = () => {
             <Stack direction={"row"} columnGap={2} justifyContent={"center"}>
               <Typography
                 variant={isSmallScreen ? "title1" : "title3"}
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
                 gutterBottom
               >
                 Business?
@@ -688,18 +686,14 @@ const Hero = () => {
         </Stack>
 
         {/* our team pages  */}
-        <Stack
-          
-          width={"100%"}
-          alignItems={"center"}
-          mb={7}
-          id="about"
-        >
+        <Stack width={"100%"} alignItems={"center"} mb={7} id="about">
           <Typography variant="title3">Meet Our Team</Typography>
           <Typography
             variant="title4"
             gutterBottom
-            textAlign={isSmallScreen ? "center" : isMediumScreen?"center" :undefined}
+            textAlign={
+              isSmallScreen ? "center" : isMediumScreen ? "center" : undefined
+            }
             sx={{ color: "#3F3D66" }}
           >
             Passionate, Proactive, Resilient
@@ -716,14 +710,13 @@ const Hero = () => {
               // direction={isSmallScreen?"column":"row"}
               justifyContent={"center"}
               padding={"40px 32px"}
-              
               position={"relative"}
             >
               <img
                 src={RightArrowImage2}
                 alt=""
                 style={{
-                  height:  isMediumScreen?"15vw":"40%",
+                  height: isMediumScreen ? "15vw" : "40%",
                   position: "absolute",
                   objectFit: "contain",
                   top: "-30px",
@@ -733,6 +726,7 @@ const Hero = () => {
 
               {profiles.map((profile, index) => (
                 <Heroavatarprofile
+                  key={index}
                   code={profile.code}
                   name={profile.name}
                   job={profile.job}
@@ -755,15 +749,20 @@ const Hero = () => {
                 src={LeftArrowImage2}
                 alt=""
                 style={{
-                  height: isMediumScreen?"15vw":isLargeScreen?"20vw":"40%",
+                  height: isMediumScreen
+                    ? "15vw"
+                    : isLargeScreen
+                    ? "20vw"
+                    : "40%",
                   position: "absolute",
                   objectFit: "contain",
                   bottom: 50,
-                  left:isLargeScreen?"24px":"-56px",
+                  left: isLargeScreen ? "24px" : "-56px",
                 }}
               />
               {profiles2.map((profile, index) => (
                 <Heroavatarprofile
+                  key={index}
                   code={profile.code}
                   name={profile.name}
                   job={profile.job}
@@ -771,7 +770,11 @@ const Hero = () => {
               ))}
             </Stack>
           </Stack>
-          <Typography textAlign={"center"} variant="Hbody1" sx={{ color: "#3F3D66"}}>
+          <Typography
+            textAlign={"center"}
+            variant="Hbody1"
+            sx={{ color: "#3F3D66" }}
+          >
             We lead with care -- We work with trust -- We strive for quality --
             We strive for uniqueness
           </Typography>
@@ -848,7 +851,7 @@ const Hero = () => {
               <Typography
                 gutterBottom
                 variant={isSmallScreen ? "body3" : "title1"}
-                sx={{ color: "#3F3D66"}}
+                sx={{ color: "#3F3D66" }}
               >
                 Reach Out Directly
               </Typography>
@@ -933,7 +936,6 @@ const Hero = () => {
             gap={2}
             marginBottom={"20px"}
             height={"auto"}
-            g
           >
             <Typography variant="title1" sx={{ color: "#3F3D66" }}>
               Quick Answers
@@ -946,7 +948,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -974,7 +976,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -1002,7 +1004,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -1030,7 +1032,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -1058,7 +1060,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -1166,7 +1168,7 @@ const Hero = () => {
           </Typography>
           <Stack direction={"row"} gap={2.5}>
             <i
-              class="fi fi-brands-facebook"
+              className="fi fi-brands-facebook"
               style={{
                 width: "32px",
                 height: "32px",
@@ -1175,7 +1177,7 @@ const Hero = () => {
               }}
             />
             <i
-              class="fi fi-brands-youtube"
+              className="fi fi-brands-youtube"
               style={{
                 width: "32px",
                 height: "32px",
@@ -1184,7 +1186,7 @@ const Hero = () => {
               }}
             ></i>
             <i
-              class="fi fi-brands-discord"
+              className="fi fi-brands-discord"
               style={{
                 width: "32px",
                 height: "32px",
@@ -1193,7 +1195,7 @@ const Hero = () => {
               }}
             ></i>
             <i
-              class="fi fi-brands-github"
+              className="fi fi-brands-github"
               style={{
                 width: "32px",
                 height: "32px",
@@ -1202,7 +1204,7 @@ const Hero = () => {
               }}
             ></i>
             <i
-              class="fi fi-brands-figma"
+              className="fi fi-brands-figma"
               style={{
                 width: "32px",
                 height: "32px",

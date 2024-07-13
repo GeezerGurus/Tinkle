@@ -31,7 +31,7 @@ const Progress = ({ percent, height, showPercentText, barColor, bgColor }) => {
           value={remainingPercent}
           sx={{
             height: height || 17,
-            bgcolor: bgColor || colors.extra.light_grey,
+            bgcolor: bgColor || colors.barMeter.gray,
             direction: "rtl",
             "& .MuiLinearProgress-bar": {
               bgcolor: getBarColor(),

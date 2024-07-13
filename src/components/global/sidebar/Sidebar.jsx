@@ -176,7 +176,7 @@ const Sidebar = ({ mode }) => {
       setJob(res.job);
       if (res.profilePhoto) {
         const profilePhotoPath = res.profilePhoto.replace(/^uploads[\\/]/, "");
-        const profilePhotoURL = `http://localhost:3000/uploads/${profilePhotoPath}`;
+        const profilePhotoURL = `https://tinkle-production-ad04.up.railway.app/uploads/${profilePhotoPath}`;
         setProfilePhoto(profilePhotoURL);
       }
     } catch (error) {

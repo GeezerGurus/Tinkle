@@ -6,7 +6,6 @@ export const postAccount = async (data) => {
     return response.data;
   } catch (error) {
     console.error("Error adding new account:", error);
-    throw error;
   }
 };
 export const getAccounts = async () => {
@@ -15,7 +14,6 @@ export const getAccounts = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching Accounts:", error);
-    throw error;
   }
 };
 
@@ -25,7 +23,6 @@ export const getAccount = async (accountId) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching an Account:", error);
-    throw error;
   }
 };
 
@@ -35,7 +32,6 @@ export const patchAccount = async (accountId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating Accounts ${accountId}:`, error);
-    throw error;
   }
 };
 
@@ -45,6 +41,5 @@ export const deleteAccount = async (accountId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting Account ${accountId}:`, error);
-    throw error;
   }
 };

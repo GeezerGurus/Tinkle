@@ -1,14 +1,13 @@
 import api from "./api";
 
 export const postSetting = async () => {
-    try {
-      const response = await api.post("/setting");
-      return response.data;
-    } catch (error) {
-      console.error("Error adding setting:", error);
-      throw error;
-    }
-  };
+  try {
+    const response = await api.post("/setting");
+    return response.data;
+  } catch (error) {
+    console.error("Error adding setting:", error);
+  }
+};
 
 export const getSettings = async () => {
   try {
@@ -24,7 +23,6 @@ export const patchSettings = async (settingsId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating settings ${settingsId}:`, error);
-    throw error;
   }
 };
 
@@ -34,6 +32,5 @@ export const deleteUser = async () => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting user:`, error);
-    throw error;
   }
 };

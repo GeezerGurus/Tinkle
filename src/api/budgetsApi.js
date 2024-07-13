@@ -33,7 +33,6 @@ export const postBudget = async (data) => {
     return response.data;
   } catch (error) {
     console.error("Error adding new budget:", error);
-    throw error;
   }
 };
 
@@ -43,7 +42,6 @@ export const patchBudget = async (budgetId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating budget ${budgetId}:`, error);
-    throw error;
   }
 };
 
@@ -53,6 +51,5 @@ export const deleteBudget = async (budgetId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting budget ${budgetId}:`, error);
-    throw error;
   }
 };

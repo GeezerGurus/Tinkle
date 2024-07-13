@@ -65,7 +65,7 @@ export const Reached = ({isSmallScreen,state}) => {
             bgcolor={list.color}
             name={list.name}
             goal={list.amount}
-            saved={list.amount}
+            saved={list.saveamount}
             createdAt={list.createdAt}
             updatedAt={list.updatedAt}
             date={list.desireDate}

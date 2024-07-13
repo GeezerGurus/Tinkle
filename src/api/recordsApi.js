@@ -24,7 +24,6 @@ export const postRecord = async (data) => {
     return response.data;
   } catch (error) {
     console.error("Error adding new record:", error);
-    throw error;
   }
 };
 
@@ -34,7 +33,6 @@ export const patchRecord = async (recordId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating record ${recordId}:`, error);
-    throw error;
   }
 };
 
@@ -44,6 +42,5 @@ export const deleteRecord = async (recordId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting record ${recordId}:`, error);
-    throw error;
   }
 };

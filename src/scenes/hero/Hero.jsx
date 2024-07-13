@@ -8,7 +8,6 @@ import {
   useTheme,
   Divider,
   Accordion,
-  Avatar,
   AccordionSummary,
   AccordionDetails,
   Grid,
@@ -41,16 +40,16 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Form from "../../components/auth/Form";
 import { Heroavatarprofile } from "../../components/hero";
-import { Directions } from "@mui/icons-material";
+import { Index0Image } from "../../assets/profiles";
 const Hero = () => {
   const theme = useTheme();
-  
+
   const [currentSection, setCurrentSection] = useState("past");
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
 
   const profiles = [
-    { code: "0", name: "Wai Yan Htut", job: "DL" },
+    { code: "0", name: "Wai Yan Htut", job: "DL", image: Index0Image },
     { code: "01", name: "Yei Khant Lwin", job: "Backman" },
     { code: "02", name: "Zayar Naing", job: "Master Procrastinator" },
     { code: "03", name: "Zaw Lin Naing", job: "Broken Coder" },
@@ -58,11 +57,12 @@ const Hero = () => {
   ];
 
   const profiles2 = [
+    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
     { code: "05", name: "Ye Yint Naing Oo", job: "One for all" },
-    { code: "08", name: "Sithu", job: "A Ba" },
     { code: "06", name: "Sai Sai Lin Htet", job: "E Boy" },
     { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
-    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
+    { code: "08", name: "Sithu", job: "A Ba" },
+    
   ];
 
   useEffect(() => {
@@ -75,9 +75,9 @@ const Hero = () => {
 
     return () => clearInterval(interval);
   }, []);
-  
+
   const getColor = (section) =>
-    currentSection === section ?"#8884DC" : "#7F7F7F";
+    currentSection === section ? "#8884DC" : "#7F7F7F";
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -89,11 +89,12 @@ const Hero = () => {
   const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   return (
-    <Box color="#000000"
+    <Box
+      color="#000000"
       sx={{
         backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
-        
+
         backgroundRepeat: "no-repeat",
       }}
     >
@@ -187,11 +188,11 @@ const Hero = () => {
             sx={{
               width: "104px",
               height: "40px",
-              backgroundColor:"#8884DC",
+              backgroundColor: "#8884DC",
               color: "white",
               borderRadius: "48px",
               "&:hover": {
-                backgroundColor: "#CECCF9" ,
+                backgroundColor: "#CECCF9",
               },
               textTransform: "none",
             }}
@@ -226,14 +227,17 @@ const Hero = () => {
           <Typography
             variant={isSmallScreen ? "title2" : "title5"}
             gutterBottom
-            
             textAlign={"center"}
           >
             Let's Make Your Finance Glow With{" "}
             <Typography
               component="span"
               variant={isSmallScreen ? "title2" : "title5"}
-              sx={{ color:"#8884DC" }}
+              sx={{
+                color: "transparent",
+                backgroundImage: `linear-gradient(to right, #6a11cb, #2575fc)`,
+                backgroundClip: "text",
+              }}
             >
               Tinkle
             </Typography>
@@ -261,8 +265,8 @@ const Hero = () => {
               mt: 5,
               width: "293px",
               height: "44px",
-              backgroundColor:"#8884DC",
-              "&:hover": { backgroundColor: "#CECCF9"},
+              backgroundColor: "#8884DC",
+              "&:hover": { backgroundColor: "#CECCF9" },
               borderRadius: "8px",
               textTransform: "none",
             }}
@@ -283,10 +287,12 @@ const Hero = () => {
             position={"absolute"}
           >
             <img
+              alt=""
               src={LeftArrowImage}
               style={{ width: "6%", objectFit: "contain" }}
             />
             <img
+              alt=""
               src={RightArrowImage}
               style={{ width: "10%", objectFit: "contain" }}
             />
@@ -317,7 +323,7 @@ const Hero = () => {
               <Typography
                 component="span"
                 variant={isSmallScreen ? "h6" : "title4"}
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
               >
                 Tinkle{" "}
               </Typography>
@@ -543,7 +549,7 @@ const Hero = () => {
               <Typography variant={"title1"}>Tired of Forgetting:</Typography>
               <Typography
                 variant={isSmallScreen ? "title1" : "title3"}
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
                 gutterBottom
               >
                 The Person You Lent Your Money to?
@@ -600,7 +606,7 @@ const Hero = () => {
               <Typography variant="title1">Tired of Forgetting:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color: "#525085"}}
+                sx={{ color: "#525085" }}
                 gutterBottom
               >
                 The Things To Buy?{" "}
@@ -620,7 +626,7 @@ const Hero = () => {
               <Typography variant="title1">Want To List:</Typography>
               <Typography
                 variant="title3"
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
                 gutterBottom
               >
                 The Person You Owe Money to?{" "}
@@ -666,7 +672,7 @@ const Hero = () => {
             <Stack direction={"row"} columnGap={2} justifyContent={"center"}>
               <Typography
                 variant={isSmallScreen ? "title1" : "title3"}
-                sx={{ color:"#8884DC" }}
+                sx={{ color: "#8884DC" }}
                 gutterBottom
               >
                 Business?
@@ -688,18 +694,14 @@ const Hero = () => {
         </Stack>
 
         {/* our team pages  */}
-        <Stack
-          
-          width={"100%"}
-          alignItems={"center"}
-          mb={7}
-          id="about"
-        >
+        <Stack width={"100%"} alignItems={"center"} mb={7} id="about">
           <Typography variant="title3">Meet Our Team</Typography>
           <Typography
             variant="title4"
             gutterBottom
-            textAlign={isSmallScreen ? "center" : isMediumScreen?"center" :undefined}
+            textAlign={
+              isSmallScreen ? "center" : isMediumScreen ? "center" : undefined
+            }
             sx={{ color: "#3F3D66" }}
           >
             Passionate, Proactive, Resilient
@@ -716,14 +718,13 @@ const Hero = () => {
               // direction={isSmallScreen?"column":"row"}
               justifyContent={"center"}
               padding={"40px 32px"}
-              
               position={"relative"}
             >
               <img
                 src={RightArrowImage2}
                 alt=""
                 style={{
-                  height:  isMediumScreen?"15vw":"40%",
+                  height: isMediumScreen ? "15vw" : "40%",
                   position: "absolute",
                   objectFit: "contain",
                   top: "-30px",
@@ -736,6 +737,7 @@ const Hero = () => {
                   code={profile.code}
                   name={profile.name}
                   job={profile.job}
+                  image={profile.image}
                 />
               ))}
             </Stack>
@@ -755,11 +757,15 @@ const Hero = () => {
                 src={LeftArrowImage2}
                 alt=""
                 style={{
-                  height: isMediumScreen?"15vw":isLargeScreen?"20vw":"40%",
+                  height: isMediumScreen
+                    ? "15vw"
+                    : isLargeScreen
+                    ? "20vw"
+                    : "40%",
                   position: "absolute",
                   objectFit: "contain",
                   bottom: 50,
-                  left:isLargeScreen?"24px":"-56px",
+                  left: isLargeScreen ? "24px" : "-56px",
                 }}
               />
               {profiles2.map((profile, index) => (
@@ -771,7 +777,11 @@ const Hero = () => {
               ))}
             </Stack>
           </Stack>
-          <Typography textAlign={"center"} variant="Hbody1" sx={{ color: "#3F3D66"}}>
+          <Typography
+            textAlign={"center"}
+            variant="Hbody1"
+            sx={{ color: "#3F3D66" }}
+          >
             We lead with care -- We work with trust -- We strive for quality --
             We strive for uniqueness
           </Typography>
@@ -848,7 +858,7 @@ const Hero = () => {
               <Typography
                 gutterBottom
                 variant={isSmallScreen ? "body3" : "title1"}
-                sx={{ color: "#3F3D66"}}
+                sx={{ color: "#3F3D66" }}
               >
                 Reach Out Directly
               </Typography>
@@ -858,9 +868,14 @@ const Hero = () => {
               >
                 Prefer to send us and email or give us a call?
                 <br />
-                Email:{" "}
-                <a href="" style={{ textDecoration: "none" }}>
-                  geezersco@gmail.com
+                Email:
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="mailto:geezergurus@gmail.com"
+                  style={{ textDecoration: "none" }}
+                >
+                  geezergurus@gmail.com
                 </a>
               </Typography>
             </Stack>
@@ -918,9 +933,12 @@ const Hero = () => {
                 variant={isSmallScreen ? "body5" : "Hbody2"}
                 textAlign={"center"}
               >
-                Come chat with us any time on our official Face Book Page.
+                Come chat with us any time on our official Facebook Page.
                 <br />
-                <a href="" style={{ textDecoration: "none" }}>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61562018345946&mibextid=LQQJ4d"
+                  style={{ textDecoration: "none" }}
+                >
                   Geezers Co.
                 </a>
               </Typography>
@@ -946,7 +964,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -954,15 +972,14 @@ const Hero = () => {
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
               >
-                <Typography variant="Hbody2">
-                  How can I contact support?
-                </Typography>
+                <Typography variant="Hbody2">What is Tinkle?</Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  You can contact our support team via email or phone. Visit the
-                  Support section on our website for more information.
+                  Tinkle is an intuitive and user-friendly web app designed to
+                  help you manage your finances, track expenses, and create
+                  budgets efficiently.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -974,7 +991,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -983,14 +1000,15 @@ const Hero = () => {
                 id="panel2bh-header"
               >
                 <Typography variant="Hbody2">
-                  Is Tinkle user-friendly?
+                  Does Tinkle support multiple currencies?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  Yes, Tinkle is designed with an intuitive interface that is
-                  easy to navigate, even for beginners.
+                  Currently, Tinkle supports transactions in the local currency
+                  (MMK). We plan to add multi-currency support in future
+                  updates.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1002,7 +1020,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -1011,14 +1029,15 @@ const Hero = () => {
                 id="panel3bh-header"
               >
                 <Typography variant="Hbody2">
-                  Can I customize the categories and budgets?
+                  How long did it take to develop Tinkle?{" "}
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  Yes, you can fully customize your expense categories and
-                  budget limits to suit your personal needs.
+                  The development of Tinkle took approximately 1 month,
+                  including planning, designing, coding, and testing. Yes, we
+                  developed it from scratch.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1030,7 +1049,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -1039,14 +1058,19 @@ const Hero = () => {
                 id="panel4bh-header"
               >
                 <Typography variant="Hbody2">
-                  Are there regular updates and improvements?
+                  What parts of Tinkle are original (authentic) and what parts
+                  are borrowed or inspired (copied)?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  The app is updated regularly, with new features and
-                  improvements released every a couple of month.
+                  The entire design of Tinkle, including both light and dark
+                  themes and its responsive layout, along with the Tinkle logo,
+                  were developed authentically using Figma. However, icons,
+                  books, videos, and images used in the signup form and profile
+                  banner were sourced from platforms like YouTube and other
+                  external sources to enrich the app's content.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1058,7 +1082,7 @@ const Hero = () => {
                 borderRadius: "16px",
                 backgroundColor: "rgba(0,0,0,0)",
                 padding: "16px",
-                color:"#000000"
+                color: "#000000",
               }}
             >
               <AccordionSummary
@@ -1067,15 +1091,15 @@ const Hero = () => {
                 id="panel5bh-header"
               >
                 <Typography variant="Hbody2">
-                  Can I use it on both iOS and Android devices?
+                  Was Tinkle developed as a special project with supervision for
+                  MIIT?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  Unfortunately for now, Tinkle is not available on both iOS and
-                  Android devices but We are working on to develop as an app
-                  version.
+                  No, Tinkle is not a special project with a supervisor. It was
+                  developed entirely by our team of 9 members.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1165,24 +1189,34 @@ const Hero = () => {
             Contact Us
           </Typography>
           <Stack direction={"row"} gap={2.5}>
-            <i
-              class="fi fi-brands-facebook"
-              style={{
-                width: "32px",
-                height: "32px",
-                fontSize: "2rem",
-                color: "#f5f5f5",
-              }}
-            />
-            <i
-              class="fi fi-brands-youtube"
-              style={{
-                width: "32px",
-                height: "32px",
-                fontSize: "2rem",
-                color: "#f5f5f5",
-              }}
-            ></i>
+            <a
+              href="https://www.facebook.com/profile.php?id=61562018345946&mibextid=LQQJ4d"
+              style={{ textDecoration: "none" }}
+            >
+              <i
+                class="fi fi-brands-facebook"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "2rem",
+                  color: "#f5f5f5",
+                }}
+              />
+            </a>
+            <a
+              href="https://www.youtube.com/@Geezers-rollin"
+              style={{ textDecoration: "none" }}
+            >
+              <i
+                class="fi fi-brands-youtube"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "2rem",
+                  color: "#f5f5f5",
+                }}
+              />
+            </a>
             <i
               class="fi fi-brands-discord"
               style={{

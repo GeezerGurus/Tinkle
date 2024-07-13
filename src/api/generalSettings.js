@@ -6,7 +6,6 @@ export const postSetting = async () => {
     return response.data;
   } catch (error) {
     console.error("Error adding setting:", error);
-    throw error;
   }
 };
 
@@ -24,7 +23,6 @@ export const patchSettings = async (settingsId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating settings ${settingsId}:`, error);
-    throw error;
   }
 };
 
@@ -35,6 +33,5 @@ export const deleteUser = async () => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting user:`, error);
-    throw error;
   }
 };

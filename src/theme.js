@@ -156,6 +156,7 @@ export const tokens = (mode) => ({
         panel: {
           panel1: "#323558",
           panel2: "#938EF5",
+          panel3: "#323558",
           panelBorder: "#AAA7F5",
         },
         barMeter: {
@@ -327,6 +328,7 @@ export const tokens = (mode) => ({
         panel: {
           panel1: "#DEDDFB",
           panel2: "#D9D9D9",
+          panel3:"#FFFFFF" ,
           panelReached: "#F5F5F5",
           panelBorder: "#E0E0E0",
         },

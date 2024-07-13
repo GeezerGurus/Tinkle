@@ -111,7 +111,6 @@ const GeneralSettings = () => {
         padding: theme.spacing(4),
         width: "100%",
         height: "100%",
-
       }}
     >
       <Paper
@@ -130,7 +129,7 @@ const GeneralSettings = () => {
           alignItems: "center",
           padding: "48px 48px",
           backgroundColor: colors.panel.panel1,
-          color : colors.text.text1
+          color: colors.text.text1,
         }}
       >
         <Box
@@ -194,10 +193,17 @@ const GeneralSettings = () => {
               </Typography>
               <FormControlLabel
                 control={
-                  <Switch checked={hideDec} onChange={handleChangeDec} />
+                  <Switch
+                    disabled
+                    checked={hideDec}
+                    onChange={handleChangeDec}
+                  />
                 }
                 label={
-                  <Typography color={colors.text.textSecondary} variant={isSmallScreen ? "body2" : "body1"}>
+                  <Typography
+                    color={colors.text.textSecondary}
+                    variant={isSmallScreen ? "body2" : "body1"}
+                  >
                     Hide decimal within amount
                   </Typography>
                 }
@@ -220,7 +226,9 @@ const GeneralSettings = () => {
             >
               <Button
                 variant="outlined"
-                startIcon={<ShieldIcon sx={{ color: colors.extra.underLine }} />}
+                startIcon={
+                  <ShieldIcon sx={{ color: colors.extra.underLine }} />
+                }
                 sx={{
                   width: "179px",
                   height: "44px",
@@ -229,7 +237,10 @@ const GeneralSettings = () => {
                   textTransform: "none",
                 }}
               >
-                <Typography variant="body2" color={colors.text.text1}> Privacy policies</Typography>
+                <Typography variant="body2" color={colors.text.text1}>
+                  {" "}
+                  Privacy policies
+                </Typography>
               </Button>
               <Button
                 variant="outlined"
@@ -244,7 +255,10 @@ const GeneralSettings = () => {
                   textTransform: "none",
                 }}
               >
-                <Typography variant="body2" color={colors.text.text1} > Terms of service </Typography>
+                <Typography variant="body2" color={colors.text.text1}>
+                  {" "}
+                  Terms of service{" "}
+                </Typography>
               </Button>
             </Stack>
           </Stack>
@@ -279,7 +293,7 @@ const GeneralSettings = () => {
               textTransform: "none",
             }}
           >
-            <Typography sx={{ lineHeight: "28px", fontSize: "15px"}}>
+            <Typography sx={{ lineHeight: "28px", fontSize: "15px" }}>
               Delete user profile and data
             </Typography>
           </Button>

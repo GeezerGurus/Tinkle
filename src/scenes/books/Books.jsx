@@ -8,11 +8,20 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import {
+  Paper,
+  Box,
+  useTheme,
+  Grid,
+  IconButton,
+  useMediaQuery,
+} from "@mui/material";
+import {
   ArrowBackIos as ArrowBackIosIcon,
   ArrowForwardIos as ArrowForwardIosIcon,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
 import BookSliderItem from "../../components/books/BookSliderItem";
+import { BookHeaderItem, BookFavouriteItem } from "../../components/books";
 import { BookHeaderItem, BookFavouriteItem } from "../../components/books";
 import { getBooks } from "../../api/booksApi";
 
@@ -25,6 +34,7 @@ const subHeaders = [
   },
   {
     header: "Business",
+  },
   },
 ];
 const Books = () => {
@@ -51,7 +61,6 @@ const Books = () => {
     fetchBooks();
   }, []);
 
-  const booksLength = lists.length;
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -78,10 +87,16 @@ const Books = () => {
     setIndex((prevIndex) =>
       prevIndex === 0 ? lists.length - 1 : prevIndex - 1
     );
+    setIndex((prevIndex) =>
+      prevIndex === 0 ? lists.length - 1 : prevIndex - 1
+    );
   };
 
   const handleNext = () => {
     setDirection("right");
+    setIndex((prevIndex) =>
+      prevIndex === lists.length - 1 ? 0 : prevIndex + 1
+    );
     console.log(`Length:${lists.length}`);
     setIndex((prevIndex) =>
       prevIndex === lists.length - 1 ? 0 : prevIndex + 1
@@ -100,7 +115,7 @@ const Books = () => {
   useEffect(() => {
     const intervalId = setInterval(handleNext, 4000); // Auto-slide every 4 seconds
     return () => clearInterval(intervalId); // Clear interval on unmount
-  }, [isLoading]);
+  }, []);
 
   return (
     <Paper
@@ -115,6 +130,7 @@ const Books = () => {
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center",
+        bgcolor: colors.backGround,
       }}
     >
       <Box

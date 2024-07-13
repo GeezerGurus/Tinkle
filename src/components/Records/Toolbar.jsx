@@ -37,6 +37,7 @@ const Toolbar = ({ tableState, setTableState }) => {
       sx={{
         width: "100%",
         height: "48px",
+        margin:"24px 0px",
         color: "black",
         display: "flex",
         flexDirection: isMediumScreen ? "column" : "row",
@@ -45,9 +46,9 @@ const Toolbar = ({ tableState, setTableState }) => {
         alignItems: "center",
       }}
     >
-      <Typography
+      <Typography 
         variant={isSmallScreen ? "h6" : "h4"}
-        sx={{ borderBottom: `3px solid ${colors.purple[600]}`, height: "100%" }}
+        sx={{ borderBottom: `3px solid ${colors.purple[600]}`, color:colors.text.text1, height: "100%" }}
       >
         Transactions
       </Typography>

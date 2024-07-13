@@ -119,62 +119,45 @@ export const tokens = (mode) => ({
         red_accent: "#FE3F2F",
         faint_black: "#111111",
         sideBar: "#080927",
-        pause: "#323558",
-        underLine: "#9591F2",
-        totalIncome: "#9591F2",
-      },
-      vibrant: {
-        yellow: "#EFE371",
-        light_blue: "#71D0EF",
-        red: "#EF7971",
-        green: "#71EFC1",
-        orange: "#EFAC71",
-        purple: "#7771EF",
-        pink: "#E071EF",
-      },
-      title: {
-        title1: "#F5F5F5",
-        title2: "#B8B5F6",
-      },
-      backGround: "#0D0F35",
-      sideBar: "#080927",
-      text: {
-        text1: "#F5F5F5",
-        text2: "#3F3D66",
-        textSecondary: "#B5B5B5",
-      },
-      icon: {
-        icon1: "#8884DC",
-        icon2: "#F5F5F5",
-      },
-      button: {
-        button1: "#6756D8",
-        button2: "#B8B5F6",
-        button3: "#525085",
-        editButton: "#23B6E7",
-      },
-      panel: {
-        panel1: "#323558",
-        panel2: "#938EF5",
-        panelBorder: "#AAA7F5",
-      },
-      barMeter: {
-        green: "#71EFC1",
-        orange: "#EFAC71",
-        yellow: "#EFE371",
-        red: "#EF7971",
-        gray: "#D6D6D6",
-      },
-      notice: {
-        warning: "#E85245",
-        accept: "#43BC63",
-      },
-      balance: {
-        account1: "#4F49E9",
-        account2: "#89C38F",
-        account3: "#807BEF",
-        account4: "#8FD6A2",
+        text: {
+          text1: "#F5F5F5",
+          text2: "#3F3D66",
+          textSecondary: "#B5B5B5",
+        },
+        icon: {
+          icon1: "#8884DC",
+          icon2: "#F5F5F5",
+        },
+        button: {
+          button1: "#6756D8",
+          button2: "#B8B5F6",
+          button3: "#525085",
+          editButton: "#23B6E7",
+        },
+        panel: {
+          panel1: "#323558",
+          panel2: "#938EF5",
+          panel3: "#323558",
+          panelBorder: "#AAA7F5",
+        },
+        barMeter: {
+          green: "#71EFC1",
+          orange: "#EFAC71",
+          yellow: "#EFE371",
+          red: "#EF7971",
+          gray: "#D6D6D6",
+        },
+        notice: {
+          warning: "#E85245",
+          accept: "#43BC63",
+        },
+        balance: {
+          account1: "#4F49E9",
+          account2: "#89C38F",
+          account3: "#807BEF",
+          account4: "#8FD6A2",
 
+        }
       }
     }
     : {
@@ -327,6 +310,7 @@ export const tokens = (mode) => ({
       panel: {
         panel1: "#DEDDFB",
         panel2: "#D9D9D9",
+        panel3: "#FFFFFF",
         panelReached: "#F5F5F5",
         panelBorder: "#E0E0E0",
       },

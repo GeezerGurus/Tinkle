@@ -24,7 +24,6 @@ export const postListToBuy = async (data) => {
     return response.data;
   } catch (error) {
     console.error("Error adding new list:", error);
-    throw error;
   }
 };
 
@@ -34,7 +33,6 @@ export const patchListToBuy = async (tobuylistId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating list ${tobuylistId}:`, error);
-    throw error;
   }
 };
 
@@ -44,6 +42,5 @@ export const deleteListToBuy = async (tobuylistId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting list ${tobuylistId}:`, error);
-    throw error;
   }
 };

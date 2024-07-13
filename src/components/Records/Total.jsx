@@ -44,7 +44,8 @@ const Total = ({ type }) => {
         // width: "400px",
         width: isMediumScreen ? "100%" : "32%",
         height: "216px",
-        backgroundColor: "white",
+        backgroundColor: colors.panel.panel3,
+        border:`1px solid ${colors.panel.panelBorder}`,
         alignItems: isSmallScreen
           ? undefined
           : isMediumScreen
@@ -54,11 +55,11 @@ const Total = ({ type }) => {
     >
       {/* Header  */}
       {type === "income" ? (
-        <Typography variant="h6" sx={{ color: colors.purple[900] }}>
+        <Typography variant="h6" sx={{ color: colors.text.text1 }}>
           Total Income You Have
         </Typography>
       ) : (
-        <Typography variant="h6" sx={{ color: colors.purple[900] }}>
+        <Typography variant="h6" sx={{ color: colors.text.text1 }}>
           Total Expense You Made
         </Typography>
       )}
@@ -89,11 +90,11 @@ const Total = ({ type }) => {
 
       {/* Percent */}
       {type === "income" ? (
-        <Typography variant="body2" sx={{ color: colors.extra.grey_accent }}>
+        <Typography variant="body2" sx={{ color: colors.text.textSecondary }}>
           This is the total income you have made this month.
         </Typography>
       ) : (
-        <Typography variant="body2" sx={{ color: colors.extra.grey_accent }}>
+        <Typography variant="body2" sx={{ color: colors.text.textSecondary }}>
           This is the total expense you have made this month.
         </Typography>
       )}

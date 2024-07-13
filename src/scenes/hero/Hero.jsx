@@ -8,7 +8,6 @@ import {
   useTheme,
   Divider,
   Accordion,
-  Avatar,
   AccordionSummary,
   AccordionDetails,
   Grid,
@@ -41,7 +40,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Form from "../../components/auth/Form";
 import { Heroavatarprofile } from "../../components/hero";
-import { Directions } from "@mui/icons-material";
+import { Index0Image } from "../../assets/profiles";
 const Hero = () => {
   const theme = useTheme();
 
@@ -50,7 +49,7 @@ const Hero = () => {
   const [open, setOpen] = useState(false);
 
   const profiles = [
-    { code: "0", name: "Wai Yan Htut", job: "DL" },
+    { code: "0", name: "Wai Yan Htut", job: "DL", image: Index0Image },
     { code: "01", name: "Yei Khant Lwin", job: "Backman" },
     { code: "02", name: "Zayar Naing", job: "Master Procrastinator" },
     { code: "03", name: "Zaw Lin Naing", job: "Broken Coder" },
@@ -58,11 +57,11 @@ const Hero = () => {
   ];
 
   const profiles2 = [
+    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
     { code: "05", name: "Ye Yint Naing Oo", job: "One for all" },
-    { code: "08", name: "Sithu", job: "A Ba" },
     { code: "06", name: "Sai Sai Lin Htet", job: "E Boy" },
     { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
-    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
+    { code: "08", name: "Sithu", job: "A Ba" },
   ];
 
   useEffect(() => {
@@ -281,10 +280,12 @@ const Hero = () => {
             position={"absolute"}
           >
             <img
+              alt=""
               src={LeftArrowImage}
               style={{ width: "6%", objectFit: "contain" }}
             />
             <img
+              alt=""
               src={RightArrowImage}
               style={{ width: "10%", objectFit: "contain" }}
             />
@@ -730,6 +731,7 @@ const Hero = () => {
                   code={profile.code}
                   name={profile.name}
                   job={profile.job}
+                  image={profile.image}
                 />
               ))}
             </Stack>
@@ -861,9 +863,14 @@ const Hero = () => {
               >
                 Prefer to send us and email or give us a call?
                 <br />
-                Email:{" "}
-                <a href="" style={{ textDecoration: "none" }}>
-                  geezersco@gmail.com
+                Email:
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="mailto:geezergurus@gmail.com"
+                  style={{ textDecoration: "none" }}
+                >
+                  geezergurus@gmail.com
                 </a>
               </Typography>
             </Stack>
@@ -921,9 +928,12 @@ const Hero = () => {
                 variant={isSmallScreen ? "body5" : "Hbody2"}
                 textAlign={"center"}
               >
-                Come chat with us any time on our official Face Book Page.
+                Come chat with us any time on our official Facebook Page.
                 <br />
-                <a href="" style={{ textDecoration: "none" }}>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61562018345946&mibextid=LQQJ4d"
+                  style={{ textDecoration: "none" }}
+                >
                   Geezers Co.
                 </a>
               </Typography>
@@ -956,15 +966,14 @@ const Hero = () => {
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
               >
-                <Typography variant="Hbody2">
-                  How can I contact support?
-                </Typography>
+                <Typography variant="Hbody2">What is Tinkle?</Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  You can contact our support team via email or phone. Visit the
-                  Support section on our website for more information.
+                  Tinkle is an intuitive and user-friendly web app designed to
+                  help you manage your finances, track expenses, and create
+                  budgets efficiently.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -985,14 +994,15 @@ const Hero = () => {
                 id="panel2bh-header"
               >
                 <Typography variant="Hbody2">
-                  Is Tinkle user-friendly?
+                  Does Tinkle support multiple currencies?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  Yes, Tinkle is designed with an intuitive interface that is
-                  easy to navigate, even for beginners.
+                  Currently, Tinkle supports transactions in the local currency
+                  (MMK). We plan to add multi-currency support in future
+                  updates.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1013,14 +1023,15 @@ const Hero = () => {
                 id="panel3bh-header"
               >
                 <Typography variant="Hbody2">
-                  Can I customize the categories and budgets?
+                  How long did it take to develop Tinkle?{" "}
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  Yes, you can fully customize your expense categories and
-                  budget limits to suit your personal needs.
+                  The development of Tinkle took approximately 1 month,
+                  including planning, designing, coding, and testing. Yes, we
+                  developed it from scratch.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1041,14 +1052,19 @@ const Hero = () => {
                 id="panel4bh-header"
               >
                 <Typography variant="Hbody2">
-                  Are there regular updates and improvements?
+                  What parts of Tinkle are original (authentic) and what parts
+                  are borrowed or inspired (copied)?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  The app is updated regularly, with new features and
-                  improvements released every a couple of month.
+                  The entire design of Tinkle, including both light and dark
+                  themes and its responsive layout, along with the Tinkle logo,
+                  were developed authentically using Figma. However, icons,
+                  books, videos, and images used in the signup form and profile
+                  banner were sourced from platforms like YouTube and other
+                  external sources to enrich the app's content.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1069,15 +1085,15 @@ const Hero = () => {
                 id="panel5bh-header"
               >
                 <Typography variant="Hbody2">
-                  Can I use it on both iOS and Android devices?
+                  Was Tinkle developed as a special project with supervision for
+                  MIIT?
                 </Typography>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Typography variant="Hbody3">
-                  Unfortunately for now, Tinkle is not available on both iOS and
-                  Android devices but We are working on to develop as an app
-                  version.
+                  No, Tinkle is not a special project with a supervisor. It was
+                  developed entirely by our team of 9 members.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -1168,7 +1184,7 @@ const Hero = () => {
           </Typography>
           <Stack direction={"row"} gap={2.5}>
             <i
-              className="fi fi-brands-facebook"
+              class="fi fi-brands-facebook"
               style={{
                 width: "32px",
                 height: "32px",
@@ -1177,7 +1193,7 @@ const Hero = () => {
               }}
             />
             <i
-              className="fi fi-brands-youtube"
+              class="fi fi-brands-youtube"
               style={{
                 width: "32px",
                 height: "32px",

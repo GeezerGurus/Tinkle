@@ -65,8 +65,8 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
         <Button
           component={Link} 
           to={`/books/${path}`}
-          endIcon={<ArrowForwardIosIcon sx={{ color: colors.purple[600] }} />}
-          sx={{ height: "27px", mr: 2 }}
+          endIcon={<ArrowForwardIosIcon sx={{ color: colors.button.button1 }} />}
+          sx={{ height: "27px", mr: 2, color: colors.button.button1, }}
         >
           <Typography variant="body1">View all</Typography>
         </Button>
@@ -86,7 +86,7 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
             width: isSmallScreen ? "80%" : "100%",
             height: "100%",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
           }}
         > 
           {books.filter(item => item.category === header).map((item, index) => (

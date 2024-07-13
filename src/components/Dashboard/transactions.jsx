@@ -173,7 +173,13 @@ const BasicTable = ({ colors }) => {
   }, []);
 
   return (
-    <TableContainer sx={{ overflow: "hidden", padding: "0 24px", bgcolor: colors.panel.panel1 }}>
+    <TableContainer
+      sx={{
+        overflow: "hidden",
+        padding: "0 24px",
+        bgcolor: colors.panel.panel1,
+      }}
+    >
       <Loader isLoading={isLoading} />
       <Table sx={{ border: "none" }}>
         <TableHead>
@@ -189,7 +195,25 @@ const BasicTable = ({ colors }) => {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody display="table-row-group">
+          {(!rowsData || rowsData.length === 0) && (
+            <TableRow bgcolor={colors.panel.panel1} >
+              <TableCell colSpan={5}>
+                <Box
+                  sx={{
+                    align: "center",
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography variant="body4">The List is Empty Now</Typography>
+                </Box>
+              </TableCell>
+            </TableRow>
+          )}
           {Array.isArray(rowsData) &&
             rowsData
               .slice(0, 5)
@@ -231,7 +255,7 @@ const Transactions = ({ isMediumScreen }) => {
           display: "flex",
           margin: "16px 24px 0 24px",
           justifyContent: "space-between",
-          borderBottom: `${colors.purple[600]} 1px solid`,
+          borderBottom: `${colors.extra.underLine} 1px solid`,
         }}
       >
         <Typography variant="h6">Transactions</Typography>

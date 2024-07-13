@@ -17,6 +17,7 @@ import {
   Modal,
   Paper,
   Stack,
+  colors,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -30,24 +31,45 @@ import { getAccount } from "../../api/accountApi";
 import { getBudget } from "../../api/budgetsApi";
 import { getCategory } from "../../api/categoriesApi";
 
+
+
 const CustomToolbar = ({ action }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton
-        slotProps={{ tooltip: { title: "Customize columns" } }}
+        slotProps={{ 
+          tooltip: { title: 'Customize columns' },
+          button: { style: { color: colors.text.text1 } }, // Change color as needed
+        }}
       />
-      {action === "filter" && (
+      {action === 'filter' && (
         <GridToolbarFilterButton
-          slotProps={{ tooltip: { title: "Filter the data" } }}
+          slotProps={{ 
+            tooltip: { title: 'Filter the data' },
+            button: { style: { color: colors.text.text1 } }, // Change color as needed
+          }}
         />
       )}
       <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: "Change density" } }}
+        slotProps={{ 
+          tooltip: { title: 'Change density' },
+          button: { style: { color: colors.text.text1 } }, // Change color as needed
+        }}
       />
       <Box sx={{ flexGrow: 1 }} />
-      {action === "filter" && <GridToolbarQuickFilter />}
-      {action === "export" && (
-        <GridToolbarExport slotProps={{ tooltip: { title: "Export data" } }} />
+      {action === 'filter' && (
+        <GridToolbarQuickFilter />
+      )}
+      {action === 'export' && (
+        <GridToolbarExport
+          slotProps={{ 
+            tooltip: { title: 'Export data' },
+            button: { style: { color: colors.text.text1 } }, // Change color as needed
+          }}
+        />
       )}
     </GridToolbarContainer>
   );
@@ -135,6 +157,7 @@ const TransactionsTable = ({ action }) => {
       field: "date",
       headerName: "Date",
       flex: 1,
+      
       valueFormatter: (params) => {
         return params.split("T")[0];
       },
@@ -143,6 +166,7 @@ const TransactionsTable = ({ action }) => {
       field: "category",
       headerName: "Category",
       flex: 1,
+      
       renderCell: (params) => {
         const categoryId = params.row.category;
         const category = categoryDetails[categoryId] || {};
@@ -160,6 +184,8 @@ const TransactionsTable = ({ action }) => {
       field: "entity",
       headerName: "Accounts/Budgets",
       flex: 1,
+      
+      
       valueGetter: (params, row) => {
         const entityId = row.accountId ? row.accountId : row.budgetId;
         return entityNames[entityId] || "";
@@ -171,6 +197,8 @@ const TransactionsTable = ({ action }) => {
       headerName: "Amount",
       type: "number",
       flex: 1,
+      
+      
       renderCell: (params) => {
         return (
           <Box
@@ -190,6 +218,7 @@ const TransactionsTable = ({ action }) => {
     {
       field: "actions",
       type: "actions",
+      
       headerName: "Actions",
       width: isSmallScreen ? 90 : 100,
       cellClassName: "actions",
@@ -320,12 +349,26 @@ const TransactionsTable = ({ action }) => {
   return (
     <>
       <Loader isLoading={isLoading} />
-      <Paper style={{ height: "603px", width: "100%" }}>
+      <Paper  style={{ height: "603px", width: "100%",border:`1px solid ${colors.panel.panelBorder}`}}>
         <DataGrid
           rows={rows}
+          
+          sx={{
+            '& .MuiDataGrid-columnHeader': {
+              backgroundColor: colors.panel.panel3, // Change header row background color here
+              color: colors.text.text1,
+              fontWeight: 'bold',
+            },
+            padding:"10px 23px",
+            backgroundColor:colors.panel.panel3
+          }}
           getRowId={(row) => row._id}
-          columns={columns}
+          columns={columns  }
+          
           disableColumnMenu={action !== "filter"}
+          classes={{
+            columnHeaders: 'custom-column-header',
+          }}
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 5 },

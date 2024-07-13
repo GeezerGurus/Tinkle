@@ -95,6 +95,8 @@ export const Chart = () => {
           ? "8px 8px"
           : "16px 24px",
         borderRadius: "16px",
+        border:`1px solid ${colors.panel.panelBorder}`,
+        bgcolor: colors.panel.panel3
       }}
     >
       <PieActiveArc data={summedExpenses} dashboard={true} />

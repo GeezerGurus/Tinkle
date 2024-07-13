@@ -1,7 +1,7 @@
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { tokens } from "../../theme";
-import LineChart from "./LineChart";
+import LineChart from "./Linechart";
 import { getRecords } from "../../api/recordsApi";
 import { Loader } from "../utils";
 

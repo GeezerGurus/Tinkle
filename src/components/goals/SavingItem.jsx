@@ -147,7 +147,7 @@ export const SavingItem = ({
               : state === "paused"
               ? colors.panel.panel2
               : state === "reached"
-              ? colors.panel.panel1
+              ? colors.panel.panel3
               : "",
           padding: isMediumScreen ? "20px" : "24px 128px",
         }}

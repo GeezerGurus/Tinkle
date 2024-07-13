@@ -5,7 +5,6 @@ import api from "./api";
 export const getItemsToBuy = async (tobuylistId) => {
   try {
     const response = await api.get(`/tobuylist/${tobuylistId}/itemstobuy`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -21,7 +20,6 @@ export const postItemsToBuy = async (tobuylistId, Data) => {
     return response.data;
   } catch (error) {
     console.error("Error adding new item:", error);
-    throw error;
   }
 };
 
@@ -34,7 +32,6 @@ export const patchItemToBuy = async (tobuylistId, itemtobuyId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating item ${itemtobuyId}:`, error);
-    throw error;
   }
 };
 
@@ -46,7 +43,5 @@ export const deleteItemToBuy = async (tobuylistId, itemtobuyId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting item ${itemtobuyId}:`, error);
-    throw error;
   }
 };
-

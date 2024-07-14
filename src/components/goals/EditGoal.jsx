@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import {
   Paper,
@@ -19,9 +19,7 @@ import { Item } from "../utils";
 
 import { tokens } from "../../theme";
 import { patchGoal } from "../../api/goals";
-import {CategoryIcons} from "../utils";
-
-
+import { CategoryIcons } from "../utils";
 
 const input_colors = [
   "red",
@@ -48,32 +46,38 @@ export const EditGoal = ({
   goal,
   name,
   dateF,
-  description,refresh
+  description,
+  refresh,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  console.log(description)
+  console.log(description);
   const [goalName, setGoalName] = useState(name || "");
-  const [icon, setIcon] = useState(iconF||"");
-  const [color, setColor] = useState(bgColor||"");
-  const [note, setNote] = useState(description||"");
+  const [icon, setIcon] = useState(iconF || "");
+  const [color, setColor] = useState(bgColor || "");
+  const [note, setNote] = useState(description || "");
   const [date, setDate] = useState(dateF || "no target date");
   const [amount, setAmount] = useState(goal || 0);
   const [saved, setSaved] = useState(savedAlready || 0);
 
-  const handleSave =async () => {
+  // Function to format date as a readable string
+  const formatDate = (date) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
+
+  const handleSave = async () => {
     try {
-      
-      const newList={
+      const newList = {
         name: goalName,
         icon: icon,
         color: color,
         amount: amount,
         saveamount: saved,
         description: note,
-        desireDate: date
+        desireDate: date,
       };
-      const createdList = await patchGoal(id,newList);
+      const createdList = await patchGoal(id, newList);
       console.log("New Goal Saved:", createdList);
       refresh();
       enqueueSnackbar("Goal Saved!", { variant: "success" });
@@ -81,9 +85,11 @@ export const EditGoal = ({
     } catch (error) {
       console.error("Error editing Goal:", error);
     }
-  }
+  };
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <Paper
       sx={{
@@ -161,24 +167,21 @@ export const EditGoal = ({
 
         {/* Desired Date */}
         <TextField
-          type="date"
+          type="text"
           label="Desired Date"
           placeholder="To whom have I lent?"
           fullWidth
-          value={date}
+          value={formatDate(date)}
           onChange={(e) => setDate(e.target.value)}
-          InputProps={{
-            inputProps: {
-              min: "2022-01-01", // Set min and max dates if needed
-              max: "2025-12-31",
-            },
+          InputLabelProps={{
+            shrink: true,
           }}
         />
 
         {/* Color Type */}
         <Stack direction={"row"} width={"100%"} gap={2}>
           <FormControl sx={{ width: "80%" }}>
-            <InputLabel id="from-account-label" sx={{ color: colors.text.text1}}>
+            <InputLabel id="from-account-label" sx={{ color: colors.text.text1 }}>
               Color
             </InputLabel>
             <Select
@@ -225,7 +228,7 @@ export const EditGoal = ({
 
           {/* Icon Selection */}
           <FormControl sx={{ flexGrow: 1 }}>
-            <InputLabel id="icon-label" sx={{ color: colors.text.text1}}>
+            <InputLabel id="icon-label" sx={{ color: colors.text.text1 }}>
               Icon
             </InputLabel>
             <Select

@@ -16,6 +16,7 @@ import { Item } from "../utils";
 import { postDebtRecord } from "../../api/debtRecordApi";
 import { enqueueSnackbar } from "notistack";
 import { getAccounts } from "../../api/accountApi";
+import dayjs from "dayjs";
 
 const AddDebt = ({ onClose, action, refresh }) => {
   const theme = useTheme();
@@ -25,7 +26,7 @@ const AddDebt = ({ onClose, action, refresh }) => {
   const [purpose, setPurpose] = useState("");
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [selectedAccount, setSelectedAccount] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [selectedDueDate, setSelectedDueDate] = useState("");
   const [accounts, setAccounts] = useState([]);
   const [errors, setErrors] = useState({});

@@ -12,16 +12,16 @@ import { Loader, Progress } from "../utils";
 import { getRecords } from "../../api/recordsApi";
 import { getCategory } from "../../api/categoriesApi";
 
-const pieData = [
-  { id: 0, value: 88000, label: "Education and Development" },
-  { id: 1, value: 240000, label: "Food and Drinks" },
-  { id: 2, value: 88000, label: "Health and Beauty" },
-  { id: 3, value: 88000, label: "Charges, Fees" },
-  { id: 4, value: 120000, label: "Transportation" },
-  { id: 5, value: 50000, label: "Entertainment" },
-  { id: 6, value: 150000, label: "Shopping" },
-  { id: 7, value: 100000, label: "Utilities" },
-];
+// const pieData = [
+//   { id: 0, value: 88000, label: "Education and Development" },
+//   { id: 1, value: 240000, label: "Food and Drinks" },
+//   { id: 2, value: 88000, label: "Health and Beauty" },
+//   { id: 3, value: 88000, label: "Charges, Fees" },
+//   { id: 4, value: 120000, label: "Transportation" },
+//   { id: 5, value: 50000, label: "Entertainment" },
+//   { id: 6, value: 150000, label: "Shopping" },
+//   { id: 7, value: 100000, label: "Utilities" },
+// ];
 
 const colorMap = {
   0: "#7772F2",

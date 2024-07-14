@@ -47,22 +47,6 @@ const Books = () => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // const [isOverflowing, setIsOverflowing] = useState(false);
-  // const gridRef = useRef(null);
-  // useEffect(() => {
-  //   const checkOverflow = () => {
-  //     if (gridRef.current) {
-  //       const hasOverflow =
-  //         gridRef.current.scrollHeight > gridRef.current.clientHeight;
-  //       setIsOverflowing(hasOverflow);
-  //     }
-  //   };
-
-  //   checkOverflow();
-  //   window.addEventListener("resize", checkOverflow);
-  //   return () => window.removeEventListener("resize", checkOverflow);
-  // }, []);
-
   const handlePrev = () => {
     setIndex((prevIndex) =>
       prevIndex === 0 ? lists.length - 1 : prevIndex - 1

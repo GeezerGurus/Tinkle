@@ -1,7 +1,6 @@
 import {
   Button,
   InputAdornment,
-  MenuItem,
   Paper,
   Stack,
   TextField,
@@ -9,10 +8,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { tokens } from "../../theme";
-import { Item } from "../utils";
-import { getAccounts } from "../../api/accountApi";
 import { patchLendDebtItem } from "../../api/lendDebtItemsApi";
 import { patchOweDebtItem } from "../../api/oweDebtItemsApi";
 import { enqueueSnackbar } from "notistack";
@@ -31,9 +28,7 @@ const EditDebtRecord = ({
   const colors = tokens(theme.palette.mode);
 
   const [errors, setErrors] = useState({});
-  const [accountsData, setAccountsData] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState(amount);
-  const [selectedAccount, setSelectedAccount] = useState(account);
   const [selectedDate, setSelectedDate] = useState(date);
 
   const validateForm = () => {
@@ -49,23 +44,7 @@ const EditDebtRecord = ({
     setSelectedAmount(event.target.value);
   };
 
-  const handleAccountChange = (event) => {
-    setSelectedAccount(event.target.value);
-  };
-
-  console.log(selectedDate);
-
-  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      const accountsdata = await getAccounts();
-      setAccountsData(accountsdata || []);
-    };
-    fetchAccounts();
-  }, []);
 
   const handleSave = async () => {
     if (!validateForm()) {

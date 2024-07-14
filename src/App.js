@@ -24,7 +24,7 @@ import {
   AboutUs,
 } from "./scenes";
 import { Topbar, Sidebar } from "./components/global";
-import { Box, CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
+import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import ToBuyList from "./scenes/lists/ToBuyList";
 import ToBuyItems from "./scenes/lists/ToBuyItems";

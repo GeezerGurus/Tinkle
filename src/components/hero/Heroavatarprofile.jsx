@@ -12,10 +12,7 @@ const Heroavatarprofile = ({ code, name, job, image }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
-  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (

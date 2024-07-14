@@ -10,10 +10,8 @@ import {
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import React, { useState } from "react";
 import CreateAccount from "../settings/CreateAccount";
-import { tokens } from "../../theme";
-const NewAccount = ({ BgColor, isMediumScreen,refresh }) => {
+const NewAccount = ({ BgColor, isMediumScreen, refresh }) => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [openModal, setOpenModal] = useState(false);
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));

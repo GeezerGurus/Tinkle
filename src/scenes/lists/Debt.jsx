@@ -18,17 +18,6 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import { getDebtRecord } from "../../api/debtRecordApi";
 import { Loader } from "../../components/utils";
 
-const StyledButton = styled(Button)(({ theme, isMediumScreen }) => ({
-  width: isMediumScreen ? "60%" : "433px",
-  height: isMediumScreen ? "100%" : "37px",
-  textTransform: "none",
-  "&:hover": {
-    backgroundColor: theme.palette.neutral.dark,
-    color: "white",
-  },
-  borderRadius: "16px",
-}));
-
 const Debt = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -41,6 +30,17 @@ const Debt = () => {
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
+
+  const StyledButton = styled(Button)(({ theme }) => ({
+    width: isMediumScreen ? "60%" : "433px",
+    height: isMediumScreen ? "100%" : "37px",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.neutral.dark,
+      color: "white",
+    },
+    borderRadius: "16px",
+  }));
 
   const actions = [
     {
@@ -124,7 +124,6 @@ const Debt = () => {
           }}
         >
           <StyledButton
-            isMediumScreen={isMediumScreen}
             value="active"
             onClick={handlePage}
             sx={{
@@ -139,7 +138,6 @@ const Debt = () => {
             <Typography variant="body2">Active</Typography>
           </StyledButton>
           <StyledButton
-            isMediumScreen={isMediumScreen}
             value="closed"
             onClick={handlePage}
             sx={{

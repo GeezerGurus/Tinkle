@@ -25,12 +25,11 @@ import { CategoryIcons } from "../utils";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: "numeric", month: "long", day: "numeric" };
   return date.toLocaleDateString(undefined, options);
 };
 
-const Progress = ({ percent,state, height, showPercentText }) => {
-  
+const Progress = ({ percent, state, height, showPercentText }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -42,15 +41,16 @@ const Progress = ({ percent,state, height, showPercentText }) => {
         height: `${height}px`,
         backgroundColor: "#e0e0df",
         borderRadius: "5px",
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
       <Box
         sx={{
           width: `${percent}%`,
           height: "100%",
-          backgroundColor: state === "reached" ? colors.vibrant.yellow : colors.green[300],
-          transition: "width 0.3s ease-in-out"
+          backgroundColor:
+            state === "reached" ? colors.vibrant.yellow : colors.green[300],
+          transition: "width 0.3s ease-in-out",
         }}
       />
       {showPercentText && (
@@ -61,7 +61,7 @@ const Progress = ({ percent,state, height, showPercentText }) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            color: "black"
+            color: "black",
           }}
         >
           {percent}%
@@ -92,7 +92,6 @@ export const SavingItem = ({
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const percentage = goal > 0 ? ((saved / goal) * 100).toFixed(2) : 0;
   const formattedDate = formatDate(date);
 
@@ -109,7 +108,6 @@ export const SavingItem = ({
         })
         .catch((error) => {
           console.error("Error reaching goal:", error);
-          
         });
     }
   }, [percentage, state, id, refresh]);
@@ -121,7 +119,7 @@ export const SavingItem = ({
 
     await patchGoal(id, newStatus);
     refresh();
-    
+
     setOpenModal(false); // Close the modal after handling the change
   };
 
@@ -138,7 +136,8 @@ export const SavingItem = ({
       <Box
         sx={{
           borderRadius: "16px",
-          border: state === "reached" && `2px solid ${colors.panel.panelBorder}`,
+          border:
+            state === "reached" && `2px solid ${colors.panel.panelBorder}`,
           width: "100%",
           minHeight: "176px",
           backgroundColor:
@@ -148,7 +147,7 @@ export const SavingItem = ({
               ? colors.panel.panel2
               : state === "reached"
               ? colors.panel.panel3
-              :"",
+              : "",
           padding: isMediumScreen ? "20px" : "24px 128px",
         }}
       >
@@ -171,11 +170,8 @@ export const SavingItem = ({
               justifyContent: "space-between",
             }}
           >
-
             {/* Left Side */}
             <Stack direction={"row"} gap={1}>
-              
-
               <IconComponent
                 sx={{
                   width: "48px",
@@ -232,6 +228,7 @@ export const SavingItem = ({
                   setModal("edit");
                   setOpenModal(true);
                 }}
+                disabled={state === "reached" ? true : false}
               >
                 <BorderColorIcon
                   sx={{
@@ -259,7 +256,12 @@ export const SavingItem = ({
           </Box>
 
           {/* Middle Section */}
-          <Progress percent={percentage} height={32} state={state} showPercentText={true} />
+          <Progress
+            percent={percentage}
+            height={32}
+            state={state}
+            showPercentText={true}
+          />
 
           {/* Bottom Section */}
           <Box
@@ -277,7 +279,7 @@ export const SavingItem = ({
                 Saved:{" "}
               </Typography>
               <Typography variant={isSmallScreen ? "body4" : "body3"}>
-                {saved>=goal? goal:saved} MMK
+                {saved >= goal ? goal : saved} MMK
               </Typography>
             </Stack>
 
@@ -288,7 +290,7 @@ export const SavingItem = ({
                 textTransform: "none",
                 borderRadius: "8px",
                 color: colors.text.text1,
-                "&:hover": { backgroundColor: colors.button.button1, },
+                "&:hover": { backgroundColor: colors.button.button1 },
               }}
             >
               <Typography variant={isSmallScreen ? "body4" : "body2"}>
@@ -341,7 +343,7 @@ export const SavingItem = ({
               onClose={handleClose}
               id={id}
               bgColor={bgcolor}
-              iconF = {icon}
+              iconF={icon}
               savedAlready={saved}
               goal={goal}
               name={name}
@@ -364,7 +366,6 @@ export const SavingItem = ({
               description={"This action will delete your whole Saving plan."}
               refresh={refresh}
               onClose={handleClose}
-              
             />
           ) : modal === "paused" ? (
             <ConfirmModal
@@ -383,7 +384,6 @@ export const SavingItem = ({
               highlight={"Resume"}
               color={colors.green[500]}
               snackbarText={"Resumed!"}
-              
               snackbarColor={"success"}
               refresh={refresh}
               promptText={"Do you want to Resume your goal?"}

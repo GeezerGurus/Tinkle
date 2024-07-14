@@ -1,5 +1,4 @@
 import React from "react";
-import { tokens } from "../../theme";
 import {
   Box,
   // Button,
@@ -21,7 +20,6 @@ import {
 
 const Statistics = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));

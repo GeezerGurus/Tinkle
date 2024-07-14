@@ -37,6 +37,14 @@ const input_colors = [
   "magenta",
 ];
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = `0${date.getMonth() + 1}`.slice(-2);
+  const day = `0${date.getDate()}`.slice(-2);
+  return `${year}-${month}-${day}`;
+};
+
 export const EditGoal = ({
   onClose,
   id,
@@ -51,22 +59,34 @@ export const EditGoal = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  console.log(description);
+
+  const [errors, setErrors] = useState({});
   const [goalName, setGoalName] = useState(name || "");
   const [icon, setIcon] = useState(iconF || "");
   const [color, setColor] = useState(bgColor || "");
   const [note, setNote] = useState(description || "");
-  const [date, setDate] = useState(dateF || "no target date");
+  const [date, setDate] = useState(formatDate(dateF) || "no target date");
   const [amount, setAmount] = useState(goal || 0);
   const [saved, setSaved] = useState(savedAlready || 0);
 
-  // Function to format date as a readable string
-  const formatDate = (date) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString(undefined, options);
+  const validateForm = () => {
+    const errors = {};
+    if (goalName.length < 1) {
+      errors.goalName = "Please Enter a Goal Name";
+    }
+    if (saved <= 0) {
+      errors.saved = "Amount must be greater than 0";
+    } else if (saved > amount) {
+      errors.saved = "Amount must not be larger than the goal";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       const newList = {
         name: goalName,
@@ -86,9 +106,9 @@ export const EditGoal = ({
       console.error("Error editing Goal:", error);
     }
   };
-
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
 
   return (
     <Paper
@@ -103,6 +123,8 @@ export const EditGoal = ({
         justifyContent: "space-around",
         position: "relative",
         borderRadius: "8px",
+        backgroundColor: colors.backGround,
+        border: `1px solid  ${colors.panel.panelBorder}`,
       }}
     >
       {/* Header */}
@@ -131,6 +153,8 @@ export const EditGoal = ({
           }}
           value={goalName || ""}
           onChange={(e) => setGoalName(e.target.value)}
+          error={!!errors.goalName}
+          helperText={errors.goalName}
         />
 
         {/* Target Amount */}
@@ -147,6 +171,8 @@ export const EditGoal = ({
           InputLabelProps={{
             shrink: true,
           }}
+          error={!!errors.amount}
+          helperText={errors.amount}
         />
 
         {/* Saved Already */}
@@ -163,6 +189,8 @@ export const EditGoal = ({
           InputLabelProps={{
             shrink: true,
           }}
+          error={!!errors.saved}
+          helperText={errors.saved}
         />
 
         {/* Desired Date */}
@@ -181,12 +209,14 @@ export const EditGoal = ({
         {/* Color Type */}
         <Stack direction={"row"} width={"100%"} gap={2}>
           <FormControl sx={{ width: "80%" }}>
-            <InputLabel id="from-account-label" sx={{ color: colors.text.text1 }}>
+            <InputLabel
+              id="from-account-label"
+              sx={{ color: colors.text.text1 }}
+            >
               Color
             </InputLabel>
             <Select
               id="from-account-label"
-              select
               label="From Account"
               value={color}
               onChange={(e) => setColor(e.target.value)}
@@ -228,13 +258,12 @@ export const EditGoal = ({
 
           {/* Icon Selection */}
           <FormControl sx={{ flexGrow: 1 }}>
-            <InputLabel id="icon-label" sx={{ color: colors.text.text1 }}>
-              Icon
+            <InputLabel id="icon-label" sx={{ color: colors.text.text1 }}>              
+            Icon
             </InputLabel>
             <Select
               id="icon-label"
               value={icon}
-              select
               label="Icon"
               onChange={(e) => setIcon(e.target.value)}
               MenuProps={{
@@ -246,7 +275,13 @@ export const EditGoal = ({
                 },
               }}
               renderValue={(selected) => {
-                return <Item icon={CategoryIcons[selected]} text="" bgColor="black" />;
+                return (
+                  <Item
+                    icon={CategoryIcons[selected]}
+                    text=""
+                    bgColor="black"
+                  />
+                );
               }}
             >
               {Object.keys(CategoryIcons).map((key) => {

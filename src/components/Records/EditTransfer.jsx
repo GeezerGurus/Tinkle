@@ -7,7 +7,6 @@ import {
   Stack,
   useMediaQuery,
 } from "@mui/material";
-import { tokens } from "../../theme";
 import { Item } from "../utils";
 import {
   Wallet as WalletIcon,
@@ -48,8 +47,6 @@ const getCurrentTimeString = () => {
 
 const EditTransfer = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
   const [selectedOption, setSelectedOption] = useState("");
   const [acc, setAcc] = useState("wallet");
   const [toAcc, setToAcc] = useState("outofwallet");
@@ -58,8 +55,6 @@ const EditTransfer = () => {
   const [note, setNote] = useState("");
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (

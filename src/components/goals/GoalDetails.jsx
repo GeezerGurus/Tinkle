@@ -17,14 +17,12 @@ import AddSaveAmount from "./AddSaveAmount";
 import { tokens } from "../../theme";
 import ConfirmModal from "../utils/ConfirmModal";
 import { patchGoal } from "../../api/goals";
-import { enqueueSnackbar } from "notistack";
 
 function CircularProgressBar(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Box
       sx={{
@@ -126,6 +124,8 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
         padding: "32px 40px",
         alignItems: "center",
         borderRadius: "8px",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Header */}
@@ -188,7 +188,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
           sx={{
             width: "240px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
             borderRadius: "8px",
@@ -205,7 +205,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
           sx={{
             width: "240px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
             borderRadius: "8px",
           }}
@@ -247,6 +247,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
           ) : (
             <AddSaveAmount
               id={id}
+              saved={saved}
               currentAmount={saved}
               refresh={refresh}
               goal={goal}

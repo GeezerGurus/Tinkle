@@ -56,7 +56,7 @@ const Account = ({ name, balance, type, refresh, id }) => {
         alignItems: "center",
         padding: 2,
         overflow: "hidden",
-        bgcolor: colors.panel.panel1
+        bgcolor: colors.panel.panel1,
       }}
     >
       {/* Main Stack (Icon and Name) */}
@@ -68,13 +68,11 @@ const Account = ({ name, balance, type, refresh, id }) => {
           width: isSmallScreen ? "30%" : isMediumScreen ? "200px" : "300px",
         }}
       >
-         {accountType && (
+        {accountType && (
           <accountType.icon
-          
             sx={{
-              fontSize: isSmallScreen? "30px": "45px",
-              color: "white",
-              backgroundColor: colors.button.button1 ,
+              fontSize: isSmallScreen ? "30px" : "45px",
+              backgroundColor: colors.button.button1,
               color: colors.panel.panel1,
               borderRadius: "50%",
               padding: "4px",
@@ -121,7 +119,7 @@ const Account = ({ name, balance, type, refresh, id }) => {
             fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
               bgcolor: colors.button.editButton,
-              color: colors.panel.panel1
+              color: colors.panel.panel1,
             }}
           />
         </IconButton>

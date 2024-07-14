@@ -15,7 +15,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CircleIcon from "@mui/icons-material/Circle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { patchItemToBuy, deleteItemToBuy } from "../../api/itemsToBuy";
-import { tokens, useMode } from "../../theme";
+import { tokens } from "../../theme";
 import { ConfirmModal } from "../utils";
 import { enqueueSnackbar } from "notistack";
 
@@ -30,7 +30,6 @@ const ItemBox = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const mode = useMode();
 
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");

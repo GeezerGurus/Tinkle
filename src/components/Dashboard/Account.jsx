@@ -17,7 +17,6 @@ import EditAccount from "../settings/EditAccount";
 import { ConfirmModal } from "../utils";
 import AccountIcons from "../utils/AccountIcons";
 import { deleteAccount } from "../../api/accountApi";
-import { isLeaf } from "@mui/x-data-grid";
 
 export const Account = ({
   id,
@@ -94,7 +93,7 @@ export const Account = ({
             sx={{
               fontSize: "40px",
               color: colors.text.text1,
-              bgcolor: colors.backGround
+              bgcolor: colors.backGround,
             }}
           />
         )}

@@ -112,7 +112,7 @@ const Budget = () => {
         flexDirection: "column",
         justifyContent: "space-between",
         borderRadius: "16px",
-        bgcolor: colors.panel.panel1
+        bgcolor: colors.panel.panel1,
       }}
     >
       {/* Header box of Budget */}
@@ -128,10 +128,24 @@ const Budget = () => {
         <Typography variant="h6">Budgets</Typography>
         <ShowMoreBtn to={"/budget"} />
       </Box>
+      {(!budgets || budgets.length === 0) && (
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="body4">The List is Empty Now</Typography>
+          </Box>
+        )}
       {Array.isArray(budgets) &&
-        budgets.slice(0, 3).map((budget) => {
+        budgets.slice(0, 3).map((budget, index) => {
           return (
             <Progress
+              key={index}
               content={budget.name}
               dollar={budget.amount}
               percent={Math.round((budget.amount / budget.initial) * 100)}

@@ -31,7 +31,6 @@ import {
   KnowledgeImage,
   LogoDarkImage,
 } from "../../assets/hero";
-import { tokens } from "../../theme";
 import CircleIcon from "@mui/icons-material/Circle";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
@@ -62,7 +61,6 @@ const Hero = () => {
     { code: "06", name: "Sai Sai Lin Htet", job: "E Boy" },
     { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
     { code: "08", name: "Sithu", job: "A Ba" },
-    
   ];
 
   useEffect(() => {
@@ -85,8 +83,6 @@ const Hero = () => {
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
-  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <Box
@@ -102,7 +98,6 @@ const Hero = () => {
       <Box
         width={"100%"}
         sx={{
-          backgroundColor: "rgba(0,0,0,0)",
           position: "fixed",
           zIndex: 1,
           backgroundColor: "white",
@@ -233,11 +228,7 @@ const Hero = () => {
             <Typography
               component="span"
               variant={isSmallScreen ? "title2" : "title5"}
-              sx={{
-                color: "transparent",
-                backgroundImage: `linear-gradient(to right, #6a11cb, #2575fc)`,
-                backgroundClip: "text",
-              }}
+              sx={{ color: "#8884DC" }}
             >
               Tinkle
             </Typography>
@@ -734,6 +725,7 @@ const Hero = () => {
 
               {profiles.map((profile, index) => (
                 <Heroavatarprofile
+                  key={index}
                   code={profile.code}
                   name={profile.name}
                   job={profile.job}
@@ -770,6 +762,7 @@ const Hero = () => {
               />
               {profiles2.map((profile, index) => (
                 <Heroavatarprofile
+                  key={index}
                   code={profile.code}
                   name={profile.name}
                   job={profile.job}
@@ -951,7 +944,6 @@ const Hero = () => {
             gap={2}
             marginBottom={"20px"}
             height={"auto"}
-            g
           >
             <Typography variant="title1" sx={{ color: "#3F3D66" }}>
               Quick Answers
@@ -1189,36 +1181,17 @@ const Hero = () => {
             Contact Us
           </Typography>
           <Stack direction={"row"} gap={2.5}>
-            <a
-              href="https://www.facebook.com/profile.php?id=61562018345946&mibextid=LQQJ4d"
-              style={{ textDecoration: "none" }}
-            >
-              <i
-                class="fi fi-brands-facebook"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  fontSize: "2rem",
-                  color: "#f5f5f5",
-                }}
-              />
-            </a>
-            <a
-              href="https://www.youtube.com/@Geezers-rollin"
-              style={{ textDecoration: "none" }}
-            >
-              <i
-                class="fi fi-brands-youtube"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  fontSize: "2rem",
-                  color: "#f5f5f5",
-                }}
-              />
-            </a>
             <i
-              class="fi fi-brands-discord"
+              class="fi fi-brands-facebook"
+              style={{
+                width: "32px",
+                height: "32px",
+                fontSize: "2rem",
+                color: "#f5f5f5",
+              }}
+            />
+            <i
+              class="fi fi-brands-youtube"
               style={{
                 width: "32px",
                 height: "32px",
@@ -1227,7 +1200,7 @@ const Hero = () => {
               }}
             ></i>
             <i
-              class="fi fi-brands-github"
+              className="fi fi-brands-discord"
               style={{
                 width: "32px",
                 height: "32px",
@@ -1236,7 +1209,16 @@ const Hero = () => {
               }}
             ></i>
             <i
-              class="fi fi-brands-figma"
+              className="fi fi-brands-github"
+              style={{
+                width: "32px",
+                height: "32px",
+                fontSize: "2rem",
+                color: "#f5f5f5",
+              }}
+            ></i>
+            <i
+              className="fi fi-brands-figma"
               style={{
                 width: "32px",
                 height: "32px",

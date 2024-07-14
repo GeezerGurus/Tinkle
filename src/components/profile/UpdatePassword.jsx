@@ -28,7 +28,6 @@ const UpdatePassword = ({ onClose, refresh }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleToggleShowPassword = (setter) => {
     setter((show) => !show);
@@ -78,7 +77,8 @@ const UpdatePassword = ({ onClose, refresh }) => {
         gap: "20px",
         flexDirection: "column",
         bgcolor: colors.backGround,
-        color: colors.text.text1
+        color: colors.text.text1,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       <Typography variant={isSmallScreen ? "h6" : "h4"}>

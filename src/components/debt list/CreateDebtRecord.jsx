@@ -1,7 +1,6 @@
 import {
   Button,
   InputAdornment,
-  MenuItem,
   Paper,
   Stack,
   TextField,
@@ -9,10 +8,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { tokens } from "../../theme";
-import { Item } from "../utils";
-import { getAccounts } from "../../api/accountApi";
 import { postLendDebtItem } from "../../api/lendDebtItemsApi";
 import { postOweDebtItem } from "../../api/oweDebtItemsApi";
 import { enqueueSnackbar } from "notistack";
@@ -22,14 +19,8 @@ const CreateDebtRecord = ({ onClose, debtId, action, debtAmount, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [errors, setErrors] = useState({});
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [accountsData, setAccountsData] = useState([]);
-  const [selectedOption, setSelectedOption] = useState([]);
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setSelectedOption(typeof value === "string" ? value.split(",") : value);
-  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -49,14 +40,6 @@ const CreateDebtRecord = ({ onClose, debtId, action, debtAmount, refresh }) => {
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      const AccountsData = await getAccounts();
-      setAccountsData(AccountsData);
-    };
-    fetchAccounts();
-  }, []);
 
   const postItem = async () => {
     if (!validateForm()) {

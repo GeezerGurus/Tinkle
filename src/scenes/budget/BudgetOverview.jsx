@@ -255,8 +255,8 @@ const BudgetOverview = () => {
           width: isMediumScreen ? (isSmallScreen ? "100%" : "80%") : "56%",
           minHeight: "184px",
           borderRadius: "16px",
-          backgroundColor: colors.purple[100],
           padding: isSmallScreen ? "19px 24px" : "32px 56px",
+          backgroundColor: colors.panel.panel1,
         }}
       >
         <Stack justifyContent={"space-between"} sx={{ height: "100%" }}>

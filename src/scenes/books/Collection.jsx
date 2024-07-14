@@ -10,13 +10,10 @@ import {
 
 import { tokens } from "../../theme";
 import { useParams } from "react-router-dom";
-import { BookContents } from "../../components/utils";
+import { BookContents, Loader } from "../../components/utils";
 import { BackBtn } from "../../components/utils";
 import { getBooks } from "../../api/booksApi";
 
-
-
-const path = "/books";
 const Collection = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -42,7 +39,6 @@ const Collection = () => {
     fetchBooks();
   }, []);
 
-
   useEffect(() => {
     const checkOverflow = () => {
       if (gridRef.current) {
@@ -65,7 +61,7 @@ const Collection = () => {
   const header = collection
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")
+    .join(" ");
   return (
     // Main Container
     <Paper
@@ -84,8 +80,10 @@ const Collection = () => {
         justifyContent: "space-around",
         position: "relative",
         overflowX: "hidden",
+        bgcolor: colors.backGround,
       }}
     >
+      <Loader isLoading={isLoading} />
       <Box
         sx={{
           width: "100%",
@@ -103,9 +101,7 @@ const Collection = () => {
           }}
         >
           {/* Title */}
-          <Typography variant="h3">
-            {header}
-          </Typography>
+          <Typography variant="h3">{header}</Typography>
 
           {/* Call Back Button */}
           <BackBtn />
@@ -130,18 +126,21 @@ const Collection = () => {
             overflowY: "auto",
           }}
         >
-          {lists.filter(item => item.category === header || item.favourite===true).map((item, index) => (
-            <Grid item xxs={5} sm={5} md={3} lg={2.5}>
-              <BookContents
-                key={index}
-                id={item._id}
-                title={item.title}
-                author={item.author}
-                favorite={item.favourite}
-                pathImage={item.coverImage}
-              />
-            </Grid>
-          ))}
+          {lists
+            .filter(
+              (item) => item.category === header || item.favourite === true
+            )
+            .map((item) => (
+              <Grid item key={item._id} xxs={5} sm={5} md={3} lg={2.5}>
+                <BookContents
+                  id={item._id}
+                  title={item.title}
+                  author={item.author}
+                  favorite={item.favourite}
+                  pathImage={item.coverImage}
+                />
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </Paper>

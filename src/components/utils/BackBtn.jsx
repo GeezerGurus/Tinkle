@@ -1,4 +1,4 @@
-import { Button, useTheme, useMediaQuery } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { useNavigate } from "react-router-dom";
 import React from "react";

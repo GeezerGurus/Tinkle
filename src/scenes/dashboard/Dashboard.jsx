@@ -23,7 +23,6 @@ const Dashboard = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
-  const sidebarWidth = 84;
 
   //for account data fetch
   const [accounts, setAccounts] = useState([]);
@@ -32,23 +31,24 @@ const Dashboard = () => {
   const fetchAccounts = async () => {
     setIsLoading(true);
     const res = await getAccounts();
-    setAccounts(res || []);
+    setAccounts(
+      [...res, ...Array(4 - res.length).fill({ isPlaceholder: true })] || []
+    );
     setIsLoading(false);
   };
   useEffect(() => {
     fetchAccounts();
   }, []);
+
+  const handleRefresh = async () => {
+    await fetchAccounts();
+    window.location.reload();
+  };
   const colorOrder = [
     colors.balance.account1,
     colors.balance.account2,
     colors.balance.account3,
     colors.balance.account4,
-  ];
-
-  // Ensure the accounts array has exactly 4 elements
-  const filledAccounts = [
-    ...accounts,
-    ...Array(4 - accounts.length).fill({ isPlaceholder: true }),
   ];
 
   return (
@@ -99,7 +99,7 @@ const Dashboard = () => {
           }}
         >
           <Loader isLoading={isLoading} />
-          {filledAccounts.map((account, index) =>
+          {accounts.map((account, index) =>
             account.isPlaceholder ? (
               <NewAccount
                 key={index}
@@ -115,7 +115,7 @@ const Dashboard = () => {
                 Title={account.name}
                 Amount={account.balance}
                 BgColor={colorOrder[index]}
-                refresh={fetchAccounts}
+                refresh={handleRefresh}
                 isMediumScreen={isMediumScreen}
               />
             )
@@ -153,7 +153,6 @@ const Dashboard = () => {
           height: isMediumScreen ? "920px" : isLargeScreen ? "auto" : "892px",
           borderRadius: "8px",
           overflowX: "hidden",
-
         }}
       >
         {/* Budget */}

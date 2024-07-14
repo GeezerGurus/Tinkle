@@ -74,7 +74,6 @@ const Topbar = () => {
   const title = getTitle(location.pathname);
   const { logout } = useContext(AuthContext);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [openSidebar, setOpenSidebar] = useState(false);
 

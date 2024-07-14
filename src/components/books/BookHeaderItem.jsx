@@ -1,4 +1,4 @@
-import React, { useMemo,useEffect,useState } from "react";
+import React, { useMemo } from "react";
 import {
   Box,
   Button,
@@ -11,26 +11,16 @@ import { ArrowForwardIos as ArrowForwardIosIcon } from "@mui/icons-material";
 import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import { BookContents } from "../utils";
-import PropTypes from 'prop-types';
-import { getBooks } from "../../api/booksApi";
-
+import PropTypes from "prop-types";
 
 // All Contents for each Sub Header
-const favorites = [/* ... */];
-const budget = [/* ... */];
-const savings = [/* ... */];
-const business = [/* ... */];
-const tinkle = [/* ... */];
-const life = [/* ... */];
 
-
-
-const BookHeaderItem = ({ header,lists ,refresh}) => {
+const BookHeaderItem = ({ header, lists, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   // Ensure header is defined before further processing
-  const books = lists
+  const books = lists;
 
   const path = useMemo(() => header.toLowerCase().replace(" ", "-"), [header]);
 
@@ -44,7 +34,7 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
         width: isLargest ? "100%" : "1290px",
         height: isMediumScreen ? "100%" : "454pxauto",
         display: "flex",
-        overflow:"hidden",
+        overflow: "hidden",
         flexDirection: "column",
         justifyContent: "center",
       }}
@@ -63,10 +53,12 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
         </Typography>
 
         <Button
-          component={Link} 
+          component={Link}
           to={`/books/${path}`}
-          endIcon={<ArrowForwardIosIcon sx={{ color: colors.purple[600] }} />}
-          sx={{ height: "27px", mr: 2 }}
+          endIcon={
+            <ArrowForwardIosIcon sx={{ color: colors.button.button1 }} />
+          }
+          sx={{ height: "27px", mr: 2, color: colors.button.button1 }}
         >
           <Typography variant="body1">View all</Typography>
         </Button>
@@ -86,22 +78,24 @@ const BookHeaderItem = ({ header,lists ,refresh}) => {
             width: isSmallScreen ? "80%" : "100%",
             height: "100%",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
           }}
-        > 
-          {books.filter(item => item.category === header).map((item, index) => (
-            <Grid item key={index} xs={5} sm={5} md={3}>
-              <BookContents
-                id={item._id}
-                title={item.title}
-                link={item.link}
-                author={item.author}
-                favorite={item.favourite}
-                pathImage={item.coverImage}
-                refresh={refresh}
-              />
-            </Grid>
-          ))}
+        >
+          {books
+            .filter((item) => item.category === header)
+            .map((item, index) => (
+              <Grid item key={index} xs={5} sm={5} md={3}>
+                <BookContents
+                  id={item._id}
+                  title={item.title}
+                  link={item.link}
+                  author={item.author}
+                  favorite={item.favourite}
+                  pathImage={item.coverImage}
+                  refresh={refresh}
+                />
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </Box>

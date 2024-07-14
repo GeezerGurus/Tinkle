@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
-import { PieActiveArc } from "../statistics";
 import { ShowMoreBtn } from "../utils";
 import { tokens } from "../../theme";
 import { getCategory } from "../../api/categoriesApi";
 import { getRecords } from "../../api/recordsApi";
-
-const pieData = [
-  { id: 0, value: 88000, label: "Education and Development" },
-  { id: 1, value: 240000, label: "Food and Drinks" },
-  { id: 2, value: 88000, label: "Health and Beauty" },
-  { id: 3, value: 88000, label: "Charges, Fees" },
-];
 
 export const Chart = () => {
   const theme = useTheme();
@@ -70,7 +62,6 @@ export const Chart = () => {
   const expenses =
     records?.filter((expense) => expense.type === "expense") || [];
 
-  console.log(expenses);
   // Function to group and sum the expenses by category
   const groupAndSumByCategory = (expenses) => {
     return expenses.reduce((acc, expense) => {
@@ -103,7 +94,7 @@ export const Chart = () => {
         justifyContent: "space-between",
         padding: "16px 24px",
         borderRadius: "16px",
-        bgcolor: colors.panel.panel1
+        bgcolor: colors.panel.panel1,
       }}
     >
       <Box

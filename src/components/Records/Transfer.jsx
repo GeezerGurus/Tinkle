@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   InputAdornment,
@@ -14,6 +14,7 @@ import { CategoryIcons, Item } from "../utils";
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 import { postRecord } from "../../api/recordsApi";
+import { getAccount } from "../../api/accountApi";
 
 const getCurrentTimeString = () => {
   const now = new Date();
@@ -26,6 +27,7 @@ const Transfer = ({ onClose, accounts, categories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [accountData, setAccountData] = useState([]);
   const [errors, setErrors] = useState({});
   const [fromAcc, setFromAcc] = useState("");
   const [toAcc, setToAcc] = useState("");
@@ -36,10 +38,18 @@ const Transfer = ({ onClose, accounts, categories }) => {
   const [amount, setAmount] = useState("");
   const [transactor, setTransactor] = useState("");
 
+  const fetchAccounts = async (acc) => {
+    const res = await getAccount(acc);
+    setAccountData(res);
+  };
+  useEffect(() => {
+    fetchAccounts(fromAcc);
+  }, [fromAcc]);
+
   const validateForm = () => {
     const errors = {};
     if (!fromAcc) {
-      errors.fromAcc = "Account is required";
+      errors.fromAcc = "Select an account";
     }
     if (!toAcc) {
       errors.toAcc = "Account is required";
@@ -48,12 +58,17 @@ const Transfer = ({ onClose, accounts, categories }) => {
       errors.amount = "Amount is required";
     } else if (amount <= 0) {
       errors.amount = "Amount must be greater than 0";
+    } else if (amount > accountData.balance) {
+      errors.amount = "Amount must not be greater than balance in account";
     }
     if (!time) {
       errors.time = "Time is required";
     }
     if (!date) {
       errors.date = "Date is required";
+    }
+    if (!category) {
+      errors.category = "Select a category";
     }
 
     setErrors(errors);
@@ -224,8 +239,10 @@ const Transfer = ({ onClose, accounts, categories }) => {
       <TextField
         fullWidth
         select
+        required
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: {
@@ -235,8 +252,9 @@ const Transfer = ({ onClose, accounts, categories }) => {
         label="Category"
         value={category}
         onChange={(event) => setCategory(event.target.value)}
-        displayEmpty
         disabled={categories.length === 0}
+        error={!!errors.category}
+        helperText={errors.category}
       >
         {categories.map((category) => (
           <MenuItem key={category._id} value={category._id}>

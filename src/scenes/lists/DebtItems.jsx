@@ -50,7 +50,6 @@ const DebtItems = () => {
   const debtRecords = items;
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const capitalizeFirstWord = (str) => {
     if (!str) return "";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -19,6 +19,7 @@ import { AccountIcons, CategoryIcons, Item } from "../utils";
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 import { postRecord } from "../../api/recordsApi";
+import { getAccount } from "../../api/accountApi";
 
 const getCurrentTimeString = () => {
   const now = new Date();
@@ -31,6 +32,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [accountData, setAccountData] = useState([]);
   const [errors, setErrors] = useState({});
   const [acc, setAcc] = useState("");
   const [selectedOption, setSelectedOption] = useState("account");
@@ -42,10 +44,19 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   const [amount, setAmount] = useState("");
   const [payee, setPayee] = useState("");
 
+  const fetchAccounts = async (acc) => {
+    const res = await getAccount(`${acc}`);
+    setAccountData(res);
+  };
+
+  useEffect(() => {
+    fetchAccounts(acc);
+  }, [acc]);
+
   const validateForm = () => {
     const errors = {};
     if (!acc && selectedOption === "account") {
-      errors.acc = "Account is required";
+      errors.acc = "Select an account";
     }
     if (!budget && selectedOption === "budget") {
       errors.budget = "Budget is required";
@@ -54,12 +65,17 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
       errors.amount = "Amount is required";
     } else if (amount <= 0) {
       errors.amount = "Amount must be greater than 0";
+    } else if (amount > accountData.balance) {
+      errors.amount = "Amount must not be greater than balance in account";
     }
     if (!time) {
       errors.time = "Time is required";
     }
     if (!date) {
       errors.date = "Date is required";
+    }
+    if (!category) {
+      errors.category = "Select a category";
     }
     setErrors(errors);
 
@@ -98,7 +114,6 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
     if (!validateForm()) {
       return;
     }
-    console.log("here");
     try {
       await postRecord(recordData);
       window.location.reload();
@@ -159,6 +174,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
           InputProps={{
             sx: {
               height: isSmallScreen ? "40px" : isLargest ? "45px" : undefined,
+              color: colors.button.button1,
             },
           }}
           error={!!errors.acc}
@@ -200,7 +216,6 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
           label="Budget"
           value={budget}
           onChange={(event) => setBudget(event.target.value)}
-          displayEmpty
           error={!!errors.budget}
           helperText={errors.budget}
           disabled={budgets.length === 0}
@@ -257,8 +272,10 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
       <TextField
         fullWidth
         select
+        required
         InputLabelProps={{
           shrink: true,
+          required: true,
         }}
         InputProps={{
           sx: {
@@ -268,8 +285,9 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
         label="Category"
         value={category}
         onChange={(event) => setCategory(event.target.value)}
-        displayEmpty
         disabled={categories.length === 0}
+        error={!!errors.category}
+        helperText={errors.category}
       >
         {categories.map((category) => (
           <MenuItem key={category._id} value={category._id}>

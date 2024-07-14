@@ -13,12 +13,20 @@ import {
 import { tokens } from "../../theme";
 import { patchGoal } from "../../api/goals";
 
-const AddSaveAmount = ({ onClose, currentAmount, id, refresh, goal }) => {
+const AddSaveAmount = ({
+  onClose,
+  currentAmount,
+  id,
+  refresh,
+  goal,
+  saved,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [errors, setErrors] = useState({});
   const [amount, setAmount] = useState("");
+  const total = parseInt(amount) + saved;
 
   const validateForm = () => {
     const errors = {};
@@ -26,7 +34,7 @@ const AddSaveAmount = ({ onClose, currentAmount, id, refresh, goal }) => {
       errors.amount = "Amount is required";
     } else if (amount <= 0) {
       errors.amount = "Amount must be greater than 0";
-    } else if (amount > goal) {
+    } else if (total > goal) {
       errors.amount = "Amount cannot be greater than goal amount";
     }
     setErrors(errors);
@@ -61,6 +69,8 @@ const AddSaveAmount = ({ onClose, currentAmount, id, refresh, goal }) => {
         justifyContent: "space-between",
         padding: isSmallScreen ? "32px 50px" : "32px 112px",
         borderRadius: "8px",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Header Section */}

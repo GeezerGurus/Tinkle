@@ -29,14 +29,14 @@ const Debt = () => {
   const handleChange = (event) => {
     setPage(page === "Owe" ? "Lend" : "Owe");
   };
-
-  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
-  const lendItems = items?.filter((item) => item.type === "lend");
-  const oweItems = items?.filter((item) => item.type === "owe");
+  const lendItems = items?.filter(
+    (item) => item.type === "lend" && item.amount > 0
+  );
+  const oweItems = items?.filter(
+    (item) => item.type === "owe" && item.amount > 0
+  );
 
   return (
     <Paper
@@ -48,7 +48,7 @@ const Debt = () => {
         flexDirection: "column",
         gap: "8px",
         borderRadius: "16px",
-        bgcolor: colors.panel.panel1
+        bgcolor: colors.panel.panel1,
       }}
     >
       <Loader isLoading={isLoading} />

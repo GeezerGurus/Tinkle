@@ -34,7 +34,7 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
             /^uploads[\\/]+/,
             ""
           );
-          const profilePhotoURL = `http://localhost:3000/uploads/${profilePhotoPath}`;
+          const profilePhotoURL = `https://tinkle-production-ad04.up.railway.app/uploads/${profilePhotoPath}`;
           console.log("Profile Photo URL:", profilePhotoURL);
           setPreview(profilePhotoURL);
         }
@@ -87,15 +87,20 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
-        bgcolor: colors.backGround
+        bgcolor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
-      <Typography variant={isSmallScreen ? "h6" : "h4"} color={colors.text.text2}>
+      <Typography
+        variant={isSmallScreen ? "h6" : "h4"}
+        color={colors.text.text2}
+      >
         Your Profile Picture
       </Typography>
       <Typography
         variant={isSmallScreen ? "body4" : "body1"}
-        textAlign={"center"} color={colors.text.text1}
+        textAlign={"center"}
+        color={colors.text.text1}
       >
         Adding picture can make your profile look more personal
       </Typography>
@@ -161,7 +166,7 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
             height: isSmallScreen ? 44 : 40,
             backgroundColor: colors.button.button2,
             textTransform: "none",
-            color: colors.text.text2
+            color: colors.text.text2,
           }}
         >
           <Typography variant="body2">Cancel</Typography>

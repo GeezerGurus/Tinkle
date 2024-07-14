@@ -1,12 +1,9 @@
 import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
 
 const PieActiveArc = ({ data, dashboard }) => {
   const theme = useTheme();
-  const categories = tokens(theme.palette.mode);
-
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));

@@ -14,6 +14,7 @@ import {
 import {
   BookmarkBorderOutlined as BookmarkBorderOutlinedIcon,
   BookmarkOutlined as BookmarkOutlinedIcon,
+  BorderColor,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
 import { postFavVideos, deleteFavVideos,getFavoriteVideos } from "../../api/videosApi";
@@ -83,9 +84,10 @@ const VideoContents = ({
         height: "auto",
         borderRadius: "16px",
         padding: "16px",
+        bgcolor: colors.panel.panel1,
       }}
     >
-      <Card sx={{ textDecoration: "none" }}>
+      <Card variant="" sx={{ textDecoration: "none", bgcolor: colors.panel.panel1 }}>
         <Box component="a" href={link.startsWith("http") ? link : `https://${link}`} target="_blank">
           <CardMedia
             component="img"
@@ -93,7 +95,7 @@ const VideoContents = ({
             sx={{ width: "100%", height: "240px", borderRadius: "12px" }}
           />
         </Box>
-        <CardContent>
+        <CardContent sx={{boxShadow:"none", border:"none"}}>
           <Box display="flex" justifyContent="space-between" height={"80px"}>
             <Box
               display="flex"

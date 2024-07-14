@@ -1,4 +1,4 @@
-import React, { useMemo,useEffect,useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -11,37 +11,25 @@ import { ArrowForwardIos as ArrowForwardIosIcon } from "@mui/icons-material";
 import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import { BookContents } from "../utils";
-import PropTypes from 'prop-types';
-import { getBooks, getFavoriteBooks } from "../../api/booksApi";
-
+import PropTypes from "prop-types";
+import { getFavoriteBooks } from "../../api/booksApi";
 
 // All Contents for each Sub Header
-const favorites = [/* ... */];
-const budget = [/* ... */];
-const savings = [/* ... */];
-const business = [/* ... */];
-const tinkle = [/* ... */];
-const life = [/* ... */];
 
-
-
-const BookFavouriteItem = ({header}) => {
+const BookFavouriteItem = ({ header }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   // Ensure header is defined before further processing
   const [lists, setLists] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  
+
   const fetchFavouriteBooks = async () => {
-    setIsLoading(true);
     try {
       const res = await getFavoriteBooks();
       setLists(res || []);
     } catch (error) {
       console.error("Error fetching books:", error);
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -60,7 +48,7 @@ const BookFavouriteItem = ({header}) => {
         width: isLargest ? "100%" : "1290px",
         height: isMediumScreen ? "100%" : "454pxauto",
         display: "flex",
-        overflow:"hidden",
+        overflow: "hidden",
         flexDirection: "column",
         justifyContent: "center",
       }}
@@ -104,11 +92,11 @@ const BookFavouriteItem = ({header}) => {
             alignItems: "center",
             justifyContent: "flex-start",
           }}
-        > 
+        >
           {lists.map((item, index) => (
             <Grid item key={index} xs={5} sm={5} md={3}>
               <BookContents
-                id = {item._id}
+                id={item._id}
                 title={item.title}
                 author={item.author}
                 favorite={item.favourite}

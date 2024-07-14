@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Paper, Box, useTheme,Grid, IconButton, useMediaQuery } from "@mui/material";
+import { Paper, Box, useTheme, IconButton, useMediaQuery } from "@mui/material";
 import {
   ArrowBackIos as ArrowBackIosIcon,
   ArrowForwardIos as ArrowForwardIosIcon,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
 import BookSliderItem from "../../components/books/BookSliderItem";
-import { BookHeaderItem,BookFavouriteItem } from "../../components/books";
+import { BookHeaderItem } from "../../components/books";
 import { getBooks } from "../../api/booksApi";
 
-
 const subHeaders = [
-  
   {
     header: "Budget",
   },
@@ -20,13 +18,12 @@ const subHeaders = [
   },
   {
     header: "Business",
-  }
+  },
 ];
 const Books = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [currentIndex, setIndex] = useState(0);
-  const [direction, setDirection] = useState("right");
   const sliderRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [lists, setLists] = useState([]);
@@ -46,9 +43,7 @@ const Books = () => {
     fetchBooks();
   }, []);
 
-
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -69,18 +64,21 @@ const Books = () => {
   }, []);
 
   const handlePrev = () => {
-    setDirection("left");
-    setIndex((prevIndex) => (prevIndex === 0 ? lists.length - 1 : prevIndex - 1));
+    setIndex((prevIndex) =>
+      prevIndex === 0 ? lists.length - 1 : prevIndex - 1
+    );
   };
 
   const handleNext = () => {
-    setDirection("right");
-    setIndex((prevIndex) => (prevIndex === lists.length - 1 ? 0 : prevIndex + 1));
+    setIndex((prevIndex) =>
+      prevIndex === lists.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
   useEffect(() => {
     const slider = sliderRef.current;
     if (slider) {
+      console.log(currentIndex);
       slider.style.transition = "transform 0.5s ease-in-out";
       slider.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
@@ -89,7 +87,7 @@ const Books = () => {
   useEffect(() => {
     const intervalId = setInterval(handleNext, 4000); // Auto-slide every 4 seconds
     return () => clearInterval(intervalId); // Clear interval on unmount
-  }, []);
+  }, [isLoading]);
 
   return (
     <Paper
@@ -104,6 +102,7 @@ const Books = () => {
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center",
+        bgcolor: colors.backGround,
       }}
     >
       <Box
@@ -220,15 +219,11 @@ const Books = () => {
             </IconButton>
           )}
         </Box>
-          {/* <BookFavouriteItem header={"Favourite"}  /> */}
-          
-          {subHeaders.map((item, index) => (
-            
-              <BookHeaderItem key={index} header={item.header} lists={lists} />
-            
-          ))}
-        
+        {/* <BookFavouriteItem header={"Favourite"}  /> */}
 
+        {subHeaders.map((item, index) => (
+          <BookHeaderItem key={index} header={item.header} lists={lists} />
+        ))}
       </Box>
     </Paper>
   );

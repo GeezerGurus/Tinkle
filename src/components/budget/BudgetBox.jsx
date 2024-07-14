@@ -92,7 +92,6 @@ const BudgetBox = ({ period }) => {
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const boxWidth = isSmallScreen ? "100%" : "474px";
@@ -133,6 +132,8 @@ const BudgetBox = ({ period }) => {
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
+        backgroundColor: colors.panel.panel1,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       <Loader isLoading={isLoading} />

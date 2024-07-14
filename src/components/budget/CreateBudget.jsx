@@ -25,7 +25,7 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
   const [descript, setDescript] = useState("");
   const [startDate, setStartDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [endDate, setEndDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState();
   const [name, setName] = useState("");
 
   const validateForm = () => {
@@ -85,6 +85,8 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
         justifyContent: "space-around",
         gap: "20px",
         flexDirection: "column",
+        backgroundColor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       {/* Title  */}
@@ -154,29 +156,55 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
           select
           label="Period"
           fullWidth
-          InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
+          InputProps={{
+            sx: { height: isSmallScreen ? "75%" : "100%" },
+          }}
           InputLabelProps={{
             required: true,
           }}
         >
           <MenuItem value="monthly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>Monthly</Typography>
+              <Typography
+                sx={{
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                }}
+              >
+                Monthly
+              </Typography>
             </Box>
           </MenuItem>
           <MenuItem value="weekly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>Weekly</Typography>
+              <Typography
+                sx={{
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                }}
+              >
+                Weekly
+              </Typography>
             </Box>
           </MenuItem>
           <MenuItem value="yearly">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>Yearly</Typography>
+              <Typography
+                sx={{
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                }}
+              >
+                Yearly
+              </Typography>
             </Box>
           </MenuItem>
           <MenuItem value="one-time">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography sx={{ color: "black" }}>One-Time</Typography>
+              <Typography
+                sx={{
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                }}
+              >
+                One-Time
+              </Typography>
             </Box>
           </MenuItem>
         </TextField>
@@ -248,7 +276,7 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[600],
+            backgroundColor: colors.button.button1,
             textTransform: "none",
             color: "white",
           }}
@@ -260,7 +288,7 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
           sx={{
             width: "208px",
             height: "40px",
-            backgroundColor: colors.purple[200],
+            backgroundColor: colors.button.button2,
             textTransform: "none",
           }}
         >

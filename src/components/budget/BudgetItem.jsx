@@ -25,7 +25,7 @@ const BudgetItem = ({ title, total, progressPercent, spent, remains, id }) => {
         width: "100%",
         minHeight: isSmallScreen ? "100%" : "152px",
         borderRadius: "16px",
-        backgroundColor: colors.purple[100],
+        backgroundColor: colors.panel.panel1,
       }}
     >
       <Button
@@ -44,14 +44,23 @@ const BudgetItem = ({ title, total, progressPercent, spent, remains, id }) => {
             alignItems={"center"}
             sx={{ width: "100%" }}
           >
-            <Typography variant={isSmallScreen ? "body3" : "h6"}>
+            <Typography
+              variant={isSmallScreen ? "body3" : "h6"}
+              color={colors.text.text1}
+            >
               {title}
             </Typography>
             <Stack direction={"row"} alignItems={"flex-end"} gap={"4px"}>
-              <Typography variant={isSmallScreen ? "body3" : "h6"}>
+              <Typography
+                variant={isSmallScreen ? "body3" : "h6"}
+                color={colors.text.text1}
+              >
                 {total}
               </Typography>{" "}
-              <Typography variant={isSmallScreen ? "body2" : "body1"}>
+              <Typography
+                variant={isSmallScreen ? "body2" : "body1"}
+                color={colors.text.text1}
+              >
                 MMK
               </Typography>
             </Stack>
@@ -63,14 +72,24 @@ const BudgetItem = ({ title, total, progressPercent, spent, remains, id }) => {
           {/* Info  */}
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Stack alignItems={"flex-start"}>
-              <Typography variant="body3">{spent} MMK</Typography>
-              <Typography variant={isSmallScreen ? "body3" : "body2"}>
+              <Typography variant="body3" color={colors.text.text1}>
+                {spent} MMK
+              </Typography>
+              <Typography
+                variant={isSmallScreen ? "body3" : "body2"}
+                color={colors.text.text1}
+              >
                 Spent
               </Typography>
             </Stack>
             <Stack alignItems={"flex-end"}>
-              <Typography variant="body3">{remains} MMK</Typography>
-              <Typography variant={isSmallScreen ? "body3" : "body2"}>
+              <Typography variant="body3" color={colors.text.text1}>
+                {remains} MMK
+              </Typography>
+              <Typography
+                variant={isSmallScreen ? "body3" : "body2"}
+                color={colors.text.text1}
+              >
                 Remains
               </Typography>
             </Stack>

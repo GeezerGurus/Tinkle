@@ -118,7 +118,7 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
       setJob(res.job);
       if (res.profilePhoto) {
         const profilePhotoPath = res.profilePhoto.replace(/^uploads[\\/]/, "");
-        const profilePhotoURL = `https://tinkle-production-ad04.up.railway.app/uploads/${profilePhotoPath}`;
+        const profilePhotoURL = `https://tinkle-production-322d.up.railway.app/uploads/${profilePhotoPath}`;
         setProfilePhoto(profilePhotoURL);
       }
     } catch (error) {

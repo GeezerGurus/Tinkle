@@ -4,6 +4,7 @@ import { PieActiveArc } from "../statistics";
 import { getRecords } from "../../api/recordsApi";
 import { useEffect, useState } from "react";
 import { getCategory } from "../../api/categoriesApi";
+import { Loader } from "../utils";
 
 export const Chart = () => {
   const theme = useTheme();
@@ -95,10 +96,11 @@ export const Chart = () => {
           ? "8px 8px"
           : "16px 24px",
         borderRadius: "16px",
-        border:`1px solid ${colors.panel.panelBorder}`,
-        bgcolor: colors.panel.panel3
+        border: `1px solid ${colors.panel.panelBorder}`,
+        bgcolor: colors.panel.panel3,
       }}
     >
+      <Loader isLoading={isLoading} />
       <PieActiveArc data={summedExpenses} dashboard={true} />
     </Paper>
   );

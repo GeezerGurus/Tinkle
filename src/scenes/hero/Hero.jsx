@@ -99,7 +99,6 @@ const Hero = () => {
       <Box
         width={"100%"}
         sx={{
-          backgroundColor: "rgba(0,0,0,0)",
           position: "fixed",
           zIndex: 1,
           backgroundColor: "white",

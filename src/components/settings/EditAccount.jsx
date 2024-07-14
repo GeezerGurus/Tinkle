@@ -22,9 +22,24 @@ const EditAccount = ({ onClose, name, balance, type, id, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [accountName, setAccountName] = useState(name || "");
-  const [currentBalance, setCurrentBalance] = useState(Number(balance) || 0);
+  const [currentBalance, setCurrentBalance] = useState(Number(balance) || "");
   const [selectedOption, setSelectedOption] = useState(type || "");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!accountName) {
+      errors.name = "Name is required";
+    }
+    if (!currentBalance) {
+      errors.amount = "Amount is required";
+    } else if (currentBalance <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -38,6 +53,9 @@ const EditAccount = ({ onClose, name, balance, type, id, refresh }) => {
   };
 
   const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       const EditedAccount = {
         name: accountName,
@@ -108,6 +126,8 @@ const EditAccount = ({ onClose, name, balance, type, id, refresh }) => {
         InputLabelProps={{
           shrink: true,
         }}
+        error={!!errors.name}
+        helperText={errors.name}
       />
 
       <TextField
@@ -134,6 +154,8 @@ const EditAccount = ({ onClose, name, balance, type, id, refresh }) => {
         InputLabelProps={{
           shrink: true,
         }}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
@@ -142,14 +164,10 @@ const EditAccount = ({ onClose, name, balance, type, id, refresh }) => {
         label="Type"
         value={selectedOption}
         onChange={(event) => setSelectedOption(event.target.value)}
-        displayEmpty
         InputLabelProps={{
           shrink: true,
         }}
-        MenuProps={menuProps}
-        renderValue={(selected) => (
-          <Item {...types.find((type) => type.value === selected)} />
-        )}
+        SelectProps={{ MenuProps: menuProps }}
       >
         {types.map((type) => (
           <MenuItem key={type.value} value={type.value}>

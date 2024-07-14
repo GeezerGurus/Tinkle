@@ -18,7 +18,6 @@ import UserProfile from "../../assets/nigga.png";
 import { patchUserProfile } from "../../api/userAccounts";
 import { patchUserEmail } from "../../api/userAccounts";
 import { getUser } from "../../api/userAccounts";
-import { FlashlightOnTwoTone } from "@mui/icons-material";
 import { Loader } from "../../components/utils";
 import { enqueueSnackbar } from "notistack";
 

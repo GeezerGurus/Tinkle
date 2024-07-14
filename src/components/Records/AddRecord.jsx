@@ -95,7 +95,6 @@ const AddRecord = ({ onClose }) => {
 
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   return (
     <Paper

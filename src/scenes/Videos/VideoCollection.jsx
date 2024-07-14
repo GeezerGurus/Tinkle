@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -10,7 +10,7 @@ import {
 import { tokens } from "../../theme";
 import { useParams } from "react-router-dom";
 import { BackBtn, VideoContents } from "../../components/utils";
-import { getVideos, getFavoriteVideos } from "../../api/videosApi";
+import { getVideos } from "../../api/videosApi";
 import { Loader } from "../../components/utils";
 
 const VideoCollection = () => {
@@ -21,8 +21,6 @@ const VideoCollection = () => {
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
-  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
   //data fetch
   const [isLoading, setIsLoading] = useState(false);
   const header = videoCollection
@@ -30,7 +28,7 @@ const VideoCollection = () => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
   const [videos, setVideos] = useState([]);
-  
+
   const fetchVideos = async () => {
     setIsLoading(true);
     const res = await getVideos();
@@ -143,22 +141,22 @@ const VideoCollection = () => {
               </Grid>
             ))
           : */}
-           {videos
-              .filter((item) => item.category === header)
-              .map((item, index) => (
-                <Grid item key={index} sm={6} md={6} lg={4} xl={3}>
-                  <VideoContents
-                    id={item._id}
-                    title={item.title}
-                    author={item.creator}
-                    pathImage={item.thumbnail}
-                    category={item.category}
-                    favorite={item.favourite}
-                    link={item.link}
-                    refresh={fetchVideos}
-                  />
-                </Grid>
-              ))}
+        {videos
+          .filter((item) => item.category === header)
+          .map((item, index) => (
+            <Grid item key={index} sm={6} md={6} lg={4} xl={3}>
+              <VideoContents
+                id={item._id}
+                title={item.title}
+                author={item.creator}
+                pathImage={item.thumbnail}
+                category={item.category}
+                favorite={item.favourite}
+                link={item.link}
+                refresh={fetchVideos}
+              />
+            </Grid>
+          ))}
       </Grid>
     </Paper>
   );

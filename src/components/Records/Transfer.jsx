@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   InputAdornment,
@@ -14,6 +14,7 @@ import { CategoryIcons, Item } from "../utils";
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 import { postRecord } from "../../api/recordsApi";
+import { getAccount } from "../../api/accountApi";
 
 const getCurrentTimeString = () => {
   const now = new Date();
@@ -26,6 +27,7 @@ const Transfer = ({ onClose, accounts, categories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [accountData, setAccountData] = useState([]);
   const [errors, setErrors] = useState({});
   const [fromAcc, setFromAcc] = useState("");
   const [toAcc, setToAcc] = useState("");
@@ -35,6 +37,14 @@ const Transfer = ({ onClose, accounts, categories }) => {
   const [notes, setNotes] = useState("");
   const [amount, setAmount] = useState("");
   const [transactor, setTransactor] = useState("");
+
+  const fetchAccounts = async (acc) => {
+    const res = await getAccount(acc);
+    setAccountData(res);
+  };
+  useEffect(() => {
+    fetchAccounts(fromAcc);
+  }, [fromAcc]);
 
   const validateForm = () => {
     const errors = {};
@@ -48,6 +58,8 @@ const Transfer = ({ onClose, accounts, categories }) => {
       errors.amount = "Amount is required";
     } else if (amount <= 0) {
       errors.amount = "Amount must be greater than 0";
+    } else if (amount > accountData.balance) {
+      errors.amount = "Amount must not be greater than balance in account";
     }
     if (!time) {
       errors.time = "Time is required";

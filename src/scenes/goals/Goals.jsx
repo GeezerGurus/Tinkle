@@ -8,12 +8,11 @@ import {
   Stack,
   useMediaQuery,
 } from "@mui/material";
-import { Active, CreateGoal, Paused, Reached } from "../../components/goals";
+import { Active, Paused, Reached } from "../../components/goals";
 import { Loader, SpeedDial } from "../../components/utils";
 import SavingFor from "../../components/goals/SavingFor";
 import { tokens } from "../../theme";
 import { getGoals } from "../../api/goals";
-import CategoryIcons from "../../components/utils";
 
 export const Goals = () => {
   const theme = useTheme();

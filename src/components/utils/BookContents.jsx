@@ -41,9 +41,7 @@ const BookContents = ({ id,title,link, author, favorite, pathImage ,refresh}) =>
     handleSaveFav(newFav);
   };
 
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Box

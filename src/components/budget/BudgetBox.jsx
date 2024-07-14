@@ -92,7 +92,6 @@ const BudgetBox = ({ period }) => {
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const boxWidth = isSmallScreen ? "100%" : "474px";

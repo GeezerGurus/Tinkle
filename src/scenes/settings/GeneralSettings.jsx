@@ -84,7 +84,7 @@ const GeneralSettings = () => {
     try {
       if (settingId) {
         const EditedSettings = { default_interval: targetInterval };
-        const createdSettings = await patchSettings(settingId, EditedSettings);
+        await patchSettings(settingId, EditedSettings);
         enqueueSnackbar("Saved!", { variant: "info" });
       } else {
         console.error("Setting ID not found");

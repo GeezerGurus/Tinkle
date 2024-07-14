@@ -1,4 +1,4 @@
-import { Box, List } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import SavingItem from "./SavingItem";
 import { getGoals } from "../../api/goals";
@@ -8,7 +8,7 @@ import { Loader } from "../utils";
 export const Active = ({ isSmallScreen, state }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [lists, setLists] = useState([]);
-  const [page, setPage] = useState(state || "active");
+  const [page] = useState(state || "active");
 
   const fetchGoals = async () => {
     setIsLoading(true);

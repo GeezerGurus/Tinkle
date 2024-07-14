@@ -25,7 +25,6 @@ import {
   HelpOutlineOutlined as SupportIcon,
   SettingsOutlined as SettingIcon,
   PlayArrow as ArrowIcon,
-  Waves as WavesIcon,
   LightMode as LightModeIcon,
   DarkMode as DarkModeIcon,
 } from "@mui/icons-material";
@@ -107,7 +106,6 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
   const [profilePhoto, setProfilePhoto] = useState("");
   const [name, setName] = useState("");
   const [job, setJob] = useState("");
-  const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = React.useState("list");
 
   const navigate = useNavigate();
@@ -135,7 +133,6 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.keyCode === 27) {
-        setOpen(false);
         setExpanded(false);
       }
     };
@@ -157,9 +154,7 @@ const ResponsiveSidebar = ({ mode, isOpen, toggleSlider, setSlider }) => {
     }, 400);
   };
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  const handleDrawerOpen = () => {};
 
   // Main Component
   return (

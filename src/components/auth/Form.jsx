@@ -179,7 +179,7 @@ const Form = () => {
             <>
               <Typography
                 variant={isSmallScreen ? "h6" : "h3"}
-                sx={{ color: colors.text.tex1 }}
+                sx={{ color: colors.text.text1 }}
                 gutterBottom
               >
                 Let's Sign Up!

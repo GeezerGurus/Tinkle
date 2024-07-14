@@ -23,7 +23,6 @@ const Dashboard = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
-  const sidebarWidth = 84;
 
   //for account data fetch
   const [accounts, setAccounts] = useState([]);
@@ -42,6 +41,7 @@ const Dashboard = () => {
   }, []);
 
   const handleRefresh = async () => {
+    await fetchAccounts();
     window.location.reload();
   };
   const colorOrder = [

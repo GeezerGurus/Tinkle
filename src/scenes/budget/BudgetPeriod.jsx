@@ -13,13 +13,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, useParams } from "react-router-dom";
 import { BudgetItem, CreateBudget } from "../../components/budget";
 import { BackBtn, Loader, SpeedDial } from "../../components/utils";
-import { tokens } from "../../theme";
 import { getBudgetPeriodically } from "../../api/budgetsApi";
 
 const BudgetPeriod = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -42,7 +39,7 @@ const BudgetPeriod = () => {
     fetchBudgets();
   }, [periodType]);
 
-  const handleOpenModal = () => setOpen(true);
+  // const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => {
     setOpen(false);
     navigate(-1);

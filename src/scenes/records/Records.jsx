@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { tokens } from "../../theme";
 import { Box, useTheme, useMediaQuery } from "@mui/material";
 import {
   Chart,
@@ -10,7 +9,6 @@ import {
 
 const Records = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
   const [tableState, setTableState] = useState("");
 

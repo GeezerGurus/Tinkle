@@ -1,6 +1,5 @@
 import React from "react";
-import { tokens } from "../../theme";
-import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import {
   Assistance,
   Experience,
@@ -9,8 +8,6 @@ import {
 } from "../../components/support";
 
 const Support = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   return (
     <Box
       sx={{

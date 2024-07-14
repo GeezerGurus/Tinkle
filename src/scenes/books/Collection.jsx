@@ -10,11 +10,10 @@ import {
 
 import { tokens } from "../../theme";
 import { useParams } from "react-router-dom";
-import { BookContents } from "../../components/utils";
+import { BookContents, Loader } from "../../components/utils";
 import { BackBtn } from "../../components/utils";
 import { getBooks } from "../../api/booksApi";
 
-const path = "/books";
 const Collection = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -84,6 +83,7 @@ const Collection = () => {
         bgcolor: colors.backGround,
       }}
     >
+      <Loader isLoading={isLoading} />
       <Box
         sx={{
           width: "100%",

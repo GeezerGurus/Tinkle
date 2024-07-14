@@ -17,7 +17,6 @@ import EditAccount from "../settings/EditAccount";
 import { ConfirmModal } from "../utils";
 import AccountIcons from "../utils/AccountIcons";
 import { deleteAccount } from "../../api/accountApi";
-import { isLeaf } from "@mui/x-data-grid";
 
 export const Account = ({
   id,

@@ -88,6 +88,7 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
         gap: "20px",
         flexDirection: "column",
         bgcolor: colors.backGround,
+        border: `1px solid ${colors.panel.panelBorder}`,
       }}
     >
       <Typography

@@ -1,7 +1,6 @@
 import {
   Button,
   InputAdornment,
-  MenuItem,
   Paper,
   Stack,
   TextField,
@@ -9,10 +8,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { tokens } from "../../theme";
-import { Item } from "../utils";
-import { getAccounts } from "../../api/accountApi";
 import { postLendDebtItem } from "../../api/lendDebtItemsApi";
 import { postOweDebtItem } from "../../api/oweDebtItemsApi";
 import { enqueueSnackbar } from "notistack";

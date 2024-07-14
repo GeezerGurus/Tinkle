@@ -29,11 +29,9 @@ import {
   HelpOutlineOutlined as SupportIcon,
   SettingsOutlined as SettingIcon,
   PlayArrow as ArrowIcon,
-  Waves as WavesIcon,
   Circle as CircleIcon,
   LightMode as LightModeIcon,
   DarkMode as DarkModeIcon,
-  CloudUploadSharp,
 } from "@mui/icons-material";
 import { tokens, ColorModeContext } from "../../../theme";
 import { useNavigate } from "react-router-dom";

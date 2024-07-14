@@ -10,7 +10,6 @@ import {
   Stack,
   useMediaQuery,
   TextField,
-  colors,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import CreateGoal from "./CreateGoal";
@@ -97,7 +96,6 @@ export const SavingFor = ({ onClose, refresh }) => {
     refresh();
   };
 
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 

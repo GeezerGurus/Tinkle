@@ -17,14 +17,12 @@ import AddSaveAmount from "./AddSaveAmount";
 import { tokens } from "../../theme";
 import ConfirmModal from "../utils/ConfirmModal";
 import { patchGoal } from "../../api/goals";
-import { enqueueSnackbar } from "notistack";
 
 function CircularProgressBar(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Box
       sx={{

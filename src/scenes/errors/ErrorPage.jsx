@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { ServerDownImage } from "../../assets/empty";
-import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 
 const ErrorPage = () => {

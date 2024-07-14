@@ -7,10 +7,7 @@ const ClosedPage = ({ items, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   const lendItems = items?.filter((debt) => debt.type === "lend") || [];
   const oweItems = items?.filter((debt) => debt.type === "owe") || [];

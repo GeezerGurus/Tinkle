@@ -92,7 +92,6 @@ export const SavingItem = ({
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const percentage = goal > 0 ? ((saved / goal) * 100).toFixed(2) : 0;
   const formattedDate = formatDate(date);
 

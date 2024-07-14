@@ -29,10 +29,6 @@ const Debt = () => {
   const handleChange = (event) => {
     setPage(page === "Owe" ? "Lend" : "Owe");
   };
-
-  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
   const lendItems = items?.filter(

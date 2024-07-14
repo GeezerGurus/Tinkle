@@ -38,7 +38,7 @@ const EditList = ({ onClose, id, name, description, refresh }) => {
         name: listName,
         description: listDescription,
       };
-      const createdList = await patchListToBuy(id, EditedList);
+      await patchListToBuy(id, EditedList);
       refresh();
       enqueueSnackbar("Saved!", { variant: "info" });
       onClose();

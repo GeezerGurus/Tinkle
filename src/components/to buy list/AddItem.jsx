@@ -20,14 +20,14 @@ const AddItem = ({ listId, onClose, refresh }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const errors = {};
-    if (!name) {
+    if (!name.trim()) {
       errors.name = "Name is required";
     }
     setErrors(errors);
     return Object.keys(errors).length === 0;
-  };
+  }, [name]);
 
   const handleSaveItem = useCallback(async () => {
     if (!validateForm()) {
@@ -42,7 +42,7 @@ const AddItem = ({ listId, onClose, refresh }) => {
       console.error("Error adding new item:", error);
       throw error;
     }
-  }, [name, description, refresh, onClose]);
+  }, [name, description, refresh, onClose, listId, validateForm]);
 
   // Enter or Esc key pressed handling
   useEffect(() => {

@@ -26,7 +26,9 @@ const AddDebt = ({ onClose, action, refresh }) => {
   const [purpose, setPurpose] = useState("");
   const [selectedAmount, setSelectedAmount] = useState("");
   const [selectedAccount, setSelectedAccount] = useState("");
-  const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
+  const [selectedDate, setSelectedDate] = useState(
+    dayjs().format("YYYY-MM-DD")
+  );
   const [selectedDueDate, setSelectedDueDate] = useState("");
   const [accounts, setAccounts] = useState([]);
   const [errors, setErrors] = useState({});
@@ -80,10 +82,10 @@ const AddDebt = ({ onClose, action, refresh }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!name) {
+    if (!name.trim()) {
       errors.name = "Name is required";
     }
-    if (!purpose) {
+    if (!purpose.trim()) {
       errors.purpose = "Purpose is required";
     }
     if (!selectedAmount) {

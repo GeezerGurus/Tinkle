@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Button,
   Paper,
@@ -33,17 +33,17 @@ const ListBox = ({ id, name, description, refresh }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     setIsLoading(true);
     const res = await getItemsToBuy(id);
     const purchasedItems = res.filter((item) => !item.ispurchased);
     setItems(purchasedItems || []);
     setIsLoading(false);
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [fetchItems]);
 
   return (
     <Paper

@@ -30,7 +30,7 @@ const CreateBudget = ({ onClose, periodProp, refresh }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!name) {
+    if (!name.trim()) {
       errors.name = "Name is required";
     }
     if (!amount) {

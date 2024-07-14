@@ -14,7 +14,6 @@ import {
 import { tokens } from "../../theme";
 import { EditProfilePic, UpdatePassword } from "../../components/profile";
 import BannerImage from "../../assets/banner.png";
-import UserProfile from "../../assets/nigga.png";
 import { patchUserProfile } from "../../api/userAccounts";
 import { patchUserEmail } from "../../api/userAccounts";
 import { getUser } from "../../api/userAccounts";
@@ -104,7 +103,7 @@ const Profile = () => {
           /^uploads[\\/]+/,
           ""
         );
-        const profilePhotoURL = `https://tinkle-production-ad04.up.railway.app/uploads/${profilePhotoPath}`;
+        const profilePhotoURL = `https://tinkle-production-322d.up.railway.app/uploads/${profilePhotoPath}`;
         setProfilePic(profilePhotoURL);
       }
       setIsLoading(false);
@@ -414,7 +413,7 @@ const Profile = () => {
               }}
             >
               <EditProfilePic
-                userProfile={UserProfile}
+                userProfile={""}
                 onClose={() => setOpenProfilePicModal(false)}
                 refresh={fetchUser}
               />

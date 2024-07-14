@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Paper, Box, useTheme, IconButton, useMediaQuery } from "@mui/material";
 import {
   ArrowBackIos as ArrowBackIosIcon,
@@ -47,33 +47,17 @@ const Books = () => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const gridRef = useRef(null);
-  useEffect(() => {
-    const checkOverflow = () => {
-      if (gridRef.current) {
-        const hasOverflow =
-          gridRef.current.scrollHeight > gridRef.current.clientHeight;
-        setIsOverflowing(hasOverflow);
-      }
-    };
-
-    checkOverflow();
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, []);
-
   const handlePrev = () => {
     setIndex((prevIndex) =>
       prevIndex === 0 ? lists.length - 1 : prevIndex - 1
     );
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setIndex((prevIndex) =>
       prevIndex === lists.length - 1 ? 0 : prevIndex + 1
     );
-  };
+  }, [lists.length]);
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -87,7 +71,7 @@ const Books = () => {
   useEffect(() => {
     const intervalId = setInterval(handleNext, 4000); // Auto-slide every 4 seconds
     return () => clearInterval(intervalId); // Clear interval on unmount
-  }, [isLoading]);
+  }, [isLoading, handleNext]);
 
   return (
     <Paper

@@ -32,7 +32,7 @@ const CreateAccount = ({ onClose, refresh }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!name) {
+    if (!name.trim()) {
       errors.name = "Name is required";
     }
     if (balance <= 0) {

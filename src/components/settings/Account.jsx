@@ -44,7 +44,7 @@ const Account = ({ name, balance, type, refresh, id }) => {
 
   useEffect(() => {
     refresh();
-  }, []);
+  }, [refresh]);
   return (
     <Paper
       sx={{
@@ -118,8 +118,7 @@ const Account = ({ name, balance, type, refresh, id }) => {
           <EditIcon
             fontSize={isSmallScreen ? "23px" : "large"}
             sx={{
-              bgcolor: colors.button.editButton,
-              color: colors.panel.panel1,
+              color: colors.button.editButton,
             }}
           />
         </IconButton>

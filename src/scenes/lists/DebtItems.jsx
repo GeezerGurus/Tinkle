@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import DebtRecord from "../../components/debt list/DebtRecord";
@@ -19,14 +19,14 @@ const DebtItems = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { debtItemId } = useParams();
 
-  const fetchDebtRecordItem = async () => {
+  const fetchDebtRecordItem = useCallback(async () => {
     setIsLoading(true);
     const res = await getDebtRecordID(debtItemId);
     setRecordItem(res || []);
     setIsLoading(false);
-  };
+  }, [debtItemId]);
 
-  const fetchLendItems = async () => {
+  const fetchLendItems = useCallback(async () => {
     setIsLoading(true);
     const [lendItems, oweItems] = await Promise.all([
       getAllLendDebtItems(debtItemId),
@@ -34,12 +34,12 @@ const DebtItems = () => {
     ]);
     setItems([...lendItems, ...oweItems]);
     setIsLoading(false);
-  };
+  }, [debtItemId]);
 
   useEffect(() => {
     fetchDebtRecordItem();
     fetchLendItems();
-  }, []);
+  }, [fetchDebtRecordItem, fetchLendItems]);
 
   const refresh = () => {
     fetchDebtRecordItem();
@@ -117,6 +117,7 @@ const DebtItems = () => {
           {debtRecords.map((record, index) => (
             <DebtRecord
               key={index}
+              debtAmount={recordItem.amount}
               debtId={debtItemId}
               id={record._id}
               amount={record.amount}
@@ -138,6 +139,7 @@ const DebtItems = () => {
       <SpeedDial
         modal={
           <CreateDebtRecord
+            debtAmount={recordItem.amount}
             onClose={onclose}
             debtId={debtItemId}
             action={recordItem.type}

@@ -1,16 +1,10 @@
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { tokens } from "../../theme";
 import PieActiveArc from "./PieActiveArc";
 import { getRecords } from "../../api/recordsApi";
 import { getCategory } from "../../api/categoriesApi";
-
-const pieData = [
-  { id: 0, value: 88000, label: "Education and Development" },
-  { id: 1, value: 240000, label: "Food and Drinks" },
-  { id: 2, value: 88000, label: "Health and Beauty" },
-  { id: 3, value: 88000, label: "Charges, Fees" },
-];
+import { Loader } from "../utils";
 
 const Expenses = () => {
   const theme = useTheme();
@@ -36,7 +30,7 @@ const Expenses = () => {
     return categoryMap;
   };
 
-  const fetchRecord = async () => {
+  const fetchRecord = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await getRecords();
@@ -55,11 +49,11 @@ const Expenses = () => {
       console.log("Error in fetching Records");
       throw error;
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchRecord();
-  }, []);
+  }, [fetchRecord]);
 
   const expenses =
     records?.filter((expense) => expense.type === "expense") || [];
@@ -100,6 +94,7 @@ const Expenses = () => {
         overflowX: "hidden",
       }}
     >
+      <Loader isLoading={isLoading} />
       <Box
         sx={{
           minHeight: "56px",

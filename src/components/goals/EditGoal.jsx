@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { enqueueSnackbar } from "notistack";
 import {
   Paper,
@@ -71,7 +71,7 @@ export const EditGoal = ({
 
   const validateForm = () => {
     const errors = {};
-    if (goalName.length < 1) {
+    if (!goalName.trim()) {
       errors.goalName = "Please Enter a Goal Name";
     }
     if (saved <= 0) {
@@ -108,7 +108,6 @@ export const EditGoal = ({
   };
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("xs"));
-
 
   return (
     <Paper
@@ -258,8 +257,8 @@ export const EditGoal = ({
 
           {/* Icon Selection */}
           <FormControl sx={{ flexGrow: 1 }}>
-            <InputLabel id="icon-label" sx={{ color: colors.text.text1 }}>              
-            Icon
+            <InputLabel id="icon-label" sx={{ color: colors.text.text1 }}>
+              Icon
             </InputLabel>
             <Select
               id="icon-label"

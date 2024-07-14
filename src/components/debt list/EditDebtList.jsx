@@ -45,6 +45,9 @@ const EditDebtList = ({
 
   const validateForm = () => {
     const errors = {};
+    if (!chosenName.trim()) {
+      errors.name = "Name is required";
+    }
     if (selectedAmount <= 0) {
       errors.amount = "Amount must be greater than 0";
     }
@@ -164,6 +167,8 @@ const EditDebtList = ({
         InputProps={{
           sx: { height: isLaptop ? "42px" : undefined },
         }}
+        error={!!errors.name}
+        helperText={errors.name}
       />
 
       <TextField

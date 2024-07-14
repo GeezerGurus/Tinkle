@@ -12,7 +12,6 @@ export { default as CategorySettings } from "./settings/CategorySettings";
 export { default as BalanceAccountSettings } from "./settings/BalanceAccountSettings";
 export { default as AboutUs } from "./about us/AboutUs";
 export { default as Profile } from "./profile/Profile";
-export { default as Support } from "./support/Support";
 export { default as ToBuyList } from "./lists/ToBuyList";
 export { default as ToBuyItems } from "./lists/ToBuyItems";
 export { default as Goals } from "./goals/Goals";

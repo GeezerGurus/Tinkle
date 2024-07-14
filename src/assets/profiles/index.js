@@ -1,1 +1,9 @@
 export { default as Index0Image } from "./index0.jpg";
+export { default as Index1Image } from "./index1.jpg";
+export { default as Index2Image } from "./index2.jpg";
+export { default as Index3Image } from "./index3.jpg";
+export { default as Index4Image } from "./index4.jpg";
+export { default as Index5Image } from "./index5.jpg";
+export { default as Index6Image } from "./index6.jpg";
+export { default as Index7Image } from "./index7.jpg";
+export { default as Index8Image } from "./index8.jpg";

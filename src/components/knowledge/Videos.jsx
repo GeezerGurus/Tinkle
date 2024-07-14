@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -19,11 +19,7 @@ const Videos = ({ header }) => {
 
   const path = header.toLowerCase().replace(" ", "-");
   //responsive
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
-  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   //datafetch
   const [videos, setVideos] = useState([]);
@@ -86,24 +82,22 @@ const Videos = ({ header }) => {
         alignItems="center"
       >
         <Loader isLoading={isLoading} />
-        {
-          videos
-            .filter((item) => item.category === header)
-            .map((item, index) => (
-              <Grid item key={index} sm={6} md={6} lg={4} xl={3}>
-                <VideoContents
-                  id = {item._id}
-                  title={item.title}
-                  author={item.creator}
-                  pathImage={item.thumbnail}
-                  category={item.category}
-                  favorite={item.favourite}
-                  link={item.link}
-                  refresh={fetchVideos}
-                />
-              </Grid>
-            ))
-        }
+        {videos
+          .filter((item) => item.category === header)
+          .map((item, index) => (
+            <Grid item key={index} sm={6} md={6} lg={4} xl={3}>
+              <VideoContents
+                id={item._id}
+                title={item.title}
+                author={item.creator}
+                pathImage={item.thumbnail}
+                category={item.category}
+                favorite={item.favourite}
+                link={item.link}
+                refresh={fetchVideos}
+              />
+            </Grid>
+          ))}
       </Grid>
     </Box>
   );

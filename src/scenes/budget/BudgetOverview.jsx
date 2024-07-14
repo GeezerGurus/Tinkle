@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
   ButtonGroup,
@@ -91,7 +91,7 @@ const BudgetOverview = () => {
     }
   };
 
-  const fetchBudget = async () => {
+  const fetchBudget = useCallback(async () => {
     setIsLoading(true);
 
     try {
@@ -136,11 +136,11 @@ const BudgetOverview = () => {
       console.error("Error fetching data:", error);
       setIsLoading(false);
     }
-  };
+  }, [budgetId, periodType]);
 
   useEffect(() => {
     fetchBudget();
-  }, [periodType, budgetId]);
+  }, [periodType, budgetId, fetchBudget]);
 
   const handleNavigate = (direction) => {
     const currentIndex = allBudgets.findIndex(

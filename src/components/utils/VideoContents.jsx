@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
@@ -9,16 +9,12 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  isMuiElement,
 } from "@mui/material";
 import {
   BookmarkBorderOutlined as BookmarkBorderOutlinedIcon,
   BookmarkOutlined as BookmarkOutlinedIcon,
-  BorderColor,
 } from "@mui/icons-material";
 import { tokens } from "../../theme";
-import { postFavVideos, deleteFavVideos,getFavoriteVideos } from "../../api/videosApi";
-import { Loader } from "../../components/utils";
 const VideoContents = ({
   link,
   title,
@@ -36,10 +32,8 @@ const VideoContents = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isLargest = useMediaQuery(theme.breakpoints.down("xl"));
   //api
-  const [favVideos, setFavVideos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+
   // const fetchFavouriteVideos = async () => {
   //   setIsLoading(true);
   //   const res = await getFavoriteVideos();
@@ -47,7 +41,6 @@ const VideoContents = ({
   //   setIsLoading(false);
   // };
 
- 
   // const handleSaveFav = async () => {
   //   try {
   //     fetchFavouriteVideos()
@@ -87,15 +80,22 @@ const VideoContents = ({
         bgcolor: colors.panel.panel1,
       }}
     >
-      <Card variant="" sx={{ textDecoration: "none", bgcolor: colors.panel.panel1 }}>
-        <Box component="a" href={link.startsWith("http") ? link : `https://${link}`} target="_blank">
+      <Card
+        variant=""
+        sx={{ textDecoration: "none", bgcolor: colors.panel.panel1 }}
+      >
+        <Box
+          component="a"
+          href={link.startsWith("http") ? link : `https://${link}`}
+          target="_blank"
+        >
           <CardMedia
             component="img"
             image={pathImage}
             sx={{ width: "100%", height: "240px", borderRadius: "12px" }}
           />
         </Box>
-        <CardContent sx={{boxShadow:"none", border:"none"}}>
+        <CardContent sx={{ boxShadow: "none", border: "none" }}>
           <Box display="flex" justifyContent="space-between" height={"80px"}>
             <Box
               display="flex"

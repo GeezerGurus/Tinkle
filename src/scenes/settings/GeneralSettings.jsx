@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { tokens } from "../../theme";
 import {
   Typography,
@@ -39,7 +39,7 @@ const GeneralSettings = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   // Fetch settings data
-  const fetchSettings = async () => {
+  const fetchSettings = useCallback(async () => {
     try {
       console.log(hideDec);
       const res = await getSettings();
@@ -53,11 +53,11 @@ const GeneralSettings = () => {
     } catch (error) {
       console.error("Error fetching settings:", error);
     }
-  };
+  }, [hideDec]);
 
   useEffect(() => {
     fetchSettings();
-  }, []);
+  }, [fetchSettings]);
 
   const handleSaveHideDec = async (targetDec) => {
     try {

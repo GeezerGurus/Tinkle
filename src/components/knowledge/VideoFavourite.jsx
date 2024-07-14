@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -20,11 +20,7 @@ const VideoFavourite = ({ header }) => {
 
   const path = header.toLowerCase().replace(" ", "-");
   //responsive
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
-  const isExtraSmallest = useMediaQuery(theme.breakpoints.down("xxs"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   //datafetch
   const [videos, setVideos] = useState([]);

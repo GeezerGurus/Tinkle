@@ -26,6 +26,7 @@ const DebtRecord = ({
   refresh,
   debtId,
   action,
+  debtAmount,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -143,6 +144,7 @@ const DebtRecord = ({
           {modal === "edit-debtrecord" ? (
             <EditDebtRecord
               amount={amount}
+              debtAmount={debtAmount}
               date={new Date(dueDate).toISOString().split("T")[0]}
               id={id}
               debtId={debtId}

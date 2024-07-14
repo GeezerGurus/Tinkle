@@ -84,6 +84,7 @@ const Hero = () => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isSmallest = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Box
       color="#000000"
@@ -708,7 +709,7 @@ const Hero = () => {
               flexWrap={"wrap"}
               // direction={isSmallScreen?"column":"row"}
               justifyContent={"center"}
-              padding={"40px 32px"}
+              padding={isSmallest?"40px 19px":"40px 32px"}
               position={"relative"}
             >
               <img

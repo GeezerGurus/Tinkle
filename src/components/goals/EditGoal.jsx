@@ -194,17 +194,14 @@ export const EditGoal = ({
 
         {/* Desired Date */}
         <TextField
-          type="date"
+          type="text"
           label="Desired Date"
           placeholder="To whom have I lent?"
           fullWidth
-          value={date}
+          value={formatDate(date)}
           onChange={(e) => setDate(e.target.value)}
-          InputProps={{
-            inputProps: {
-              min: "2022-01-01", // Set min and max dates if needed
-              max: "2025-12-31",
-            },
+          InputLabelProps={{
+            shrink: true,
           }}
         />
 

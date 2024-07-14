@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { ShowMoreBtn } from "../utils";
@@ -34,7 +34,7 @@ export const Chart = () => {
     return categoryMap;
   };
 
-  const fetchRecord = async () => {
+  const fetchRecord = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await getRecords();
@@ -53,11 +53,11 @@ export const Chart = () => {
       console.log("Error in fetching Records");
       throw error;
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchRecord();
-  }, []);
+  }, [fetchRecord]);
 
   const expenses =
     records?.filter((expense) => expense.type === "expense") || [];

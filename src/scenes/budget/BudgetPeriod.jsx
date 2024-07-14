@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Stack,
@@ -28,16 +28,16 @@ const BudgetPeriod = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const fetchBudgets = async () => {
+  const fetchBudgets = useCallback(async () => {
     setIsLoading(true);
     const res = await getBudgetPeriodically(periodType);
     setBudgets(res || []);
     setIsLoading(false);
-  };
+  }, [periodType]);
 
   useEffect(() => {
     fetchBudgets();
-  }, [periodType]);
+  }, [periodType, fetchBudgets]);
 
   // const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => {

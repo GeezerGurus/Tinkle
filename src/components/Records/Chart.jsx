@@ -2,7 +2,7 @@ import { Paper, useMediaQuery, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { PieActiveArc } from "../statistics";
 import { getRecords } from "../../api/recordsApi";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCategory } from "../../api/categoriesApi";
 import { Loader } from "../utils";
 
@@ -32,7 +32,7 @@ export const Chart = () => {
     return categoryMap;
   };
 
-  const fetchRecord = async () => {
+  const fetchRecord = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await getRecords();
@@ -51,11 +51,11 @@ export const Chart = () => {
       console.log("Error in fetching Records");
       throw error;
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchRecord();
-  }, []);
+  }, [fetchRecord]);
 
   const expenses =
     records?.filter((expense) => expense.type === "expense") || [];

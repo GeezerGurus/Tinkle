@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Button,
@@ -25,22 +25,22 @@ const ToBuyItems = () => {
   const [listName, setListName] = useState("");
   const { listId } = useParams();
 
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     setIsLoading(true);
     const res = await getItemsToBuy(listId);
     setItems(res || []);
     setIsLoading(false);
-  };
+  }, [listId]);
 
-  const fetchList = async () => {
+  const fetchList = useCallback(async () => {
     const res = await getListToBuy(listId);
     setListName(res.name);
-  };
+  }, [listId]);
 
   useEffect(() => {
     fetchList();
     fetchItems();
-  }, []);
+  }, [fetchList, fetchItems]);
 
   const filteredItems =
     page === "active"

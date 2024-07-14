@@ -17,7 +17,6 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [userData, setUserData] = useState([]);
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -28,7 +27,6 @@ const EditProfilePic = ({ userProfile, onClose, refresh }) => {
     const fetchUser = async () => {
       try {
         const res = await getUser();
-        setUserData(res);
         if (res.profilePhoto) {
           const profilePhotoPath = res.profilePhoto.replace(
             /^uploads[\\/]+/,

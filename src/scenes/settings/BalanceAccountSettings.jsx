@@ -1,5 +1,5 @@
 import { Box, Stack, Typography, useTheme, useMediaQuery } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Account, AddAccount } from "../../components/settings";
 import { tokens } from "../../theme";
 import { getAccounts } from "../../api/accountApi";
@@ -15,16 +15,16 @@ const BalanceAccountSettings = () => {
   const [accounts, setAccounts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchAccounts = async () => {
+  const fetchAccounts = useCallback(async () => {
     setIsLoading(true);
     const res = await getAccounts();
     setAccounts(res || []);
     setIsLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     fetchAccounts();
-  }, []);
+  }, [fetchAccounts]);
 
   //for account
   return (

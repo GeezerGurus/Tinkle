@@ -31,7 +31,6 @@ import {
   KnowledgeImage,
   LogoDarkImage,
 } from "../../assets/hero";
-import { tokens } from "../../theme";
 import CircleIcon from "@mui/icons-material/Circle";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";

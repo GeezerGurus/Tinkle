@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { getRecords } from "../../api/recordsApi";
 
@@ -18,7 +18,7 @@ const Total = ({ type }) => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const fetchRecords = async () => {
+  const fetchRecords = useCallback(async () => {
     try {
       const res = await getRecords();
       const filteredRecords = res.filter((record) => record.type === type);
@@ -27,11 +27,11 @@ const Total = ({ type }) => {
     } catch (error) {
       console.error("Error fetching records:", error);
     }
-  };
+  }, [type]);
 
   useEffect(() => {
     fetchRecords();
-  }, []);
+  }, [fetchRecords]);
 
   return (
     <Paper
@@ -45,7 +45,7 @@ const Total = ({ type }) => {
         width: isMediumScreen ? "100%" : "32%",
         height: "216px",
         backgroundColor: colors.panel.panel3,
-        border:`1px solid ${colors.panel.panelBorder}`,
+        border: `1px solid ${colors.panel.panelBorder}`,
         alignItems: isSmallScreen
           ? undefined
           : isMediumScreen

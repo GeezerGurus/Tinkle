@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -99,7 +99,7 @@ const BudgetBox = ({ period }) => {
   const [budgets, setBudgets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchBudgets = async () => {
+  const fetchBudgets = useCallback(async () => {
     setIsLoading(true);
     try {
       const res = await getBudgetPeriodically(periodString);
@@ -109,11 +109,11 @@ const BudgetBox = ({ period }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [periodString]);
 
   useEffect(() => {
     fetchBudgets();
-  }, [periodString]);
+  }, [periodString, fetchBudgets]);
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => {

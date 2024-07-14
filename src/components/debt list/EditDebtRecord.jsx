@@ -23,6 +23,7 @@ const EditDebtRecord = ({
   id,
   refresh,
   action,
+  debtAmount,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -33,9 +34,14 @@ const EditDebtRecord = ({
 
   const validateForm = () => {
     const errors = {};
-    if (selectedAmount <= 0) {
+    if (!selectedAmount) {
+      errors.amount = "Amount is required";
+    } else if (selectedAmount <= 0) {
       errors.amount = "Amount must be greater than 0";
+    } else if (selectedAmount > debtAmount) {
+      errors.amount = "Amount must not be greater than Debt";
     }
+
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };

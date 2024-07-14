@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import { Loader, Progress } from "../utils";
 import { getRecords } from "../../api/recordsApi";
@@ -48,7 +48,7 @@ const TopSpendings = () => {
     return categoryMap;
   };
 
-  const fetchRecord = async () => {
+  const fetchRecord = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await getRecords();
@@ -67,11 +67,11 @@ const TopSpendings = () => {
       console.log("Error catching records");
       throw error;
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchRecord();
-  }, []);
+  }, [fetchRecord]);
 
   const expenses = records?.filter((expense) => expense.type === "expense");
   const total = expenses.reduce((total, expense) => total + expense.amount, 0);

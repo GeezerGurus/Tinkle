@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import {
   Box,
   Typography,
@@ -38,7 +38,7 @@ const Exchange = () => {
 
   const isLaptop = useMediaQuery(theme.breakpoints.down("laptop"));
 
-  const fetchExchangeRates = async () => {
+  const fetchExchangeRates = useCallback(async () => {
     try {
       const API_KEY = "88b049f9ee5cb4b41121e4c7";
       const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${inputCurrency}`;
@@ -54,11 +54,11 @@ const Exchange = () => {
     } catch (error) {
       console.error("Failed to fetch exchange rates:", error);
     }
-  };
+  }, [inputCurrency]);
 
   useEffect(() => {
     fetchExchangeRates();
-  }, [inputCurrency]);
+  }, [inputCurrency, fetchExchangeRates]);
 
   const handleInputCurrencyChange = (event) => {
     const selectedCurrency = event.target.value;

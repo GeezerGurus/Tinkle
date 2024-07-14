@@ -247,6 +247,7 @@ export const GoalDetails = ({ onClose, saved, goal, id, refresh }) => {
           ) : (
             <AddSaveAmount
               id={id}
+              saved={saved}
               currentAmount={saved}
               refresh={refresh}
               goal={goal}

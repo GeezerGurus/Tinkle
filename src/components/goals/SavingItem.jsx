@@ -228,6 +228,7 @@ export const SavingItem = ({
                   setModal("edit");
                   setOpenModal(true);
                 }}
+                disabled={state === "reached" ? true : false}
               >
                 <BorderColorIcon
                   sx={{

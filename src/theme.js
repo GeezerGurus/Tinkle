@@ -109,6 +109,15 @@ export const tokens = (mode) => ({
         pink: "#D998E2",
         green: "#6DB673",
       },
+      vibrant: {
+        yellow: "#EFE371",
+        light_blue: "#71D0EF",
+        red: "#EF7971",
+        green: "#71EFC1",
+        orange: "#EFAC71",
+        purple: "#7771EF",
+        pink: "#E071EF",
+      },
       extra: {
         pure_white: "FFFFFF",
         faint_white: "#F5F5F5",

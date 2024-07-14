@@ -1246,7 +1246,7 @@ const Hero = () => {
               rel="noreferrer"
               style={{ textDecoration: "none" }}
               target="_blank"
-              href="https://www.facebook.com/share/p/BtMjjTY34PSnM5iY/?mibextid=oFDknk"
+              href="https://www.facebook.com/profile.php?id=61562018345946&mibextid=LQQJ4d"
             >
               <i
                 class="fi fi-brands-facebook"

@@ -39,7 +39,17 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Form from "../../components/auth/Form";
 import { Heroavatarprofile } from "../../components/hero";
-import { Index0Image } from "../../assets/profiles";
+import {
+  Index0Image,
+  Index1Image,
+  Index2Image,
+  Index3Image,
+  Index4Image,
+  Index5Image,
+  Index6Image,
+  Index7Image,
+  Index8Image,
+} from "../../assets/profiles";
 const Hero = () => {
   const theme = useTheme();
 
@@ -48,19 +58,48 @@ const Hero = () => {
   const [open, setOpen] = useState(false);
 
   const profiles = [
-    { code: "0", name: "Wai Yan Htut", job: "DL", image: Index0Image },
-    { code: "01", name: "Yei Khant Lwin", job: "Backman" },
-    { code: "02", name: "Zayar Naing", job: "Master Procrastinator" },
-    { code: "03", name: "Zaw Lin Naing", job: "Broken Coder" },
-    // Add more profiles as needed
+    {
+      code: "0",
+      name: "Wai Yan Htut",
+      job: "Head Chef",
+      image: Index0Image,
+    },
+    { code: "01", name: "Yei Khant Lwin", job: "Backman", image: Index1Image },
+    {
+      code: "02",
+      name: "Zayar Naing",
+      job: "Master Procrastinator",
+      image: Index2Image,
+    },
+    {
+      code: "03",
+      name: "Zaw Lin Naing",
+      job: "Broken Coder",
+      image: Index3Image,
+    },
   ];
 
   const profiles2 = [
-    { code: "04", name: "Swan Lynn Htun", job: "Chemist" },
-    { code: "05", name: "Ye Yint Naing Oo", job: "One for all" },
-    { code: "06", name: "Sai Sai Lin Htet", job: "E Boy" },
-    { code: "07", name: "Thuta Htun", job: "Caffeine Addict" },
-    { code: "08", name: "Sithu", job: "A Ba" },
+    {
+      code: "04",
+      name: "Swan Lynn Htun",
+      job: "Full Moon",
+      image: Index4Image,
+    },
+    {
+      code: "05",
+      name: "Ye Yint Naing Oo",
+      job: "One For All",
+      image: Index5Image,
+    },
+    { code: "06", name: "Sai Sai Lin Htet", job: "E Boy", image: Index6Image },
+    {
+      code: "07",
+      name: "Thuta Htun",
+      job: "Pauk Si",
+      image: Index7Image,
+    },
+    { code: "08", name: "Si Thu", job: "A Ba", image: Index8Image },
   ];
 
   useEffect(() => {
@@ -228,7 +267,12 @@ const Hero = () => {
             <Typography
               component="span"
               variant={isSmallScreen ? "title2" : "title5"}
-              sx={{ color: "#8884DC" }}
+              sx={{
+                color: "transparent",
+                backgroundImage:
+                  "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",
+                backgroundClip: "text",
+              }}
             >
               Tinkle
             </Typography>
@@ -291,7 +335,11 @@ const Hero = () => {
           <img
             src={DashboardImage}
             alt="Dashboard"
-            style={{ width: "72%", objectFit: "contain", borderRadius: "16px" }}
+            style={{
+              width: "72%",
+              objectFit: "contain",
+              borderRadius: "16px",
+            }}
           />
         </Stack>
 
@@ -766,6 +814,7 @@ const Hero = () => {
                   code={profile.code}
                   name={profile.name}
                   job={profile.job}
+                  image={profile.image}
                 />
               ))}
             </Stack>
@@ -929,11 +978,23 @@ const Hero = () => {
                 Come chat with us any time on our official Facebook Page.
                 <br />
                 <a
+                  rel="noreferrer"
                   href="https://www.facebook.com/profile.php?id=61562018345946&mibextid=LQQJ4d"
+                  target="_blank"
                   style={{ textDecoration: "none" }}
                 >
-                  Geezers Co.
+                  Geezers
+                </a>{" "}
+                or read our{" "}
+                <a
+                  rel="noreferrer"
+                  style={{ textDecoration: "none" }}
+                  target="_blank"
+                  href="https://miitmdy-my.sharepoint.com/:w:/g/personal/2021-miit-cse-083_miit_edu_mm/EfJs2AZ83cFPq9TxgYGJ6OIBjWP7DjZ66XWsvnFyYpAXAg?e=8K2t8a"
+                >
+                  user guide
                 </a>
+                .
               </Typography>
             </Stack>
           </Stack>
@@ -1181,51 +1242,86 @@ const Hero = () => {
             Contact Us
           </Typography>
           <Stack direction={"row"} gap={2.5}>
-            <i
-              class="fi fi-brands-facebook"
-              style={{
-                width: "32px",
-                height: "32px",
-                fontSize: "2rem",
-                color: "#f5f5f5",
-              }}
-            />
-            <i
-              class="fi fi-brands-youtube"
-              style={{
-                width: "32px",
-                height: "32px",
-                fontSize: "2rem",
-                color: "#f5f5f5",
-              }}
-            ></i>
-            <i
-              className="fi fi-brands-discord"
-              style={{
-                width: "32px",
-                height: "32px",
-                fontSize: "2rem",
-                color: "#f5f5f5",
-              }}
-            ></i>
-            <i
-              className="fi fi-brands-github"
-              style={{
-                width: "32px",
-                height: "32px",
-                fontSize: "2rem",
-                color: "#f5f5f5",
-              }}
-            ></i>
-            <i
-              className="fi fi-brands-figma"
-              style={{
-                width: "32px",
-                height: "32px",
-                fontSize: "2rem",
-                color: "#f5f5f5",
-              }}
-            ></i>
+            <a
+              rel="noreferrer"
+              style={{ textDecoration: "none" }}
+              target="_blank"
+              href="https://www.facebook.com/profile.php?id=61562018345946&mibextid=LQQJ4d"
+            >
+              <i
+                class="fi fi-brands-facebook"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "2rem",
+                  color: "#f5f5f5",
+                }}
+              ></i>
+            </a>
+            <a
+              rel="noreferrer"
+              style={{ textDecoration: "none" }}
+              target="_blank"
+              href="https://www.youtube.com/@Geezers-rollin"
+            >
+              <i
+                class="fi fi-brands-youtube"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "2rem",
+                  color: "#f5f5f5",
+                }}
+              ></i>
+            </a>
+            <a
+              rel="noreferrer"
+              style={{ textDecoration: "none" }}
+              target="_blank"
+              href="https://discord.gg/M8455UkzxK"
+            >
+              <i
+                class="fi fi-brands-discord"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "2rem",
+                  color: "#f5f5f5",
+                }}
+              ></i>
+            </a>
+            <a
+              rel="noreferrer"
+              style={{ textDecoration: "none" }}
+              target="_blank"
+              href="https://github.com/GeezerGurus/Tinkle"
+            >
+              <i
+                class="fi fi-brands-github"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "2rem",
+                  color: "#f5f5f5",
+                }}
+              ></i>
+            </a>
+            <a
+              rel="noreferrer"
+              style={{ textDecoration: "none" }}
+              target="_blank"
+              href="https://www.figma.com/design/1qEGJrVnWUsHVtBTGwkKJ4/Tinkle---Finance-Tracker?t=u0yYt54Nxxd7PnDA-1"
+            >
+              <i
+                class="fi fi-brands-figma"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "2rem",
+                  color: "#f5f5f5",
+                }}
+              ></i>
+            </a>
           </Stack>
         </Stack>
         <Box justifySelf={"flex-end"}>

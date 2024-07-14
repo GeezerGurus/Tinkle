@@ -22,7 +22,7 @@ const AddItem = ({ listId, onClose, refresh }) => {
 
   const validateForm = useCallback(() => {
     const errors = {};
-    if (!name) {
+    if (!name.trim()) {
       errors.name = "Name is required";
     }
     setErrors(errors);

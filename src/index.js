@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <AuthProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/Tinkle">
           <SnackbarProvider maxSnack={3}>
             <App />
           </SnackbarProvider>

@@ -29,7 +29,7 @@ const EditAccount = ({ onClose, name, balance, type, id, refresh }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!accountName) {
+    if (!accountName.trim()) {
       errors.name = "Name is required";
     }
     if (!currentBalance) {

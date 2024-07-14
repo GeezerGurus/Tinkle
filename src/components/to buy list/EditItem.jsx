@@ -16,10 +16,23 @@ const EditItem = ({ onClose, name, description, listId, itemId, refresh }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [errors, setErrors] = useState({});
   const [itemName, setItemName] = useState(name || "");
   const [itemDescription, setItemDescription] = useState(description || "");
 
+  const validateForm = () => {
+    const errors = {};
+    if (!itemName.trim()) {
+      errors.name = "Name is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     await patchItemToBuy(listId, itemId, {
       name: itemName,
       description: itemDescription,
@@ -65,6 +78,8 @@ const EditItem = ({ onClose, name, description, listId, itemId, refresh }) => {
         InputProps={{
           sx: { height: isSmallScreen ? "42px" : undefined },
         }}
+        error={!!errors.name}
+        helperText={errors.name}
       />
 
       <TextField

@@ -24,13 +24,32 @@ const CategorySettings = () => {
 
   const CategoryColors = useCategoryColors();
 
+  const [errors, setErrors] = useState({});
   const [icon, setIcon] = useState("");
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
   const [lists, setLists] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const validateForm = () => {
+    const errors = {};
+    if (!name.trim()) {
+      errors.name = "Name is required";
+    }
+    if (!color) {
+      errors.color = "Select a color";
+    }
+    if (!icon) {
+      errors.icon = "Select an icon";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       console.log({
         name: name,
@@ -131,6 +150,8 @@ const CategorySettings = () => {
                   value={icon}
                   placeholder="Select Icon"
                   onChange={handleIconChange}
+                  error={!!errors.icon}
+                  helperText={errors.icon}
                 >
                   {Object.keys(CategoryIcons).map((key) => {
                     const IconComponent = CategoryIcons[key]; // Get the icon component
@@ -153,6 +174,8 @@ const CategorySettings = () => {
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
                   placeholder="Choose your color"
+                  error={!!errors.color}
+                  helperText={errors.color}
                 >
                   {CategoryColors.map((color) => (
                     <MenuItem
@@ -177,6 +200,9 @@ const CategorySettings = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="New category name"
+                  required
+                  error={!!errors.name}
+                  helperText={errors.name}
                 />
               </Stack>
 

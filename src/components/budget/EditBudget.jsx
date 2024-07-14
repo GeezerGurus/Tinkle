@@ -22,6 +22,7 @@ const EditBudget = ({ onClose, budget, refresh }) => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate(); // Hook for navigation
 
+  const [errors, setErrors] = useState({});
   const [period, setPeriod] = useState(budget.period);
   const [descript, setDescript] = useState(budget.description || "");
   const [startDate, setStartDate] = useState(
@@ -32,6 +33,20 @@ const EditBudget = ({ onClose, budget, refresh }) => {
   );
   const [amount, setAmount] = useState(budget.amount || 0);
   const [name, setName] = useState(budget.name || "");
+
+  const validateForm = () => {
+    const errors = {};
+    if (!name.trim()) {
+      errors.name = "Name is required";
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+    } else if (amount <= 0) {
+      errors.amount = "Amount must be greater than 0";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -54,6 +69,9 @@ const EditBudget = ({ onClose, budget, refresh }) => {
       endDate: period === "one-time" ? endDate : undefined,
       description: descript,
     };
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       await patchBudget(budget._id, budgetData);
@@ -113,6 +131,8 @@ const EditBudget = ({ onClose, budget, refresh }) => {
             shrink: true,
           }}
           InputProps={{ sx: { height: isSmallScreen ? "75%" : "100%" } }}
+          error={!!errors.name}
+          helperText={errors.name}
         />
 
         <TextField
@@ -138,6 +158,8 @@ const EditBudget = ({ onClose, budget, refresh }) => {
           InputLabelProps={{
             shrink: true,
           }}
+          error={!!errors.amount}
+          helperText={errors.amount}
         />
 
         <TextField

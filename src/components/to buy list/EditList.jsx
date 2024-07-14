@@ -22,7 +22,7 @@ const EditList = ({ onClose, id, name, description, refresh }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!listName) {
+    if (!listName.trim()) {
       errors.listName = "Name is required";
     }
     setErrors(errors);

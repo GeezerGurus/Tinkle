@@ -61,7 +61,7 @@ export const CreateGoal = ({
 
   const validateForm = () => {
     const errors = {};
-    if (!goalName) {
+    if (!goalName.trim()) {
       errors.goalName = "Goal Name is required";
     }
     if (!amount) {

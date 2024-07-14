@@ -71,7 +71,7 @@ export const EditGoal = ({
 
   const validateForm = () => {
     const errors = {};
-    if (goalName.length < 1) {
+    if (!goalName.trim()) {
       errors.goalName = "Please Enter a Goal Name";
     }
     if (saved <= 0) {

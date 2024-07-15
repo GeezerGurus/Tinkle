@@ -363,7 +363,7 @@ const BudgetOverview = () => {
                 <TableCell align="center">Amount</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody sx={{ backgroundColor: colors.extra.faint_white }}>
+            <TableBody sx={{ backgroundColor: colors.backGround }}>
               {records.map((record) => {
                 const category = categoryDetails[record.category];
                 const IconComponent = CategoryIcons[category?.icon];

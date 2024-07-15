@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
 import { postRecord } from "../../api/recordsApi";
 import { getAccount } from "../../api/accountApi";
+import { getBudget } from "../../api/budgetsApi";
 
 const getCurrentTimeString = () => {
   const now = new Date();
@@ -32,6 +33,7 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [budgetsData, setBudgetsData] = useState([]);
   const [accountData, setAccountData] = useState([]);
   const [errors, setErrors] = useState({});
   const [acc, setAcc] = useState("");
@@ -44,10 +46,19 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
   const [amount, setAmount] = useState("");
   const [payee, setPayee] = useState("");
 
+  const fetchBudget = async (budget) => {
+    const res = await getBudget(`${budget}`);
+    setBudgetsData(res);
+  };
+
   const fetchAccounts = async (acc) => {
     const res = await getAccount(`${acc}`);
     setAccountData(res);
   };
+
+  useEffect(() => {
+    fetchBudget(budget);
+  }, [budget]);
 
   useEffect(() => {
     fetchAccounts(acc);
@@ -65,8 +76,14 @@ const Expense = ({ onClose, accounts, budgets, categories }) => {
       errors.amount = "Amount is required";
     } else if (amount <= 0) {
       errors.amount = "Amount must be greater than 0";
-    } else if (amount > accountData.balance) {
-      errors.amount = "Amount must not be greater than balance in account";
+    } else if (
+      selectedOption === "account"
+        ? amount > accountData.balance
+        : amount > budgetsData.amount
+    ) {
+      selectedOption === "account"
+        ? (errors.amount = "Amount must not be greater than balance in account")
+        : (errors.amount = "Amount must not be greater than balance in budget");
     }
     if (!time) {
       errors.time = "Time is required";
